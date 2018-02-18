@@ -1,6 +1,7 @@
 # Integrated Retrieval and Information System ( I. R. I. S. )
 
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Is a document retrieval and information system for the **Department of Science and Technology Provincial Science Technology Center of Bulacan**. It aims to provide easy retrieval of the documents frequently used in the organization's operation by providing a database of digitalized copy of the documents.
 
 #### Integrated Technologies
@@ -22,5 +23,3 @@ Since the project is file intensive it will be integrated with an experimental a
 It will utilize Afterschool Creatives **Redundant Storage Algorithm** ( RSA ). RSA maintains to provide local copy of the digitalized documents to each active terminal in the network to avoid data loss.
 
 This project is License under the Open-Source MIT License. https://opensource.org/licenses/MIT
-
-> This is my past time during my Internship at the DOST Provincial Science and Technology Center of Bulacan.
