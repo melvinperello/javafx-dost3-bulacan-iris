@@ -26,57 +26,21 @@
  * SOFTWARE.
  *
  */
-package gov.dost.bulacan.iris;
+package gov.dost.bulacan.iris.models;
+
+import java.util.Date;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class Context {
+public class FileModel {
 
-    /**
-     * Instance Holder.
-     */
-    private static volatile Context instance;
-
-    /**
-     * Override Clone Method.
-     *
-     * @return
-     * @throws CloneNotSupportedException
-     */
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        throw new CloneNotSupportedException("Not Allowed!");
-    }
-
-    /**
-     * Double Check Locking Singleton for This Project's Context Manager.
-     *
-     * @return project context manager.
-     */
-    public static Context app() {
-        Context localInstance = Context.instance;
-        if (localInstance == null) {
-            synchronized (Context.class) {
-                localInstance = Context.instance;
-                if (localInstance == null) {
-                    Context.instance = localInstance = new Context();
-                }
-            }
-        }
-        return localInstance;
-    }
-
-    //--------------------------------------------------------------------------
-    // Declarations.
-    //--------------------------------------------------------------------------
-    
-    /**
-     * Initialize Object.
-     */
-    private Context() {
-
-    }
-
+    private Integer id;
+    private String fileName;
+    private String location;
+    private Long fileSize;
+    private String hash;
+    private Date createdDate;
+    private String createdBy;
 }

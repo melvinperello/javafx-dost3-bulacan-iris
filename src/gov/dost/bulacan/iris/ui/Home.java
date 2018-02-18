@@ -28,10 +28,17 @@
  */
 package gov.dost.bulacan.iris.ui;
 
+import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
+
 /**
  *
  * @author Jhon Melvin
  */
-public class Home {
-    
+public class Home extends PolarisFxController {
+
+    @Override
+    protected void setup() {
+
+    }
+
 }
