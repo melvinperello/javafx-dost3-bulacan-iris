@@ -26,56 +26,12 @@
  * SOFTWARE.
  *
  */
-package gov.dost.bulacan.iris;
+package gov.dost.bulacan.iris.ui;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class Context {
-
-    /**
-     * Instance Holder.
-     */
-    private static volatile Context instance;
-
-    /**
-     * Override Clone Method.
-     *
-     * @return
-     * @throws CloneNotSupportedException
-     */
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        throw new CloneNotSupportedException("Not Allowed!");
-    }
-
-    /**
-     * Double Check Locking Singleton for This Project's Context Manager.
-     *
-     * @return project context manager.
-     */
-    public static Context app() {
-        Context localInstance = Context.instance;
-        if (localInstance == null) {
-            synchronized (Context.class) {
-                localInstance = Context.instance;
-                if (localInstance == null) {
-                    Context.instance = localInstance = new Context();
-                }
-            }
-        }
-        return localInstance;
-    }
-
-    //--------------------------------------------------------------------------
-    // Declarations.
-    //--------------------------------------------------------------------------
-    /**
-     * Initialize Object.
-     */
-    private Context() {
-
-    }
-
+public class Home {
+    
 }

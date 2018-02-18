@@ -1,5 +1,5 @@
 /**
- * Integrated Retrieval and Information System ( I.R.I.S. )
+ * Information Retrieval Integrated System ( I.R.I.S. )
  * Republic of The Philippines, DOST Regional Office No. III
  * Provincial Science Technology Center, City of Malolos, Bulacan
  *
