@@ -28,6 +28,7 @@
  */
 package gov.dost.bulacan.iris;
 
+import gov.dost.bulacan.iris.models.SETUpModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

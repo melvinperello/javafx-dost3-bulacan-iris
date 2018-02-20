@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0" />
+      <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Label text="Search" />
+            <TextField prefHeight="25.0" prefWidth="461.0" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
+            <TableView prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Year" />
+                  <TableColumn prefWidth="245.0" text="Beneficiaries" />
+                  <TableColumn prefWidth="75.0" text="District" />
+                  <TableColumn prefWidth="75.0" text="Endorsed" />
+                  <TableColumn prefWidth="75.0" text="Approved" />
+                  <TableColumn prefWidth="154.0" text="Actual Project Cost" />
+                  <TableColumn prefWidth="154.0" text="MOA Signed" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+   </children>
+</VBox>
