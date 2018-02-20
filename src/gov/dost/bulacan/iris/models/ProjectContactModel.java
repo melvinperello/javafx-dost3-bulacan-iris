@@ -36,8 +36,8 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  *
  * @author Jhon Melvin
  */
-@Table(SETUpContactModel.TABLE)
-public class SETUpContactModel extends PolarisRecord {
+@Table(ProjectContactModel.TABLE)
+public class ProjectContactModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // TABLE FIELDS
     //--------------------------------------------------------------------------

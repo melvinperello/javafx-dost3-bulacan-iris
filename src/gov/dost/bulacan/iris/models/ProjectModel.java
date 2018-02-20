@@ -29,7 +29,6 @@
 package gov.dost.bulacan.iris.models;
 
 import java.util.Date;
-import java.util.Objects;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
@@ -40,18 +39,20 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  *
  * @author Jhon Melvin
  */
-@Table(SETUpModel.TABLE)
-public class SETUpModel extends PolarisRecord {
+@Table(ProjectModel.TABLE)
+public class ProjectModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // TABLE FIELDS
     //--------------------------------------------------------------------------
 
     public final static String TABLE = "project";
     // STC3000SET-02202018131137
+    // STC3000GIA-02202018131137
     public final static String PROJECT_CODE = "project_code"; //-> Must be unique for distribution
     public final static String COMPANY_NAME = "company_name";
     public final static String PROJECT_NAME = "project_name";
     public final static String PROJECT_STATUS = "project_status"; //-> Integer 0-2
+    public final static String PROJECT_TYPE = "project_type";
     //ext
     public final static String ENDORSED_DATE = "endorsed_date";
     public final static String ENDORSED_ATTACHMENT = "endorsed_attachment";
@@ -103,6 +104,8 @@ public class SETUpModel extends PolarisRecord {
     private String projectName;
     @Column(PROJECT_STATUS)
     private String projectStatus;
+    @Column(PROJECT_TYPE)
+    private String projectType;
     // endorsement
     @Column(ENDORSED_DATE)
     private Date endorsedDate;
@@ -462,6 +465,15 @@ public class SETUpModel extends PolarisRecord {
 
     }
 
+    /**
+     * Project Type.
+     */
+    public static class ProjectType {
+
+        public final static String GIA = "GIA";
+        public final static String SETUP = "SETUP";
+    }
+
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------
@@ -495,6 +507,14 @@ public class SETUpModel extends PolarisRecord {
 
     public void setProjectStatus(String projectStatus) {
         this.projectStatus = projectStatus;
+    }
+
+    public String getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(String projectType) {
+        this.projectType = projectType;
     }
 
     public Date getEndorsedDate() {
