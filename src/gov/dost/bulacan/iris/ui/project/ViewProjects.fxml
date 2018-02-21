@@ -1,33 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0" />
+      <HBox alignment="CENTER_LEFT" maxHeight="110.0" minHeight="110.0" prefHeight="110.0" style="-fx-background-color: #0D4E86;">
+         <padding>
+            <Insets left="1.0" />
+         </padding>
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../java-fx-dost3-certmaker/src/storage/dost_logo.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Republic of The Philippines" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="Department of Science and Technology" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Regional Office No. III - PSTC/Bulacan" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Label text="Search" />
+            <Label text="Search SETUp/GIA Projects" />
             <TextField prefHeight="25.0" prefWidth="461.0" />
          </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
             <TableView prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <columns>
                 <TableColumn prefWidth="75.0" text="Year" />
+                  <TableColumn prefWidth="75.0" text="STATUS" />
+                  <TableColumn prefWidth="75.0" text="Type" />
                   <TableColumn prefWidth="245.0" text="Beneficiaries" />
                   <TableColumn prefWidth="75.0" text="District" />
                   <TableColumn prefWidth="75.0" text="Endorsed" />
                   <TableColumn prefWidth="75.0" text="Approved" />
-                  <TableColumn prefWidth="154.0" text="Actual Project Cost" />
-                  <TableColumn prefWidth="154.0" text="MOA Signed" />
+                  <TableColumn prefWidth="111.33331298828125" text="Actual Project Cost" />
+                  <TableColumn prefWidth="133.0" text="MOA Signed" />
+                  <TableColumn prefWidth="33.66668701171875" text="Cotact Person" />
+                  <TableColumn prefWidth="188.33331298828125" text="Contact Number" />
               </columns>
             </TableView>
          </children>
