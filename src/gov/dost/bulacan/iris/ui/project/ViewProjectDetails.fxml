@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #0D4E86;">
          <padding>
@@ -58,7 +58,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <VBox prefHeight="620.0" prefWidth="339.0" style="-fx-border-color: #0D4E86; -fx-border-width: 0 1 0 0;" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="620.0" prefWidth="339.0" HBox.hgrow="ALWAYS">
                <children>
                   <HBox alignment="CENTER_LEFT">
                      <children>
@@ -74,12 +74,12 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Establishment">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Firm">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="Food Machinery Industrial Corporation" wrapText="true" />
+                        <Label fx:id="lbl_firm_name" text="Food Machinery Industrial Corporation" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -87,12 +87,12 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Year Established">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Owner">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="1800" wrapText="true" />
+                        <Label fx:id="lbl_firm_name1" text="BERTING A. DELA CRUZ" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -100,12 +100,38 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Business Activity">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="FOOD PROCESSING - Banana Chips " wrapText="true" />
+                        <Label fx:id="lbl_firm_name2" text="#25 jan lang sa tabi tabi ng daan at kalasada Guinhawa Malolos Bulacan" wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Established">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_established" text="1800" wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Business Sector">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_business_sector" text="FOOD PROCESSING - Banana Chips " wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -115,10 +141,44 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Classification">
                            <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0">
+                           <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Label text="Capital @ Micro / Employment @ Micro" wrapText="true" />
+                        <Label prefWidth="120.0" text="Capital" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font></Label>
+                        <Label fx:id="lbl_capital_class" text="Micro" wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox layoutX="20.0" layoutY="140.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label prefWidth="120.0" text="Employment" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_employment_class" text="Micro" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -128,10 +188,10 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Ownership">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="Single Proprietorship / Non-Profit" wrapText="true" />
+                        <Label fx:id="lbl_ownership" text="Single Proprietorship / Non-Profit" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -139,12 +199,12 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Product Line">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Products">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="Banana Chips" wrapText="true" />
+                        <Label fx:id="lbl_products" text="Banana Chips" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -152,12 +212,12 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Existing Market">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Market">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="Anywhere under the sun" wrapText="true" />
+                        <Label fx:id="lbl_market" text="Anywhere under the sun" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -167,10 +227,10 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Registration">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="DTI 232123 Valid until 02/21/2018 / SEC 232123 Valid Until Tomorrow" wrapText="true" />
+                        <Label fx:id="lbl_registration" text="DTI 232123 Valid until 02/21/2018 / SEC 232123 Valid Until Tomorrow" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -184,7 +244,111 @@
                   <Insets />
                </HBox.margin>
             </VBox>
-            <VBox prefHeight="620.0" prefWidth="339.0" style="-fx-border-color: #0D4E86; -fx-border-width: 0 1 0 0;" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="620.0" prefWidth="339.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label>
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Address">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_address" text="#23 Jan lang dito din Guinhawa Malolos Bulacan" wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Landmark">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_landmark" text="Yung may malaking puno ng mangga sa tapat  " wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox fx:id="lbl_coordinates">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Coordinates">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label text="-15.623037,  18.388672" wrapText="true" />
+                        <Label fx:id="lbl_click_maps" text="Google Maps" textFill="#0288ee">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Website">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_click_website" text="www.google.com.ph" textFill="#0288ee">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Contact Persons">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <TableView fx:id="tbl_contact_person" prefHeight="200.0">
+                     <columns>
+                        <TableColumn prefWidth="75.0" text="Name" />
+                        <TableColumn prefWidth="75.0" text="Position" />
+                        <TableColumn prefWidth="75.0" text="Mobile" />
+                        <TableColumn prefWidth="75.0" text="Landline" />
+                        <TableColumn prefWidth="75.0" text="E-Mail" />
+                     </columns>
+                  </TableView>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="620.0" prefWidth="339.0" style="-fx-border-color: #0D4E86; -fx-border-width: 0 0 0 1;" HBox.hgrow="ALWAYS">
                <children>
                   <HBox alignment="CENTER_LEFT">
                      <children>
@@ -202,10 +366,23 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Project Code">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="STC30002018SET-022110" wrapText="true" />
+                        <Label fx:id="lbl_project_code" text="STC30002018SET-022110" wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="SPIN No.">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_spin_no" text="STC30002018SET-022110" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -215,10 +392,10 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Type">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="SETUP - ON GOING" wrapText="true" />
+                        <Label fx:id="lbl_project_type" text="SETUP - ON GOING" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -228,10 +405,10 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Project Name">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="Pagandahin at Pabilisin ang Paggawa ng mga bagay bagay sa mundo" wrapText="true" />
+                        <Label fx:id="lbl_project_name" text="Pagandahin at Pabilisin ang Paggawa ng mga bagay bagay sa mundo" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -241,10 +418,10 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="District">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="IV" wrapText="true" />
+                        <Label fx:id="lbl_district" text="IV" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -254,11 +431,11 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Date Endorsed">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="02/12/2018" wrapText="true" />
-                        <Label text="Attachment" textFill="#0288ee">
+                        <Label fx:id="lbl_date_endorsed" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="02/12/2018" wrapText="true" />
+                        <Label fx:id="lbl_click_endorse" text="Attachment" textFill="#0288ee">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -272,11 +449,11 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Date Approved">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="02/12/2018" wrapText="true" />
-                        <Label text="Attachment" textFill="#0288ee">
+                        <Label fx:id="lbl_date_approve" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="02/12/2018" wrapText="true" />
+                        <Label fx:id="lbl_click_approved" text="Attachment" textFill="#0288ee">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -290,41 +467,10 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Approved Cost">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="P 201,200,100.00" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Actual Cost">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label text="P 201,200,100.00" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Restructuring">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="N/A" wrapText="true" />
-                        <Label text="Attachment" textFill="#0288ee">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Label>
+                        <Label fx:id="lbl_approved_cost" text="P 201,200,100.00" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -334,11 +480,11 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="MOA Signed">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="02-12-2018" wrapText="true" />
-                        <Label text="Attachment" textFill="#0288ee">
+                        <Label fx:id="lbl_date_moa" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="02-12-2018" wrapText="true" />
+                        <Label fx:id="lbl_click_moa" text="Attachment" textFill="#0288ee">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -352,42 +498,10 @@
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Duration">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="02/12/2018 - 03-22/2019" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </VBox>
-            <VBox prefHeight="620.0" prefWidth="339.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <HBox alignment="CENTER_LEFT">
-                     <children>
-                        <Label text="Contact Information">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Office Address">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label text="#23 Jan lang dito din Guinhawa Malolos Bulacan" wrapText="true" />
+                        <Label fx:id="lbl_project_duration" text="02/12/2018 - 03-22/2019" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -395,12 +509,12 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Office Landmark">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Actual Cost">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="Yung may malaking puno ng mangga sa tapat  " wrapText="true" />
+                        <Label fx:id="lbl_actual_cost" text="P 201,200,100.00" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -408,110 +522,17 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Coordinates">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="----">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Label text="-15.623037,  18.388672" wrapText="true" />
-                        <Label text="Maps" textFill="#0288ee">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
+                        <Label text="GINA FRANCIA TANTOCO" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
                   </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Factory Address">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label text="#23 Jan lang dito din Guinhawa Malolos Bulacan" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Factory Landmark">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label text="Yung may malaking puno ng mangga sa tapat  " wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Coordinates">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label text="-15.623037,  18.388672" wrapText="true" />
-                        <Label text="Maps" textFill="#0288ee">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Website">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label text="www.google.com.ph" textFill="#0288ee">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Contact Persons">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <TableView prefHeight="150.0">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="Name" />
-                        <TableColumn prefWidth="75.0" text="Position" />
-                      <TableColumn prefWidth="75.0" text="Mobile" />
-                        <TableColumn prefWidth="75.0" text="Landline" />
-                        <TableColumn prefWidth="75.0" text="E-Mail" />
-                    </columns>
-                  </TableView>
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" />
