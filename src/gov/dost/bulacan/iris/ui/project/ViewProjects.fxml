@@ -20,7 +20,7 @@
          <children>
             <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../../java-fx-dost3-certmaker/src/storage/dost_logo.png" />
+                  <Image url="@../../../../../../storage/dost_logo.png" />
                </image>
                <HBox.margin>
                   <Insets right="10.0" />
