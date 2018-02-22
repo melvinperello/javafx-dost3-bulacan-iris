@@ -87,155 +87,207 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Owner">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Location">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lbl_firm_name1" text="BERTING A. DELA CRUZ" wrapText="true" />
+                        <Label fx:id="lbl_address1" text="#23 Jan lang dito din Guinhawa Malolos Bulacan" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
                   </HBox>
-                  <HBox>
+                  <VBox style="-fx-border-color: black;">
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_firm_name2" text="#25 jan lang sa tabi tabi ng daan at kalasada Guinhawa Malolos Bulacan" wrapText="true" />
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Owner">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_firm_name1" text="BERTING A. DELA CRUZ" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Position">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_firm_name11" text="PRESIDENT" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Address">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_firm_name2" text="#25 jan lang sa tabi tabi ng daan at kalasada Guinhawa Malolos Bulacan" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
                      </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
+                  </VBox>
+                  <VBox style="-fx-border-color: black;">
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Established">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_established" text="1800" wrapText="true" />
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" text="Business Sector">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_business_sector" text="FOOD PROCESSING" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" text="Year Established">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_established" text="1800" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" text="Classification">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label prefWidth="120.0" text="Capital" wrapText="true">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_capital_class" text="Micro" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label prefWidth="120.0" text="Employment" wrapText="true">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_employment_class" text="Micro" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" text="Ownership">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_ownership" text="Single Proprietorship / Non-Profit" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" text="Products">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_products" text="Banana Chips" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" text="Market">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_market" text="Anywhere under the sun" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
                      </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Business Sector">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_business_sector" text="FOOD PROCESSING - Banana Chips " wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Classification">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label prefWidth="120.0" text="Capital" wrapText="true">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font></Label>
-                        <Label fx:id="lbl_capital_class" text="Micro" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox layoutX="20.0" layoutY="140.0">
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label prefWidth="120.0" text="Employment" wrapText="true">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_employment_class" text="Micro" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Ownership">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_ownership" text="Single Proprietorship / Non-Profit" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Products">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_products" text="Banana Chips" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Market">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_market" text="Anywhere under the sun" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Registration">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_registration" text="DTI 232123 Valid until 02/21/2018 / SEC 232123 Valid Until Tomorrow" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </VBox>
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" />
@@ -260,12 +312,12 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Address">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Registration">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lbl_address" text="#23 Jan lang dito din Guinhawa Malolos Bulacan" wrapText="true" />
+                        <Label fx:id="lbl_registration" text="DTI 232123 Valid until 02/21/2018 / SEC 232123 Valid Until Tomorrow" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -286,7 +338,7 @@
                   </HBox>
                   <HBox fx:id="lbl_coordinates">
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Coordinates">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Maps">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -515,19 +567,6 @@
                            </font>
                         </Label>
                         <Label fx:id="lbl_actual_cost" text="P 201,200,100.00" wrapText="true" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="----">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label text="GINA FRANCIA TANTOCO" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
