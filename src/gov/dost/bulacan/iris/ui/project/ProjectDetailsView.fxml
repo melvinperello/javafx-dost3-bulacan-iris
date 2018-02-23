@@ -74,7 +74,7 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Firm">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Cooperator">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>

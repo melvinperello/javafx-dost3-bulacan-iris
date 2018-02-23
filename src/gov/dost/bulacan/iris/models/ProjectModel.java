@@ -49,7 +49,13 @@ public class ProjectModel extends PolarisRecord {
     // STC3000SET-02202018131137
     // STC3000GIA-02202018131137
     public final static String PROJECT_CODE = "project_code"; //-> Must be unique for distribution
+    public final static String SPIN_NO = "spin_no";
     public final static String COMPANY_NAME = "company_name";
+    // ADDED INFORMATION 02/22/2018
+    public final static String COMPANY_OWNER = "company_owner";
+    public final static String OWNER_POSITION = "owner_position";
+    public final static String OWNER_ADDRESS = "owner_address";
+    //
     public final static String PROJECT_NAME = "project_name";
     public final static String PROJECT_STATUS = "project_status"; //-> Integer 0-2
     public final static String PROJECT_TYPE = "project_type";
@@ -61,26 +67,27 @@ public class ProjectModel extends PolarisRecord {
     public final static String APPROVED_FUNDING = "approved_funding";
     public final static String APPROVED_ATTACHMENT = "approved_attachment";
     //
-    public final static String RESTRUCTURED_FUNDING = "restructured_funding";
-    public final static String RESTRUCTURED_ATTACHMENT = "restructured_attachment";
+//    public final static String RESTRUCTURED_FUNDING = "restructured_funding";
+//    public final static String RESTRUCTURED_ATTACHMENT = "restructured_attachment";
     //
     public final static String MOA_DATE = "moa_date";
     public final static String MOA_ATTACHMENT = "moa_attachment";
     //
     //- > Contact Person was Normalized to another table
     //
-    public final static String OFFICE_STREET = "office_street";
-    public final static String OFFICE_BRGY = "office_brgy";
-    public final static String OFFICE_CITY = "office_city";
-    public final static String OFFICE_LONG = "office_long";
-    public final static String OFFICE_LAT = "office_lat";
-    public final static String OFFICE_LANDMARK = "office_landmark";
+//    public final static String OFFICE_STREET = "office_street";
+//    public final static String OFFICE_BRGY = "office_brgy";
+//    public final static String OFFICE_CITY = "office_city";
+//    public final static String OFFICE_LONG = "office_long";
+//    public final static String OFFICE_LAT = "office_lat";
+//    public final static String OFFICE_LANDMARK = "office_landmark";
     public final static String FACTORY_STREET = "factory_street";
     public final static String FACTORY_BRGY = "factory_brgy";
     public final static String FACTORY_CITY = "factory_city";
     public final static String FACTORY_LONG = "factory_long";
     public final static String FACTORY_LAT = "factory_lat";
     public final static String FACTORY_LANDMARK = "factory_landmark";
+    public final static String FACTORY_COORDINATES = "factory_coordinates";
     //
     public final static String YEAR_ESTABLISHED = "year_established";
     public final static String BUSINESS_ACTIVITY = "business_activity";
@@ -92,6 +99,8 @@ public class ProjectModel extends PolarisRecord {
     public final static String REGISTRATION_INFO = "registration_info";
     public final static String MAJOR_PRODUCTS = "major_products";
     public final static String EXISTING_MARKET = "existing_market";
+    //
+    public final static String WEBSITE = "website";
 
     //--------------------------------------------------------------------------
     // DECLARATIONS
@@ -99,6 +108,8 @@ public class ProjectModel extends PolarisRecord {
     @PrimaryKey
     @Column(PROJECT_CODE)
     private String projectCode; //--> PK
+    @Column(SPIN_NO)
+    private String spinNo;
     @Column(COMPANY_NAME)
     private String companyName;
     @Column(PROJECT_NAME)
@@ -107,6 +118,14 @@ public class ProjectModel extends PolarisRecord {
     private String projectStatus;
     @Column(PROJECT_TYPE)
     private String projectType;
+    // Added info
+    @Column(COMPANY_OWNERSHIP)
+    private String companyOwner;
+    @Column(OWNER_POSITION)
+    private String ownerPosition;
+    @Column(OWNER_ADDRESS)
+    private String ownerAddress;
+    //
     // endorsement
     @Column(ENDORSED_DATE)
     private Date endorsedDate;
@@ -120,10 +139,10 @@ public class ProjectModel extends PolarisRecord {
     @Column(APPROVED_ATTACHMENT)
     private Integer approvedAttachment;
     // restructuring
-    @Column(RESTRUCTURED_FUNDING)
-    private Double restructuredFunding;
-    @Column(RESTRUCTURED_ATTACHMENT)
-    private Integer restructuredAttachment;
+//    @Column(RESTRUCTURED_FUNDING)
+//    private Double restructuredFunding;
+//    @Column(RESTRUCTURED_ATTACHMENT)
+//    private Integer restructuredAttachment;
     // moa
     @Column(MOA_DATE)
     private Date moaDate;
@@ -138,18 +157,18 @@ public class ProjectModel extends PolarisRecord {
     // Project Address
     //--------------------------------------------------------------------------
     //--> Office Address
-    @Column(OFFICE_STREET)
-    private String officeStreet;
-    @Column(OFFICE_BRGY)
-    private String officeBrgy;
-    @Column(OFFICE_CITY)
-    private String officeCity; //-> ZIP CODE
-    @Column(OFFICE_LONG)
-    private String officeLong; //--> https://www.google.com/maps/?q=-15.623037,18.388672
-    @Column(OFFICE_LAT)
-    private String officeLat;
-    @Column(OFFICE_LANDMARK)
-    private String officeLandMark;
+//    @Column(OFFICE_STREET)
+//    private String officeStreet;
+//    @Column(OFFICE_BRGY)
+//    private String officeBrgy;
+//    @Column(OFFICE_CITY)
+//    private String officeCity; //-> ZIP CODE
+//    @Column(OFFICE_LONG)
+//    private String officeLong; //--> https://www.google.com/maps/?q=-15.623037,18.388672
+//    @Column(OFFICE_LAT)
+//    private String officeLat;
+//    @Column(OFFICE_LANDMARK)
+//    private String officeLandMark;
     //--> Factory Address
     @Column(FACTORY_STREET)
     private String factoryStreet;
@@ -163,6 +182,8 @@ public class ProjectModel extends PolarisRecord {
     private String factoryLat;
     @Column(FACTORY_LANDMARK)
     private String factoryLandMark;
+    @Column(FACTORY_COORDINATES)
+    private String factoryCoordinates;
     //--------------------------------------------------------------------------
     // Business Information.
     //--------------------------------------------------------------------------
@@ -187,9 +208,16 @@ public class ProjectModel extends PolarisRecord {
     @Column(EXISTING_MARKET)
     private String existingMarket;
 
+    @Column(WEBSITE)
+    private String website;
+
     //--------------------------------------------------------------------------
     // CLASS COVERAGE
     //--------------------------------------------------------------------------
+    //<@polaris:ignore>
+    // Do Your Code Logic Here
+    //
+    //</@polaris:ignore>
     //--------------------------------------------------------------------------
     // Static Classes.
     //--------------------------------------------------------------------------
@@ -480,5 +508,276 @@ public class ProjectModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
+
+    public String getSpinNo() {
+        return spinNo;
+    }
+
+    public void setSpinNo(String spinNo) {
+        this.spinNo = spinNo;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(String projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public String getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(String projectType) {
+        this.projectType = projectType;
+    }
+
+    public String getCompanyOwner() {
+        return companyOwner;
+    }
+
+    public void setCompanyOwner(String companyOwner) {
+        this.companyOwner = companyOwner;
+    }
+
+    public String getOwnerPosition() {
+        return ownerPosition;
+    }
+
+    public void setOwnerPosition(String ownerPosition) {
+        this.ownerPosition = ownerPosition;
+    }
+
+    public String getOwnerAddress() {
+        return ownerAddress;
+    }
+
+    public void setOwnerAddress(String ownerAddress) {
+        this.ownerAddress = ownerAddress;
+    }
+
+    public Date getEndorsedDate() {
+        return endorsedDate;
+    }
+
+    public void setEndorsedDate(Date endorsedDate) {
+        this.endorsedDate = endorsedDate;
+    }
+
+    public Integer getEdorsedAttachment() {
+        return edorsedAttachment;
+    }
+
+    public void setEdorsedAttachment(Integer edorsedAttachment) {
+        this.edorsedAttachment = edorsedAttachment;
+    }
+
+    public Date getApprovedDate() {
+        return approvedDate;
+    }
+
+    public void setApprovedDate(Date approvedDate) {
+        this.approvedDate = approvedDate;
+    }
+
+    public Double getApprovedFunding() {
+        return approvedFunding;
+    }
+
+    public void setApprovedFunding(Double approvedFunding) {
+        this.approvedFunding = approvedFunding;
+    }
+
+    public Integer getApprovedAttachment() {
+        return approvedAttachment;
+    }
+
+    public void setApprovedAttachment(Integer approvedAttachment) {
+        this.approvedAttachment = approvedAttachment;
+    }
+
+    public Date getMoaDate() {
+        return moaDate;
+    }
+
+    public void setMoaDate(Date moaDate) {
+        this.moaDate = moaDate;
+    }
+
+    public Integer getMoaAttachment() {
+        return moaAttachment;
+    }
+
+    public void setMoaAttachment(Integer moaAttachment) {
+        this.moaAttachment = moaAttachment;
+    }
+
+    public String getFactoryStreet() {
+        return factoryStreet;
+    }
+
+    public void setFactoryStreet(String factoryStreet) {
+        this.factoryStreet = factoryStreet;
+    }
+
+    public String getFactoryBrgy() {
+        return factoryBrgy;
+    }
+
+    public void setFactoryBrgy(String factoryBrgy) {
+        this.factoryBrgy = factoryBrgy;
+    }
+
+    public String getFactoryCity() {
+        return factoryCity;
+    }
+
+    public void setFactoryCity(String factoryCity) {
+        this.factoryCity = factoryCity;
+    }
+
+    public String getFactoryLong() {
+        return factoryLong;
+    }
+
+    public void setFactoryLong(String factoryLong) {
+        this.factoryLong = factoryLong;
+    }
+
+    public String getFactoryLat() {
+        return factoryLat;
+    }
+
+    public void setFactoryLat(String factoryLat) {
+        this.factoryLat = factoryLat;
+    }
+
+    public String getFactoryLandMark() {
+        return factoryLandMark;
+    }
+
+    public void setFactoryLandMark(String factoryLandMark) {
+        this.factoryLandMark = factoryLandMark;
+    }
+
+    public String getFactoryCoordinates() {
+        return factoryCoordinates;
+    }
+
+    public void setFactoryCoordinates(String factoryCoordinates) {
+        this.factoryCoordinates = factoryCoordinates;
+    }
+
+    public String getYearEstablished() {
+        return yearEstablished;
+    }
+
+    public void setYearEstablished(String yearEstablished) {
+        this.yearEstablished = yearEstablished;
+    }
+
+    public String getBusinessActivity() {
+        return businessActivity;
+    }
+
+    public void setBusinessActivity(String businessActivity) {
+        this.businessActivity = businessActivity;
+    }
+
+    public String getSpecificComodity() {
+        return specificComodity;
+    }
+
+    public void setSpecificComodity(String specificComodity) {
+        this.specificComodity = specificComodity;
+    }
+
+    public String getCapitalClassification() {
+        return capitalClassification;
+    }
+
+    public void setCapitalClassification(String capitalClassification) {
+        this.capitalClassification = capitalClassification;
+    }
+
+    public String getEmploymentClassification() {
+        return employmentClassification;
+    }
+
+    public void setEmploymentClassification(String employmentClassification) {
+        this.employmentClassification = employmentClassification;
+    }
+
+    public String getCompanyOwnership() {
+        return companyOwnership;
+    }
+
+    public void setCompanyOwnership(String companyOwnership) {
+        this.companyOwnership = companyOwnership;
+    }
+
+    public String getProfitability() {
+        return profitability;
+    }
+
+    public void setProfitability(String profitability) {
+        this.profitability = profitability;
+    }
+
+    public String getRegistrationInformation() {
+        return registrationInformation;
+    }
+
+    public void setRegistrationInformation(String registrationInformation) {
+        this.registrationInformation = registrationInformation;
+    }
+
+    public String getMajorProducts() {
+        return majorProducts;
+    }
+
+    public void setMajorProducts(String majorProducts) {
+        this.majorProducts = majorProducts;
+    }
+
+    public String getExistingMarket() {
+        return existingMarket;
+    }
+
+    public void setExistingMarket(String existingMarket) {
+        this.existingMarket = existingMarket;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
 
 }
