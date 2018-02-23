@@ -503,6 +503,13 @@ public class ProjectModel extends PolarisRecord {
 
         public final static String GIA = "GIA";
         public final static String SETUP = "SETUP";
+
+        /**
+         * Project Types.
+         */
+        public final static String[] TYPE_LIST = new String[]{
+            GIA, SETUP
+        };
     }
 
     //--------------------------------------------------------------------------
