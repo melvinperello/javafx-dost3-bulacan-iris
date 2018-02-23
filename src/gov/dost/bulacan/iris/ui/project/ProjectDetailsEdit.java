@@ -28,6 +28,15 @@
  */
 package gov.dost.bulacan.iris.ui.project;
 
+import gov.dost.bulacan.iris.models.ProjectModel;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
 /**
@@ -36,9 +45,124 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  */
 public class ProjectDetailsEdit extends PolarisFxController {
 
+    @FXML
+    private TextField txt_cooperator;
+
+    @FXML
+    private TextField txt_owner;
+
+    @FXML
+    private TextField txt_owner_position;
+
+    @FXML
+    private TextArea txt_owner_address;
+
+    @FXML
+    private ComboBox<?> cmb_sector;
+
+    @FXML
+    private TextField txt_year_established;
+
+    @FXML
+    private ComboBox<?> cmb_class_capital;
+
+    @FXML
+    private ComboBox<?> cmb_class_employment;
+
+    @FXML
+    private ComboBox<?> cmb_ownership;
+
+    @FXML
+    private ComboBox<?> cmb_profitability;
+
+    @FXML
+    private TextArea txt_registration;
+
+    @FXML
+    private TextArea txt_products;
+
+    @FXML
+    private TextArea txt_market;
+
+    @FXML
+    private TextArea txt_street_address;
+
+    @FXML
+    private TextField txt_brgy;
+
+    @FXML
+    private ComboBox<?> cmb_city;
+
+    @FXML
+    private TextArea txt_landmark;
+
+    @FXML
+    private HBox lbl_coordinates;
+
+    @FXML
+    private TextField txt_latitude;
+
+    @FXML
+    private TextField txt_longitude;
+
+    @FXML
+    private TextField txt_website;
+
+    @FXML
+    private TableView<?> tbl_contact_person;
+
+    @FXML
+    private Label lbl_project_code;
+
+    @FXML
+    private TextField txt_spin_no;
+
+    @FXML
+    private ComboBox<?> cmb_project_type;
+
+    @FXML
+    private ComboBox<?> cmb_project_status;
+
+    @FXML
+    private TextArea txt_project_name;
+
+    @FXML
+    private DatePicker date_endorsed;
+
+    @FXML
+    private Label lbl_click_endorsed;
+
+    @FXML
+    private DatePicker date_approved;
+
+    @FXML
+    private Label lbl_click_approved;
+
+    @FXML
+    private TextField txt_approved_cost;
+
+    @FXML
+    private Label lbl_project_duration;
+
+    @FXML
+    private DatePicker date_moa;
+
+    @FXML
+    private Label lbl_click_moa_attachment;
+
+    @FXML
+    private TextField txt_actual_cost;
+
     @Override
     protected void setup() {
 
+    }
+
+    private void initializeComboBoxes() {
+        for (int i : ProjectModel.BusinessActivity.ACTIVITY_LIST) {
+            String stringValue = ProjectModel.BusinessActivity.getStringValue(i);
+
+        }
     }
 
 }

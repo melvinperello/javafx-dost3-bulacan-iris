@@ -83,7 +83,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="Firm Name" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_cooperator" promptText="Firm Name" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -96,7 +96,20 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="Owner Name" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_owner" promptText="Owner's Name" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Position">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txt_owner_position" promptText="Owner's Position" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -109,7 +122,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="50.0" promptText="Owner's Address" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_owner_address" prefHeight="50.0" promptText="Owner's Address" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -122,7 +135,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <ComboBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmb_sector" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -135,7 +148,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="Year Established" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_year_established" promptText="Year Established" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -152,7 +165,7 @@
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font></Label>
-                        <ComboBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmb_class_capital" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -170,7 +183,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <ComboBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmb_class_employment" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -183,7 +196,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <ComboBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmb_ownership" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -196,7 +209,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <ComboBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmb_profitability" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -209,7 +222,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="50.0" promptText="DIT/SEC or other registrations" />
+                        <TextArea fx:id="txt_registration" prefHeight="50.0" promptText="DIT/SEC or other registrations" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -222,7 +235,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="50.0" promptText="Major Product Line" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_products" prefHeight="50.0" promptText="Major Product Line" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -257,7 +270,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="50.0" promptText="Current Existing Market" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_market" prefHeight="50.0" promptText="Current Existing Market" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -270,7 +283,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="50.0" promptText="Street Address / Common Address" />
+                        <TextArea fx:id="txt_street_address" prefHeight="50.0" promptText="Street Address / Common Address" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -283,7 +296,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="Brgy" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_brgy" promptText="Brgy" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -296,7 +309,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <ComboBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmb_city" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -309,7 +322,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="50.0" promptText="Common Landmarks" />
+                        <TextArea fx:id="txt_landmark" prefHeight="50.0" promptText="Common Landmarks" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -322,8 +335,8 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="Latitude" />
-                        <TextField promptText="Longitude" />
+                        <TextField fx:id="txt_latitude" promptText="Latitude" />
+                        <TextField fx:id="txt_longitude" promptText="Longitude" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -336,7 +349,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="Company Website" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_website" promptText="Company Website" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -402,7 +415,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="SPIN No." HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_spin_no" promptText="SPIN No." HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -415,8 +428,8 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <ComboBox prefWidth="150.0" />
-                        <ComboBox layoutX="130.0" layoutY="15.0" prefWidth="150.0" />
+                        <ComboBox fx:id="cmb_project_type" prefWidth="150.0" />
+                        <ComboBox fx:id="cmb_project_status" layoutX="130.0" layoutY="15.0" prefWidth="150.0" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -429,7 +442,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea prefHeight="50.0" promptText="Enter Project Name" />
+                        <TextArea fx:id="txt_project_name" prefHeight="50.0" promptText="Enter Project Name" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -442,8 +455,8 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <DatePicker prefHeight="31.0" prefWidth="136.0" promptText="Date" />
-                        <Label fx:id="lbl_click_endorse1" text="Manage Attachment" textFill="#0288ee">
+                        <DatePicker fx:id="date_endorsed" prefHeight="31.0" prefWidth="136.0" promptText="Date" />
+                        <Label fx:id="lbl_click_endorsed" text="Manage Attachment" textFill="#0288ee">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -463,8 +476,8 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <DatePicker prefHeight="31.0" prefWidth="136.0" promptText="Date" />
-                        <Label fx:id="lbl_click_endorse" text="Manage Attachment" textFill="#0288ee">
+                        <DatePicker fx:id="date_approved" prefHeight="31.0" prefWidth="136.0" promptText="Date" />
+                        <Label fx:id="lbl_click_approved" text="Manage Attachment" textFill="#0288ee">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -484,7 +497,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="Amount in Peso" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_approved_cost" promptText="Amount in Peso" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -510,8 +523,8 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <DatePicker prefHeight="31.0" prefWidth="136.0" promptText="Date" />
-                        <Label fx:id="lbl_click_endorse2" text="Manage Attachment" textFill="#0288ee">
+                        <DatePicker fx:id="date_moa" prefHeight="31.0" prefWidth="136.0" promptText="Date" />
+                        <Label fx:id="lbl_click_moa_attachment" text="Manage Attachment" textFill="#0288ee">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -531,7 +544,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField promptText="Amount in Peso" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_actual_cost" promptText="Amount in Peso" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />

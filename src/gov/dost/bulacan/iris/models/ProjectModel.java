@@ -456,6 +456,16 @@ public class ProjectModel extends PolarisRecord {
         public final static int OTHERS = 0;
 
         /**
+         * Activity Type.
+         */
+        public final static int[] ACTIVITY_LIST = new int[]{
+            FOOD_PROCESSING, FURNITURES, GIFTS_DECORS_HANDICRAFTS,
+            METALS_AND_ENGINEERING, AGRICULTURE_MARINE_AQUACULTURE,
+            HEALTH_PRODUCTS_AND_PHARMACEUTICALS, ICT_PRODUCTS,
+            OTHERS
+        };
+
+        /**
          * Convert the value into String Equivalent.
          *
          * @param value Integer type business activity.
