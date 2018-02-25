@@ -243,7 +243,7 @@ public class ProjectModel extends PolarisRecord {
         public final static ProjectStatus ON_GOING = new ProjectStatus("ON GOING", 1);
         public final static ProjectStatus COMPLETED = new ProjectStatus("COMPLETED", 2);
 
-        final static ProjectStatus[] STATUS_LIST = new ProjectStatus[]{PROPOSED, ON_GOING, COMPLETED};
+        public final static ProjectStatus[] STATUS_LIST = new ProjectStatus[]{PROPOSED, ON_GOING, COMPLETED};
 
         public static String getStringValue(int value) throws UnknownValueException {
             for (ProjectStatus projectStatus : STATUS_LIST) {
@@ -252,6 +252,11 @@ public class ProjectModel extends PolarisRecord {
                 }
             }
             throw new UnknownValueException();
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
         }
 
     }
@@ -273,6 +278,8 @@ public class ProjectModel extends PolarisRecord {
          * 15M to 100M
          */
         public final static String MEDIUM = "MEDIUM";
+
+        public final static String[] VALUE_LIST = new String[]{MICRO, SMALL, MEDIUM};
     }
 
     /**
@@ -292,6 +299,8 @@ public class ProjectModel extends PolarisRecord {
          * 100 - 199 Employees.
          */
         public final static String MEDIUM = "MEDIUM";
+
+        public final static String[] VALUE_LIST = new String[]{MICRO, SMALL, MEDIUM};
     }
 
     /**
@@ -313,6 +322,10 @@ public class ProjectModel extends PolarisRecord {
         public final static String COOPERATIVE = "COOPERATIVE";
         public final static String CORPORATION = "CORPORATION";
         public final static String LGU = "LGU";
+
+        public final static String[] VALUE_LIST = new String[]{SINGLE_PROPRIETORSHIP,
+            PARTNERSHIP, COOPERATIVE, CORPORATION, LGU
+        };
     }
 
     /**
@@ -322,6 +335,8 @@ public class ProjectModel extends PolarisRecord {
 
         public final static String PROFIT = "PROFIT";
         public final static String NON_PROFIT = "NON-PROFIT";
+
+        public final static String[] VALUE_LIST = new String[]{PROFIT, NON_PROFIT};
     }
 
     public static class Town {
@@ -354,7 +369,7 @@ public class ProjectModel extends PolarisRecord {
         /**
          * Town List.
          */
-        static final Town[] TOWN_LIST = new Town[]{
+        public static final Town[] TOWN_LIST = new Town[]{
             ANGAT,
             BALAGTAS,
             BALIUAG,
@@ -381,36 +396,35 @@ public class ProjectModel extends PolarisRecord {
             STA_MARIA
         };
 
-        /**
-         * Town Name List.
-         */
-        static final String[] TOWN_NAME_LIST = new String[]{
-            ANGAT.toString(),
-            BALAGTAS.toString(),
-            BALIUAG.toString(),
-            BOCAUE.toString(),
-            BULACAN.toString(),
-            BUSTOS.toString(),
-            CALUMPIT.toString(),
-            DRT.toString(),
-            GUIGUINTO.toString(),
-            HAGONOY.toString(),
-            MALOLOS.toString(),
-            MARILAO.toString(),
-            MEYCAUYAN.toString(),
-            NORZAGARAY.toString(),
-            OBANDO.toString(),
-            PANDI.toString(),
-            PAOMBONG.toString(),
-            PLARIDEL.toString(),
-            PULILAN.toString(),
-            SAN_ILDEFONSO.toString(),
-            SJDM.toString(),
-            SAN_MIGUEL.toString(),
-            SAN_RAFAEL.toString(),
-            STA_MARIA.toString()
-        };
-
+//        /**
+//         * Town Name List.
+//         */
+//        static final String[] TOWN_NAME_LIST = new String[]{
+//            ANGAT.toString(),
+//            BALAGTAS.toString(),
+//            BALIUAG.toString(),
+//            BOCAUE.toString(),
+//            BULACAN.toString(),
+//            BUSTOS.toString(),
+//            CALUMPIT.toString(),
+//            DRT.toString(),
+//            GUIGUINTO.toString(),
+//            HAGONOY.toString(),
+//            MALOLOS.toString(),
+//            MARILAO.toString(),
+//            MEYCAUYAN.toString(),
+//            NORZAGARAY.toString(),
+//            OBANDO.toString(),
+//            PANDI.toString(),
+//            PAOMBONG.toString(),
+//            PLARIDEL.toString(),
+//            PULILAN.toString(),
+//            SAN_ILDEFONSO.toString(),
+//            SJDM.toString(),
+//            SAN_MIGUEL.toString(),
+//            SAN_RAFAEL.toString(),
+//            STA_MARIA.toString()
+//        };
         // non-static values
         private final String name;
         private final String zip;
@@ -436,7 +450,7 @@ public class ProjectModel extends PolarisRecord {
 
         @Override
         public String toString() {
-            return this.name;
+            return this.name + " /Dis-" + this.district + " | " + this.zip;
         }
 
     }
@@ -527,6 +541,7 @@ public class ProjectModel extends PolarisRecord {
         public final static String[] TYPE_LIST = new String[]{
             GIA, SETUP
         };
+
     }
 
     //--------------------------------------------------------------------------

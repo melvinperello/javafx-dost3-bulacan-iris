@@ -28,7 +28,9 @@
  */
 package gov.dost.bulacan.iris.ui.project;
 
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.models.ProjectModel;
+import java.util.Arrays;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -161,42 +163,45 @@ public class ProjectDetailsEdit extends PolarisFxController {
 
     @Override
     protected void setup() {
+        /**
+         * Initialization of the combo boxes.
+         */
         this.initializeComboBoxes();
-
-        this.cmb_sector.selectionModelProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                System.out.println(newValue.toString());
-            }
-        });
     }
 
     private void initializeComboBoxes() {
         //----------------------------------------------------------------------
         // Business Sector.
         //----------------------------------------------------------------------
-        this.cmb_sector.getItems().setAll(ProjectModel.BusinessActivity.ACTIVITY_LIST);
-        this.cmb_sector.setCellFactory((Callback<ListView<ProjectModel.BusinessActivity>, ListCell<ProjectModel.BusinessActivity>>) (ListView<ProjectModel.BusinessActivity> p) -> {
-            final ListCell<ProjectModel.BusinessActivity> cell = new ListCell<ProjectModel.BusinessActivity>() {
-                @Override
-                protected void updateItem(ProjectModel.BusinessActivity t, boolean bln) {
-                    super.updateItem(t, bln);
-                    if (t != null) {
-                        setText(t.getName());
-                    } else {
-                        setText(null);
-                    }
-                }
-            };
-            return cell;
-        });
-        this.cmb_sector.setButtonCell((ListCell) this.cmb_sector.getCellFactory().call(null));
+        Context.comboBoxValueFactory(this.cmb_sector, ProjectModel.BusinessActivity.ACTIVITY_LIST);
         this.cmb_sector.getSelectionModel().selectFirst();
-
         //----------------------------------------------------------------------
         // Classification.
         //----------------------------------------------------------------------
-        
+        Context.comboBoxValueFactory(this.cmb_class_capital, ProjectModel.CapitalClassification.VALUE_LIST);
+        this.cmb_class_capital.getSelectionModel().selectFirst();
+        Context.comboBoxValueFactory(this.cmb_class_employment, ProjectModel.EmploymentClassification.VALUE_LIST);
+        this.cmb_class_employment.getSelectionModel().selectFirst();
+        //----------------------------------------------------------------------
+        // Ownership.
+        //----------------------------------------------------------------------
+        Context.comboBoxValueFactory(this.cmb_ownership, ProjectModel.Ownership.VALUE_LIST);
+        this.cmb_ownership.getSelectionModel().selectFirst();
+        Context.comboBoxValueFactory(this.cmb_profitability, ProjectModel.Profitability.VALUE_LIST);
+        this.cmb_profitability.getSelectionModel().selectFirst();
+        //----------------------------------------------------------------------
+        // City.
+        //----------------------------------------------------------------------
+        Context.comboBoxValueFactory(this.cmb_city, ProjectModel.Town.TOWN_LIST);
+        this.cmb_city.getSelectionModel().selectFirst();
+        //----------------------------------------------------------------------
+        // Type.
+        //----------------------------------------------------------------------
+        Context.comboBoxValueFactory(this.cmb_project_type, ProjectModel.ProjectType.TYPE_LIST);
+        this.cmb_project_type.getSelectionModel().selectFirst();
+        Context.comboBoxValueFactory(this.cmb_project_status, ProjectModel.ProjectStatus.STATUS_LIST);
+        this.cmb_project_status.getSelectionModel().selectFirst();
+
     }
 
 }

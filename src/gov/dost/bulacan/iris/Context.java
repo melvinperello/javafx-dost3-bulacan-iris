@@ -28,6 +28,9 @@
  */
 package gov.dost.bulacan.iris;
 
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+
 /**
  *
  * @author Jhon Melvin
@@ -69,9 +72,37 @@ public class Context {
     }
 
     //--------------------------------------------------------------------------
+    // Static Methods.
+    //--------------------------------------------------------------------------
+    /**
+     * This allows installation of Custom Objects to the Combo box and displays
+     * the toString Value of the object.
+     *
+     * @param comboBase the combo box control.
+     * @param collection A collection of object with override toString Method.
+     */
+    public static void comboBoxValueFactory(ComboBox comboBase, Object[] collection) {
+        comboBase.getItems().setAll(collection);
+        comboBase.setCellFactory((Object param) -> {
+            final ListCell cell = new ListCell() {
+                @Override
+                protected void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item != null) {
+                        setText(item.toString());
+                    } else {
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        });
+        comboBase.setButtonCell((ListCell) comboBase.getCellFactory().call(null));
+    } // end of Combo Box Value Factory.
+
+    //--------------------------------------------------------------------------
     // Declarations.
     //--------------------------------------------------------------------------
-    
     /**
      * Initialize Object.
      */
