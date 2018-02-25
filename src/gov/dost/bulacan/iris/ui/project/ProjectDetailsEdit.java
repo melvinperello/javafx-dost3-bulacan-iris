@@ -29,15 +29,21 @@
 package gov.dost.bulacan.iris.ui.project;
 
 import gov.dost.bulacan.iris.models.ProjectModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
+import sun.plugin2.jvm.RemoteJVMLauncher.CallBack;
 
 /**
  *
@@ -58,7 +64,7 @@ public class ProjectDetailsEdit extends PolarisFxController {
     private TextArea txt_owner_address;
 
     @FXML
-    private ComboBox<?> cmb_sector;
+    private ComboBox cmb_sector;
 
     @FXML
     private TextField txt_year_established;
@@ -155,14 +161,42 @@ public class ProjectDetailsEdit extends PolarisFxController {
 
     @Override
     protected void setup() {
+        this.initializeComboBoxes();
 
+        this.cmb_sector.selectionModelProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                System.out.println(newValue.toString());
+            }
+        });
     }
 
     private void initializeComboBoxes() {
-        for (int i : ProjectModel.BusinessActivity.ACTIVITY_LIST) {
-            String stringValue = ProjectModel.BusinessActivity.getStringValue(i);
+        //----------------------------------------------------------------------
+        // Business Sector.
+        //----------------------------------------------------------------------
+        this.cmb_sector.getItems().setAll(ProjectModel.BusinessActivity.ACTIVITY_LIST);
+        this.cmb_sector.setCellFactory((Callback<ListView<ProjectModel.BusinessActivity>, ListCell<ProjectModel.BusinessActivity>>) (ListView<ProjectModel.BusinessActivity> p) -> {
+            final ListCell<ProjectModel.BusinessActivity> cell = new ListCell<ProjectModel.BusinessActivity>() {
+                @Override
+                protected void updateItem(ProjectModel.BusinessActivity t, boolean bln) {
+                    super.updateItem(t, bln);
+                    if (t != null) {
+                        setText(t.getName());
+                    } else {
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        });
+        this.cmb_sector.setButtonCell((ListCell) this.cmb_sector.getCellFactory().call(null));
+        this.cmb_sector.getSelectionModel().selectFirst();
 
-        }
+        //----------------------------------------------------------------------
+        // Classification.
+        //----------------------------------------------------------------------
+        
     }
 
 }

@@ -223,21 +223,35 @@ public class ProjectModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     public static class ProjectStatus {
 
-        public final static int PROPOSED = 0;
-        public final static int ON_GOING = 1;
-        public final static int COMPLETED = 2;
+        private final String name;
+        private final int value;
+
+        public ProjectStatus(String name, int value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public final static ProjectStatus PROPOSED = new ProjectStatus("PROPOSED", 0);
+        public final static ProjectStatus ON_GOING = new ProjectStatus("ON GOING", 1);
+        public final static ProjectStatus COMPLETED = new ProjectStatus("COMPLETED", 2);
+
+        final static ProjectStatus[] STATUS_LIST = new ProjectStatus[]{PROPOSED, ON_GOING, COMPLETED};
 
         public static String getStringValue(int value) throws UnknownValueException {
-            switch (value) {
-                case 0:
-                    return "PROPOSED";
-                case 1:
-                    return "ON GOING";
-                case 2:
-                    return "COMPLETED";
-                default:
-                    throw new UnknownValueException();
+            for (ProjectStatus projectStatus : STATUS_LIST) {
+                if (value == projectStatus.getValue()) {
+                    return projectStatus.getName();
+                }
             }
+            throw new UnknownValueException();
         }
 
     }
@@ -250,15 +264,15 @@ public class ProjectModel extends PolarisRecord {
         /**
          * Less than 1.5M
          */
-        public static String MICRO = "MICRO";
+        public final static String MICRO = "MICRO";
         /**
          * 1.5M to 15M
          */
-        public static String SMALL = "SMALL";
+        public final static String SMALL = "SMALL";
         /**
          * 15M to 100M
          */
-        public static String MEDIUM = "MEDIUM";
+        public final static String MEDIUM = "MEDIUM";
     }
 
     /**
@@ -269,15 +283,15 @@ public class ProjectModel extends PolarisRecord {
         /**
          * 1-9 Employees.
          */
-        public static String MICRO = "MICRO";
+        public final static String MICRO = "MICRO";
         /**
          * 10-99 Employees.
          */
-        public static String SMALL = "SMALL";
+        public final static String SMALL = "SMALL";
         /**
          * 100 - 199 Employees.
          */
-        public static String MEDIUM = "MEDIUM";
+        public final static String MEDIUM = "MEDIUM";
     }
 
     /**
@@ -310,7 +324,7 @@ public class ProjectModel extends PolarisRecord {
         public final static String NON_PROFIT = "NON-PROFIT";
     }
 
-    public static class Municipalities {
+    public static class Town {
 
         public final static Town ANGAT = new Town("ANGAT", "3012", "3");
         public final static Town BALAGTAS = new Town("BALAGTAS", "3016", "2");
@@ -340,7 +354,7 @@ public class ProjectModel extends PolarisRecord {
         /**
          * Town List.
          */
-        public static final Town[] TOWN_LIST = new Town[]{
+        static final Town[] TOWN_LIST = new Town[]{
             ANGAT,
             BALAGTAS,
             BALIUAG,
@@ -370,7 +384,7 @@ public class ProjectModel extends PolarisRecord {
         /**
          * Town Name List.
          */
-        public final static String[] TOWN_NAME_LIST = new String[]{
+        static final String[] TOWN_NAME_LIST = new String[]{
             ANGAT.toString(),
             BALAGTAS.toString(),
             BALIUAG.toString(),
@@ -397,48 +411,34 @@ public class ProjectModel extends PolarisRecord {
             STA_MARIA.toString()
         };
 
-        public static class Town {
+        // non-static values
+        private final String name;
+        private final String zip;
+        private final String district;
 
-            private String name;
-            private String zip;
-            private String district;
-
-            public Town(String name, String zip, String district) {
-                this.name = name;
-                this.zip = zip;
-                this.district = district;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getZip() {
-                return zip;
-            }
-
-            public void setZip(String zip) {
-                this.zip = zip;
-            }
-
-            public String getDistrict() {
-                return district;
-            }
-
-            public void setDistrict(String district) {
-                this.district = district;
-            }
-
-            @Override
-            public String toString() {
-                return this.getName();
-            }
-
+        private Town(String name, String zip, String district) {
+            this.name = name;
+            this.zip = zip;
+            this.district = district;
         }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getZip() {
+            return zip;
+        }
+
+        public String getDistrict() {
+            return district;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+
     }
 
     /**
@@ -446,19 +446,40 @@ public class ProjectModel extends PolarisRecord {
      */
     public static class BusinessActivity {
 
-        public final static int FOOD_PROCESSING = 1;
-        public final static int FURNITURES = 2;
-        public final static int GIFTS_DECORS_HANDICRAFTS = 3;
-        public final static int METALS_AND_ENGINEERING = 4;
-        public final static int AGRICULTURE_MARINE_AQUACULTURE = 5;
-        public final static int HEALTH_PRODUCTS_AND_PHARMACEUTICALS = 6;
-        public final static int ICT_PRODUCTS = 7;
-        public final static int OTHERS = 0;
+        private final String name;
+        private final int value;
+
+        private BusinessActivity(String name, int value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+
+        public final static BusinessActivity FOOD_PROCESSING = new BusinessActivity("FOOD PROCESSING", 1);
+        public final static BusinessActivity FURNITURES = new BusinessActivity("FURNITURES", 2);
+        public final static BusinessActivity GIFTS_DECORS_HANDICRAFTS = new BusinessActivity("GIFTS, DECORS, HANDICRAFT", 3);
+        public final static BusinessActivity METALS_AND_ENGINEERING = new BusinessActivity("METALS AND ENGINEERING", 4);
+        public final static BusinessActivity AGRICULTURE_MARINE_AQUACULTURE = new BusinessActivity("AGRICULTURE/MARINE/AQUACULTURE", 5);
+        public final static BusinessActivity HEALTH_PRODUCTS_AND_PHARMACEUTICALS = new BusinessActivity("HEALTH PRODUCTS AND PHARMACEUTICALS", 6);
+        public final static BusinessActivity ICT_PRODUCTS = new BusinessActivity("INFORMATION AND COMMUNICATIONS TECHNOLOGY (ICT) PRODUCTS", 7);
+        public final static BusinessActivity OTHERS = new BusinessActivity("OTHERS", 0);
 
         /**
          * Activity Type.
          */
-        public final static int[] ACTIVITY_LIST = new int[]{
+        public final static BusinessActivity[] ACTIVITY_LIST = new BusinessActivity[]{
             FOOD_PROCESSING, FURNITURES, GIFTS_DECORS_HANDICRAFTS,
             METALS_AND_ENGINEERING, AGRICULTURE_MARINE_AQUACULTURE,
             HEALTH_PRODUCTS_AND_PHARMACEUTICALS, ICT_PRODUCTS,
@@ -473,26 +494,12 @@ public class ProjectModel extends PolarisRecord {
          * @throws UnknownValueException when an invalid value was entered.
          */
         public static String getStringValue(int value) throws UnknownValueException {
-            switch (value) {
-                case 0:
-                    return "OTHERS";
-                case 1:
-                    return "FOOD PROCESSING";
-                case 2:
-                    return "FURNITURES";
-                case 3:
-                    return "GIFTS, DECORS, HANDICRAFT";
-                case 4:
-                    return "METALS AND ENGINEERING";
-                case 5:
-                    return "AGRICULTURE/MARINE/AQUACULTURE";
-                case 6:
-                    return "HEALTH PRODUCTS AND PHARMACEUTICALS";
-                case 7:
-                    return "INFORMATION AND COMMUNICATIONS TECHNOLOGY (ICT) PRODUCTS";
-                default:
-                    throw new UnknownValueException();
+            for (BusinessActivity businessActivity : ACTIVITY_LIST) {
+                if (value == businessActivity.getValue()) {
+                    return businessActivity.getName();
+                }
             }
+            throw new UnknownValueException();
         }
     } // end of business activity.
 
