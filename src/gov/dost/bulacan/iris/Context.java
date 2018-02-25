@@ -101,7 +101,7 @@ public class Context {
     } // end of Combo Box Value Factory.
 
     //--------------------------------------------------------------------------
-    // Declarations.
+    // Instance Scope.
     //--------------------------------------------------------------------------
     /**
      * Initialize Object.

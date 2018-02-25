@@ -28,52 +28,18 @@
  */
 package gov.dost.bulacan.iris;
 
-import gov.dost.bulacan.iris.ui.project.ProjectDetailsEdit;
-import gov.dost.bulacan.iris.ui.project.ProjectDetailsView;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 /**
+ * Implements the common message type window for Controllers.
  *
  * @author Jhon Melvin
  */
-public class IRIS extends Application {
+public interface Messageable {
 
-    /**
-     * Actual Start Method.
-     *
-     * @param primaryStage
-     */
-    private void show(Stage primaryStage) {
-        primaryStage.setScene(new Scene(new ProjectDetailsView().load()));
-        primaryStage.show();
-    }
+    void showWarningMessage(String message);
 
-    /**
-     * Application Invocation.
-     *
-     * @param primaryStage
-     */
-    @Override
-    public final void start(Stage primaryStage) {
-        try {
-            this.show(primaryStage);
-        } catch (Exception e) {
-            /**
-             * Catch Start Up Exception.
-             */
-            e.printStackTrace();
-        }
-    }
+    void showErrorMessage(String message);
 
-    /**
-     * Application Start.
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
+    void showInformationMessage(String message);
 
+    int showConfirmation(String message);
 }

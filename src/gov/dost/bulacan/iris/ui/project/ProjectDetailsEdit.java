@@ -28,30 +28,29 @@
  */
 package gov.dost.bulacan.iris.ui.project;
 
+import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
-import java.util.Arrays;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import java.util.Optional;
 import javafx.fxml.FXML;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
-import sun.plugin2.jvm.RemoteJVMLauncher.CallBack;
+import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
  *
  * @author DOST-3
  */
-public class ProjectDetailsEdit extends PolarisFxController {
+public class ProjectDetailsEdit extends PolarisFxController implements Messageable {
 
     @FXML
     private TextField txt_cooperator;
@@ -161,6 +160,12 @@ public class ProjectDetailsEdit extends PolarisFxController {
     @FXML
     private TextField txt_actual_cost;
 
+    @FXML
+    private JFXButton btn_save_project;
+
+    @FXML
+    private JFXButton btn_cancel_edit;
+
     @Override
     protected void setup() {
         /**
@@ -169,6 +174,59 @@ public class ProjectDetailsEdit extends PolarisFxController {
         this.initializeComboBoxes();
     }
 
+    //--------------------------------------------------------------------------
+    // Message Boxes for this window.
+    //--------------------------------------------------------------------------
+    @Override
+    public void showWarningMessage(String message) {
+        PolarisDialog.create(PolarisDialog.Type.WARNING)
+                .setTitle("Company Profile")
+                .setHeaderText("Warning")
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .showAndWait();
+    }
+
+    @Override
+    public void showInformationMessage(String message) {
+        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
+                .setTitle("Company Profile")
+                .setHeaderText("Information")
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .showAndWait();
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        PolarisDialog.create(PolarisDialog.Type.ERROR)
+                .setTitle("Company Profile")
+                .setHeaderText("Error")
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .showAndWait();
+    }
+
+    @Override
+    public int showConfirmation(String message) {
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
+                .setTitle("Company Profile")
+                .setHeaderText("Confirmation")
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .setButtons(yesButton, cancelButton)
+                .showAndWait();
+        if (res.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
+            return 1;
+        }
+        return 0;
+    }
+
+    /**
+     * Initialize all the contents of the combo box in this window.
+     */
     private void initializeComboBoxes() {
         //----------------------------------------------------------------------
         // Business Sector.
@@ -201,7 +259,6 @@ public class ProjectDetailsEdit extends PolarisFxController {
         this.cmb_project_type.getSelectionModel().selectFirst();
         Context.comboBoxValueFactory(this.cmb_project_status, ProjectModel.ProjectStatus.STATUS_LIST);
         this.cmb_project_status.getSelectionModel().selectFirst();
-
     }
 
 }

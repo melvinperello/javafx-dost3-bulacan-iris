@@ -26,54 +26,19 @@
  * SOFTWARE.
  *
  */
-package gov.dost.bulacan.iris;
+package gov.dost.bulacan.iris.ui.project;
 
-import gov.dost.bulacan.iris.ui.project.ProjectDetailsEdit;
-import gov.dost.bulacan.iris.ui.project.ProjectDetailsView;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class IRIS extends Application {
+public class ProjectDetailsView extends PolarisFxController {
 
-    /**
-     * Actual Start Method.
-     *
-     * @param primaryStage
-     */
-    private void show(Stage primaryStage) {
-        primaryStage.setScene(new Scene(new ProjectDetailsView().load()));
-        primaryStage.show();
-    }
-
-    /**
-     * Application Invocation.
-     *
-     * @param primaryStage
-     */
     @Override
-    public final void start(Stage primaryStage) {
-        try {
-            this.show(primaryStage);
-        } catch (Exception e) {
-            /**
-             * Catch Start Up Exception.
-             */
-            e.printStackTrace();
-        }
-    }
+    protected void setup() {
 
-    /**
-     * Application Start.
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        Application.launch(args);
     }
-
+    
 }
