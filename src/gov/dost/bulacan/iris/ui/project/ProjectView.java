@@ -34,31 +34,20 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
 /**
  *
- * @author Jhon Melvin
+ * @author DOST-3
  */
-public class ProjectDetailsView extends PolarisFxController {
+public class ProjectView extends PolarisFxController {
 
     @FXML
-    private JFXButton btn_print;
-
-    @FXML
-    private JFXButton btn_edit_project;
-
-    @FXML
-    private JFXButton btn_back;
+    private JFXButton btn_new_project;
 
     @Override
     protected void setup() {
         /**
-         * Back To Projects View.
+         * New Project Action.
          */
-        this.btn_back.setOnMouseClicked(value -> {
-            this.changeRoot(new ProjectView().load());
-            value.consume();
-        });
-
-        this.btn_edit_project.setOnMouseClicked(value -> {
-            this.changeRoot(new ProjectDetailsEdit().load());
+        this.btn_new_project.setOnMouseClicked(value -> {
+            this.changeRoot(new ProjectDetailsView().load());
             value.consume();
         });
     }

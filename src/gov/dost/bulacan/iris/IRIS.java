@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris;
 
 import gov.dost.bulacan.iris.ui.project.ProjectDetailsEdit;
 import gov.dost.bulacan.iris.ui.project.ProjectDetailsView;
+import gov.dost.bulacan.iris.ui.project.ProjectView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -46,7 +47,7 @@ public class IRIS extends Application {
      * @param primaryStage
      */
     private void show(Stage primaryStage) {
-        primaryStage.setScene(new Scene(new ProjectDetailsView().load()));
+        primaryStage.setScene(new Scene(new ProjectView().load()));
         primaryStage.show();
     }
 

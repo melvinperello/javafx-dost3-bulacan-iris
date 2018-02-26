@@ -32,6 +32,8 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar;
@@ -42,7 +44,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
+import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
@@ -166,12 +170,32 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     @FXML
     private JFXButton btn_cancel_edit;
 
+    @FXML
+    private DatePicker date_duration_from;
+
+    @FXML
+    private DatePicker date_duration_to;
+
     @Override
     protected void setup() {
         /**
          * Initialization of the combo boxes.
          */
         this.initializeComboBoxes();
+        /**
+         * Cancel Modification or Creation.
+         */
+        this.btn_cancel_edit.setOnMouseClicked(value -> {
+            this.changeRoot(new ProjectDetailsView().load());
+            value.consume();
+        });
+        /**
+         * Save or Create New Project.
+         */
+        this.btn_save_project.setOnMouseClicked(value -> {
+            this.getProjectValues();
+            value.consume();
+        });
     }
 
     //--------------------------------------------------------------------------
@@ -259,6 +283,94 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         this.cmb_project_type.getSelectionModel().selectFirst();
         Context.comboBoxValueFactory(this.cmb_project_status, ProjectModel.ProjectStatus.STATUS_LIST);
         this.cmb_project_status.getSelectionModel().selectFirst();
+    }
+
+    //--------------------------------------------------------------------------
+    // Get Form Values.
+    //--------------------------------------------------------------------------
+    private String frmCooperator;
+    private String frmOwner;
+    private String frmPosition;
+    private String frmOwnerAddress;
+    private Integer frmBusinessSector;
+    private String frmYearEstablished;
+    private String frmCapitalClass;
+    private String frmEmploymentClass;
+    private String frmOwnership;
+    private String frmProfitability;
+    private String frmRegistrationDetails;
+    private String frmProducts;
+    private String frmMarket;
+    private String frmStreetAddress;
+    private String frmBrgy;
+    private String frmCityZip;
+    private String frmLandMark;
+    private String frmMapsLat;
+    private String frmMapsLong;
+    private String frmWebsite;
+    private String frmSpinNo;
+    private String frmProjectType;
+    private Integer frmProjectStatus;
+    private String frmProjectName;
+    private Date frmDateEndorsed;
+    private Date frmDateApproved;
+    private String frmApprovedCost;
+    private Date frmDurationFrom;
+    private Date frmDurationTo;
+    private Date frmMoaSigned;
+    private String frmActualCost;
+
+    /**
+     * Get Values in the Java FX Form.
+     */
+    private void getProjectValues() {
+        this.frmCooperator = filterInput(txt_cooperator);
+        this.frmOwner = filterInput(txt_owner);
+        this.frmPosition = filterInput(txt_owner_position);
+        this.frmOwnerAddress = filterInput(txt_owner_address);
+        // save int value for business activity
+        ProjectModel.BusinessActivity selectedActivity = (ProjectModel.BusinessActivity) this.cmb_sector.getValue();
+        this.frmBusinessSector = selectedActivity.getValue();
+        this.frmYearEstablished = filterInput(txt_year_established);
+        this.frmCapitalClass = (String) this.cmb_class_capital.getValue();
+        this.frmEmploymentClass = (String) this.cmb_class_employment.getValue();
+        this.frmOwnership = (String) this.cmb_ownership.getValue();
+        this.frmProfitability = this.cmb_profitability.getValue().toString();
+        this.frmRegistrationDetails = filterInput(txt_registration);
+        this.frmProducts = filterInput(txt_products);
+        this.frmMarket = filterInput(txt_market);
+        this.frmStreetAddress = filterInput(txt_street_address);
+        this.frmBrgy = filterInput(txt_brgy);
+        // save zip code for town
+        ProjectModel.Town town = (ProjectModel.Town) this.cmb_city.getValue();
+        this.frmCityZip = town.getZip();
+        this.frmLandMark = filterInput(txt_landmark);
+        this.frmMapsLat = filterInput(txt_latitude);
+        this.frmMapsLong = filterInput(txt_longitude);
+        this.frmWebsite = filterInput(txt_website);
+        this.frmSpinNo = filterInput(txt_spin_no);
+        this.frmProjectType = this.cmb_project_type.getValue().toString();
+        ProjectModel.ProjectStatus status = (ProjectModel.ProjectStatus) this.cmb_project_status.getValue();
+        this.frmProjectStatus = status.getValue();
+        this.frmProjectName = filterInput(txt_project_name);
+
+        this.frmDateEndorsed = Date.from(Instant.from(this.date_endorsed.getValue()));
+        this.frmDateApproved = Date.from(Instant.from(this.date_approved.getValue()));
+
+        this.frmApprovedCost = filterInput(txt_approved_cost);
+        this.frmDurationFrom = Date.from(Instant.from(this.date_duration_from.getValue()));
+        this.frmDurationTo = Date.from(Instant.from(this.date_duration_to.getValue()));
+
+        this.frmMoaSigned = Date.from(Instant.from(this.date_moa.getValue()));
+        this.frmActualCost = filterInput(txt_actual_cost);
+    }
+
+    private void newProject() {
+        ProjectModel project = new ProjectModel();
+    }
+
+    private String filterInput(TextInputControl textField) {
+        return StringTools.clearExtraSpaces(textField.getText().trim());
     }
 
 }

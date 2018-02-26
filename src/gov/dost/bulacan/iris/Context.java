@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
+import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 
 /**
  *
@@ -103,11 +104,23 @@ public class Context {
     //--------------------------------------------------------------------------
     // Instance Scope.
     //--------------------------------------------------------------------------
+    private ConnectionFactory connectionFactory;
+
     /**
      * Initialize Object.
      */
     private Context() {
+        this.connectionFactory = new ConnectionFactory();
+        this.connectionFactory.setConnectionDriver(ConnectionFactory.Driver.MariaDB);
+        this.connectionFactory.setDatabaseName("iris_dost3bulacan");
+        this.connectionFactory.setHost("localhost");
+        this.connectionFactory.setPort("3306");
+        this.connectionFactory.setUsername("dost3bulacan");
+        this.connectionFactory.setPassword("123456");
+    }
 
+    public ConnectionFactory db() {
+        return this.connectionFactory;
     }
 
 }
