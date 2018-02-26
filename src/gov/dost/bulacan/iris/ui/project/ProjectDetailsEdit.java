@@ -32,6 +32,7 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
+import java.sql.Connection;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
@@ -194,6 +195,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
          */
         this.btn_save_project.setOnMouseClicked(value -> {
             this.getProjectValues();
+            this.newProject();
             value.consume();
         });
     }
@@ -354,19 +356,25 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         this.frmProjectStatus = status.getValue();
         this.frmProjectName = filterInput(txt_project_name);
 
-        this.frmDateEndorsed = Date.from(Instant.from(this.date_endorsed.getValue()));
-        this.frmDateApproved = Date.from(Instant.from(this.date_approved.getValue()));
+        this.frmDateEndorsed = java.sql.Date.valueOf(this.date_endorsed.getValue());
+        this.frmDateApproved = java.sql.Date.valueOf(this.date_approved.getValue());
 
         this.frmApprovedCost = filterInput(txt_approved_cost);
-        this.frmDurationFrom = Date.from(Instant.from(this.date_duration_from.getValue()));
-        this.frmDurationTo = Date.from(Instant.from(this.date_duration_to.getValue()));
+        this.frmDurationFrom = java.sql.Date.valueOf(this.date_duration_from.getValue());
+        this.frmDurationTo = java.sql.Date.valueOf(this.date_duration_to.getValue());
 
-        this.frmMoaSigned = Date.from(Instant.from(this.date_moa.getValue()));
+        this.frmMoaSigned = java.sql.Date.valueOf(this.date_moa.getValue());
         this.frmActualCost = filterInput(txt_actual_cost);
     }
 
     private void newProject() {
         ProjectModel project = new ProjectModel();
+        try {
+            Connection con = Context.app().db().createConnection();
+            System.out.println(con.isClosed());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String filterInput(TextInputControl textField) {
