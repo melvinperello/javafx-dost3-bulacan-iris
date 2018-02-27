@@ -283,16 +283,8 @@ public class ProjectView extends PolarisFxController implements Messageable {
         this.tableData.clear();
         //----------------------------------------------------------------------
         List<ProjectModel> inquiries = new ArrayList<>();
-        ProjectModel pm = new ProjectModel();
-        //----------------------------------------------------------------------
-        SimpleQuery querySample = new SimpleQuery();
-        querySample.addStatement("SELECT")
-                .addStatement("*")
-                .addStatement("FROM")
-                .addStatement(ProjectModel.TABLE);
-        //----------------------------------------------------------------------
-        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
-            inquiries = pm.findMany(con, querySample);
+        try {
+            inquiries = ProjectModel.getProjectTableData();
         } catch (SQLException ex) {
             PolarisDialog.exceptionDialog(ex);
         }

@@ -28,7 +28,12 @@
  */
 package gov.dost.bulacan.iris.models;
 
+import gov.dost.bulacan.iris.Context;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
+import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
+import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
@@ -268,13 +273,6 @@ public class ProjectModel extends PolarisRecord {
     @Column(WEBSITE)
     private String website;
 
-    //--------------------------------------------------------------------------
-    // CLASS COVERAGE
-    //--------------------------------------------------------------------------
-    //<@polaris:ignore>
-    // Do Your Code Logic Here
-    //
-    //</@polaris:ignore>
     //--------------------------------------------------------------------------
     // Static Classes.
     //--------------------------------------------------------------------------
@@ -601,6 +599,44 @@ public class ProjectModel extends PolarisRecord {
 
     }
 
+    //--------------------------------------------------------------------------
+    // CLASS COVERAGE
+    //--------------------------------------------------------------------------
+    //<@polaris:ignore>
+    /**
+     * Insert new Project Record in the database.
+     *
+     * @param project a project instance that contains the data to be inserted.
+     * @return
+     * @throws SQLException
+     */
+    public static boolean insertNewProject(ProjectModel project) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return project.insert(con);
+        }
+    }
+
+    /**
+     * This is the method that retrieves all the active data that will be shown
+     * to the table in the project view.
+     *
+     * @param <T> List Data Type.
+     * @return
+     * @throws SQLException
+     */
+    public static <T> List<T> getProjectTableData() throws SQLException {
+        SimpleQuery querySample = new SimpleQuery();
+        querySample.addStatement("SELECT")
+                .addStatement("*")
+                .addStatement("FROM")
+                .addStatement(ProjectModel.TABLE);
+        //======================================================================
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return new ProjectModel().findMany(con, querySample);
+        }
+    }
+
+    //</@polaris:ignore>
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------

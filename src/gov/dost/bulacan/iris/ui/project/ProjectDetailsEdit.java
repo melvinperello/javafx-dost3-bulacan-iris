@@ -487,9 +487,8 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         project.setExistingMarket(frmMarket);
         //
         project.setWebsite(frmWebsite);
-
-        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
-            boolean projectAdded = project.insert(con);
+        try {
+            boolean projectAdded = ProjectModel.insertNewProject(project);
             if (projectAdded) {
                 this.showInformationMessage("Project was successfully added to the database.");
             } else {
