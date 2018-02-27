@@ -47,6 +47,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
+import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
@@ -194,7 +195,6 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
          * Save or Create New Project.
          */
         this.btn_save_project.setOnMouseClicked(value -> {
-            this.getProjectValues();
             this.newProject();
             value.consume();
         });
@@ -326,6 +326,13 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
      * Get Values in the Java FX Form.
      */
     private void getProjectValues() {
+
+        this.frmDateApproved = null;
+        this.frmDateEndorsed = null;
+        this.frmDurationFrom = null;
+        this.frmDurationTo = null;
+        this.frmMoaSigned = null;
+
         this.frmCooperator = filterInput(txt_cooperator);
         this.frmOwner = filterInput(txt_owner);
         this.frmPosition = filterInput(txt_owner_position);
@@ -356,22 +363,48 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         this.frmProjectStatus = status.getValue();
         this.frmProjectName = filterInput(txt_project_name);
 
-        this.frmDateEndorsed = java.sql.Date.valueOf(this.date_endorsed.getValue());
-        this.frmDateApproved = java.sql.Date.valueOf(this.date_approved.getValue());
+        //----------------------------------------------------------------------
+        // Date Value
+        if (this.date_endorsed.getValue() != null) {
+            this.frmDateEndorsed = java.sql.Date.valueOf(this.date_endorsed.getValue());
+        }
 
+        if (this.date_approved.getValue() != null) {
+            this.frmDateApproved = java.sql.Date.valueOf(this.date_approved.getValue());
+        }
+
+        //----------------------------------------------------------------------
         this.frmApprovedCost = filterInput(txt_approved_cost);
-        this.frmDurationFrom = java.sql.Date.valueOf(this.date_duration_from.getValue());
-        this.frmDurationTo = java.sql.Date.valueOf(this.date_duration_to.getValue());
 
-        this.frmMoaSigned = java.sql.Date.valueOf(this.date_moa.getValue());
+        //----------------------------------------------------------------------
+        // Date Value
+        if (this.date_duration_from.getValue() != null) {
+            this.frmDurationFrom = java.sql.Date.valueOf(this.date_duration_from.getValue());
+        }
+
+        if (this.date_duration_to.getValue() != null) {
+            this.frmDurationTo = java.sql.Date.valueOf(this.date_duration_to.getValue());
+        }
+        //----------------------------------------------------------------------
+        if (this.date_moa.getValue() != null) {
+            this.frmMoaSigned = java.sql.Date.valueOf(this.date_moa.getValue());
+        }
+
         this.frmActualCost = filterInput(txt_actual_cost);
     }
 
     private void newProject() {
+        this.getProjectValues();
+        // Create new Project
         ProjectModel project = new ProjectModel();
+        
+        project.setProjectName(this.frmProjectName);
+        project.setProjectCode(new Date().toString());
         try {
-            Connection con = Context.app().db().createConnection();
-            System.out.println(con.isClosed());
+            ConnectionManager con = Context.app().db().createConnectionManager();
+            boolean insert = project.insert(con);
+            System.out.println(insert);
+            con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

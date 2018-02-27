@@ -41,11 +41,57 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  */
 @Table(ProjectModel.TABLE)
 public class ProjectModel extends PolarisRecord {
+
+    /**
+     * Initialize Default Values.
+     */
+    public ProjectModel() {
+        this.projectCode = null;
+        this.spinNo = "";
+        this.companyName = "";
+        this.projectName = "";
+        this.projectStatus = null;
+        this.projectType = "";
+        this.companyOwner = "";
+        this.ownerPosition = "";
+        this.ownerAddress = "";
+        //
+        this.endorsedDate = null;
+        this.endorsedAttachment = null;
+        this.approvedDate = null;
+        this.approvedFunding = null;
+        this.approvedAttachment = null;
+        //
+        this.moaDate = null;
+        this.moaAttachment = null;
+        this.durationFrom = null;
+        this.durationTo = null;
+        //
+        this.actualCost = null;
+        //
+        this.factoryStreet = "";
+        this.factoryBrgy = "";
+        this.factoryCity = "";
+        this.factoryLong = "";
+        this.factoryLat = "";
+        this.factoryLandMark = "";
+        //
+        this.yearEstablished = "";
+        this.businessActivity = null;
+        this.capitalClassification = "";
+        this.employmentClassification = "";
+        this.companyOwnership = "";
+        this.profitability = "";
+        this.registrationInformation = "";
+        this.majorProducts = "";
+        this.existingMarket = "";
+        this.website = "";
+    }
     //--------------------------------------------------------------------------
     // TABLE FIELDS
     //--------------------------------------------------------------------------
 
-    public final static String TABLE = "project";
+    public final static String TABLE = "setup_projects";
     // STC3000SET-02202018131137
     // STC3000GIA-02202018131137
     public final static String PROJECT_CODE = "project_code"; //-> Must be unique for distribution
@@ -72,6 +118,10 @@ public class ProjectModel extends PolarisRecord {
     //
     public final static String MOA_DATE = "moa_date";
     public final static String MOA_ATTACHMENT = "moa_attachment";
+
+    public final static String ACTUAL_COST = "actual_cost";
+    public final static String DURATION_FROM = "duration_from";
+    public final static String DURATION_TO = "duration_to";
     //
     //- > Contact Person was Normalized to another table
     //
@@ -83,15 +133,15 @@ public class ProjectModel extends PolarisRecord {
 //    public final static String OFFICE_LANDMARK = "office_landmark";
     public final static String FACTORY_STREET = "factory_street";
     public final static String FACTORY_BRGY = "factory_brgy";
-    public final static String FACTORY_CITY = "factory_city";
+    public final static String FACTORY_CITY = "factory_city"; // insert zip from Object
     public final static String FACTORY_LONG = "factory_long";
     public final static String FACTORY_LAT = "factory_lat";
     public final static String FACTORY_LANDMARK = "factory_landmark";
-    public final static String FACTORY_COORDINATES = "factory_coordinates";
+    //public final static String FACTORY_COORDINATES = "factory_coordinates";
     //
     public final static String YEAR_ESTABLISHED = "year_established";
-    public final static String BUSINESS_ACTIVITY = "business_activity";
-    public final static String SPECIFIC_COMODITY = "specific_comodity";
+    public final static String BUSINESS_ACTIVITY = "business_activity"; // int
+    //public final static String SPECIFIC_COMODITY = "specific_comodity";
     public final static String CAPITAL_CLASSIFICATION = "capital_classification";
     public final static String EMPLOYMENT_CLASSIFICATION = "employment_classification";
     public final static String COMPANY_OWNERSHIP = "company_ownership";
@@ -115,11 +165,11 @@ public class ProjectModel extends PolarisRecord {
     @Column(PROJECT_NAME)
     private String projectName;
     @Column(PROJECT_STATUS)
-    private String projectStatus;
+    private Integer projectStatus;
     @Column(PROJECT_TYPE)
     private String projectType;
     // Added info
-    @Column(COMPANY_OWNERSHIP)
+    @Column(COMPANY_OWNER)
     private String companyOwner;
     @Column(OWNER_POSITION)
     private String ownerPosition;
@@ -130,7 +180,7 @@ public class ProjectModel extends PolarisRecord {
     @Column(ENDORSED_DATE)
     private Date endorsedDate;
     @Column(ENDORSED_ATTACHMENT)
-    private Integer edorsedAttachment;
+    private Integer endorsedAttachment;
     // approval
     @Column(APPROVED_DATE)
     private Date approvedDate;
@@ -148,6 +198,13 @@ public class ProjectModel extends PolarisRecord {
     private Date moaDate;
     @Column(MOA_ATTACHMENT)
     private Integer moaAttachment;
+    @Column(DURATION_FROM)
+    private Date durationFrom;
+    @Column(DURATION_TO)
+    private Date durationTo;
+
+    @Column(ACTUAL_COST)
+    private Double actualCost;
 
     //--------------------------------------------------------------------------
     // Contact Person / Proprietor / Proponent
@@ -182,17 +239,17 @@ public class ProjectModel extends PolarisRecord {
     private String factoryLat;
     @Column(FACTORY_LANDMARK)
     private String factoryLandMark;
-    @Column(FACTORY_COORDINATES)
-    private String factoryCoordinates;
+//    @Column(FACTORY_COORDINATES)
+//    private String factoryCoordinates;
     //--------------------------------------------------------------------------
     // Business Information.
     //--------------------------------------------------------------------------
     @Column(YEAR_ESTABLISHED)
     private String yearEstablished; // established
     @Column(BUSINESS_ACTIVITY)
-    private String businessActivity;
-    @Column(SPECIFIC_COMODITY)
-    private String specificComodity;
+    private Integer businessActivity;
+//    @Column(SPECIFIC_COMODITY)
+//    private String specificComodity;
     @Column(CAPITAL_CLASSIFICATION)
     private String capitalClassification;
     @Column(EMPLOYMENT_CLASSIFICATION)
@@ -301,15 +358,6 @@ public class ProjectModel extends PolarisRecord {
         public final static String MEDIUM = "MEDIUM";
 
         public final static String[] VALUE_LIST = new String[]{MICRO, SMALL, MEDIUM};
-    }
-
-    /**
-     * Contact Person's Sexuality for analytics purposes.
-     */
-    public static class Sexuality {
-
-        public final static String MALE = "MALE";
-        public final static String FEMALE = "FEMALE";
     }
 
     /**
@@ -579,11 +627,11 @@ public class ProjectModel extends PolarisRecord {
         this.projectName = projectName;
     }
 
-    public String getProjectStatus() {
+    public Integer getProjectStatus() {
         return projectStatus;
     }
 
-    public void setProjectStatus(String projectStatus) {
+    public void setProjectStatus(Integer projectStatus) {
         this.projectStatus = projectStatus;
     }
 
@@ -627,12 +675,12 @@ public class ProjectModel extends PolarisRecord {
         this.endorsedDate = endorsedDate;
     }
 
-    public Integer getEdorsedAttachment() {
-        return edorsedAttachment;
+    public Integer getEndorsedAttachment() {
+        return endorsedAttachment;
     }
 
-    public void setEdorsedAttachment(Integer edorsedAttachment) {
-        this.edorsedAttachment = edorsedAttachment;
+    public void setEndorsedAttachment(Integer endorsedAttachment) {
+        this.endorsedAttachment = endorsedAttachment;
     }
 
     public Date getApprovedDate() {
@@ -673,6 +721,30 @@ public class ProjectModel extends PolarisRecord {
 
     public void setMoaAttachment(Integer moaAttachment) {
         this.moaAttachment = moaAttachment;
+    }
+
+    public Date getDurationFrom() {
+        return durationFrom;
+    }
+
+    public void setDurationFrom(Date durationFrom) {
+        this.durationFrom = durationFrom;
+    }
+
+    public Date getDurationTo() {
+        return durationTo;
+    }
+
+    public void setDurationTo(Date durationTo) {
+        this.durationTo = durationTo;
+    }
+
+    public Double getActualCost() {
+        return actualCost;
+    }
+
+    public void setActualCost(Double actualCost) {
+        this.actualCost = actualCost;
     }
 
     public String getFactoryStreet() {
@@ -723,14 +795,6 @@ public class ProjectModel extends PolarisRecord {
         this.factoryLandMark = factoryLandMark;
     }
 
-    public String getFactoryCoordinates() {
-        return factoryCoordinates;
-    }
-
-    public void setFactoryCoordinates(String factoryCoordinates) {
-        this.factoryCoordinates = factoryCoordinates;
-    }
-
     public String getYearEstablished() {
         return yearEstablished;
     }
@@ -739,20 +803,12 @@ public class ProjectModel extends PolarisRecord {
         this.yearEstablished = yearEstablished;
     }
 
-    public String getBusinessActivity() {
+    public Integer getBusinessActivity() {
         return businessActivity;
     }
 
-    public void setBusinessActivity(String businessActivity) {
+    public void setBusinessActivity(Integer businessActivity) {
         this.businessActivity = businessActivity;
-    }
-
-    public String getSpecificComodity() {
-        return specificComodity;
-    }
-
-    public void setSpecificComodity(String specificComodity) {
-        this.specificComodity = specificComodity;
     }
 
     public String getCapitalClassification() {

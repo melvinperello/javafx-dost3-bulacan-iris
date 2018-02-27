@@ -112,7 +112,7 @@ public class Context {
     private Context() {
         this.connectionFactory = new ConnectionFactory();
         this.connectionFactory.setConnectionDriver(ConnectionFactory.Driver.MariaDB);
-        this.connectionFactory.setDatabaseName("iris_dost3bulacan");
+        this.connectionFactory.setDatabaseName("iris_bulacan_dost3");
         this.connectionFactory.setHost("localhost");
         this.connectionFactory.setPort("3306");
         this.connectionFactory.setUsername("dost3bulacan");
