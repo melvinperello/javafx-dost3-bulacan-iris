@@ -29,7 +29,9 @@
 package gov.dost.bulacan.iris.ui.project;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.models.ProjectModel;
 import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
 /**
@@ -47,6 +49,20 @@ public class ProjectDetailsView extends PolarisFxController {
     @FXML
     private JFXButton btn_back;
 
+    /**
+     * Recommended Constructor for viewing the details.
+     *
+     * @param parentPane
+     * @param model
+     */
+    public ProjectDetailsView(Pane parentPane, ProjectModel model) {
+        this.viewParentPane = parentPane;
+        this.projectModel = model;
+    }
+
+    private final Pane viewParentPane;
+    private final ProjectModel projectModel;
+
     @Override
     protected void setup() {
         /**
@@ -58,7 +74,7 @@ public class ProjectDetailsView extends PolarisFxController {
         });
 
         this.btn_edit_project.setOnMouseClicked(value -> {
-            this.changeRoot(new ProjectDetailsEdit().load());
+            this.changeRoot(new ProjectDetailsEdit(this.getRootPane(), this.projectModel).load());
             value.consume();
         });
     }

@@ -28,8 +28,10 @@
  */
 package gov.dost.bulacan.iris;
 
+import java.io.InputStream;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 
 /**
@@ -123,6 +125,10 @@ public class Context {
 
     public ConnectionFactory db() {
         return this.connectionFactory;
+    }
+
+    public InputStream getResourceStream(String name) {
+        return this.getClass().getResourceAsStream("/storage/" + name);
     }
 
 }

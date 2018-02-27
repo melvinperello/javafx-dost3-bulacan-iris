@@ -52,6 +52,18 @@
                <children>
                   <Label text="Search SETUp/GIA Projects" />
                   <TextField fx:id="txt_search" prefHeight="25.0" prefWidth="461.0" promptText="Search Something . . ." />
+                  <JFXButton fx:id="btn_view_project" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="View Project">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/add_paper_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
                   <JFXButton fx:id="btn_new_project" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="New Project">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -76,10 +88,10 @@
             <TableView fx:id="tbl_project_table" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <columns>
                 <TableColumn prefWidth="75.0" text="Year" />
-                  <TableColumn prefWidth="75.0" text="Type" />
-                  <TableColumn prefWidth="75.0" text="Status" />
+                  <TableColumn prefWidth="100.0" text="Type" />
+                  <TableColumn prefWidth="100.0" text="Status" />
                   <TableColumn prefWidth="245.0" text="Beneficiary" />
-                  <TableColumn prefWidth="57.0" text="District" />
+                  <TableColumn prefWidth="60.0" text="District" />
                   <TableColumn minWidth="100.0" prefWidth="100.0" text="Endorsed" />
                   <TableColumn minWidth="100.0" prefWidth="100.0" text="Approved" />
                   <TableColumn minWidth="120.0" prefWidth="150.0" text="Actual Project Cost" />

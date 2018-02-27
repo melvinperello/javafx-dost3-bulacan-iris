@@ -28,11 +28,10 @@
  */
 package gov.dost.bulacan.iris;
 
-import gov.dost.bulacan.iris.ui.project.ProjectDetailsEdit;
-import gov.dost.bulacan.iris.ui.project.ProjectDetailsView;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -48,6 +47,8 @@ public class IRIS extends Application {
      */
     private void show(Stage primaryStage) {
         primaryStage.setScene(new Scene(new ProjectView().load()));
+        primaryStage.getIcons().add(new Image(Context.app().getResourceStream("drawable/dost_logo.png")));
+        primaryStage.setTitle("PSTC-Bulacan/DOST3 Information Retrieval Integrated System ( I.R.I.S. )");
         primaryStage.show();
     }
 
@@ -76,5 +77,5 @@ public class IRIS extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
-
+    
 }

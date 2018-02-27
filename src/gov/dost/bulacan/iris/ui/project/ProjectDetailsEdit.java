@@ -34,27 +34,21 @@ import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
@@ -186,6 +180,10 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     @FXML
     private DatePicker date_duration_to;
 
+    public ProjectDetailsEdit(Pane pane, ProjectModel model) {
+
+    }
+
     @Override
     protected void setup() {
         /**
@@ -208,7 +206,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
          * Cancel Modification or Creation.
          */
         this.btn_cancel_edit.setOnMouseClicked(value -> {
-            this.changeRoot(new ProjectDetailsView().load());
+            this.changeRoot(new ProjectView().load());
             value.consume();
         });
         /**
