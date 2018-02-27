@@ -444,6 +444,15 @@ public class ProjectModel extends PolarisRecord {
             STA_MARIA
         };
 
+        public static Town getTown(String zip) {
+            for (Town town : TOWN_LIST) {
+                if (town.getZip().equalsIgnoreCase(zip)) {
+                    return town;
+                }
+            }
+            throw new UnknownValueException();
+        }
+
 //        /**
 //         * Town Name List.
 //         */

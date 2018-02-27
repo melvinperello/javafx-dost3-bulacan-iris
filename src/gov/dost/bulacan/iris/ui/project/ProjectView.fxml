@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #0D4E86;">
          <padding>
@@ -48,24 +48,24 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <HBox alignment="CENTER_LEFT">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
                   <Label text="Search SETUp/GIA Projects" />
-                  <TextField prefHeight="25.0" prefWidth="461.0" />
+                  <TextField fx:id="txt_search" prefHeight="25.0" prefWidth="461.0" promptText="Search Something . . ." />
+                  <JFXButton fx:id="btn_new_project" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="New Project">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/add_paper_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
                </children>
             </HBox>
-            <JFXButton fx:id="btn_new_project" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="New Project">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../storage/drawable/print_64.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
          </children>
          <padding>
             <Insets left="10.0" />
@@ -73,19 +73,17 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <TableView prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <TableView fx:id="tbl_project_table" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <columns>
                 <TableColumn prefWidth="75.0" text="Year" />
-                  <TableColumn prefWidth="75.0" text="STATUS" />
                   <TableColumn prefWidth="75.0" text="Type" />
-                  <TableColumn prefWidth="245.0" text="Beneficiaries" />
-                  <TableColumn prefWidth="75.0" text="District" />
-                  <TableColumn prefWidth="75.0" text="Endorsed" />
-                  <TableColumn prefWidth="75.0" text="Approved" />
-                  <TableColumn prefWidth="111.33331298828125" text="Actual Project Cost" />
-                  <TableColumn prefWidth="133.0" text="MOA Signed" />
-                  <TableColumn prefWidth="33.66668701171875" text="Cotact Person" />
-                  <TableColumn prefWidth="188.33331298828125" text="Contact Number" />
+                  <TableColumn prefWidth="75.0" text="Status" />
+                  <TableColumn prefWidth="245.0" text="Beneficiary" />
+                  <TableColumn prefWidth="57.0" text="District" />
+                  <TableColumn minWidth="100.0" prefWidth="100.0" text="Endorsed" />
+                  <TableColumn minWidth="100.0" prefWidth="100.0" text="Approved" />
+                  <TableColumn minWidth="120.0" prefWidth="150.0" text="Actual Project Cost" />
+                  <TableColumn minWidth="100.0" prefWidth="100.0" text="MOA Signed" />
               </columns>
             </TableView>
          </children>

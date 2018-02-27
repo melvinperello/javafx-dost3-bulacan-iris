@@ -38,6 +38,8 @@ import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
  */
 public class Context {
 
+    public final static String PROJECT_CODE_PREFIX = "STC3000";
+
     /**
      * Instance Holder.
      */

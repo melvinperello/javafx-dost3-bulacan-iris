@@ -32,16 +32,24 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
-import java.sql.Connection;
-import java.time.Instant;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -181,9 +189,21 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     @Override
     protected void setup() {
         /**
+         * Generate Key.
+         */
+        Calendar dateKey = Calendar.getInstance();
+        String generatedKey = Context.PROJECT_CODE_PREFIX
+                + String.valueOf(dateKey.get(Calendar.YEAR))
+                + "-"
+                + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
+
+        this.lbl_project_code.setText(generatedKey);
+
+        /**
          * Initialization of the combo boxes.
          */
         this.initializeComboBoxes();
+
         /**
          * Cancel Modification or Creation.
          */
@@ -195,7 +215,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
          * Save or Create New Project.
          */
         this.btn_save_project.setOnMouseClicked(value -> {
-            this.newProject();
+            this.insertNewProject();
             value.consume();
         });
     }
@@ -206,7 +226,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     @Override
     public void showWarningMessage(String message) {
         PolarisDialog.create(PolarisDialog.Type.WARNING)
-                .setTitle("Company Profile")
+                .setTitle("SETUp/GIA Project")
                 .setHeaderText("Warning")
                 .setContentText(message)
                 .setOwner(this.getStage())
@@ -216,7 +236,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     @Override
     public void showInformationMessage(String message) {
         PolarisDialog.create(PolarisDialog.Type.INFORMATION)
-                .setTitle("Company Profile")
+                .setTitle("SETUp/GIA Project")
                 .setHeaderText("Information")
                 .setContentText(message)
                 .setOwner(this.getStage())
@@ -226,8 +246,8 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     @Override
     public void showErrorMessage(String message) {
         PolarisDialog.create(PolarisDialog.Type.ERROR)
-                .setTitle("Company Profile")
-                .setHeaderText("Error")
+                .setTitle("SETUp/GIA Project")
+                .setHeaderText("Something Went Wrong !")
                 .setContentText(message)
                 .setOwner(this.getStage())
                 .showAndWait();
@@ -238,8 +258,8 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
         ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
-                .setTitle("Company Profile")
-                .setHeaderText("Confirmation")
+                .setTitle("SETUp/GIA Project")
+                .setHeaderText("Please Confirm")
                 .setContentText(message)
                 .setOwner(this.getStage())
                 .setButtons(yesButton, cancelButton)
@@ -393,20 +413,92 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         this.frmActualCost = filterInput(txt_actual_cost);
     }
 
-    private void newProject() {
+    private void insertNewProject() {
+        /**
+         * Get Project Values.
+         */
         this.getProjectValues();
+
         // Create new Project
         ProjectModel project = new ProjectModel();
-        
-        project.setProjectName(this.frmProjectName);
         project.setProjectCode(new Date().toString());
+        //
+        project.setSpinNo(frmSpinNo);
+        project.setCompanyName(frmCooperator);
+        project.setProjectName(frmProjectName);
+        project.setProjectStatus(frmProjectStatus);
+        project.setProjectType(frmProjectType);
+        //
+        project.setCompanyOwnership(frmOwnership);
+        project.setOwnerPosition(frmPosition);
+        project.setOwnerAddress(frmOwnerAddress);
+        project.setEndorsedDate(frmDateEndorsed);
+        project.setEndorsedAttachment(null); // upon creation then add
+        project.setApprovedDate(frmDateApproved);
+
+        //----------------------------------------------------------------------
+        // Filter Approved Cost
+        Double approved_fund = null;
         try {
-            ConnectionManager con = Context.app().db().createConnectionManager();
-            boolean insert = project.insert(con);
-            System.out.println(insert);
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            approved_fund = Double.valueOf(this.frmApprovedCost);
+            if (approved_fund <= 0.0d) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            this.showWarningMessage("You have entered an invalid approved cost.");
+            return;
+        }
+        project.setApprovedFunding(approved_fund);
+        //----------------------------------------------------------------------
+        project.setApprovedAttachment(null);
+        //
+        project.setMoaDate(frmMoaSigned);
+        project.setMoaAttachment(null);
+        project.setDurationFrom(frmDurationFrom);
+        project.setDurationTo(frmDurationTo);
+
+        //----------------------------------------------------------------------
+        // Filter Actual Cost
+        Double actual_cost = null;
+        try {
+            actual_cost = Double.valueOf(this.frmActualCost);
+            if (actual_cost <= 0.0d) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            this.showWarningMessage("You have entered an invalid actual cost.");
+            return;
+        }
+        project.setActualCost(approved_fund);
+        //----------------------------------------------------------------------
+        project.setFactoryStreet(frmStreetAddress);
+        project.setFactoryBrgy(frmBrgy);
+        project.setFactoryCity(frmCityZip);
+        project.setFactoryLong(frmMapsLong);
+        project.setFactoryLat(frmMapsLat);
+        project.setFactoryLandMark(frmLandMark);
+        //
+        project.setYearEstablished(frmYearEstablished);
+        project.setBusinessActivity(frmBusinessSector);
+        project.setCapitalClassification(frmCapitalClass);
+        project.setEmploymentClassification(frmEmploymentClass);
+        project.setCompanyOwnership(frmOwnership);
+        project.setProfitability(frmProfitability);
+        project.setRegistrationInformation(frmRegistrationDetails);
+        project.setMajorProducts(frmProducts);
+        project.setExistingMarket(frmMarket);
+        //
+        project.setWebsite(frmWebsite);
+
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            boolean projectAdded = project.insert(con);
+            if (projectAdded) {
+                this.showInformationMessage("Project was successfully added to the database.");
+            } else {
+                this.showWarningMessage("The project cannot be inserted at the moment please try again.");
+            }
+        } catch (SQLException ex) {
+            PolarisDialog.exceptionDialog(ex);
         }
     }
 
