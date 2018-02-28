@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #0D4E86;">
          <padding>
@@ -51,12 +51,12 @@
                <children>
                   <VBox>
                      <children>
-                        <Label text="Food Machinery Industrial Corporation">
+                        <Label fx:id="lbl_cooperator_header" text="Food Machinery Industrial Corporation">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Record Last Updated at 02/02/2018 2:24 PM by adcrest" />
+                        <Label fx:id="lbl_header_last_edit" text="Record Last Updated at 02/02/2018 2:24 PM by melvin" />
                      </children>
                   </VBox>
                </children>
@@ -132,7 +132,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lbl_firm_name" text="Food Machinery Industrial Corporation" wrapText="true" />
+                        <Label fx:id="lbl_cooperator" text="Food Machinery Industrial Corporation" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -145,7 +145,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lbl_address1" text="#23 Jan lang dito din Guinhawa Malolos Bulacan" wrapText="true" />
+                        <Label fx:id="lbl_factory_address" text="#23 Jan lang dito din Guinhawa Malolos Bulacan" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -163,7 +163,7 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </Label>
-                              <Label fx:id="lbl_firm_name1" text="BERTING A. DELA CRUZ" wrapText="true" />
+                              <Label fx:id="lbl_owner_name" text="BERTING A. DELA CRUZ" wrapText="true" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
@@ -179,7 +179,7 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </Label>
-                              <Label fx:id="lbl_firm_name11" text="PRESIDENT" wrapText="true" />
+                              <Label fx:id="lbl_owner_position" text="PRESIDENT" wrapText="true" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
@@ -195,7 +195,7 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </Label>
-                              <Label fx:id="lbl_firm_name2" text="#25 jan lang sa tabi tabi ng daan at kalasada Guinhawa Malolos Bulacan" wrapText="true" />
+                              <Label fx:id="lbl_owner_address" text="#25 jan lang sa tabi tabi ng daan at kalasada Guinhawa Malolos Bulacan" wrapText="true" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
@@ -231,7 +231,7 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </Label>
-                              <Label fx:id="lbl_established" text="1800" wrapText="true" />
+                              <Label fx:id="lbl_year_established" text="1800" wrapText="true" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
@@ -389,14 +389,14 @@
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
                   </HBox>
-                  <HBox fx:id="lbl_coordinates">
+                  <HBox>
                      <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Maps">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="-15.623037,  18.388672" wrapText="true" />
+                        <Label fx:id="lbl_coordinates" text="-15.623037,  18.388672" wrapText="true" />
                         <Label fx:id="lbl_click_maps" text="Google Maps" textFill="#0288ee">
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -434,6 +434,18 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
+                        <JFXButton graphicTextGap="10.0" style="-fx-border-style: dashed;" text="Add Contact Person">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../storage/drawable/add_contact_64.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />

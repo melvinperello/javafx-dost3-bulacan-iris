@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #0D4E86;">
          <padding>
@@ -53,12 +53,12 @@
          <children>
             <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                <children>
-                  <Label maxWidth="1.7976931348623157E308" text="Modify Information">
+                  <Label fx:id="lbl_modify_header" maxWidth="1.7976931348623157E308" text="Modify Information">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
                   </Label>
-                  <Label text="Last Updated 02/02/2018 by adcrest">
+                  <Label fx:id="lbl_modify_time" text="Last Updated 02/02/2018 by adcrest">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -270,7 +270,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_registration" prefHeight="50.0" promptText="DIT/SEC or other registrations" />
+                        <TextArea fx:id="txt_registration" prefHeight="50.0" promptText="DIT/SEC or other registrations" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -331,7 +331,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_street_address" prefHeight="50.0" promptText="Street Address / Common Address" />
+                        <TextArea fx:id="txt_street_address" prefHeight="50.0" promptText="Street Address / Common Address" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -370,7 +370,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_landmark" prefHeight="50.0" promptText="Common Landmarks" />
+                        <TextArea fx:id="txt_landmark" prefHeight="50.0" promptText="Common Landmarks" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -410,18 +410,6 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <JFXButton graphicTextGap="10.0" style="-fx-border-style: dashed;" text="Add Contact Person">
-                           <graphic>
-                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../storage/drawable/add_contact_64.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -502,7 +490,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_project_name" prefHeight="50.0" promptText="Enter Project Name" />
+                        <TextArea fx:id="txt_project_name" prefHeight="50.0" promptText="Enter Project Name" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -515,15 +503,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <DatePicker fx:id="date_endorsed" prefHeight="31.0" prefWidth="136.0" promptText="Date" />
-                        <Label fx:id="lbl_click_endorsed" text="Manage Attachment" textFill="#0288ee">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
+                        <DatePicker fx:id="date_endorsed" prefHeight="31.0" prefWidth="136.0" promptText="Date Endorsed" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -536,15 +516,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <DatePicker fx:id="date_approved" prefHeight="31.0" prefWidth="136.0" promptText="Date" />
-                        <Label fx:id="lbl_click_approved" text="Manage Attachment" textFill="#0288ee">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
+                        <DatePicker fx:id="date_approved" prefHeight="31.0" prefWidth="136.0" promptText="Date Endorsed" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -570,10 +542,8 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label text="From" />
-                        <DatePicker fx:id="date_duration_from" prefHeight="31.0" prefWidth="136.0" promptText="Date" />
-                        <Label text="To" />
-                        <DatePicker fx:id="date_duration_to" prefHeight="31.0" prefWidth="136.0" promptText="Date" />
+                        <DatePicker fx:id="date_duration_from" prefHeight="31.0" prefWidth="136.0" promptText="From" />
+                        <DatePicker fx:id="date_duration_to" prefHeight="31.0" prefWidth="136.0" promptText="To" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -586,15 +556,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <DatePicker fx:id="date_moa" prefHeight="31.0" prefWidth="136.0" promptText="Date" />
-                        <Label fx:id="lbl_click_moa_attachment" text="Manage Attachment" textFill="#0288ee">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
+                        <DatePicker fx:id="date_moa" prefHeight="31.0" prefWidth="136.0" promptText="MOA Signed" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />

@@ -56,7 +56,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../storage/drawable/add_paper_64.png" />
+                              <Image url="@../../../../../../storage/drawable/view_64.png" />
                            </image>
                         </ImageView>
                      </graphic>

@@ -102,8 +102,8 @@ public class ProjectView extends PolarisFxController implements Messageable {
          * New Project Action.
          */
         this.btn_new_project.setOnMouseClicked(value -> {
-//            this.changeRoot(new ProjectDetailsEdit().load());
-//            value.consume();
+            this.changeRoot(new ProjectDetailsEdit(this, null).load());
+            value.consume();
         });
 
         this.btn_view_project.setOnMouseClicked(value -> {
@@ -113,7 +113,7 @@ public class ProjectView extends PolarisFxController implements Messageable {
                 return;
             }
             // open project view
-            this.changeRoot(new ProjectDetailsView(this.getRootPane(), selectedProject).load());
+            this.changeRoot(new ProjectDetailsView(selectedProject).load());
 
             value.consume();
         });
@@ -206,7 +206,11 @@ public class ProjectView extends PolarisFxController implements Messageable {
         endorseCol.setPrefWidth(100.0);
         endorseCol.setCellValueFactory((value) -> {
             ProjectModel project = (ProjectModel) value.getValue();
-            String dateString = new SimpleDateFormat("MM-dd-yy").format(project.getEndorsedDate());
+            Date date = project.getEndorsedDate();
+            String dateString = "";
+            if (date != null) {
+                dateString = new SimpleDateFormat("MM-dd-yy").format(date);
+            }
             return new SimpleStringProperty(dateString);
         });
         //----------------------------------------------------------------------
@@ -214,7 +218,11 @@ public class ProjectView extends PolarisFxController implements Messageable {
         approvedCol.setPrefWidth(100.0);
         approvedCol.setCellValueFactory((value) -> {
             ProjectModel project = (ProjectModel) value.getValue();
-            String dateString = new SimpleDateFormat("MM-dd-yy").format(project.getApprovedDate());
+            Date date = project.getApprovedDate();
+            String dateString = "";
+            if (date != null) {
+                dateString = new SimpleDateFormat("MM-dd-yy").format(date);
+            }
             return new SimpleStringProperty(dateString);
         });
         //----------------------------------------------------------------------
@@ -224,7 +232,7 @@ public class ProjectView extends PolarisFxController implements Messageable {
             ProjectModel project = (ProjectModel) value.getValue();
             String cost = "";
             if (project.getActualCost() != null) {
-                cost = project.getActualCost().toString();
+                cost = "P " + Context.app().getMoneyFormat().format(project.getActualCost());
             }
             return new SimpleStringProperty(cost);
         });
@@ -233,7 +241,11 @@ public class ProjectView extends PolarisFxController implements Messageable {
         moaCol.setPrefWidth(100.0);
         moaCol.setCellValueFactory((value) -> {
             ProjectModel project = (ProjectModel) value.getValue();
-            String dateString = new SimpleDateFormat("MM-dd-yy").format(project.getMoaDate());
+            Date date = project.getMoaDate();
+            String dateString = "";
+            if (date != null) {
+                dateString = new SimpleDateFormat("MM-dd-yy").format(date);
+            }
             return new SimpleStringProperty(dateString);
         });
 
@@ -277,9 +289,9 @@ public class ProjectView extends PolarisFxController implements Messageable {
     }
 
     /**
-     * Populate table with contents.
+     * Populate table with contents. for refresh also of date.
      */
-    private void populateTable() {
+    public void populateTable() {
         this.tableData.clear();
         //----------------------------------------------------------------------
         List<ProjectModel> inquiries = new ArrayList<>();

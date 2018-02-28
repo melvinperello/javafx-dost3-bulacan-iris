@@ -49,7 +49,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
@@ -59,6 +58,18 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  * @author DOST-3
  */
 public class ProjectDetailsEdit extends PolarisFxController implements Messageable {
+
+    @FXML
+    private Label lbl_modify_header;
+
+    @FXML
+    private Label lbl_modify_time;
+
+    @FXML
+    private JFXButton btn_save_project;
+
+    @FXML
+    private JFXButton btn_cancel_edit;
 
     @FXML
     private TextField txt_cooperator;
@@ -73,7 +84,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     private TextArea txt_owner_address;
 
     @FXML
-    private ComboBox cmb_sector;
+    private ComboBox<?> cmb_sector;
 
     @FXML
     private TextField txt_year_established;
@@ -106,7 +117,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     private TextField txt_brgy;
 
     @FXML
-    private ComboBox<?> cmb_city;
+    private ComboBox cmb_city;
 
     @FXML
     private TextArea txt_landmark;
@@ -145,34 +156,10 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     private DatePicker date_endorsed;
 
     @FXML
-    private Label lbl_click_endorsed;
-
-    @FXML
     private DatePicker date_approved;
 
     @FXML
-    private Label lbl_click_approved;
-
-    @FXML
     private TextField txt_approved_cost;
-
-    @FXML
-    private Label lbl_project_duration;
-
-    @FXML
-    private DatePicker date_moa;
-
-    @FXML
-    private Label lbl_click_moa_attachment;
-
-    @FXML
-    private TextField txt_actual_cost;
-
-    @FXML
-    private JFXButton btn_save_project;
-
-    @FXML
-    private JFXButton btn_cancel_edit;
 
     @FXML
     private DatePicker date_duration_from;
@@ -180,12 +167,85 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     @FXML
     private DatePicker date_duration_to;
 
-    public ProjectDetailsEdit(Pane pane, ProjectModel model) {
+    @FXML
+    private DatePicker date_moa;
 
+    @FXML
+    private TextField txt_actual_cost;
+
+    /**
+     * Recommended Constructor.
+     *
+     * @param controller
+     * @param model
+     */
+    public ProjectDetailsEdit(PolarisFxController controller, ProjectModel model) {
+        this.parentController = controller;
+        this.receiveModel = model;
+        /**
+         * Select an operation for this window EDIT and NEW.
+         */
+        this.willAddNew = this.receiveModel == null;
     }
+
+    private final PolarisFxController parentController;
+    private final ProjectModel receiveModel;
+    private final boolean willAddNew;
 
     @Override
     protected void setup() {
+        /**
+         * Initialization of the combo boxes.
+         */
+        this.initializeComboBoxes();
+
+        /**
+         * If there is no model this is a create project.
+         */
+        if (this.willAddNew) {
+            this.lbl_project_code.setText(this.generatedNewProjectKey());
+            this.lbl_modify_header.setText("Create New Project");
+            this.lbl_modify_time.setVisible(false);
+        } else {
+            this.preloadData();
+        }
+
+        /**
+         * Cancel Modification or Creation.
+         */
+        this.btn_cancel_edit.setOnMouseClicked(value -> {
+            if (this.willAddNew) {
+                this.changeRoot(this.parentController.getRootPane());
+                ProjectView projectViewer = (ProjectView) (this.parentController);
+                projectViewer.populateTable();
+            } else {
+                this.changeRoot(new ProjectDetailsView(this.receiveModel).load());
+            }
+            value.consume();
+        });
+        /**
+         * Save or Create New Project.
+         */
+        this.btn_save_project.setOnMouseClicked(value -> {
+            if (this.willAddNew) {
+                if (this.insertNewProject()) {
+                    this.changeRoot(this.parentController.getRootPane());
+                    ProjectView projectViewer = (ProjectView) (this.parentController);
+                    projectViewer.populateTable();
+                }
+            } else {
+                System.out.println("WILL EDIT");
+            }
+            value.consume();
+        });
+    }
+
+    /**
+     * Create a newly created ID Key for a project.
+     *
+     * @return
+     */
+    private String generatedNewProjectKey() {
         /**
          * Generate Key.
          */
@@ -194,28 +254,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 + String.valueOf(dateKey.get(Calendar.YEAR))
                 + "-"
                 + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
-
-        this.lbl_project_code.setText(generatedKey);
-
-        /**
-         * Initialization of the combo boxes.
-         */
-        this.initializeComboBoxes();
-
-        /**
-         * Cancel Modification or Creation.
-         */
-        this.btn_cancel_edit.setOnMouseClicked(value -> {
-            this.changeRoot(new ProjectView().load());
-            value.consume();
-        });
-        /**
-         * Save or Create New Project.
-         */
-        this.btn_save_project.setOnMouseClicked(value -> {
-            this.insertNewProject();
-            value.consume();
-        });
+        return generatedKey;
     }
 
     //--------------------------------------------------------------------------
@@ -411,7 +450,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         this.frmActualCost = filterInput(txt_actual_cost);
     }
 
-    private void insertNewProject() {
+    private boolean insertNewProject() {
         /**
          * Get Project Values.
          */
@@ -419,7 +458,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
 
         // Create new Project
         ProjectModel project = new ProjectModel();
-        project.setProjectCode(new Date().toString());
+        project.setProjectCode(this.lbl_project_code.getText());
         //
         project.setSpinNo(frmSpinNo);
         project.setCompanyName(frmCooperator);
@@ -444,7 +483,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
             }
         } catch (NumberFormatException e) {
             this.showWarningMessage("You have entered an invalid approved cost.");
-            return;
+            return false;
         }
         project.setApprovedFunding(approved_fund);
         //----------------------------------------------------------------------
@@ -465,7 +504,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
             }
         } catch (NumberFormatException e) {
             this.showWarningMessage("You have entered an invalid actual cost.");
-            return;
+            return false;
         }
         project.setActualCost(approved_fund);
         //----------------------------------------------------------------------
@@ -487,8 +526,9 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         project.setExistingMarket(frmMarket);
         //
         project.setWebsite(frmWebsite);
+        boolean projectAdded = false;
         try {
-            boolean projectAdded = ProjectModel.insertNewProject(project);
+            projectAdded = ProjectModel.insertNewProject(project);
             if (projectAdded) {
                 this.showInformationMessage("Project was successfully added to the database.");
             } else {
@@ -497,10 +537,33 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         } catch (SQLException ex) {
             PolarisDialog.exceptionDialog(ex);
         }
+        return projectAdded;
     }
 
     private String filterInput(TextInputControl textField) {
         return StringTools.clearExtraSpaces(textField.getText().trim());
+    }
+
+    private void preloadData() {
+        System.out.println("PRE LOAD");
+        /**
+         * Project Code.
+         */
+        this.lbl_project_code.setText(this.receiveModel.getProjectCode());
+        //
+        this.txt_cooperator.setText(this.receiveModel.getCompanyName());
+        this.txt_owner.setText(this.receiveModel.getCompanyOwner());
+        this.txt_owner_position.setText(this.receiveModel.getOwnerPosition());
+        this.txt_owner_address.setText(this.receiveModel.getOwnerAddress());
+        //
+        Integer businessAcitivity = this.receiveModel.getBusinessActivity();
+        this.cmb_sector.getItems().forEach((Object o) -> {
+            ProjectModel.BusinessActivity activity = (ProjectModel.BusinessActivity) o;
+            if (businessAcitivity.equals(activity.getValue())) {
+                int index = this.cmb_city.getItems().indexOf(o);
+                System.out.println(index);
+            }
+        });
     }
 
 }

@@ -29,16 +29,33 @@
 package gov.dost.bulacan.iris.ui.project;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Optional;
 import javafx.fxml.FXML;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
+import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
+import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class ProjectDetailsView extends PolarisFxController {
+public class ProjectDetailsView extends PolarisFxController implements Messageable {
+
+    @FXML
+    private Label lbl_cooperator_header;
+
+    @FXML
+    private Label lbl_header_last_edit;
 
     @FXML
     private JFXButton btn_print;
@@ -49,34 +66,335 @@ public class ProjectDetailsView extends PolarisFxController {
     @FXML
     private JFXButton btn_back;
 
+    @FXML
+    private Label lbl_cooperator;
+
+    @FXML
+    private Label lbl_factory_address;
+
+    @FXML
+    private Label lbl_owner_name;
+
+    @FXML
+    private Label lbl_owner_position;
+
+    @FXML
+    private Label lbl_owner_address;
+
+    @FXML
+    private Label lbl_business_sector;
+
+    @FXML
+    private Label lbl_year_established;
+
+    @FXML
+    private Label lbl_capital_class;
+
+    @FXML
+    private Label lbl_employment_class;
+
+    @FXML
+    private Label lbl_ownership;
+
+    @FXML
+    private Label lbl_products;
+
+    @FXML
+    private Label lbl_market;
+
+    @FXML
+    private Label lbl_registration;
+
+    @FXML
+    private Label lbl_landmark;
+
+    @FXML
+    private Label lbl_coordinates;
+
+    @FXML
+    private Label lbl_click_maps;
+
+    @FXML
+    private Label lbl_click_website;
+
+    @FXML
+    private TableView<?> tbl_contact_person;
+
+    @FXML
+    private Label lbl_project_code;
+
+    @FXML
+    private Label lbl_spin_no;
+
+    @FXML
+    private Label lbl_project_type;
+
+    @FXML
+    private Label lbl_project_name;
+
+    @FXML
+    private Label lbl_district;
+
+    @FXML
+    private Label lbl_date_endorsed;
+
+    @FXML
+    private Label lbl_click_endorse;
+
+    @FXML
+    private Label lbl_date_approve;
+
+    @FXML
+    private Label lbl_click_approved;
+
+    @FXML
+    private Label lbl_approved_cost;
+
+    @FXML
+    private Label lbl_date_moa;
+
+    @FXML
+    private Label lbl_click_moa;
+
+    @FXML
+    private Label lbl_project_duration;
+
+    @FXML
+    private Label lbl_actual_cost;
+
     /**
      * Recommended Constructor for viewing the details.
      *
-     * @param parentPane
      * @param model
      */
-    public ProjectDetailsView(Pane parentPane, ProjectModel model) {
-        this.viewParentPane = parentPane;
+    public ProjectDetailsView(ProjectModel model) {
         this.projectModel = model;
     }
 
-    private final Pane viewParentPane;
     private final ProjectModel projectModel;
 
     @Override
     protected void setup() {
-        /**
-         * Back To Projects View.
-         */
+        try {
+            if (!ProjectModel.getProjectViaProjectCode(this.projectModel, this.projectModel.getProjectCode())) {
+                // not loaded
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            // error
+            this.showWarningMessage("Failed to fetch data from the server, the data you will see might not be updated.");
+        }
+        //----------------------------------------------------------------------
+        this.preloadData();
+        //----------------------------------------------------------------------
+        // Buttons.
+        //----------------------------------------------------------------------
         this.btn_back.setOnMouseClicked(value -> {
             this.changeRoot(new ProjectView().load());
             value.consume();
         });
 
         this.btn_edit_project.setOnMouseClicked(value -> {
-            this.changeRoot(new ProjectDetailsEdit(this.getRootPane(), this.projectModel).load());
+            this.changeRoot(new ProjectDetailsEdit(this, this.projectModel).load());
             value.consume();
         });
+
+        this.btn_print.setOnMouseClicked(value -> {
+            this.showInformationMessage("Printing is not yet supported. Please wait for further releases.");
+            value.consume();
+        });
+        //----------------------------------------------------------------------
+        // Clickables.
+        //----------------------------------------------------------------------
+        this.lbl_click_maps.setOnMouseClicked(value -> {
+            if (this.lbl_coordinates.getText().trim().isEmpty()) {
+                this.showWarningMessage("No map data is available.");
+                return;
+            }
+            this.showInformationMessage("Google Maps is not yet supported");
+
+            value.consume();
+        });
+    }
+
+    //--------------------------------------------------------------------------
+    // Message Boxes for this window.
+    //--------------------------------------------------------------------------
+    @Override
+    public void showWarningMessage(String message) {
+        PolarisDialog.create(PolarisDialog.Type.WARNING)
+                .setTitle("SETUp/GIA Project")
+                .setHeaderText("Warning")
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .showAndWait();
+    }
+
+    @Override
+    public void showInformationMessage(String message) {
+        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
+                .setTitle("SETUp/GIA Project")
+                .setHeaderText("Information")
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .showAndWait();
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        PolarisDialog.create(PolarisDialog.Type.ERROR)
+                .setTitle("SETUp/GIA Project")
+                .setHeaderText("Something Went Wrong !")
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .showAndWait();
+    }
+
+    @Override
+    public int showConfirmation(String message) {
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
+                .setTitle("SETUp/GIA Project")
+                .setHeaderText("Please Confirm")
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .setButtons(yesButton, cancelButton)
+                .showAndWait();
+        if (res.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
+            return 1;
+        }
+        return 0;
+    }
+
+    /**
+     * Load Data for viewing.
+     */
+    public void preloadData() {
+        String city = this.projectModel.getFactoryCity();
+        ProjectModel.Town town = ProjectModel.Town.getTown(city);
+
+        this.lbl_cooperator_header.setText(this.projectModel.getCompanyName());
+        this.lbl_cooperator.setText(this.projectModel.getCompanyName());
+        /**
+         * Factory Address.
+         */
+        String factoryAddress = this.projectModel.getFactoryStreet()
+                + " "
+                + this.projectModel.getFactoryBrgy()
+                + " "
+                + town.getName()
+                + " "
+                + town.getZip();
+
+        factoryAddress = StringTools.clearExtraSpaces(factoryAddress);
+        this.lbl_factory_address.setText(factoryAddress);
+        //----------------------------------------------------------------------
+        //
+        this.lbl_owner_name.setText(this.projectModel.getCompanyOwner());
+        this.lbl_owner_position.setText(this.projectModel.getOwnerPosition());
+        this.lbl_owner_address.setText(this.projectModel.getOwnerAddress());
+        //
+        String businessActivity = ProjectModel.BusinessActivity.getStringValue(this.projectModel.getBusinessActivity());
+        this.lbl_business_sector.setText(businessActivity);
+        this.lbl_year_established.setText(this.projectModel.getYearEstablished());
+        this.lbl_capital_class.setText(this.projectModel.getCapitalClassification());
+        this.lbl_employment_class.setText(this.projectModel.getEmploymentClassification());
+        //
+        /**
+         * Ownership display.
+         */
+        String ownership = this.projectModel.getCompanyOwnership();
+        if (true/*ownership.equalsIgnoreCase(ProjectModel.Ownership.CORPORATION)*/) {
+            ownership += (" / " + this.projectModel.getProfitability());
+        }
+        this.lbl_ownership.setText(ownership);
+        //----------------------------------------------------------------------
+
+        this.lbl_products.setText(this.projectModel.getMajorProducts());
+        this.lbl_market.setText(this.projectModel.getExistingMarket());
+        //
+        this.lbl_registration.setText(this.projectModel.getRegistrationInformation());
+        this.lbl_landmark.setText(this.projectModel.getFactoryLandMark());
+        /**
+         * Coordinates.
+         */
+        String coordinates = this.projectModel.getFactoryLat() + " " + this.projectModel.getFactoryLong();
+        this.lbl_coordinates.setText(coordinates);
+        //
+        this.lbl_click_website.setText(this.projectModel.getWebsite());
+        //
+
+        //
+        this.lbl_project_code.setText(this.projectModel.getProjectCode());
+        this.lbl_spin_no.setText(this.projectModel.getSpinNo());
+        /**
+         * Project Type.
+         */
+        String projectType = this.projectModel.getProjectType();
+        String porjectStatus = ProjectModel.ProjectStatus.getStringValue(this.projectModel.getProjectStatus());
+        projectType += (" - " + porjectStatus);
+        //----------------------------------------------------------------------
+        this.lbl_project_type.setText(projectType);
+        this.lbl_project_name.setText(this.projectModel.getProjectName());
+        this.lbl_district.setText(town.getDistrict());
+        //
+        /**
+         * Endorsed Date.
+         */
+        Date endorsedDate = this.projectModel.getEndorsedDate();
+        if (endorsedDate == null) {
+            this.lbl_date_endorsed.setText("");
+        } else {
+            this.lbl_date_endorsed.setText(Context.app().getDateFormat().format(endorsedDate));
+        }
+        //----------------------------------------------------------------------
+        /**
+         * Approved Date.
+         */
+        Date approvedDate = this.projectModel.getApprovedDate();
+        if (approvedDate == null) {
+            this.lbl_date_approve.setText("");
+        } else {
+            this.lbl_date_approve.setText(Context.app().getDateFormat().format(approvedDate));
+        }
+        //----------------------------------------------------------------------
+        /**
+         * approved funding.
+         */
+        String approvedCost = "P ";
+        approvedCost += (Context.app().getMoneyFormat().format(this.projectModel.getApprovedFunding()));
+        this.lbl_approved_cost.setText(approvedCost);
+        /**
+         * Moa Date.
+         */
+        Date moaDate = this.projectModel.getMoaDate();
+        if (moaDate == null) {
+            this.lbl_date_moa.setText("");
+        } else {
+            this.lbl_date_moa.setText(Context.app().getDateFormat().format(moaDate));
+        }
+        //----------------------------------------------------------------------
+        /**
+         * Duration.
+         */
+        String from = "N.D.";
+        if (this.projectModel.getDurationFrom() != null) {
+            from = Context.app().getDateFormat().format(this.projectModel.getDurationFrom());
+        }
+        String to = "N.D.";
+        if (this.projectModel.getDurationTo() != null) {
+            to = Context.app().getDateFormat().format(this.projectModel.getDurationTo());
+        }
+        String duration = from + " - " + to;
+        this.lbl_project_duration.setText(duration);
+        /**
+         * actual funding.
+         */
+        String actualCost = "P ";
+        actualCost += (Context.app().getMoneyFormat().format(this.projectModel.getApprovedFunding()));
+        this.lbl_actual_cost.setText(actualCost);
+
     }
 
 }

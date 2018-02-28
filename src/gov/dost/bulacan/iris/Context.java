@@ -29,9 +29,10 @@
 package gov.dost.bulacan.iris;
 
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 
 /**
@@ -129,6 +130,24 @@ public class Context {
 
     public InputStream getResourceStream(String name) {
         return this.getClass().getResourceAsStream("/storage/" + name);
+    }
+
+    /**
+     * Get Project Money Format.
+     *
+     * @return
+     */
+    public DecimalFormat getMoneyFormat() {
+        return new DecimalFormat("#,###.00");
+    }
+
+    /**
+     * Get Project Format.
+     *
+     * @return
+     */
+    public SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("MM-dd-yyyy");
     }
 
 }
