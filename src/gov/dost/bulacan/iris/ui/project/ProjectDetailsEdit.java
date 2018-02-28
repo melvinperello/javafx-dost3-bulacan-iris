@@ -84,7 +84,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     private TextArea txt_owner_address;
 
     @FXML
-    private ComboBox<?> cmb_sector;
+    private ComboBox cmb_sector;
 
     @FXML
     private TextField txt_year_established;
@@ -555,15 +555,20 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         this.txt_owner.setText(this.receiveModel.getCompanyOwner());
         this.txt_owner_position.setText(this.receiveModel.getOwnerPosition());
         this.txt_owner_address.setText(this.receiveModel.getOwnerAddress());
-        //
+
+        /**
+         * Pre-load the selected combo box. SHIT! just been fooled by auto
+         * boxing. been here for a long time.
+         */
         Integer businessAcitivity = this.receiveModel.getBusinessActivity();
-        this.cmb_sector.getItems().forEach((Object o) -> {
-            ProjectModel.BusinessActivity activity = (ProjectModel.BusinessActivity) o;
-            if (businessAcitivity.equals(activity.getValue())) {
-                int index = this.cmb_city.getItems().indexOf(o);
-                System.out.println(index);
+        for (Object item : this.cmb_sector.getItems()) {
+            ProjectModel.BusinessActivity activity = (ProjectModel.BusinessActivity) item;
+            if (Integer.valueOf(activity.getValue()).equals(businessAcitivity)) {
+                this.cmb_sector.getSelectionModel().select(item);
+                break;
             }
-        });
+        }
+
     }
 
 }
