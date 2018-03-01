@@ -651,276 +651,277 @@ public class ProjectModel extends PolarisRecord {
         return projectCode;
     }
 
-    public void setProjectCode(String projectCode) {
-        this.projectCode = projectCode;
-    }
-
     public String getSpinNo() {
         return spinNo;
-    }
-
-    public void setSpinNo(String spinNo) {
-        this.spinNo = spinNo;
     }
 
     public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
     public String getProjectName() {
         return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     public Integer getProjectStatus() {
         return projectStatus;
     }
 
-    public void setProjectStatus(Integer projectStatus) {
-        this.projectStatus = projectStatus;
-    }
-
     public String getProjectType() {
         return projectType;
-    }
-
-    public void setProjectType(String projectType) {
-        this.projectType = projectType;
     }
 
     public String getCompanyOwner() {
         return companyOwner;
     }
 
-    public void setCompanyOwner(String companyOwner) {
-        this.companyOwner = companyOwner;
-    }
-
     public String getOwnerPosition() {
         return ownerPosition;
-    }
-
-    public void setOwnerPosition(String ownerPosition) {
-        this.ownerPosition = ownerPosition;
     }
 
     public String getOwnerAddress() {
         return ownerAddress;
     }
 
-    public void setOwnerAddress(String ownerAddress) {
-        this.ownerAddress = ownerAddress;
-    }
-
     public Date getEndorsedDate() {
         return endorsedDate;
-    }
-
-    public void setEndorsedDate(Date endorsedDate) {
-        this.endorsedDate = endorsedDate;
     }
 
     public Integer getEndorsedAttachment() {
         return endorsedAttachment;
     }
 
-    public void setEndorsedAttachment(Integer endorsedAttachment) {
-        this.endorsedAttachment = endorsedAttachment;
-    }
-
     public Date getApprovedDate() {
         return approvedDate;
-    }
-
-    public void setApprovedDate(Date approvedDate) {
-        this.approvedDate = approvedDate;
     }
 
     public Double getApprovedFunding() {
         return approvedFunding;
     }
 
-    public void setApprovedFunding(Double approvedFunding) {
-        this.approvedFunding = approvedFunding;
-    }
-
     public Integer getApprovedAttachment() {
         return approvedAttachment;
-    }
-
-    public void setApprovedAttachment(Integer approvedAttachment) {
-        this.approvedAttachment = approvedAttachment;
     }
 
     public Date getMoaDate() {
         return moaDate;
     }
 
-    public void setMoaDate(Date moaDate) {
-        this.moaDate = moaDate;
-    }
-
     public Integer getMoaAttachment() {
         return moaAttachment;
-    }
-
-    public void setMoaAttachment(Integer moaAttachment) {
-        this.moaAttachment = moaAttachment;
     }
 
     public Date getDurationFrom() {
         return durationFrom;
     }
 
-    public void setDurationFrom(Date durationFrom) {
-        this.durationFrom = durationFrom;
-    }
-
     public Date getDurationTo() {
         return durationTo;
-    }
-
-    public void setDurationTo(Date durationTo) {
-        this.durationTo = durationTo;
     }
 
     public Double getActualCost() {
         return actualCost;
     }
 
-    public void setActualCost(Double actualCost) {
-        this.actualCost = actualCost;
-    }
-
     public String getFactoryStreet() {
         return factoryStreet;
-    }
-
-    public void setFactoryStreet(String factoryStreet) {
-        this.factoryStreet = factoryStreet;
     }
 
     public String getFactoryBrgy() {
         return factoryBrgy;
     }
 
-    public void setFactoryBrgy(String factoryBrgy) {
-        this.factoryBrgy = factoryBrgy;
-    }
-
     public String getFactoryCity() {
         return factoryCity;
-    }
-
-    public void setFactoryCity(String factoryCity) {
-        this.factoryCity = factoryCity;
     }
 
     public String getFactoryLong() {
         return factoryLong;
     }
 
-    public void setFactoryLong(String factoryLong) {
-        this.factoryLong = factoryLong;
-    }
-
     public String getFactoryLat() {
         return factoryLat;
-    }
-
-    public void setFactoryLat(String factoryLat) {
-        this.factoryLat = factoryLat;
     }
 
     public String getFactoryLandMark() {
         return factoryLandMark;
     }
 
-    public void setFactoryLandMark(String factoryLandMark) {
-        this.factoryLandMark = factoryLandMark;
-    }
-
     public String getYearEstablished() {
         return yearEstablished;
-    }
-
-    public void setYearEstablished(String yearEstablished) {
-        this.yearEstablished = yearEstablished;
     }
 
     public Integer getBusinessActivity() {
         return businessActivity;
     }
 
-    public void setBusinessActivity(Integer businessActivity) {
-        this.businessActivity = businessActivity;
-    }
-
     public String getCapitalClassification() {
         return capitalClassification;
-    }
-
-    public void setCapitalClassification(String capitalClassification) {
-        this.capitalClassification = capitalClassification;
     }
 
     public String getEmploymentClassification() {
         return employmentClassification;
     }
 
-    public void setEmploymentClassification(String employmentClassification) {
-        this.employmentClassification = employmentClassification;
-    }
-
     public String getCompanyOwnership() {
         return companyOwnership;
-    }
-
-    public void setCompanyOwnership(String companyOwnership) {
-        this.companyOwnership = companyOwnership;
     }
 
     public String getProfitability() {
         return profitability;
     }
 
-    public void setProfitability(String profitability) {
-        this.profitability = profitability;
-    }
-
     public String getRegistrationInformation() {
         return registrationInformation;
-    }
-
-    public void setRegistrationInformation(String registrationInformation) {
-        this.registrationInformation = registrationInformation;
     }
 
     public String getMajorProducts() {
         return majorProducts;
     }
 
-    public void setMajorProducts(String majorProducts) {
-        this.majorProducts = majorProducts;
-    }
-
     public String getExistingMarket() {
         return existingMarket;
     }
 
-    public void setExistingMarket(String existingMarket) {
-        this.existingMarket = existingMarket;
-    }
-
     public String getWebsite() {
         return website;
+    }
+    //--------------------------------------------------------------------------
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
+
+    public void setSpinNo(String spinNo) {
+        this.spinNo = spinNo;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void setProjectStatus(Integer projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public void setProjectType(String projectType) {
+        this.projectType = projectType;
+    }
+
+    public void setCompanyOwner(String companyOwner) {
+        this.companyOwner = companyOwner;
+    }
+
+    public void setOwnerPosition(String ownerPosition) {
+        this.ownerPosition = ownerPosition;
+    }
+
+    public void setOwnerAddress(String ownerAddress) {
+        this.ownerAddress = ownerAddress;
+    }
+
+    public void setEndorsedDate(Date endorsedDate) {
+        this.endorsedDate = endorsedDate;
+    }
+
+    public void setEndorsedAttachment(Integer endorsedAttachment) {
+        this.endorsedAttachment = endorsedAttachment;
+    }
+
+    public void setApprovedDate(Date approvedDate) {
+        this.approvedDate = approvedDate;
+    }
+
+    public void setApprovedFunding(Double approvedFunding) {
+        this.approvedFunding = approvedFunding;
+    }
+
+    public void setApprovedAttachment(Integer approvedAttachment) {
+        this.approvedAttachment = approvedAttachment;
+    }
+
+    public void setMoaDate(Date moaDate) {
+        this.moaDate = moaDate;
+    }
+
+    public void setMoaAttachment(Integer moaAttachment) {
+        this.moaAttachment = moaAttachment;
+    }
+
+    public void setDurationFrom(Date durationFrom) {
+        this.durationFrom = durationFrom;
+    }
+
+    public void setDurationTo(Date durationTo) {
+        this.durationTo = durationTo;
+    }
+
+    public void setActualCost(Double actualCost) {
+        this.actualCost = actualCost;
+    }
+
+    public void setFactoryStreet(String factoryStreet) {
+        this.factoryStreet = factoryStreet;
+    }
+
+    public void setFactoryBrgy(String factoryBrgy) {
+        this.factoryBrgy = factoryBrgy;
+    }
+
+    public void setFactoryCity(String factoryCity) {
+        this.factoryCity = factoryCity;
+    }
+
+    public void setFactoryLong(String factoryLong) {
+        this.factoryLong = factoryLong;
+    }
+
+    public void setFactoryLat(String factoryLat) {
+        this.factoryLat = factoryLat;
+    }
+
+    public void setFactoryLandMark(String factoryLandMark) {
+        this.factoryLandMark = factoryLandMark;
+    }
+
+    public void setYearEstablished(String yearEstablished) {
+        this.yearEstablished = yearEstablished;
+    }
+
+    public void setBusinessActivity(Integer businessActivity) {
+        this.businessActivity = businessActivity;
+    }
+
+    public void setCapitalClassification(String capitalClassification) {
+        this.capitalClassification = capitalClassification;
+    }
+
+    public void setEmploymentClassification(String employmentClassification) {
+        this.employmentClassification = employmentClassification;
+    }
+
+    public void setCompanyOwnership(String companyOwnership) {
+        this.companyOwnership = companyOwnership;
+    }
+
+    public void setProfitability(String profitability) {
+        this.profitability = profitability;
+    }
+
+    public void setRegistrationInformation(String registrationInformation) {
+        this.registrationInformation = registrationInformation;
+    }
+
+    public void setMajorProducts(String majorProducts) {
+        this.majorProducts = majorProducts;
+    }
+
+    public void setExistingMarket(String existingMarket) {
+        this.existingMarket = existingMarket;
     }
 
     public void setWebsite(String website) {

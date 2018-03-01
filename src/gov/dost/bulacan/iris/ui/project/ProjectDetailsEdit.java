@@ -90,16 +90,16 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     private TextField txt_year_established;
 
     @FXML
-    private ComboBox<?> cmb_class_capital;
+    private ComboBox cmb_class_capital;
 
     @FXML
-    private ComboBox<?> cmb_class_employment;
+    private ComboBox cmb_class_employment;
 
     @FXML
-    private ComboBox<?> cmb_ownership;
+    private ComboBox cmb_ownership;
 
     @FXML
-    private ComboBox<?> cmb_profitability;
+    private ComboBox cmb_profitability;
 
     @FXML
     private TextArea txt_registration;
@@ -144,10 +144,10 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     private TextField txt_spin_no;
 
     @FXML
-    private ComboBox<?> cmb_project_type;
+    private ComboBox cmb_project_type;
 
     @FXML
-    private ComboBox<?> cmb_project_status;
+    private ComboBox cmb_project_status;
 
     @FXML
     private TextArea txt_project_name;
@@ -545,7 +545,6 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     }
 
     private void preloadData() {
-        System.out.println("PRE LOAD");
         /**
          * Project Code.
          */
@@ -569,6 +568,87 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
             }
         }
 
+        this.txt_year_established.setText(this.receiveModel.getYearEstablished());
+        //----------------------------------------------------------------------
+        // capital classification combo
+        String selectedCapitalClass = this.receiveModel.getCapitalClassification();
+        for (Object item : this.cmb_class_capital.getItems()) {
+            String activity = item.toString();
+            if (activity.equalsIgnoreCase(selectedCapitalClass)) {
+                this.cmb_class_capital.getSelectionModel().select(item);
+                break;
+            }
+        }
+        // employment
+        String selectedEmploymentClass = this.receiveModel.getEmploymentClassification();
+        for (Object item : this.cmb_class_employment.getItems()) {
+            String activity = item.toString();
+            if (activity.equalsIgnoreCase(selectedEmploymentClass)) {
+                this.cmb_class_employment.getSelectionModel().select(item);
+                break;
+            }
+        }
+        // ownership
+        String ownership = this.receiveModel.getCompanyOwnership();
+        for (Object item : this.cmb_ownership.getItems()) {
+            String activity = item.toString();
+            if (activity.equalsIgnoreCase(ownership)) {
+                this.cmb_ownership.getSelectionModel().select(item);
+                break;
+            }
+        }
+        // profitability
+        String profitability = this.receiveModel.getProfitability();
+        for (Object item : this.cmb_profitability.getItems()) {
+            String activity = item.toString();
+            if (activity.equalsIgnoreCase(profitability)) {
+                this.cmb_profitability.getSelectionModel().select(item);
+                break;
+            }
+        }
+        //----------------------------------------------------------------------
+        this.txt_registration.setText(this.receiveModel.getRegistrationInformation());
+        this.txt_products.setText(this.receiveModel.getMajorProducts());
+        this.txt_market.setText(this.receiveModel.getExistingMarket());
+        this.txt_street_address.setText(this.receiveModel.getFactoryStreet());
+        this.txt_brgy.setText(this.receiveModel.getFactoryBrgy());
+        //----------------------------------------------------------------------
+        String cityZip = this.receiveModel.getFactoryCity();
+        for (Object item : this.cmb_city.getItems()) {
+            ProjectModel.Town activity = (ProjectModel.Town) item;
+            if (activity.getZip().equalsIgnoreCase(cityZip)) {
+                this.cmb_city.getSelectionModel().select(item);
+                break;
+            }
+        }
+        //----------------------------------------------------------------------
+        this.txt_landmark.setText(this.receiveModel.getFactoryLandMark());
+        this.txt_latitude.setText(this.receiveModel.getFactoryLat());
+        this.txt_longitude.setText(this.receiveModel.getFactoryLong());
+        this.txt_website.setText(this.receiveModel.getWebsite());
+        //
+        this.txt_spin_no.setText(this.receiveModel.getSpinNo());
+
+        //----------------------------------------------------------------------
+        String projectType = this.receiveModel.getProjectType();
+        for (Object item : this.cmb_project_type.getItems()) {
+            String activity = item.toString();
+            if (activity.equalsIgnoreCase(projectType)) {
+                this.cmb_project_type.getSelectionModel().select(item);
+                break;
+            }
+        }
+        //
+        Integer projectStatus = this.receiveModel.getProjectStatus();
+        for (Object item : this.cmb_project_status.getItems()) {
+            ProjectModel.ProjectStatus status = (ProjectModel.ProjectStatus) item;
+            if (projectStatus.intValue() == status.getValue()) {
+                this.cmb_project_status.getSelectionModel().select(item);
+                break;
+            }
+        }
+        //----------------------------------------------------------------------
+        this.txt_project_name.setText(this.receiveModel.getProjectName());
     }
 
 }
