@@ -40,7 +40,8 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
@@ -173,17 +174,28 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
 
     private final ProjectModel projectModel;
 
-    @Override
-    protected void setup() {
+    public static boolean loadMyData(ProjectModel projectModel, Stage stage) {
         try {
-            if (!ProjectModel.getProjectViaProjectCode(this.projectModel, this.projectModel.getProjectCode())) {
+            if (!ProjectModel.getProjectViaProjectCode(projectModel, projectModel.getProjectCode())) {
                 // not loaded
                 throw new SQLException();
             }
         } catch (SQLException e) {
             // error
-            this.showWarningMessage("Failed to fetch data from the server, the data you will see might not be updated.");
+            PolarisDialog.create(PolarisDialog.Type.WARNING)
+                    .setTitle("SETUp/GIA Project")
+                    .setHeaderText("Warning")
+                    .setContentText("There was a problem loading the data")
+                    .setOwner(stage)
+                    .showAndWait();
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    protected void setup() {
+
         //----------------------------------------------------------------------
         this.preloadData();
         //----------------------------------------------------------------------

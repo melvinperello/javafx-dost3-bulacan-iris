@@ -113,7 +113,9 @@ public class ProjectView extends PolarisFxController implements Messageable {
                 return;
             }
             // open project view
-            this.changeRoot(new ProjectDetailsView(selectedProject).load());
+            if (ProjectDetailsView.loadMyData(selectedProject, this.getStage())) {
+                this.changeRoot(new ProjectDetailsView(selectedProject).load());
+            }
 
             value.consume();
         });

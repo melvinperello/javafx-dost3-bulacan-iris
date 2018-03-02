@@ -43,11 +43,9 @@ public class ProjectContactModel extends PolarisRecord {
     //--------------------------------------------------------------------------
 
     public final static String TABLE = "project_contact_model";
-    public final static String LAST_NAME = "last_name";
-    public final static String FIRST_NAME = "first_name";
-    public final static String MIDDLE_NAME = "middle_name";
-    public final static String EXTENSION_NAME = "extension_name";
-    public final static String SEX = "sex";
+    public final static String ID = "id";
+    public final static String SETUP_PROJECT_CODE = "setup_project_code";
+    public final static String NAME = "name";
     public final static String POSITION = "position";
     public final static String MOBILE = "mobile";
     public final static String LANDLINE = "landline";
@@ -56,16 +54,12 @@ public class ProjectContactModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // DECLARATIONS
     //--------------------------------------------------------------------------
-    @Column(LAST_NAME)
-    private String last_name;
-    @Column(FIRST_NAME)
-    private String first_name;
-    @Column(MIDDLE_NAME)
-    private String middle_name;
-    @Column(EXTENSION_NAME)
-    private String extension_name; // JR. SR. III.
-    @Column(SEX)
-    private String sex; // for analytics purposes
+    @Column(ID)
+    private Integer id;
+    @Column(SETUP_PROJECT_CODE)
+    private String setupProjectCode;
+    @Column(NAME)
+    private String name;
     @Column(POSITION)
     private String position;
     @Column(MOBILE)
@@ -78,44 +72,28 @@ public class ProjectContactModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------
-    public String getLast_name() {
-        return last_name;
+    public Integer getId() {
+        return id;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getSetupProjectCode() {
+        return setupProjectCode;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setSetupProjectCode(String setupProjectCode) {
+        this.setupProjectCode = setupProjectCode;
     }
 
-    public String getMiddle_name() {
-        return middle_name;
+    public String getName() {
+        return name;
     }
 
-    public void setMiddle_name(String middle_name) {
-        this.middle_name = middle_name;
-    }
-
-    public String getExtension_name() {
-        return extension_name;
-    }
-
-    public void setExtension_name(String extension_name) {
-        this.extension_name = extension_name;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPosition() {

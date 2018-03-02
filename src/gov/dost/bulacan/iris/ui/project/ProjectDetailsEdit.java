@@ -34,6 +34,8 @@ import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -48,7 +50,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
@@ -219,7 +220,9 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 ProjectView projectViewer = (ProjectView) (this.parentController);
                 projectViewer.populateTable();
             } else {
-                this.changeRoot(new ProjectDetailsView(this.receiveModel).load());
+                if (ProjectDetailsView.loadMyData(this.receiveModel, this.getStage())) {
+                    this.changeRoot(new ProjectDetailsView(this.receiveModel).load());
+                }
             }
             value.consume();
         });
@@ -234,7 +237,12 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                     projectViewer.populateTable();
                 }
             } else {
-                System.out.println("WILL EDIT");
+                if (this.updateExistingProject()) {
+                    if (ProjectDetailsView.loadMyData(this.receiveModel, this.getStage())) {
+                        this.changeRoot(new ProjectDetailsView(this.receiveModel).load());
+                    }
+
+                }
             }
             value.consume();
         });
@@ -450,6 +458,11 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         this.frmActualCost = filterInput(txt_actual_cost);
     }
 
+    /**
+     * ADD NEW ENTRY TO THE DATABASE. Insert new project to the database.
+     *
+     * @return
+     */
     private boolean insertNewProject() {
         /**
          * Get Project Values.
@@ -467,6 +480,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         project.setProjectType(frmProjectType);
         //
         project.setCompanyOwnership(frmOwnership);
+        project.setCompanyOwner(frmOwner);
         project.setOwnerPosition(frmPosition);
         project.setOwnerAddress(frmOwnerAddress);
         project.setEndorsedDate(frmDateEndorsed);
@@ -544,6 +558,9 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         return StringTools.clearExtraSpaces(textField.getText().trim());
     }
 
+    /**
+     * FOR EDITTING, PRELOADING THE EXISTING DATA BEFORE EDITTING.
+     */
     private void preloadData() {
         /**
          * Project Code.
@@ -649,6 +666,127 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         }
         //----------------------------------------------------------------------
         this.txt_project_name.setText(this.receiveModel.getProjectName());
+        //----------------------------------------------------------------------
+        /**
+         * The following fields are double but null safe so there is no need for
+         * proper formatting.
+         */
+        this.txt_approved_cost.setText(this.receiveModel.getApprovedFunding().toString());
+        this.txt_actual_cost.setText(this.receiveModel.getActualCost().toString());
+        //-------------
+        // Dates
+        //-------------
+        this.setDateToPicker(this.date_endorsed, this.receiveModel.getEndorsedDate());
+        this.setDateToPicker(this.date_approved, this.receiveModel.getApprovedDate());
+        this.setDateToPicker(this.date_duration_from, this.receiveModel.getDurationFrom());
+        this.setDateToPicker(this.date_duration_to, this.receiveModel.getDurationTo());
+        this.setDateToPicker(this.date_moa, this.receiveModel.getMoaDate());
+    }
+
+    /**
+     * SET VALUE FOR A DATEPICKER USING DATE.
+     *
+     * @param picker
+     * @param dateEndorsed
+     */
+    private void setDateToPicker(DatePicker picker, Date dateEndorsed) {
+        if (dateEndorsed != null) {
+            SimpleDateFormat format = Context.app().getDateFormat();
+            LocalDate setDate = LocalDate.parse(format.format(dateEndorsed), DateTimeFormatter.ofPattern(format.toPattern()));
+            picker.setValue(setDate);
+        }
+    }
+
+    private boolean updateExistingProject() {
+        this.getProjectValues();
+
+        //
+        // Create new Project
+        ProjectModel project = this.receiveModel;
+        //project.setProjectCode(this.receiveModel.getProjectCode());
+        //
+        project.setSpinNo(frmSpinNo);
+        project.setCompanyName(frmCooperator);
+        project.setProjectName(frmProjectName);
+        project.setProjectStatus(frmProjectStatus);
+        project.setProjectType(frmProjectType);
+        //
+        project.setCompanyOwnership(frmOwnership);
+        project.setCompanyOwner(frmOwner);
+        project.setOwnerPosition(frmPosition);
+        project.setOwnerAddress(frmOwnerAddress);
+        project.setEndorsedDate(frmDateEndorsed);
+        project.setEndorsedAttachment(null); // upon creation then add
+        project.setApprovedDate(frmDateApproved);
+
+        //----------------------------------------------------------------------
+        // Filter Approved Cost
+        Double approved_fund = null;
+        try {
+            approved_fund = Double.valueOf(this.frmApprovedCost);
+            if (approved_fund <= 0.0d) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            this.showWarningMessage("You have entered an invalid approved cost.");
+            return false;
+        }
+        project.setApprovedFunding(approved_fund);
+        //----------------------------------------------------------------------
+        project.setApprovedAttachment(null);
+        //
+        project.setMoaDate(frmMoaSigned);
+        project.setMoaAttachment(null);
+        project.setDurationFrom(frmDurationFrom);
+        project.setDurationTo(frmDurationTo);
+
+        //----------------------------------------------------------------------
+        // Filter Actual Cost
+        Double actual_cost = null;
+        try {
+            actual_cost = Double.valueOf(this.frmActualCost);
+            if (actual_cost <= 0.0d) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            this.showWarningMessage("You have entered an invalid actual cost.");
+            return false;
+        }
+        project.setActualCost(approved_fund);
+        //----------------------------------------------------------------------
+        project.setFactoryStreet(frmStreetAddress);
+        project.setFactoryBrgy(frmBrgy);
+        project.setFactoryCity(frmCityZip);
+        project.setFactoryLong(frmMapsLong);
+        project.setFactoryLat(frmMapsLat);
+        project.setFactoryLandMark(frmLandMark);
+        //
+        project.setYearEstablished(frmYearEstablished);
+        project.setBusinessActivity(frmBusinessSector);
+        project.setCapitalClassification(frmCapitalClass);
+        project.setEmploymentClassification(frmEmploymentClass);
+        project.setCompanyOwnership(frmOwnership);
+        project.setProfitability(frmProfitability);
+        project.setRegistrationInformation(frmRegistrationDetails);
+        project.setMajorProducts(frmProducts);
+        project.setExistingMarket(frmMarket);
+        //
+        project.setWebsite(frmWebsite);
+
+        boolean projectUpdated = false;
+        //----------------------------------------------------------------------
+        try {
+            projectUpdated = ProjectModel.updateExistingProject(project);
+            if (projectUpdated) {
+                this.showInformationMessage("Project was successfully updated to the database.");
+            } else {
+                this.showWarningMessage("The project cannot be updated at the moment please try again.");
+            }
+        } catch (SQLException ex) {
+            PolarisDialog.exceptionDialog(ex);
+        }
+        //----------------------------------------------------------------------
+        return projectUpdated;
     }
 
 }

@@ -617,6 +617,19 @@ public class ProjectModel extends PolarisRecord {
     }
 
     /**
+     * Fully updates including null values.
+     *
+     * @param project
+     * @return
+     * @throws SQLException
+     */
+    public static boolean updateExistingProject(ProjectModel project) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return project.updateFull(con);
+        }
+    }
+
+    /**
      * This is the method that retrieves all the active data that will be shown
      * to the table in the project view.
      *
