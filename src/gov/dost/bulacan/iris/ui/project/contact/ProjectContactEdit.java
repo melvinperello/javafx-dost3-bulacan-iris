@@ -28,10 +28,15 @@
  */
 package gov.dost.bulacan.iris.ui.project.contact;
 
+import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Messageable;
 import java.util.Optional;
+import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
+import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
@@ -40,6 +45,27 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  * @author Jhon Melvin
  */
 public class ProjectContactEdit extends PolarisFxController implements Messageable {
+
+    @FXML
+    private TextField txt_name;
+
+    @FXML
+    private TextField txt_position;
+
+    @FXML
+    private TextField txt_mobile;
+
+    @FXML
+    private TextField txt_landline;
+
+    @FXML
+    private TextField txt_email;
+
+    @FXML
+    private JFXButton btn_save;
+
+    @FXML
+    private JFXButton btn_cancel;
 
     @Override
     protected void setup() {
@@ -96,6 +122,34 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
             return 1;
         }
         return 0;
+    }
+
+    //--------------------------------------------------------------------------
+    private String frmName;
+    private String frmPosition;
+    private String frmMobile;
+    private String frmTel;
+    private String frmMail;
+
+    /**
+     * Get data to form.
+     */
+    private void getFormDetails() {
+        this.frmName = this.filterInput(this.txt_name);
+        this.frmPosition = this.filterInput(this.txt_position);
+        this.frmMobile = this.filterInput(this.txt_mobile);
+        this.frmTel = this.filterInput(this.txt_landline);
+        this.frmMail = this.filterInput(this.txt_email);
+    }
+
+    /**
+     * Filter input from text field.
+     *
+     * @param textField
+     * @return
+     */
+    private String filterInput(TextInputControl textField) {
+        return StringTools.clearExtraSpaces(textField.getText().trim());
     }
 
 }

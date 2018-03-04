@@ -49,6 +49,8 @@ public class IRIS extends Application {
         primaryStage.setScene(new Scene(new ProjectView().load()));
         primaryStage.getIcons().add(new Image(Context.app().getResourceStream("drawable/dost_logo.png")));
         primaryStage.setTitle("PSTC-Bulacan/DOST3 Information Retrieval Integrated System ( I.R.I.S. )");
+        primaryStage.setMinHeight(700.0);
+        primaryStage.setMinWidth(1300.0);
         primaryStage.show();
     }
 

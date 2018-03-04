@@ -63,7 +63,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <JFXButton fx:id="btn_print" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Print">
+                  <JFXButton fx:id="btn_print" graphicTextGap="10.0" prefWidth="100.0" style="-fx-border-style: dashed;" text="Print">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -75,7 +75,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="btn_edit_project" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Edit Project">
+                  <JFXButton fx:id="btn_edit_project" graphicTextGap="10.0" prefWidth="100.0" style="-fx-border-style: dashed;" text="Edit">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -87,7 +87,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="btn_back" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Back">
+                  <JFXButton fx:id="btn_back" graphicTextGap="10.0" prefWidth="100.0" style="-fx-border-style: dashed;" text="Back">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -434,18 +434,49 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <JFXButton graphicTextGap="10.0" style="-fx-border-style: dashed;" text="Add Contact Person">
-                           <graphic>
-                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../storage/drawable/add_contact_64.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
+                        <HBox spacing="5.0">
+                           <children>
+                              <JFXButton graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Add" HBox.hgrow="ALWAYS">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/add_contact_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                              <JFXButton graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Edit" HBox.hgrow="ALWAYS">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/save_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                              <JFXButton graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Delete" HBox.hgrow="ALWAYS">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/cancel_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
