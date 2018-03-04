@@ -28,6 +28,11 @@
  */
 package gov.dost.bulacan.iris.models;
 
+import gov.dost.bulacan.iris.Context;
+import java.sql.SQLException;
+import java.util.List;
+import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
+import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
@@ -42,8 +47,9 @@ public class ProjectContactModel extends PolarisRecord {
     // TABLE FIELDS
     //--------------------------------------------------------------------------
 
-    public final static String TABLE = "project_contact_model";
+    public final static String TABLE = "setup_projects_contact";
     public final static String ID = "id";
+    // FOREIGN KEY to ProjectModel
     public final static String SETUP_PROJECT_CODE = "setup_project_code";
     public final static String NAME = "name";
     public final static String POSITION = "position";
@@ -68,6 +74,23 @@ public class ProjectContactModel extends PolarisRecord {
     private String landline;
     @Column(EMAIL)
     private String email;
+
+    //--------------------------------------------------------------------------
+    // Static Methods
+    //--------------------------------------------------------------------------
+    public static <T> List<T> getAllContacts(String projectCode) throws SQLException {
+        SimpleQuery querySample = new SimpleQuery();
+        querySample.addStatement("SELECT")
+                .addStatement("*")
+                .addStatement("FROM")
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatementWithParameter(SETUP_PROJECT_CODE + " = ?", projectCode);
+        //======================================================================
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return new ProjectContactModel().findMany(con, querySample);
+        }
+    }
 
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS

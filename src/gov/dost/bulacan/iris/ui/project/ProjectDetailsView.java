@@ -31,14 +31,21 @@ package gov.dost.bulacan.iris.ui.project;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
+import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -119,7 +126,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
     private Label lbl_click_website;
 
     @FXML
-    private TableView<?> tbl_contact_person;
+    private TableView<ProjectContactModel> tbl_contact_person;
 
     @FXML
     private Label lbl_project_code;
@@ -170,10 +177,26 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
      */
     public ProjectDetailsView(ProjectModel model) {
         this.projectModel = model;
+        this.tableData = FXCollections.observableArrayList();
     }
 
+    /**
+     * Contains the data of the table.
+     */
+    private final ObservableList<ProjectContactModel> tableData;
+
+    /**
+     * contains the model to display.
+     */
     private final ProjectModel projectModel;
 
+    /**
+     * checks for data disparity. upon loading the data.
+     *
+     * @param projectModel
+     * @param stage
+     * @return
+     */
     public static boolean loadMyData(ProjectModel projectModel, Stage stage) {
         try {
             if (!ProjectModel.getProjectViaProjectCode(projectModel, projectModel.getProjectCode())) {
@@ -198,6 +221,8 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
 
         //----------------------------------------------------------------------
         this.preloadData();
+        this.createContactListTable();
+        this.populateContactTable();
         //----------------------------------------------------------------------
         // Buttons.
         //----------------------------------------------------------------------
@@ -407,6 +432,57 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         actualCost += (Context.app().getMoneyFormat().format(this.projectModel.getApprovedFunding()));
         this.lbl_actual_cost.setText(actualCost);
 
+    }
+
+    /**
+     *
+     */
+    private void createContactListTable() {
+        TableColumn<ProjectContactModel, String> nameCol = new TableColumn<>("Name");
+        nameCol.setPrefWidth(100.0);
+        nameCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getName()));
+        //
+        TableColumn<ProjectContactModel, String> posCol = new TableColumn<>("Position");
+        posCol.setPrefWidth(100.0);
+        posCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getPosition()));
+        //
+        TableColumn<ProjectContactModel, String> mobileCol = new TableColumn<>("Mobile");
+        mobileCol.setPrefWidth(100.0);
+        mobileCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getMobile()));
+        //
+        TableColumn<ProjectContactModel, String> landlineCol = new TableColumn<>("Tel");
+        landlineCol.setPrefWidth(100.0);
+        landlineCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getLandline()));
+        //
+        TableColumn<ProjectContactModel, String> emailCol = new TableColumn<>("E-Mail");
+        emailCol.setPrefWidth(100.0);
+        emailCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getEmail()));
+
+        /**
+         * Add columns to the table.
+         */
+        this.tbl_contact_person.getColumns().setAll(nameCol, posCol, mobileCol, landlineCol, emailCol);
+        /**
+         * Load Data.
+         */
+        this.tbl_contact_person.setItems(this.tableData);
+    }
+
+    /**
+     * Populate table with contents. for refresh also of date.
+     */
+    public void populateContactTable() {
+        this.tableData.clear();
+        //----------------------------------------------------------------------
+        List<ProjectContactModel> inquiries = new ArrayList<>();
+        try {
+            inquiries = ProjectContactModel.getAllContacts(this.projectModel.getProjectCode());
+        } catch (SQLException ex) {
+            PolarisDialog.exceptionDialog(ex)
+                    .setContentText("Failed to load contact list.")
+                    .show();
+        }
+        this.tableData.setAll(inquiries);
     }
 
 }

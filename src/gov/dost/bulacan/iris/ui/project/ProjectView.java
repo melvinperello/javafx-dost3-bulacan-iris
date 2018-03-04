@@ -300,7 +300,9 @@ public class ProjectView extends PolarisFxController implements Messageable {
         try {
             inquiries = ProjectModel.getProjectTableData();
         } catch (SQLException ex) {
-            PolarisDialog.exceptionDialog(ex);
+            PolarisDialog.exceptionDialog(ex)
+                    .setContentText("Failed to loadp projects.")
+                    .show();
         }
         this.tableData.addAll(inquiries);
     }

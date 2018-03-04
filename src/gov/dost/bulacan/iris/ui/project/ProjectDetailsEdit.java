@@ -549,7 +549,9 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 this.showWarningMessage("The project cannot be inserted at the moment please try again.");
             }
         } catch (SQLException ex) {
-            PolarisDialog.exceptionDialog(ex);
+            PolarisDialog.exceptionDialog(ex)
+                    .setContentText("Failed to insert new project.")
+                    .show();
         }
         return projectAdded;
     }
@@ -783,7 +785,9 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 this.showWarningMessage("The project cannot be updated at the moment please try again.");
             }
         } catch (SQLException ex) {
-            PolarisDialog.exceptionDialog(ex);
+            PolarisDialog.exceptionDialog(ex)
+                    .setContentText("Failed to update current project.")
+                    .show();
         }
         //----------------------------------------------------------------------
         return projectUpdated;

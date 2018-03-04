@@ -642,7 +642,7 @@ public class ProjectModel extends PolarisRecord {
         querySample.addStatement("SELECT")
                 .addStatement("*")
                 .addStatement("FROM")
-                .addStatement(ProjectModel.TABLE);
+                .addStatement(TABLE);
         //======================================================================
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new ProjectModel().findMany(con, querySample);
