@@ -20,6 +20,6 @@ The project covers the most basic operations of the organization.
 
 Since the project is file intensive it will be integrated with an experimental algorithm that will assure that the files are copied in each active terminal in the local network of the organization.
 
-It will utilize Afterschool Creatives **Redundant Storage Algorithm** ( RSA ). RSA maintains to provide local copy of the digitalized documents to each active terminal in the network to avoid data loss.
+It will utilize Afterschool Creatives' **Redundant Application Information Drive** ( RAID ). RAID maintains to provide local copy of the digitalized documents to each active terminal in the network to avoid data loss.
 
 This project is License under the Open-Source MIT License. https://opensource.org/licenses/MIT

@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris.ui.project.contact;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Messageable;
+import gov.dost.bulacan.iris.models.ProjectContactModel;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar;
@@ -66,6 +67,19 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
 
     @FXML
     private JFXButton btn_cancel;
+
+    /**
+     * Constructor to pass model.
+     *
+     * @param model
+     */
+    public ProjectContactEdit(ProjectContactModel model) {
+        this.contactModel = model;
+        this.willAddNew = (model == null);
+    }
+
+    private final ProjectContactModel contactModel;
+    private final boolean willAddNew;
 
     @Override
     protected void setup() {
