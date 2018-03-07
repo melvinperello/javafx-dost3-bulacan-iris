@@ -32,6 +32,7 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
+import gov.dost.bulacan.iris.models.ProjectModel;
 import java.sql.SQLException;
 import java.util.Optional;
 import javafx.fxml.FXML;
@@ -76,13 +77,15 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
      *
      * @param model
      */
-    public ProjectContactEdit(ProjectContactModel model) {
+    public ProjectContactEdit(ProjectContactModel model, ProjectModel project) {
         this.contactModel = model;
         this.willAddNew = (model == null);
+        this.projectModel = project;
     }
 
     private final ProjectContactModel contactModel;
     private final boolean willAddNew;
+    private final ProjectModel projectModel;
 
     @Override
     protected void setup() {
@@ -183,7 +186,53 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
 
     //--------------------------------------------------------------------------
     private void addNewContact() {
+        this.getFormDetails();
+        ProjectContactModel model = new ProjectContactModel();
+        model.setEmail(frmMail);
+        model.setLandline(frmTel);
+        model.setMobile(frmMobile);
+        model.setName(frmName);
+        model.setPosition(frmPosition);
+        /**
+         * Foreign Key.
+         */
+        model.setSetupProjectCode(this.projectModel.getProjectCode());
+        //
+        try {
+            boolean res = ProjectContactModel.insertNewContact(model);
+            if (res) {
 
+            } else {
+
+            }
+        } catch (SQLException e) {
+            //
+        }
+    }
+
+    private void updateContact() {
+        this.getFormDetails();
+        ProjectContactModel model = this.contactModel;
+        model.setEmail(frmMail);
+        model.setLandline(frmTel);
+        model.setMobile(frmMobile);
+        model.setName(frmName);
+        model.setPosition(frmPosition);
+        /**
+         * Foreign Key.
+         */
+        model.setSetupProjectCode(this.projectModel.getProjectCode());
+        //
+        try {
+            boolean res = ProjectContactModel.updateContact(model);
+            if (res) {
+
+            } else {
+
+            }
+        } catch (SQLException e) {
+            //
+        }
     }
 
 }

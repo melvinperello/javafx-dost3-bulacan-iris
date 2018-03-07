@@ -100,9 +100,29 @@ public class ProjectContactModel extends PolarisRecord {
         }
     }
 
+    /**
+     * Insert new contact.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
     public static boolean insertNewContact(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.insert(con);
+        }
+    }
+
+    /**
+     * Update new contact.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
+    public static boolean updateContact(ProjectContactModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.update(con);
         }
     }
 
