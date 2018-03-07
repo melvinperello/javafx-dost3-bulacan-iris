@@ -29,14 +29,17 @@
 package gov.dost.bulacan.iris.ui.project.contact;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
+import java.sql.SQLException;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
+import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
@@ -83,7 +86,19 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
 
     @Override
     protected void setup() {
+        /**
+         * Save Button.
+         */
+        this.btn_save.setOnMouseClicked(value -> {
 
+        });
+
+        /**
+         * Cancel Button.
+         */
+        this.btn_cancel.setOnMouseClicked(value -> {
+
+        });
     }
 
     //--------------------------------------------------------------------------
@@ -164,6 +179,11 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
      */
     private String filterInput(TextInputControl textField) {
         return StringTools.clearExtraSpaces(textField.getText().trim());
+    }
+
+    //--------------------------------------------------------------------------
+    private void addNewContact() {
+
     }
 
 }

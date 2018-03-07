@@ -78,6 +78,14 @@ public class ProjectContactModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // Static Methods
     //--------------------------------------------------------------------------
+    /**
+     * Fetch all contacts related to the host project model.
+     *
+     * @param <T>
+     * @param projectCode
+     * @return
+     * @throws SQLException
+     */
     public static <T> List<T> getAllContacts(String projectCode) throws SQLException {
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")
@@ -89,6 +97,12 @@ public class ProjectContactModel extends PolarisRecord {
         //======================================================================
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new ProjectContactModel().findMany(con, querySample);
+        }
+    }
+
+    public static boolean insertNewContact(ProjectContactModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.insert(con);
         }
     }
 
