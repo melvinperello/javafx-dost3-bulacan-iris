@@ -29,7 +29,6 @@
 package gov.dost.bulacan.iris.ui.project.contact;
 
 import com.jfoenix.controls.JFXButton;
-import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
@@ -40,7 +39,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
-import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
@@ -75,7 +73,8 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
     /**
      * Constructor to pass model.
      *
-     * @param model
+     * @param model current model for updating if applicable.
+     * @param project reference project for foreign key.
      */
     public ProjectContactEdit(ProjectContactModel model, ProjectModel project) {
         this.contactModel = model;
@@ -93,14 +92,18 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
          * Save Button.
          */
         this.btn_save.setOnMouseClicked(value -> {
-
+            if (this.willAddNew) {
+                this.addNewContact();
+            } else {
+                this.updateContact();
+            }
         });
 
         /**
          * Cancel Button.
          */
         this.btn_cancel.setOnMouseClicked(value -> {
-
+            this.getStage().close();
         });
     }
 
@@ -185,6 +188,9 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
     }
 
     //--------------------------------------------------------------------------
+    /**
+     * Add New Contact.
+     */
     private void addNewContact() {
         this.getFormDetails();
         ProjectContactModel model = new ProjectContactModel();
@@ -201,15 +207,21 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
         try {
             boolean res = ProjectContactModel.insertNewContact(model);
             if (res) {
-
+                this.showInformationMessage("Contact successfully added to this project.");
             } else {
-
+                this.showInformationMessage("Contact cannot be added at the moment please try again later.");
             }
         } catch (SQLException e) {
             //
+            PolarisDialog.exceptionDialog(e)
+                    .setContentText("Failed to add new contact.")
+                    .show();
         }
     }
 
+    /**
+     * Update existing contact.
+     */
     private void updateContact() {
         this.getFormDetails();
         ProjectContactModel model = this.contactModel;
@@ -226,12 +238,15 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
         try {
             boolean res = ProjectContactModel.updateContact(model);
             if (res) {
-
+                this.showInformationMessage("Contact successfully updated to this project.");
             } else {
-
+                this.showInformationMessage("Contact cannot be updated at the moment please try again later.");
             }
         } catch (SQLException e) {
             //
+            PolarisDialog.exceptionDialog(e)
+                    .setContentText("Failed to update existing contact.")
+                    .show();
         }
     }
 

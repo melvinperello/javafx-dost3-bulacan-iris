@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #0D4E86;">
          <padding>
@@ -436,7 +436,7 @@
                         </Label>
                         <HBox spacing="5.0">
                            <children>
-                              <JFXButton graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Add" HBox.hgrow="ALWAYS">
+                              <JFXButton fx:id="btn_add_contact" graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Add" HBox.hgrow="ALWAYS">
                                  <graphic>
                                     <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -448,7 +448,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXButton>
-                              <JFXButton graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Edit" HBox.hgrow="ALWAYS">
+                              <JFXButton fx:id="btn_edit_contact" graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Edit" HBox.hgrow="ALWAYS">
                                  <graphic>
                                     <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -460,7 +460,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXButton>
-                              <JFXButton graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Delete" HBox.hgrow="ALWAYS">
+                              <JFXButton fx:id="btn_delete_contact" graphicTextGap="10.0" prefWidth="80.0" style="-fx-border-style: dashed;" text="Delete" HBox.hgrow="ALWAYS">
                                  <graphic>
                                     <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
