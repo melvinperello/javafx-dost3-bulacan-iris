@@ -649,11 +649,18 @@ public class ProjectModel extends PolarisRecord {
         }
     }
 
+    /**
+     * Fetch a project instance using the project code.
+     *
+     * @param model
+     * @param projectCode
+     * @return
+     * @throws SQLException
+     */
     public static boolean getProjectViaProjectCode(ProjectModel model, String projectCode) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.find(con, projectCode);
         }
-
     }
 
     //</@polaris:ignore>

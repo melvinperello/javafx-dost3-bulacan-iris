@@ -30,11 +30,14 @@ package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
+import org.afterschoolcreatives.polaris.java.sql.orm.annotations.FetchOnly;
+import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
 
 /**
@@ -43,6 +46,18 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  */
 @Table(ProjectContactModel.TABLE)
 public class ProjectContactModel extends PolarisRecord {
+
+    /**
+     * Initialize default values.
+     */
+    public ProjectContactModel() {
+        this.id = null; // primary key
+        this.name = "";
+        this.position = "";
+        this.mobile = "";
+        this.landline = "";
+        this.email = "";
+    }
     //--------------------------------------------------------------------------
     // TABLE FIELDS
     //--------------------------------------------------------------------------
@@ -56,10 +71,13 @@ public class ProjectContactModel extends PolarisRecord {
     public final static String MOBILE = "mobile";
     public final static String LANDLINE = "landline";
     public final static String EMAIL = "email";
+    public final static String DELETED_AT = "deleted_at";
 
     //--------------------------------------------------------------------------
     // DECLARATIONS
     //--------------------------------------------------------------------------
+    @PrimaryKey
+    @FetchOnly
     @Column(ID)
     private Integer id;
     @Column(SETUP_PROJECT_CODE)
@@ -74,6 +92,8 @@ public class ProjectContactModel extends PolarisRecord {
     private String landline;
     @Column(EMAIL)
     private String email;
+    @Column(DELETED_AT)
+    private Date deleted_at;
 
     //--------------------------------------------------------------------------
     // Static Methods
@@ -93,7 +113,10 @@ public class ProjectContactModel extends PolarisRecord {
                 .addStatement("FROM")
                 .addStatement(TABLE)
                 .addStatement("WHERE")
-                .addStatementWithParameter(SETUP_PROJECT_CODE + " = ?", projectCode);
+                .addStatementWithParameter(SETUP_PROJECT_CODE + " = ?", projectCode)
+                .addStatement(" AND ")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL");
         //======================================================================
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new ProjectContactModel().findMany(con, querySample);
@@ -122,6 +145,20 @@ public class ProjectContactModel extends PolarisRecord {
      */
     public static boolean updateContact(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.update(con);
+        }
+    }
+
+    /**
+     * Updates the deleted at value to trigger delete flag.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
+    public static boolean deleteContact(ProjectContactModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            model.setDeleted_at(Context.app().getServerDate());
             return model.update(con);
         }
     }
@@ -183,6 +220,14 @@ public class ProjectContactModel extends PolarisRecord {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getDeleted_at() {
+        return deleted_at;
+    }
+
+    public void setDeleted_at(Date deleted_at) {
+        this.deleted_at = deleted_at;
     }
 
 }

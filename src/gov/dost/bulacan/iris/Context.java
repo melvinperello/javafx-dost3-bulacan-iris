@@ -31,6 +31,7 @@ package gov.dost.bulacan.iris;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
@@ -142,12 +143,20 @@ public class Context {
     }
 
     /**
-     * Get Project Format.
+     * Get Project Date Format.
      *
      * @return
      */
     public SimpleDateFormat getDateFormat() {
         return new SimpleDateFormat("MM-dd-yyyy");
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public Date getServerDate() {
+        return new Date();
     }
 
 }

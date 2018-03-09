@@ -89,6 +89,13 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
     @Override
     protected void setup() {
         /**
+         * If will not add new pre load data.
+         */
+        if (!this.willAddNew) {
+            this.preloadContactData();
+        }
+
+        /**
          * Save Button.
          */
         this.btn_save.setOnMouseClicked(value -> {
@@ -97,6 +104,7 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
             } else {
                 this.updateContact();
             }
+            value.consume();
         });
 
         /**
@@ -193,6 +201,12 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
      */
     private void addNewContact() {
         this.getFormDetails();
+        // Filter
+        if (this.frmName.isEmpty()) {
+            this.showWarningMessage("Please enter a contact name.");
+            return;
+        }
+        //
         ProjectContactModel model = new ProjectContactModel();
         model.setEmail(frmMail);
         model.setLandline(frmTel);
@@ -208,6 +222,10 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
             boolean res = ProjectContactModel.insertNewContact(model);
             if (res) {
                 this.showInformationMessage("Contact successfully added to this project.");
+                /**
+                 * Close stage for success.
+                 */
+                this.getStage().close();
             } else {
                 this.showInformationMessage("Contact cannot be added at the moment please try again later.");
             }
@@ -224,6 +242,12 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
      */
     private void updateContact() {
         this.getFormDetails();
+        // Filter
+        if (this.frmName.isEmpty()) {
+            this.showWarningMessage("Please enter a contact name.");
+            return;
+        }
+        //
         ProjectContactModel model = this.contactModel;
         model.setEmail(frmMail);
         model.setLandline(frmTel);
@@ -239,6 +263,10 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
             boolean res = ProjectContactModel.updateContact(model);
             if (res) {
                 this.showInformationMessage("Contact successfully updated to this project.");
+                /**
+                 * Close stage for success.
+                 */
+                this.getStage().close();
             } else {
                 this.showInformationMessage("Contact cannot be updated at the moment please try again later.");
             }
@@ -248,6 +276,17 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
                     .setContentText("Failed to update existing contact.")
                     .show();
         }
+    }
+
+    /**
+     * pre load contact data for editing.
+     */
+    private void preloadContactData() {
+        this.txt_name.setText(this.contactModel.getName());
+        this.txt_position.setText(this.contactModel.getPosition());
+        this.txt_mobile.setText(this.contactModel.getMobile());
+        this.txt_landline.setText(this.contactModel.getLandline());
+        this.txt_email.setText(this.contactModel.getEmail());
     }
 
 }
