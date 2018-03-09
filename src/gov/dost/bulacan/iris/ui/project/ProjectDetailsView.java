@@ -559,4 +559,10 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         this.tableData.setAll(inquiries);
     }
 
+    /**
+     * Static Inner Class For Printing.
+     */
+    public static class PrintDetails {
+
+    }
 }
