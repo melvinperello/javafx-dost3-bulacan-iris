@@ -45,6 +45,15 @@ public class Context {
     public final static String PROJECT_CODE_PREFIX = "STC3000";
 
     /**
+     * A public folder that must contain all the PDF Templates.
+     */
+    public final static String DIR_TEMPLATE = "template";
+    /**
+     * A public folder that will hold the generated certificates.
+     */
+    public final static String DIR_TEMP = "temp";
+
+    /**
      * Instance Holder.
      */
     private static volatile Context instance;
@@ -152,7 +161,7 @@ public class Context {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public Date getServerDate() {

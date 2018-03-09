@@ -28,12 +28,20 @@
  */
 package gov.dost.bulacan.iris.ui.project;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.project.contact.ProjectContactEdit;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,6 +60,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
@@ -564,5 +573,309 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
      */
     public static class PrintDetails {
 
-    }
+        private String cooperator;
+        private String location;
+        //
+        private String name;
+        private String position;
+        private String address;
+        //
+        private String sector;
+        private String yearEstablished;
+        private String classification;
+        private String ownership;
+        private String products; // TEXT AREA
+        private String market; // TEXT AREA
+        private String registrationDetails; // TEXT AREA
+        private String landmark;
+        private String website;
+        private String contactInformation; // TEXT AREA
+        //
+        private String projectCode;
+        private String spinNo;
+        private String projectType;
+        private String district; // Roman Numerals
+        private String dateEndorsed; // WORD DATE
+        private String dateApproved; // WORD DATE
+        private String approvedCost;
+        private String moaSigned; // WORD DATE
+        private String duration; // Word Date
+        private String actualCost; // BOLD
+        private String printInfo;
+
+        private PrintDetails() {
+            cooperator = "";
+            location = "";
+            //
+            name = "";
+            position = "";
+            address = "";
+            //
+            sector = "";
+            yearEstablished = "";
+            classification = "";
+            ownership = "";
+            products = ""; // TEXT AREA
+            market = ""; // TEXT AREA
+            registrationDetails = "";// TEXT AREA
+            landmark = "";
+            website = "";
+            contactInformation = ""; // TEXT AREA
+            //
+            projectCode = "";
+            spinNo = "";
+            projectType = "";
+            district = ""; // Roman Numerals
+            dateEndorsed = ""; // WORD DATE
+            dateApproved = ""; // WORD DATE
+            approvedCost = "";
+            moaSigned = ""; // WORD DATE
+            duration = ""; // Word Date
+            actualCost = ""; // BOLD
+            printInfo = "";
+        }
+
+        public void setCooperator(String cooperator) {
+            this.cooperator = cooperator;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setPosition(String position) {
+            this.position = position;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public void setSector(String sector) {
+            this.sector = sector;
+        }
+
+        public void setYearEstablished(String yearEstablished) {
+            this.yearEstablished = yearEstablished;
+        }
+
+        public void setClassification(String classification) {
+            this.classification = classification;
+        }
+
+        public void setOwnership(String ownership) {
+            this.ownership = ownership;
+        }
+
+        public void setProducts(String products) {
+            this.products = products;
+        }
+
+        public void setMarket(String market) {
+            this.market = market;
+        }
+
+        public void setRegistrationDetails(String registrationDetails) {
+            this.registrationDetails = registrationDetails;
+        }
+
+        public void setLandmark(String landmark) {
+            this.landmark = landmark;
+        }
+
+        public void setWebsite(String website) {
+            this.website = website;
+        }
+
+        public void setContactInformation(String contactInformation) {
+            this.contactInformation = contactInformation;
+        }
+
+        public void setProjectCode(String projectCode) {
+            this.projectCode = projectCode;
+        }
+
+        public void setSpinNo(String spinNo) {
+            this.spinNo = spinNo;
+        }
+
+        public void setProjectType(String projectType) {
+            this.projectType = projectType;
+        }
+
+        public void setDistrict(String district) {
+            this.district = district;
+        }
+
+        public void setDateEndorsed(String dateEndorsed) {
+            this.dateEndorsed = dateEndorsed;
+        }
+
+        public void setDateApproved(String dateApproved) {
+            this.dateApproved = dateApproved;
+        }
+
+        public void setApprovedCost(String approvedCost) {
+            this.approvedCost = approvedCost;
+        }
+
+        public void setMoaSigned(String moaSigned) {
+            this.moaSigned = moaSigned;
+        }
+
+        public void setDuration(String duration) {
+            this.duration = duration;
+        }
+
+        public void setActualCost(String actualCost) {
+            this.actualCost = actualCost;
+        }
+
+        public void setPrintInfo(String printInfo) {
+            this.printInfo = printInfo;
+        }
+
+        /**
+         * Prints the given details into a PDF Document.
+         *
+         * @return
+         * @throws IOException
+         * @throws DocumentException
+         */
+        public boolean printDetails() throws IOException, DocumentException {
+            //
+            String cooperatorInfo = "";
+            cooperatorInfo += ("Cooperator: " + this.cooperator);
+            cooperatorInfo += ("\n");
+            cooperatorInfo += ("Location: " + this.location);
+            //
+            String ownerInfo = "";
+            ownerInfo += ("Name: " + this.name);
+            ownerInfo += ("\n");
+            ownerInfo += ("Position: " + this.position);
+            ownerInfo += ("\n");
+            ownerInfo += ("Address: " + this.address);
+            //
+            String businessInfo = "";
+            businessInfo += ("Sector: " + this.sector);
+            businessInfo += ("\n");
+            businessInfo += ("Year Established: " + this.yearEstablished);
+            businessInfo += ("\n");
+            businessInfo += ("Classification: " + this.classification);
+            businessInfo += ("\n");
+            businessInfo += ("Ownership: " + this.ownership);
+            businessInfo += ("\n");
+            businessInfo += ("Products: " + this.products);
+            businessInfo += ("\n");
+            businessInfo += ("\n");
+            businessInfo += ("Market: " + this.market);
+            businessInfo += ("\n");
+            businessInfo += ("Registration Details: " + this.registrationDetails);
+            businessInfo += ("\n");
+            businessInfo += ("Landmark: " + this.landmark);
+            businessInfo += ("\n");
+            businessInfo += ("Website: " + this.website);
+            businessInfo += ("\n");
+            businessInfo += ("Contact Information: " + this.contactInformation);
+            //
+            String projectInfo = "";
+            projectInfo += ("Project Code: " + this.projectCode);
+            projectInfo += ("\n");
+            projectInfo += ("SPIN No: " + this.spinNo);
+            projectInfo += ("\n");
+            projectInfo += ("Type: " + this.projectType);
+            projectInfo += ("\n");
+            projectInfo += ("District: " + this.district);
+            projectInfo += ("\n");
+            projectInfo += ("Date Endorsed: " + this.dateEndorsed);
+            projectInfo += ("\n");
+            projectInfo += ("Date Approved: " + this.dateApproved);
+            projectInfo += ("\n");
+            projectInfo += ("Approved Cost: " + this.approvedCost);
+            projectInfo += ("\n");
+            projectInfo += ("MOA Signed: " + this.moaSigned);
+            projectInfo += ("\n");
+            projectInfo += ("Duration: " + this.duration);
+
+            /**
+             * Attempt to check the template directory.
+             */
+            if (!FileTool.checkFoldersQuietly(Context.DIR_TEMPLATE)) {
+                throw new FileNotFoundException("Template directory cannot be created.");
+            }
+            /**
+             * Attempt to check the certificates directory.
+             */
+            if (!FileTool.checkFoldersQuietly(Context.DIR_TEMP + File.separator + "setup_prints")) {
+                throw new FileNotFoundException("Certificates directory cannot be created.");
+            }
+            /**
+             * Template File Path.
+             */
+            String templatePath = Context.DIR_TEMPLATE + File.separator + "setup_print_blank.pdf";
+            File templateFile = new File(templatePath);
+
+            /**
+             * Check if the template file is not existing.
+             */
+            if (!templateFile.exists()) {
+                throw new FileNotFoundException("Certificate Template not existing.");
+            }
+            /**
+             * Initialize Stream.
+             */
+            PdfStamper stamper = null;
+            PdfReader reader = null;
+            try {
+                /**
+                 * Read the template.
+                 */
+                reader = new PdfReader(templateFile.getAbsolutePath());
+                /**
+                 * Output file.
+                 */
+                File stampedCertificatePdf = new File(Context.DIR_TEMP + File.separator + "setup_prints" + "project_temp.pdf");
+
+                stamper = new PdfStamper(reader, new FileOutputStream(stampedCertificatePdf));
+                AcroFields form = stamper.getAcroFields();
+                form.setField("txt_cooperator", cooperatorInfo);
+                form.setField("txt_owner", ownerInfo);
+                form.setField("txt_business_info", businessInfo);
+                form.setField("txt_project_info", projectInfo);
+                form.setField("txt_total_cost", this.actualCost);
+                form.setField("txt_print_info", this.printInfo);
+
+                stamper.setFormFlattening(true);
+                stamper.close();
+                reader.close();
+            } finally {
+                try {
+                    if (stamper != null) {
+                        stamper.close();
+                    }
+                } catch (DocumentException | IOException e) {
+                    // ignore close
+                }
+
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (Exception e) {
+                    // ignore close
+                }
+            }
+
+            /**
+             * Return true if not exceptions were encountered. and to know that
+             * the file was created and stamped.
+             */
+            return true;
+        }
+
+    } // end of print details class
 }
