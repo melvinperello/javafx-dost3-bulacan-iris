@@ -28,10 +28,15 @@
  */
 package gov.dost.bulacan.iris;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
@@ -161,11 +166,54 @@ public class Context {
     }
 
     /**
+     * Get Project Timestamp format for naming files or other things.
+     *
+     * @return
+     */
+    public SimpleDateFormat getDateFormatTimeStamp() {
+        return new SimpleDateFormat("MMddyyyy_HHmmss");
+    }
+
+    /**
+     * Fetch date from the server.
      *
      * @return
      */
     public Date getServerDate() {
         return new Date();
+    }
+
+    /**
+     * Fetch Local Machine current date.
+     *
+     * @return
+     */
+    public Date getLocalDate() {
+        return new Date();
+    }
+
+    /**
+     * Launches the native Operating System default application to open a given
+     * file.
+     *
+     * @param file file to open.
+     * @return true or false for operation result.
+     */
+    public boolean desktopOpenQuietly(File file) {
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.OPEN)) {
+                try {
+                    desktop.open(file);
+                    return true;
+                } catch (IOException | IllegalArgumentException ex) {
+                    // ignore exception.
+                    return false;
+                }
+            }
+            return false;
+        }
+        return false;
     }
 
 }
