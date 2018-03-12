@@ -259,6 +259,22 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
 
         this.btn_print.setOnMouseClicked(value -> {
             PrintDetails printable = new PrintDetails();
+            //
+            String city = this.projectModel.getFactoryCity();
+            ProjectModel.Town town = ProjectModel.Town.getTown(city);
+            /**
+             * Factory Address.
+             */
+            String factoryAddress = this.projectModel.getFactoryStreet()
+                    + " "
+                    + this.projectModel.getFactoryBrgy()
+                    + " "
+                    + town.getName()
+                    + " "
+                    + town.getZip();
+            //
+            printable.setCooperator(this.projectModel.getCompanyName());
+            printable.setLocation(factoryAddress);
             try {
                 printable.printDetails();
             } catch (IOException | DocumentException ex) {

@@ -271,10 +271,13 @@ public class ProjectView extends PolarisFxController implements Messageable {
                 }
 
                 String filterString = newValue.toLowerCase();
-                // if contains in the name
-//                if (project.getName().toLowerCase().contains(filterString)) {
-//                    return true;
-//                }
+
+                /**
+                 * Allow search of cooperator's name.
+                 */
+                if (project.getCompanyName().toLowerCase().contains(newValue)) {
+                    return true;
+                }
 
                 return false; // no match.
             });
