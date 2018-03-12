@@ -16,6 +16,16 @@
 CREATE DATABASE IF NOT EXISTS `iris_bulacan_dost3` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `iris_bulacan_dost3`;
 
+-- Dumping structure for table iris_bulacan_dost3.filedata
+CREATE TABLE IF NOT EXISTS `filedata` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '0',
+  `location` varchar(50) NOT NULL DEFAULT '0',
+  `hash` varchar(50) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
 -- Dumping structure for table iris_bulacan_dost3.setup_projects
 CREATE TABLE IF NOT EXISTS `setup_projects` (
   `project_code` varchar(50) NOT NULL,
@@ -56,12 +66,7 @@ CREATE TABLE IF NOT EXISTS `setup_projects` (
   PRIMARY KEY (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.setup_projects: ~0 rows (approximately)
-/*!40000 ALTER TABLE `setup_projects` DISABLE KEYS */;
-INSERT INTO `setup_projects` (`project_code`, `spin_no`, `company_name`, `company_owner`, `owner_position`, `owner_address`, `project_name`, `project_status`, `project_type`, `endorsed_date`, `endorsed_attachment`, `approved_date`, `approved_funding`, `approved_attachment`, `moa_date`, `moa_attachment`, `actual_cost`, `duration_from`, `duration_to`, `factory_street`, `factory_brgy`, `factory_city`, `factory_long`, `factory_lat`, `factory_landmark`, `year_established`, `business_activity`, `capital_classification`, `employment_classification`, `company_ownership`, `profitability`, `registration_info`, `major_products`, `existing_market`, `website`) VALUES
-	('STC30002018-0304081418', '', 'TEXICON', 'asda', 'sda', 'sdasdasd', '', 1, 'GIA', '2018-03-14 00:00:00', NULL, '2018-02-28 00:00:00', 1000, NULL, NULL, NULL, 1000, '2018-03-14 00:00:00', '2018-03-18 00:00:00', '', '', '3012', '', '', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '');
-/*!40000 ALTER TABLE `setup_projects` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table iris_bulacan_dost3.setup_projects_contact
 CREATE TABLE IF NOT EXISTS `setup_projects_contact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -75,12 +80,9 @@ CREATE TABLE IF NOT EXISTS `setup_projects_contact` (
   PRIMARY KEY (`id`),
   KEY `spc_fk_sp_code` (`setup_project_code`),
   CONSTRAINT `spc_fk_sp_code` FOREIGN KEY (`setup_project_code`) REFERENCES `setup_projects` (`project_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.setup_projects_contact: ~4 rows (approximately)
-/*!40000 ALTER TABLE `setup_projects_contact` DISABLE KEYS */;
-/*!40000 ALTER TABLE `setup_projects_contact` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
