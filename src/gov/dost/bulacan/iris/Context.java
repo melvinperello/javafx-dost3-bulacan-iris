@@ -165,6 +165,14 @@ public class Context {
         return new SimpleDateFormat("MM-dd-yyyy");
     }
 
+    public SimpleDateFormat getDateFormatNamed() {
+        return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy");
+    }
+
+    public SimpleDateFormat getDateFormat12() {
+        return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy - hh:mm:ss a");
+    }
+
     /**
      * Get Project Timestamp format for naming files or other things.
      *
@@ -214,6 +222,23 @@ public class Context {
             return false;
         }
         return false;
+    }
+
+    public String intToRoman(String number) {
+        switch (number) {
+            case "0":
+                return "Lone District";
+            case "1":
+                return "I";
+            case "2":
+                return "II";
+            case "3":
+                return "III";
+            case "4":
+                return "IV";
+            default:
+                return "";
+        }
     }
 
 }

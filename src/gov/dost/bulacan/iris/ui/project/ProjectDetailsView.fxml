@@ -391,27 +391,6 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Maps">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_coordinates" text="-15.623037,  18.388672" wrapText="true" />
-                        <Label fx:id="lbl_click_maps" text="Google Maps" textFill="#0288ee">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox>
-                     <children>
                         <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Website">
                            <font>
                               <Font name="System Bold" size="15.0" />

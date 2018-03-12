@@ -128,11 +128,11 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
     @FXML
     private Label lbl_landmark;
 
-    @FXML
-    private Label lbl_coordinates;
-
-    @FXML
-    private Label lbl_click_maps;
+//    @FXML
+//    private Label lbl_coordinates;
+//
+//    @FXML
+//    private Label lbl_click_maps;
 
     @FXML
     private Label lbl_click_website;
@@ -258,28 +258,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         });
 
         this.btn_print.setOnMouseClicked(value -> {
-            PrintDetails printable = new PrintDetails();
-            //
-            String city = this.projectModel.getFactoryCity();
-            ProjectModel.Town town = ProjectModel.Town.getTown(city);
-            /**
-             * Factory Address.
-             */
-            String factoryAddress = this.projectModel.getFactoryStreet()
-                    + " "
-                    + this.projectModel.getFactoryBrgy()
-                    + " "
-                    + town.getName()
-                    + " "
-                    + town.getZip();
-            //
-            printable.setCooperator(this.projectModel.getCompanyName());
-            printable.setLocation(factoryAddress);
-            try {
-                printable.printDetails();
-            } catch (IOException | DocumentException ex) {
-                ex.printStackTrace();
-            }
+            this.printProjectInfoReport();
             value.consume();
         });
         //--------------------------
@@ -335,15 +314,15 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         //----------------------------------------------------------------------
         // Clickables.
         //----------------------------------------------------------------------
-        this.lbl_click_maps.setOnMouseClicked(value -> {
-            if (this.lbl_coordinates.getText().trim().isEmpty()) {
-                this.showWarningMessage("No map data is available.");
-                return;
-            }
-            this.showInformationMessage("Google Maps is not yet supported");
-
-            value.consume();
-        });
+//        this.lbl_click_maps.setOnMouseClicked(value -> {
+//            if (this.lbl_coordinates.getText().trim().isEmpty()) {
+//                this.showWarningMessage("No map data is available.");
+//                return;
+//            }
+//            this.showInformationMessage("Google Maps is not yet supported");
+//
+//            value.consume();
+//        });
     }
 
     //--------------------------------------------------------------------------
@@ -408,6 +387,107 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         contactStage.showAndWait();
     }
 
+    private void printProjectInfoReport() {
+        PrintDetails printable = new PrintDetails();
+        //
+        String city = this.projectModel.getFactoryCity();
+        ProjectModel.Town town = ProjectModel.Town.getTown(city);
+        /**
+         * Factory Address.
+         */
+        String factoryAddress = this.projectModel.getFactoryStreet()
+                + " "
+                + this.projectModel.getFactoryBrgy()
+                + " "
+                + town.getName()
+                + " "
+                + town.getZip();
+        //
+        printable.setCooperator(this.projectModel.getCompanyName());
+        printable.setLocation(factoryAddress);
+        //
+        printable.setName(this.projectModel.getCompanyOwner());
+        printable.setPosition(this.projectModel.getOwnerPosition());
+        printable.setAddress(this.projectModel.getOwnerAddress());
+        //
+        String businessActivity = ProjectModel.BusinessActivity.getStringValue(this.projectModel.getBusinessActivity());
+        printable.setSector(businessActivity);
+        printable.setYearEstablished(this.projectModel.getYearEstablished());
+        String classified = "Capital - " + this.projectModel.getCapitalClassification()
+                + " / "
+                + "Employment - " + this.projectModel.getEmploymentClassification();
+        printable.setClassification(classified);
+        printable.setOwnership(this.projectModel.getCompanyOwnership());
+        printable.setProducts(this.projectModel.getMajorProducts());
+        printable.setMarket(this.projectModel.getExistingMarket());
+        printable.setRegistrationDetails(this.projectModel.getRegistrationInformation());
+        printable.setLandmark(this.projectModel.getFactoryLandMark());
+        printable.setWebsite(this.projectModel.getWebsite());
+        //
+        printable.setContactInformation("");
+        try {
+            StringBuilder temp_contact = new StringBuilder("");
+            List<ProjectContactModel> contacts = ProjectContactModel.getAllContacts(this.projectModel.getProjectCode());
+            for (ProjectContactModel contact : contacts) {
+                String temp = contact.getName() + " ( " + contact.getPosition()
+                        + " ) Mobile:"
+                        + contact.getMobile()
+                        + " / Tel: "
+                        + contact.getLandline()
+                        + " / Mail: "
+                        + contact.getEmail() + "\n";
+                temp_contact.append(temp);
+            }
+            printable.setContactInformation(temp_contact.toString());
+        } catch (SQLException e) {
+            printable.setContactInformation("No Contact Information");
+        }
+
+        //
+        printable.setProjectCode(this.projectModel.getProjectCode());
+        printable.setSpinNo(this.projectModel.getSpinNo());
+        String type = this.projectModel.getProjectType() + " - " + this.projectModel.getProjectStatus();
+        printable.setProjectType(type);
+        printable.setDistrict(Context.app().intToRoman(town.getDistrict()));
+        //
+        if (this.projectModel.getEndorsedDate() != null) {
+            printable.setDateEndorsed(Context.app().getDateFormatNamed().format(this.projectModel.getEndorsedDate()));
+        }
+        if (this.projectModel.getApprovedDate() != null) {
+            printable.setDateEndorsed(Context.app().getDateFormatNamed().format(this.projectModel.getApprovedDate()));
+        }
+
+        printable.setApprovedCost("P " + Context.app().getMoneyFormat().format(this.projectModel.getApprovedFunding()));
+
+        if (this.projectModel.getMoaDate() != null) {
+            printable.setDateEndorsed(Context.app().getDateFormatNamed().format(this.projectModel.getMoaDate()));
+        }
+        String durFrom = "No Data";
+        String durTo = "No Data";
+        if (this.projectModel.getDurationFrom() == null) {
+            durFrom = Context.app().getDateFormatNamed().format(this.projectModel.getDurationFrom());
+        }
+
+        if (this.projectModel.getDurationTo() == null) {
+            durTo = Context.app().getDateFormatNamed().format(this.projectModel.getDurationTo());
+        }
+
+        String durDate = durFrom + " - " + durTo;
+        printable.setDuration(durDate);
+
+        printable.setPrintInfo("Date Printed: "
+                + Context.app().getDateFormat12().format(new Date())
+                + " / PSTC-Bulacan");
+
+        printable.setActualCost("Actual Cost:  P " + Context.app().getMoneyFormat().format(this.projectModel.getActualCost()));
+
+        try {
+            printable.printDetails();
+        } catch (IOException | DocumentException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * Load Data for viewing.
      */
@@ -460,8 +540,8 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         /**
          * Coordinates.
          */
-        String coordinates = this.projectModel.getFactoryLat() + " " + this.projectModel.getFactoryLong();
-        this.lbl_coordinates.setText(coordinates);
+//        String coordinates = this.projectModel.getFactoryLat() + " " + this.projectModel.getFactoryLong();
+//        this.lbl_coordinates.setText(coordinates);
         //
         this.lbl_click_website.setText(this.projectModel.getWebsite());
         //
@@ -533,7 +613,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
          * actual funding.
          */
         String actualCost = "P ";
-        actualCost += (Context.app().getMoneyFormat().format(this.projectModel.getApprovedFunding()));
+        actualCost += (Context.app().getMoneyFormat().format(this.projectModel.getActualCost()));
         this.lbl_actual_cost.setText(actualCost);
 
     }
@@ -775,59 +855,60 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
          * @throws DocumentException
          */
         public boolean printDetails() throws IOException, DocumentException {
+            final String fillSpace = "     ";
             //
             String cooperatorInfo = "";
-            cooperatorInfo += ("Cooperator: " + this.cooperator);
+            cooperatorInfo += ("Cooperator:" + fillSpace + this.cooperator);
             cooperatorInfo += ("\n");
-            cooperatorInfo += ("Location: " + this.location);
+            cooperatorInfo += ("Location:  " + fillSpace + this.location);
             //
             String ownerInfo = "";
-            ownerInfo += ("Name: " + this.name);
+            ownerInfo += ("Name:    " + fillSpace + this.name);
             ownerInfo += ("\n");
-            ownerInfo += ("Position: " + this.position);
+            ownerInfo += ("Position:" + fillSpace + this.position);
             ownerInfo += ("\n");
-            ownerInfo += ("Address: " + this.address);
+            ownerInfo += ("Address: " + fillSpace + this.address);
             //
             String businessInfo = "";
-            businessInfo += ("Sector: " + this.sector);
+            businessInfo += ("Sector:          " + fillSpace + this.sector);
             businessInfo += ("\n");
-            businessInfo += ("Year Established: " + this.yearEstablished);
+            businessInfo += ("Year Established:" + fillSpace + this.yearEstablished);
             businessInfo += ("\n");
-            businessInfo += ("Classification: " + this.classification);
+            businessInfo += ("Classification:  " + fillSpace + this.classification);
             businessInfo += ("\n");
-            businessInfo += ("Ownership: " + this.ownership);
+            businessInfo += ("Ownership:       " + fillSpace + this.ownership);
             businessInfo += ("\n");
-            businessInfo += ("Products: " + this.products);
+            businessInfo += ("Products:        " + fillSpace + this.products);
             businessInfo += ("\n");
             businessInfo += ("\n");
-            businessInfo += ("Market: " + this.market);
+            businessInfo += ("Market:          " + fillSpace + this.market);
             businessInfo += ("\n");
-            businessInfo += ("Registration Details: " + this.registrationDetails);
+            businessInfo += ("Registration Details:\n" + this.registrationDetails);
             businessInfo += ("\n");
-            businessInfo += ("Landmark: " + this.landmark);
+            businessInfo += ("Landmark:        " + fillSpace + this.landmark);
             businessInfo += ("\n");
-            businessInfo += ("Website: " + this.website);
+            businessInfo += ("Website:         " + fillSpace + this.website);
             businessInfo += ("\n");
-            businessInfo += ("Contact Information: " + this.contactInformation);
+            businessInfo += ("Contact Information:\n" + this.contactInformation);
             //
             String projectInfo = "";
-            projectInfo += ("Project Code: " + this.projectCode);
+            projectInfo += ("Project Code:     " + fillSpace + this.projectCode);
             projectInfo += ("\n");
-            projectInfo += ("SPIN No: " + this.spinNo);
+            projectInfo += ("SPIN No:          " + fillSpace + this.spinNo);
             projectInfo += ("\n");
-            projectInfo += ("Type: " + this.projectType);
+            projectInfo += ("Type:             " + fillSpace + this.projectType);
             projectInfo += ("\n");
-            projectInfo += ("District: " + this.district);
+            projectInfo += ("District:         " + fillSpace + this.district);
             projectInfo += ("\n");
-            projectInfo += ("Date Endorsed: " + this.dateEndorsed);
+            projectInfo += ("Date Endorsed:    " + fillSpace + this.dateEndorsed);
             projectInfo += ("\n");
-            projectInfo += ("Date Approved: " + this.dateApproved);
+            projectInfo += ("Date Approved:    " + fillSpace + this.dateApproved);
             projectInfo += ("\n");
-            projectInfo += ("Approved Cost: " + this.approvedCost);
+            projectInfo += ("Approved Cost:    " + fillSpace + this.approvedCost);
             projectInfo += ("\n");
-            projectInfo += ("MOA Signed: " + this.moaSigned);
+            projectInfo += ("MOA Signed:       " + fillSpace + this.moaSigned);
             projectInfo += ("\n");
-            projectInfo += ("Duration: " + this.duration);
+            projectInfo += ("Duration:         " + fillSpace + this.duration);
 
             /**
              * Attempt to check the template directory.

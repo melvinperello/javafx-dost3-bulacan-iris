@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #0D4E86;">
          <padding>
@@ -58,7 +58,7 @@
                         <Font name="System Bold" size="22.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_modify_time" text="Last Updated 02/02/2018 by adcrest">
+                  <Label fx:id="lbl_modify_time" text="Last Updated 02/02/2018 by melvin">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -371,20 +371,6 @@
                            </font>
                         </Label>
                         <TextArea fx:id="txt_landmark" prefHeight="50.0" promptText="Common Landmarks" HBox.hgrow="ALWAYS" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox fx:id="lbl_coordinates">
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Maps">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txt_latitude" promptText="Latitude" />
-                        <TextField fx:id="txt_longitude" promptText="Longitude" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />

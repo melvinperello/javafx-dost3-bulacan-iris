@@ -124,15 +124,6 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     private TextArea txt_landmark;
 
     @FXML
-    private HBox lbl_coordinates;
-
-    @FXML
-    private TextField txt_latitude;
-
-    @FXML
-    private TextField txt_longitude;
-
-    @FXML
     private TextField txt_website;
 
     @FXML
@@ -372,8 +363,8 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
     private String frmBrgy;
     private String frmCityZip;
     private String frmLandMark;
-    private String frmMapsLat;
-    private String frmMapsLong;
+//    private String frmMapsLat;
+//    private String frmMapsLong;
     private String frmWebsite;
     private String frmSpinNo;
     private String frmProjectType;
@@ -419,8 +410,8 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         ProjectModel.Town town = (ProjectModel.Town) this.cmb_city.getValue();
         this.frmCityZip = town.getZip();
         this.frmLandMark = filterInput(txt_landmark);
-        this.frmMapsLat = filterInput(txt_latitude);
-        this.frmMapsLong = filterInput(txt_longitude);
+//        this.frmMapsLat = filterInput(txt_latitude);
+//        this.frmMapsLong = filterInput(txt_longitude);
         this.frmWebsite = filterInput(txt_website);
         this.frmSpinNo = filterInput(txt_spin_no);
         this.frmProjectType = this.cmb_project_type.getValue().toString();
@@ -525,8 +516,8 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         project.setFactoryStreet(frmStreetAddress);
         project.setFactoryBrgy(frmBrgy);
         project.setFactoryCity(frmCityZip);
-        project.setFactoryLong(frmMapsLong);
-        project.setFactoryLat(frmMapsLat);
+//        project.setFactoryLong(frmMapsLong);
+//        project.setFactoryLat(frmMapsLat);
         project.setFactoryLandMark(frmLandMark);
         //
         project.setYearEstablished(frmYearEstablished);
@@ -642,8 +633,8 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         }
         //----------------------------------------------------------------------
         this.txt_landmark.setText(this.receiveModel.getFactoryLandMark());
-        this.txt_latitude.setText(this.receiveModel.getFactoryLat());
-        this.txt_longitude.setText(this.receiveModel.getFactoryLong());
+//        this.txt_latitude.setText(this.receiveModel.getFactoryLat());
+//        this.txt_longitude.setText(this.receiveModel.getFactoryLong());
         this.txt_website.setText(this.receiveModel.getWebsite());
         //
         this.txt_spin_no.setText(this.receiveModel.getSpinNo());
@@ -754,13 +745,13 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
             this.showWarningMessage("You have entered an invalid actual cost.");
             return false;
         }
-        project.setActualCost(approved_fund);
+        project.setActualCost(actual_cost);
         //----------------------------------------------------------------------
         project.setFactoryStreet(frmStreetAddress);
         project.setFactoryBrgy(frmBrgy);
         project.setFactoryCity(frmCityZip);
-        project.setFactoryLong(frmMapsLong);
-        project.setFactoryLat(frmMapsLat);
+//        project.setFactoryLong(frmMapsLong);
+//        project.setFactoryLat(frmMapsLat);
         project.setFactoryLandMark(frmLandMark);
         //
         project.setYearEstablished(frmYearEstablished);

@@ -77,8 +77,8 @@ public class ProjectModel extends PolarisRecord {
         this.factoryStreet = "";
         this.factoryBrgy = "";
         this.factoryCity = "";
-        this.factoryLong = "";
-        this.factoryLat = "";
+//        this.factoryLong = "";
+//        this.factoryLat = "";
         this.factoryLandMark = "";
         //
         this.yearEstablished = "";
@@ -139,8 +139,8 @@ public class ProjectModel extends PolarisRecord {
     public final static String FACTORY_STREET = "factory_street";
     public final static String FACTORY_BRGY = "factory_brgy";
     public final static String FACTORY_CITY = "factory_city"; // insert zip from Object
-    public final static String FACTORY_LONG = "factory_long";
-    public final static String FACTORY_LAT = "factory_lat";
+//    public final static String FACTORY_LONG = "factory_long";
+//    public final static String FACTORY_LAT = "factory_lat";
     public final static String FACTORY_LANDMARK = "factory_landmark";
     //public final static String FACTORY_COORDINATES = "factory_coordinates";
     //
@@ -238,10 +238,10 @@ public class ProjectModel extends PolarisRecord {
     private String factoryBrgy;
     @Column(FACTORY_CITY)
     private String factoryCity; //-> ZIP CODE
-    @Column(FACTORY_LONG)
-    private String factoryLong; //--> https://www.google.com/maps/?q=-15.623037,18.388672
-    @Column(FACTORY_LAT)
-    private String factoryLat;
+//    @Column(FACTORY_LONG)
+//    private String factoryLong; //--> https://www.google.com/maps/?q=-15.623037,18.388672
+//    @Column(FACTORY_LAT)
+//    private String factoryLat;
     @Column(FACTORY_LANDMARK)
     private String factoryLandMark;
 //    @Column(FACTORY_COORDINATES)
@@ -755,13 +755,13 @@ public class ProjectModel extends PolarisRecord {
         return factoryCity;
     }
 
-    public String getFactoryLong() {
-        return factoryLong;
-    }
-
-    public String getFactoryLat() {
-        return factoryLat;
-    }
+//    public String getFactoryLong() {
+//        return factoryLong;
+//    }
+//
+//    public String getFactoryLat() {
+//        return factoryLat;
+//    }
 
     public String getFactoryLandMark() {
         return factoryLandMark;
@@ -896,13 +896,13 @@ public class ProjectModel extends PolarisRecord {
         this.factoryCity = factoryCity;
     }
 
-    public void setFactoryLong(String factoryLong) {
-        this.factoryLong = factoryLong;
-    }
-
-    public void setFactoryLat(String factoryLat) {
-        this.factoryLat = factoryLat;
-    }
+//    public void setFactoryLong(String factoryLong) {
+//        this.factoryLong = factoryLong;
+//    }
+//
+//    public void setFactoryLat(String factoryLat) {
+//        this.factoryLat = factoryLat;
+//    }
 
     public void setFactoryLandMark(String factoryLandMark) {
         this.factoryLandMark = factoryLandMark;
