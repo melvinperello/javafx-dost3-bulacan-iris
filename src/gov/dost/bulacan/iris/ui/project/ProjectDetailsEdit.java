@@ -32,6 +32,7 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
+import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -59,109 +60,112 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  * @author DOST-3
  */
 public class ProjectDetailsEdit extends PolarisFxController implements Messageable {
-
+    
+    @FXML
+    private HBox hbox_header;
+    
     @FXML
     private Label lbl_modify_header;
-
+    
     @FXML
     private Label lbl_modify_time;
-
+    
     @FXML
     private JFXButton btn_save_project;
-
+    
     @FXML
     private JFXButton btn_cancel_edit;
-
+    
     @FXML
     private TextField txt_cooperator;
-
+    
     @FXML
     private TextField txt_owner;
-
+    
     @FXML
     private TextField txt_owner_position;
-
+    
     @FXML
     private TextArea txt_owner_address;
-
+    
     @FXML
     private ComboBox cmb_sector;
-
+    
     @FXML
     private TextField txt_year_established;
-
+    
     @FXML
     private ComboBox cmb_class_capital;
-
+    
     @FXML
     private ComboBox cmb_class_employment;
-
+    
     @FXML
     private ComboBox cmb_ownership;
-
+    
     @FXML
     private ComboBox cmb_profitability;
-
+    
     @FXML
     private TextArea txt_registration;
-
+    
     @FXML
     private TextArea txt_products;
-
+    
     @FXML
     private TextArea txt_market;
-
+    
     @FXML
     private TextArea txt_street_address;
-
+    
     @FXML
     private TextField txt_brgy;
-
+    
     @FXML
     private ComboBox cmb_city;
-
+    
     @FXML
     private TextArea txt_landmark;
-
+    
     @FXML
     private TextField txt_website;
-
+    
     @FXML
     private TableView<?> tbl_contact_person;
-
+    
     @FXML
     private Label lbl_project_code;
-
+    
     @FXML
     private TextField txt_spin_no;
-
+    
     @FXML
     private ComboBox cmb_project_type;
-
+    
     @FXML
     private ComboBox cmb_project_status;
-
+    
     @FXML
     private TextArea txt_project_name;
-
+    
     @FXML
     private DatePicker date_endorsed;
-
+    
     @FXML
     private DatePicker date_approved;
-
+    
     @FXML
     private TextField txt_approved_cost;
-
+    
     @FXML
     private DatePicker date_duration_from;
-
+    
     @FXML
     private DatePicker date_duration_to;
-
+    
     @FXML
     private DatePicker date_moa;
-
+    
     @FXML
     private TextField txt_actual_cost;
 
@@ -179,13 +183,14 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
          */
         this.willAddNew = this.receiveModel == null;
     }
-
+    
     private final PolarisFxController parentController;
     private final ProjectModel receiveModel;
     private final boolean willAddNew;
-
+    
     @Override
     protected void setup() {
+        ProjectHeader.attach(this.hbox_header);
         /**
          * Initialization of the combo boxes.
          */
@@ -232,7 +237,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                     if (ProjectDetailsView.loadMyData(this.receiveModel, this.getStage())) {
                         this.changeRoot(new ProjectDetailsView(this.receiveModel).load());
                     }
-
+                    
                 }
             }
             value.consume();
@@ -268,7 +273,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 .setOwner(this.getStage())
                 .showAndWait();
     }
-
+    
     @Override
     public void showInformationMessage(String message) {
         PolarisDialog.create(PolarisDialog.Type.INFORMATION)
@@ -278,7 +283,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 .setOwner(this.getStage())
                 .showAndWait();
     }
-
+    
     @Override
     public void showErrorMessage(String message) {
         PolarisDialog.create(PolarisDialog.Type.ERROR)
@@ -288,7 +293,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 .setOwner(this.getStage())
                 .showAndWait();
     }
-
+    
     @Override
     public int showConfirmation(String message) {
         ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
@@ -382,13 +387,13 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
      * Get Values in the Java FX Form.
      */
     private void getProjectValues() {
-
+        
         this.frmDateApproved = null;
         this.frmDateEndorsed = null;
         this.frmDurationFrom = null;
         this.frmDurationTo = null;
         this.frmMoaSigned = null;
-
+        
         this.frmCooperator = filterInput(txt_cooperator);
         this.frmOwner = filterInput(txt_owner);
         this.frmPosition = filterInput(txt_owner_position);
@@ -424,7 +429,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         if (this.date_endorsed.getValue() != null) {
             this.frmDateEndorsed = java.sql.Date.valueOf(this.date_endorsed.getValue());
         }
-
+        
         if (this.date_approved.getValue() != null) {
             this.frmDateApproved = java.sql.Date.valueOf(this.date_approved.getValue());
         }
@@ -437,7 +442,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         if (this.date_duration_from.getValue() != null) {
             this.frmDurationFrom = java.sql.Date.valueOf(this.date_duration_from.getValue());
         }
-
+        
         if (this.date_duration_to.getValue() != null) {
             this.frmDurationTo = java.sql.Date.valueOf(this.date_duration_to.getValue());
         }
@@ -445,7 +450,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         if (this.date_moa.getValue() != null) {
             this.frmMoaSigned = java.sql.Date.valueOf(this.date_moa.getValue());
         }
-
+        
         this.frmActualCost = filterInput(txt_actual_cost);
     }
 
@@ -546,7 +551,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         }
         return projectAdded;
     }
-
+    
     private String filterInput(TextInputControl textField) {
         return StringTools.clearExtraSpaces(textField.getText().trim());
     }
@@ -577,7 +582,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 break;
             }
         }
-
+        
         this.txt_year_established.setText(this.receiveModel.getYearEstablished());
         //----------------------------------------------------------------------
         // capital classification combo
@@ -689,7 +694,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
             picker.setValue(setDate);
         }
     }
-
+    
     private boolean updateExistingProject() {
         this.getProjectValues();
 
@@ -765,7 +770,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         project.setExistingMarket(frmMarket);
         //
         project.setWebsite(frmWebsite);
-
+        
         boolean projectUpdated = false;
         //----------------------------------------------------------------------
         try {
@@ -783,5 +788,5 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         //----------------------------------------------------------------------
         return projectUpdated;
     }
-
+    
 }

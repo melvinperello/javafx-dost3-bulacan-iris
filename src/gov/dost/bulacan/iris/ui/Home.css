@@ -1,0 +1,20 @@
+.home-menu-button:hover{
+    -fx-background-color: #1479d2;
+    -fx-cursor: hand;
+}
+
+.home-menu-button:hover .label{
+    -fx-text-fill: white;
+}
+
+.home-menu-button:pressed{
+    -fx-background-color: #0D4E86;
+    -fx-cursor: hand;
+}
+
+.home-menu-button:pressed .label{
+    -fx-text-fill: white;
+}
+
+
+

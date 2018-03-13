@@ -28,32 +28,28 @@
  */
 package gov.dost.bulacan.iris.ui;
 
-import gov.dost.bulacan.iris.ui.project.ProjectView;
-import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
 /**
  *
- * @author Jhon Melvin
+ * @author DOST-3
  */
-public class Home extends PolarisFxController {
-    
-    @FXML
-    private HBox hbox_header;
-    
-    @FXML
-    private HBox menu_projects;
-    
+public class ProjectHeader extends PolarisFxController {
+
     @Override
     protected void setup() {
-        ProjectHeader.attach(hbox_header);
         //
-        this.menu_projects.setOnMouseClicked(value -> {
-            ProjectView projectView = new ProjectView();
-            this.changeRoot(projectView.load());
-            value.consume();
-        });
     }
-    
+
+    public static void attach(HBox hBoxParent) {
+        ProjectHeader header = new ProjectHeader();
+        header.load();
+        // set HGrow
+        HBox.setHgrow(header.getRootPane(), Priority.ALWAYS);
+        // attach
+        hBoxParent.getChildren().add(header.getRootPane());
+    }
 }

@@ -32,6 +32,8 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectModel;
+import gov.dost.bulacan.iris.ui.Home;
+import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +41,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,8 +52,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
-import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
+import javafx.scene.layout.HBox;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
@@ -63,6 +63,9 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 public class ProjectView extends PolarisFxController implements Messageable {
 
     @FXML
+    private JFXButton btn_back_to_home;
+
+    @FXML
     private TextField txt_search;
 
     @FXML
@@ -70,6 +73,9 @@ public class ProjectView extends PolarisFxController implements Messageable {
 
     @FXML
     private JFXButton btn_new_project;
+
+    @FXML
+    private HBox hbox_header;
 
     @FXML
     private TableView<ProjectModel> tbl_project_table;
@@ -85,6 +91,14 @@ public class ProjectView extends PolarisFxController implements Messageable {
 
     @Override
     protected void setup() {
+        ProjectHeader.attach(this.hbox_header);
+
+        this.btn_back_to_home.setOnMouseClicked(value -> {
+            Home home = new Home();
+            this.changeRoot(home.load());
+
+            value.consume();
+        });
         /**
          * Populate and create the table.
          */
