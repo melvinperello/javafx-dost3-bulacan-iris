@@ -39,6 +39,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
+import org.afterschoolcreatives.polaris.java.net.ip.HostFinder;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 
 /**
@@ -46,6 +47,20 @@ import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
  * @author Jhon Melvin
  */
 public class Context {
+
+    //--------------------------------------------------------------------------
+    // Versioning
+    public final static int VERSION_CODE = 0;
+    public final static String VERSION_NAME = "v.1.0 Prototype";
+
+    public int getVersionCode() {
+        return Context.VERSION_CODE;
+    }
+
+    public String getVersionName() {
+        return Context.VERSION_NAME;
+    }
+    //--------------------------------------------------------------------------
 
     public final static String PROJECT_CODE_PREFIX = "STC3000";
 
@@ -130,10 +145,17 @@ public class Context {
      * Initialize Object.
      */
     private Context() {
+        this.createConnectionFactory();
+    }
+
+    /**
+     * Creates The Connection Factory.
+     */
+    private void createConnectionFactory() {
         this.connectionFactory = new ConnectionFactory();
         this.connectionFactory.setConnectionDriver(ConnectionFactory.Driver.MariaDB);
         this.connectionFactory.setDatabaseName("iris_bulacan_dost3");
-        this.connectionFactory.setHost("localhost");
+        this.connectionFactory.setHost("127.0.0.1");
         this.connectionFactory.setPort("3306");
         this.connectionFactory.setUsername("dost3bulacan");
         this.connectionFactory.setPassword("123456");
@@ -153,7 +175,7 @@ public class Context {
      * @return
      */
     public DecimalFormat getMoneyFormat() {
-        return new DecimalFormat("#,###.00");
+        return new DecimalFormat("#,##0.00");
     }
 
     /**

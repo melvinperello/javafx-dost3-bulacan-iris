@@ -30,11 +30,15 @@ package gov.dost.bulacan.iris;
 
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
+import java.util.Optional;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.java.net.ip.HostFinder;
+import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
  *
@@ -53,6 +57,14 @@ public class IRIS extends Application {
         primaryStage.setTitle("PSTC-Bulacan/DOST3 Information Retrieval Integrated System ( I.R.I.S. )");
         primaryStage.setMinHeight(700.0);
         primaryStage.setMinWidth(1300.0);
+        //
+
+        // on close
+        primaryStage.setOnCloseRequest(close -> {
+            IRIS.onCloseConfirmation(primaryStage);
+            close.consume();
+        });
+        //
         primaryStage.show();
     }
 
@@ -91,6 +103,18 @@ public class IRIS extends Application {
 //            String addr = action.getInetAddress().getHostAddress();
 //            System.out.println(addr);
 //        });
+    }
+
+    public static void onCloseConfirmation(Stage owner) {
+        Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
+                .setTitle("Exit")
+                .setOwner(owner)
+                .setHeaderText("Close Application ?")
+                .setContentText("Are you sure you want to close the application ?")
+                .showAndWait();
+        if (res.get().getText().equals("OK")) {
+            Platform.exit(); // exit java fx
+        }
     }
 
 }

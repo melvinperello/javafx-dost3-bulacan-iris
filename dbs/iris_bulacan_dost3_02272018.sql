@@ -68,13 +68,15 @@ CREATE TABLE IF NOT EXISTS `setup_projects` (
   PRIMARY KEY (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.setup_projects: ~4 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.setup_projects: ~6 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects` DISABLE KEYS */;
 INSERT INTO `setup_projects` (`project_code`, `spin_no`, `company_name`, `company_owner`, `owner_position`, `owner_address`, `project_name`, `project_status`, `project_type`, `endorsed_date`, `endorsed_attachment`, `approved_date`, `approved_funding`, `approved_attachment`, `moa_date`, `moa_attachment`, `actual_cost`, `duration_from`, `duration_to`, `factory_street`, `factory_brgy`, `factory_city`, `factory_landmark`, `year_established`, `business_activity`, `capital_classification`, `employment_classification`, `company_ownership`, `profitability`, `registration_info`, `major_products`, `existing_market`, `website`, `deleted_at`) VALUES
-	('STC30002018-0304081418', '', 'SAMPLE', 'asda', 'sda', 'sdasdasd', 'Improve the equiments', 1, 'GIA', '2018-03-14 00:00:00', NULL, '2018-02-28 00:00:00', 2000, NULL, '2018-04-04 00:00:00', NULL, 1000, '2018-03-14 00:00:00', '2018-03-18 00:00:00', '503 Villa Nieto L Gonzales', 'Bunducan', '3018', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', 'www.website.com', NULL),
 	('STC30002018-0313104030', '', 'Marissa Sweets & Delicacies', 'Maricar DC. Ausan', 'Owner', '', 'Product and Process Improvement through the Adoption of Appropriate Technology for Marissa Sweets and Delicacies', 1, 'SETUP', NULL, NULL, '2017-05-26 00:00:00', 157789.02, NULL, '2017-06-09 00:00:00', NULL, 157789.02, '2017-06-01 00:00:00', '2018-05-01 00:00:00', '579 SITIO BATUHAN', 'BULIRAN', '3011', '', '2013', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', 'DTI REGISTRATION NO. 02047377 valid until May 2018', 'Pastillas De Leche, Yema, Ube', 'Retails Outlet, Pasalubong Center, Bus Stations in Tarlac and Pampanga', '', NULL),
 	('STC30002018-0313105718', '', 'Jhul\'z Creamy Delights Cakes and Pastries', '', '', '', 'Ensuring Food Safety and Product Quality through the Application of Improved and Advanced Technologies for Jhul\'z Creamy Delights Cakes and Pastries', 1, 'SETUP', NULL, NULL, '2017-05-26 00:00:00', 350000, NULL, '2017-06-09 00:00:00', NULL, 373860, '2017-06-01 00:00:00', '2018-05-01 00:00:00', 'B-52 L-29 Area 1 Assumption', 'Sapang Palay', '3023', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', 'DTI REGISTRATION NO. 03950325 Valid until February 12 2021', 'Cakes and Pastries', 'Retailers such as Suisie\'s Cuisine', '', NULL),
-	('STC30002018-0313111439', '', 'FGCA Machinery', '', '', '', '', 1, 'SETUP', NULL, NULL, NULL, 965000, NULL, '2017-11-21 00:00:00', NULL, 965000, '2017-11-01 00:00:00', '2018-10-01 00:00:00', '2292 La Trinidad Subdivision', 'Lolomboy', '3018', 'tapat ng iglesia ni cristo', '1971', 1, 'MEDIUM', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', 'dti 03597180 valid until May 2020', '', '', '', NULL);
+	('STC30002018-0313111439', '', 'FGCA Machinery', '', '', '', '', 1, 'SETUP', NULL, NULL, NULL, 965000, NULL, '2017-11-21 00:00:00', NULL, 965000, '2017-11-01 00:00:00', '2018-10-01 00:00:00', '2292 La Trinidad Subdivision', 'Lolomboy', '3018', 'tapat ng iglesia ni cristo', '1971', 1, 'MEDIUM', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', 'dti 03597180 valid until May 2020', '', '', '', NULL),
+	('STC30002018-0313133218', '', 'P. Zuñiga Jewelry Store', '', '', '', 'Introduction of Ring Maker CNC Machine in the Production of Jewelries for P. Zuñiga Jewelry Store', 1, 'SETUP', NULL, NULL, '2017-05-26 00:00:00', 1, NULL, '2017-06-16 00:00:00', NULL, 1646400, '2017-06-01 00:00:00', '2018-05-01 00:00:00', '30 Bagong Buhay, Malhacan Road', 'Malhacan', '3020', '', '1982', 4, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', 'DTI Registration No. 04126142 Valid Until July 19 2021', 'Jewelries and Repair Services', 'Walk-in clients, distributors, store outlet', '', NULL),
+	('STC30002018-0313134507', '', 'Allied Metals, Inc.', '', '', '', 'Introduction of Robotic Arm Welding Machine in the Production of Stainless Steel Sink, Bowls, Pans, Trench Drains for Allied Metals, Inc. Phase II', 0, 'GIA', NULL, NULL, NULL, 0, NULL, '2017-07-13 00:00:00', NULL, 1898800, '2017-03-01 00:00:00', '2018-02-01 00:00:00', '2000 Governor Halili Highway', 'Muzon', '3023', '', '1965', 4, 'MEDIUM', 'MEDIUM', 'CORPORATION', 'PROFIT', 'sec reg# 26448', 'kitchen equiment', 'Hotels, Resorts, Restaurants & Bar, Hospitals, Culinary Schools, Pharma Companies', 'alliedmetals.com.ph', NULL),
+	('STC30002018-0313144906', '', 'Eleven Fourteen Sweet Candies', '', '', '', 'Ensuring Food Safety and Product Quality Through Application of Improved and Advanced Technologies for Eleven Fourteen Sweet Candies', 1, 'SETUP', '2015-12-11 00:00:00', NULL, '2015-12-29 00:00:00', 340000, NULL, '2016-02-10 00:00:00', NULL, 0, '2016-01-01 00:00:00', '2016-12-01 00:00:00', '#1065', 'San Juan', '3011', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '', NULL);
 /*!40000 ALTER TABLE `setup_projects` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.setup_projects_contact
@@ -90,15 +92,15 @@ CREATE TABLE IF NOT EXISTS `setup_projects_contact` (
   PRIMARY KEY (`id`),
   KEY `spc_fk_sp_code` (`setup_project_code`),
   CONSTRAINT `spc_fk_sp_code` FOREIGN KEY (`setup_project_code`) REFERENCES `setup_projects` (`project_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table iris_bulacan_dost3.setup_projects_contact: ~4 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects_contact` DISABLE KEYS */;
 INSERT INTO `setup_projects_contact` (`id`, `setup_project_code`, `name`, `position`, `mobile`, `landline`, `email`, `deleted_at`) VALUES
-	(7, 'STC30002018-0304081418', 'Jhon Melvin Nieto Perello', 'Owner', '0936 8955 866', '044 054 1241', 'jhmvinperello@gmail.com', NULL),
-	(8, 'STC30002018-0304081418', 'Juan Dela Cruz', 'Owner', '0936 8955 866', '', '', '2018-03-13 09:03:03'),
 	(9, 'STC30002018-0313104030', 'owner', '', '09264363929', '', 'ilovemarissasweets@yahoo.com', NULL),
-	(10, 'STC30002018-0313105718', 'Julie S. Dela Cruz', 'Owner', '0922 786 0182', '', '', NULL);
+	(10, 'STC30002018-0313105718', 'Julie S. Dela Cruz', 'Owner', '0922 786 0182', '', '', NULL),
+	(11, 'STC30002018-0313133218', 'Pedro A. Zuñiga', 'Owner/Manager', '0917 817 7775 / 094 999 89049', '044 815 5623', 'pzunigajewellery@gmail.com', NULL),
+	(12, 'STC30002018-0313134507', 'Domingo U. Castro', 'Operations Manager', '09177949077', '02 721 1349', 'cris.castro@alliedmetals.com.ph', NULL);
 /*!40000 ALTER TABLE `setup_projects_contact` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

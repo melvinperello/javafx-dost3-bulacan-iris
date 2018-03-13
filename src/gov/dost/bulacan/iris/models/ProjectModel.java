@@ -29,6 +29,8 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
+import static gov.dost.bulacan.iris.models.ProjectContactModel.DELETED_AT;
+import static gov.dost.bulacan.iris.models.ProjectContactModel.SETUP_PROJECT_CODE;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -645,7 +647,10 @@ public class ProjectModel extends PolarisRecord {
         querySample.addStatement("SELECT")
                 .addStatement("*")
                 .addStatement("FROM")
-                .addStatement(TABLE);
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL");
         //======================================================================
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new ProjectModel().findMany(con, querySample);
@@ -665,6 +670,71 @@ public class ProjectModel extends PolarisRecord {
             return model.find(con, projectCode);
         }
     }
+
+    /**
+     * Deletes a project and its related contacts.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
+    public static boolean deleteProject(ProjectModel model) throws SQLException {
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            //------------------------------------------------------------------
+            // start transaction
+            con.transactionStart();
+            //------------------------------------------------------------------
+            // get server date.
+            Date serverDate = Context.app().getServerDate();
+            // update value
+            model.setDeletedAt(serverDate);
+            // execute query.
+            boolean projectRecordUpdated = model.update(con);
+            //------------------------------------------------------------------
+            // if project record update failed rollback and return false.
+            if (!projectRecordUpdated) {
+                con.transactionRollBack();
+                return false;
+            }
+            //------------------------------------------------------------------
+            // Delete Related Contacts.
+            //------------------------------------------------------------------
+            // proceed to update related contacts deleted-at flag.
+            SimpleQuery querySample = new SimpleQuery();
+            querySample.addStatement("UPDATE")
+                    .addStatement(ProjectContactModel.TABLE)
+                    .addStatement("SET")
+                    .addStatementWithParameter(ProjectContactModel.DELETED_AT + " = ?", serverDate)
+                    .addStatement("WHERE")
+                    .addStatement(ProjectContactModel.DELETED_AT)
+                    .addStatement("IS NULL")
+                    .addStatement("AND")
+                    .addStatementWithParameter(ProjectContactModel.SETUP_PROJECT_CODE + " = ?", model.getProjectCode());
+            //------------------------------------------------------------------
+            try {
+                // execute update to contacts.
+                con.update(querySample);
+            } catch (SQLException e) {
+                // if something happened wrong
+                con.transactionRollBack();
+                return false;
+            }
+            //------------------------------------------------------------------
+            //  End Delete Contact Coverage
+            //------------------------------------------------------------------
+            // if nothing happened wrong
+            return true;
+        } finally {
+            if (con != null) {
+                con.transactionCommit();
+                con.close();
+            }
+        }
+    } // end delete project.
 
     //</@polaris:ignore>
     //--------------------------------------------------------------------------

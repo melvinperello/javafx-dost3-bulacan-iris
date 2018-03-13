@@ -31,6 +31,7 @@ package gov.dost.bulacan.iris.ui.project;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.Messageable;
+import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -139,6 +140,21 @@ public class ProjectView extends PolarisFxController implements Messageable {
             }
             int res = this.showConfirmation("Are you sure you want to remove this project? This operation is ireversible.");
             if (res == 1) {
+                try {
+                    boolean deleted = ProjectModel.deleteProject(selectedProject);
+                    if (deleted) {
+                        this.showInformationMessage("Contact successfully deleted to this project.");
+                        // refresh table
+                        this.populateTable();
+                    } else {
+                        this.showInformationMessage("Contact cannot be deleted at the moment please try again later.");
+                    }
+                } catch (SQLException e) {
+                    //
+                    PolarisDialog.exceptionDialog(e)
+                            .setContentText("Failed to delete project.")
+                            .show();
+                }
             }
             value.consume();
         });
