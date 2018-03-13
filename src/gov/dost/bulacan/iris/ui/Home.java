@@ -39,24 +39,41 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  * @author Jhon Melvin
  */
 public class Home extends PolarisFxController {
-    
+
     @FXML
     private HBox hbox_header;
-    
+
     @FXML
     private HBox menu_projects;
-    
+
+    @FXML
+    private HBox menu_settings;
+
     @Override
     protected void setup() {
         ProjectHeader.attach(hbox_header);
-        //
+        /**
+         * Open Projects.
+         */
         this.menu_projects.setOnMouseClicked(value -> {
             ProjectView projectView = new ProjectView();
             this.changeRoot(projectView.load());
             value.consume();
         });
+
+        this.menu_settings.setOnMouseClicked(value -> {
+            // settings window.
+            value.consume();
+        });
+
     }
-    
+
+    /**
+     * Add Event to a button that will change the view to the home page.
+     *
+     * @param button
+     * @param controller
+     */
     public static void addEventBackToHome(Node button, PolarisFxController controller) {
         button.setOnMouseClicked(value -> {
             Home home = new Home();
@@ -64,5 +81,5 @@ public class Home extends PolarisFxController {
             value.consume();
         });
     }
-    
+
 }
