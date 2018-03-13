@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris.ui;
 
 import gov.dost.bulacan.iris.ui.project.ProjectView;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
@@ -52,6 +53,14 @@ public class Home extends PolarisFxController {
         this.menu_projects.setOnMouseClicked(value -> {
             ProjectView projectView = new ProjectView();
             this.changeRoot(projectView.load());
+            value.consume();
+        });
+    }
+    
+    public static void addEventBackToHome(Node button, PolarisFxController controller) {
+        button.setOnMouseClicked(value -> {
+            Home home = new Home();
+            controller.changeRoot(home.load());
             value.consume();
         });
     }

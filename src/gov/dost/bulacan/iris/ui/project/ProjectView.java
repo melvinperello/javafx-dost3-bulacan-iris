@@ -78,6 +78,9 @@ public class ProjectView extends PolarisFxController implements Messageable {
     private HBox hbox_header;
 
     @FXML
+    private JFXButton btn_delete_project;
+
+    @FXML
     private TableView<ProjectModel> tbl_project_table;
 
     public ProjectView() {
@@ -92,13 +95,7 @@ public class ProjectView extends PolarisFxController implements Messageable {
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
-
-        this.btn_back_to_home.setOnMouseClicked(value -> {
-            Home home = new Home();
-            this.changeRoot(home.load());
-
-            value.consume();
-        });
+        Home.addEventBackToHome(this.btn_back_to_home, this);
         /**
          * Populate and create the table.
          */
@@ -131,6 +128,18 @@ public class ProjectView extends PolarisFxController implements Messageable {
                 this.changeRoot(new ProjectDetailsView(selectedProject).load());
             }
 
+            value.consume();
+        });
+
+        this.btn_delete_project.setOnMouseClicked(value -> {
+            ProjectModel selectedProject = this.tbl_project_table.getSelectionModel().getSelectedItem();
+            if (selectedProject == null) {
+                this.showWarningMessage("Please highlight a project to delete.");
+                return;
+            }
+            int res = this.showConfirmation("Are you sure you want to remove this project? This operation is ireversible.");
+            if (res == 1) {
+            }
             value.consume();
         });
     }

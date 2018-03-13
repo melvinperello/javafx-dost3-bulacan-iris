@@ -156,6 +156,7 @@ public class ProjectModel extends PolarisRecord {
     public final static String EXISTING_MARKET = "existing_market";
     //
     public final static String WEBSITE = "website";
+    public final static String DELETED_AT = "deleted_at";
 
     //--------------------------------------------------------------------------
     // DECLARATIONS
@@ -272,6 +273,8 @@ public class ProjectModel extends PolarisRecord {
 
     @Column(WEBSITE)
     private String website;
+    @Column(DELETED_AT)
+    private Date deletedAt;
 
     //--------------------------------------------------------------------------
     // Static Classes.
@@ -762,7 +765,6 @@ public class ProjectModel extends PolarisRecord {
 //    public String getFactoryLat() {
 //        return factoryLat;
 //    }
-
     public String getFactoryLandMark() {
         return factoryLandMark;
     }
@@ -903,7 +905,6 @@ public class ProjectModel extends PolarisRecord {
 //    public void setFactoryLat(String factoryLat) {
 //        this.factoryLat = factoryLat;
 //    }
-
     public void setFactoryLandMark(String factoryLandMark) {
         this.factoryLandMark = factoryLandMark;
     }
@@ -946,6 +947,14 @@ public class ProjectModel extends PolarisRecord {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
 }

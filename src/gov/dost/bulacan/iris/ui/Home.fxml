@@ -163,12 +163,12 @@
                      <children>
                         <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../storage/drawable/communication_128.png" />
+                              <Image url="@../../../../../storage/drawable/student_128.png" />
                            </image>
                         </ImageView>
                         <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Incomming / Outgoing Communications">
+                              <Label text="Science and Technology Scholarship">
                                  <font>
                                     <Font name="System Bold" size="22.0" />
                                  </font>
@@ -191,12 +191,12 @@
                      <children>
                         <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../storage/drawable/student_128.png" />
+                              <Image url="@../../../../../storage/drawable/gmp_128.png" />
                            </image>
                         </ImageView>
                         <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Science and Technology Scholarship">
+                              <Label text="GMP Certifications">
                                  <font>
                                     <Font name="System Bold" size="22.0" />
                                  </font>
