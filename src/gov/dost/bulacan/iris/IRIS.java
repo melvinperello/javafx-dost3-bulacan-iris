@@ -34,6 +34,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.afterschoolcreatives.polaris.java.net.ip.HostFinder;
 
 /**
  *
@@ -79,6 +80,17 @@ public class IRIS extends Application {
      */
     public static void main(String[] args) {
         Application.launch(args);
+//        HostFinder finder = new HostFinder();
+//        finder.setHostName("dost-3-pc");
+//        try {
+//            finder.find();
+//        } catch (Exception e) {
+//        }
+//
+//        finder.getIpv4List().forEach(action -> {
+//            String addr = action.getInetAddress().getHostAddress();
+//            System.out.println(addr);
+//        });
     }
 
 }
