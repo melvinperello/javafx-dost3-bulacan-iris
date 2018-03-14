@@ -41,11 +41,14 @@ public class EquipmentSupplierModel extends PolarisRecord {
     public final static String SUPPLIER = "supplier_name";
     public final static String SECTOR = "sector";
     public final static String DOST_ACCREDITED = "dost_accredited";
-    public final static String REGION = "region";
-    public final static String PROVINCE = "province";
+    //--------------------------------------------------------------------------
+    // Address Fields for Analytics
+    public final static String REGION = "supplier_region";
+    public final static String PROVINCE = "supplier_province";
     public final static String CITY = "supplier_city";
     public final static String BRGY = "supplier_brgy";
     public final static String STREET_ADDRESS = "supplier_street";
+    //--------------------------------------------------------------------------
 
     /**
      * Supplier Sector.

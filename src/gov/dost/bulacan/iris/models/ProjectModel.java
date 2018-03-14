@@ -389,6 +389,9 @@ public class ProjectModel extends PolarisRecord {
         public final static String[] VALUE_LIST = new String[]{PROFIT, NON_PROFIT};
     }
 
+    /**
+     * Town Value Model for BULACAN.
+     */
     public static class TownValueModel {
 
         public final static TownValueModel ANGAT = new TownValueModel("ANGAT", "3012", "3");
@@ -455,35 +458,6 @@ public class ProjectModel extends PolarisRecord {
             throw new UnknownModelValueException();
         }
 
-//        /**
-//         * Town Name List.
-//         */
-//        static final String[] TOWN_NAME_LIST = new String[]{
-//            ANGAT.toString(),
-//            BALAGTAS.toString(),
-//            BALIUAG.toString(),
-//            BOCAUE.toString(),
-//            BULACAN.toString(),
-//            BUSTOS.toString(),
-//            CALUMPIT.toString(),
-//            DRT.toString(),
-//            GUIGUINTO.toString(),
-//            HAGONOY.toString(),
-//            MALOLOS.toString(),
-//            MARILAO.toString(),
-//            MEYCAUYAN.toString(),
-//            NORZAGARAY.toString(),
-//            OBANDO.toString(),
-//            PANDI.toString(),
-//            PAOMBONG.toString(),
-//            PLARIDEL.toString(),
-//            PULILAN.toString(),
-//            SAN_ILDEFONSO.toString(),
-//            SJDM.toString(),
-//            SAN_MIGUEL.toString(),
-//            SAN_RAFAEL.toString(),
-//            STA_MARIA.toString()
-//        };
         // non-static values
         private final String name;
         private final String zip;
