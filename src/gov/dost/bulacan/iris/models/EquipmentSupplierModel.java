@@ -35,10 +35,12 @@ package gov.dost.bulacan.iris.models;
 public class EquipmentSupplierModel {
 
     public final static String SUPPLIER = "supplier_name";
-    /**
-     * Food Processing Furniture
-     *
-     */
+    // Food Processing
+    // Furniture
+    // Gifts, Housewares and Decors
+    // Horticulture and Agriculture
+    // Metals and Engineering
+    // 
     public final static String SECTOR = "sector";
     public final static String DOST_ACCREDITED = "dost_accredited";
 
