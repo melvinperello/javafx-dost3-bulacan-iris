@@ -29,8 +29,7 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
-import static gov.dost.bulacan.iris.models.ProjectContactModel.DELETED_AT;
-import static gov.dost.bulacan.iris.models.ProjectContactModel.SETUP_PROJECT_CODE;
+import gov.dost.bulacan.iris.models.ext.UnknownModelValueException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -114,17 +113,17 @@ public class ProjectModel extends PolarisRecord {
     public final static String PROJECT_TYPE = "project_type";
     //ext
     public final static String ENDORSED_DATE = "endorsed_date";
-    public final static String ENDORSED_ATTACHMENT = "endorsed_attachment";
+    public final static String ENDORSED_ATTACHMENT = "file_endorsed_attachment";
     //
     public final static String APPROVED_DATE = "approved_date";
     public final static String APPROVED_FUNDING = "approved_funding";
-    public final static String APPROVED_ATTACHMENT = "approved_attachment";
+    public final static String APPROVED_ATTACHMENT = "file_approved_attachment";
     //
 //    public final static String RESTRUCTURED_FUNDING = "restructured_funding";
 //    public final static String RESTRUCTURED_ATTACHMENT = "restructured_attachment";
     //
     public final static String MOA_DATE = "moa_date";
-    public final static String MOA_ATTACHMENT = "moa_attachment";
+    public final static String MOA_ATTACHMENT = "file_moa_attachment";
 
     public final static String ACTUAL_COST = "actual_cost";
     public final static String DURATION_FROM = "duration_from";
@@ -305,13 +304,13 @@ public class ProjectModel extends PolarisRecord {
 
         public final static ProjectStatus[] STATUS_LIST = new ProjectStatus[]{PROPOSED, ON_GOING, COMPLETED};
 
-        public static String getStringValue(int value) throws UnknownValueException {
+        public static String getStringValue(int value) throws UnknownModelValueException {
             for (ProjectStatus projectStatus : STATUS_LIST) {
                 if (value == projectStatus.getValue()) {
                     return projectStatus.getName();
                 }
             }
-            throw new UnknownValueException();
+            throw new UnknownModelValueException();
         }
 
         @Override
@@ -390,37 +389,37 @@ public class ProjectModel extends PolarisRecord {
         public final static String[] VALUE_LIST = new String[]{PROFIT, NON_PROFIT};
     }
 
-    public static class Town {
+    public static class TownValueModel {
 
-        public final static Town ANGAT = new Town("ANGAT", "3012", "3");
-        public final static Town BALAGTAS = new Town("BALAGTAS", "3016", "2");
-        public final static Town BALIUAG = new Town("BALIUAG", "3006", "2");
-        public final static Town BOCAUE = new Town("BOCAUE", "3018", "2");
-        public final static Town BULACAN = new Town("BULACAN", "3017", "1");
-        public final static Town BUSTOS = new Town("BUSTOS", "3007", "2");
-        public final static Town CALUMPIT = new Town("CALUMPIT", "3003", "1");
-        public final static Town DRT = new Town("DOÑA REMEDIOS TRINIDAD", "3009", "3");
-        public final static Town GUIGUINTO = new Town("GUIGUINTO", "3015", "2");
-        public final static Town HAGONOY = new Town("HAGONOY", "3002", "1");
-        public final static Town MALOLOS = new Town("MALOLOS", "3000", "1");
-        public final static Town MARILAO = new Town("MARILAO", "3019", "4");
-        public final static Town MEYCAUYAN = new Town("MEYCAUYAN", "3020", "4");
-        public final static Town NORZAGARAY = new Town("NORZAGARAY", "3013", "3");
-        public final static Town OBANDO = new Town("OBANDO", "3021", "4");
-        public final static Town PANDI = new Town("PANDI", "3014", "2");
-        public final static Town PAOMBONG = new Town("PAOMBONG", "3001", "1");
-        public final static Town PLARIDEL = new Town("PLARIDEL", "3004", "2");
-        public final static Town PULILAN = new Town("PULILAN", "3005", "1");
-        public final static Town SAN_ILDEFONSO = new Town("SAN ILDEFONSO", "3010", "3");
-        public final static Town SJDM = new Town("SAN JOSE DEL MONTE", "3023", "0");
-        public final static Town SAN_MIGUEL = new Town("SAN MIGUEL", "3011", "3");
-        public final static Town SAN_RAFAEL = new Town("SAN RAFAEL", "3008", "3");
-        public final static Town STA_MARIA = new Town("STA. MARIA", "3022", "4");
+        public final static TownValueModel ANGAT = new TownValueModel("ANGAT", "3012", "3");
+        public final static TownValueModel BALAGTAS = new TownValueModel("BALAGTAS", "3016", "2");
+        public final static TownValueModel BALIUAG = new TownValueModel("BALIUAG", "3006", "2");
+        public final static TownValueModel BOCAUE = new TownValueModel("BOCAUE", "3018", "2");
+        public final static TownValueModel BULACAN = new TownValueModel("BULACAN", "3017", "1");
+        public final static TownValueModel BUSTOS = new TownValueModel("BUSTOS", "3007", "2");
+        public final static TownValueModel CALUMPIT = new TownValueModel("CALUMPIT", "3003", "1");
+        public final static TownValueModel DRT = new TownValueModel("DOÑA REMEDIOS TRINIDAD", "3009", "3");
+        public final static TownValueModel GUIGUINTO = new TownValueModel("GUIGUINTO", "3015", "2");
+        public final static TownValueModel HAGONOY = new TownValueModel("HAGONOY", "3002", "1");
+        public final static TownValueModel MALOLOS = new TownValueModel("MALOLOS", "3000", "1");
+        public final static TownValueModel MARILAO = new TownValueModel("MARILAO", "3019", "4");
+        public final static TownValueModel MEYCAUYAN = new TownValueModel("MEYCAUYAN", "3020", "4");
+        public final static TownValueModel NORZAGARAY = new TownValueModel("NORZAGARAY", "3013", "3");
+        public final static TownValueModel OBANDO = new TownValueModel("OBANDO", "3021", "4");
+        public final static TownValueModel PANDI = new TownValueModel("PANDI", "3014", "2");
+        public final static TownValueModel PAOMBONG = new TownValueModel("PAOMBONG", "3001", "1");
+        public final static TownValueModel PLARIDEL = new TownValueModel("PLARIDEL", "3004", "2");
+        public final static TownValueModel PULILAN = new TownValueModel("PULILAN", "3005", "1");
+        public final static TownValueModel SAN_ILDEFONSO = new TownValueModel("SAN ILDEFONSO", "3010", "3");
+        public final static TownValueModel SJDM = new TownValueModel("SAN JOSE DEL MONTE", "3023", "0");
+        public final static TownValueModel SAN_MIGUEL = new TownValueModel("SAN MIGUEL", "3011", "3");
+        public final static TownValueModel SAN_RAFAEL = new TownValueModel("SAN RAFAEL", "3008", "3");
+        public final static TownValueModel STA_MARIA = new TownValueModel("STA. MARIA", "3022", "4");
 
         /**
          * Town List.
          */
-        public static final Town[] TOWN_LIST = new Town[]{
+        public static final TownValueModel[] TOWN_LIST = new TownValueModel[]{
             ANGAT,
             BALAGTAS,
             BALIUAG,
@@ -447,13 +446,13 @@ public class ProjectModel extends PolarisRecord {
             STA_MARIA
         };
 
-        public static Town getTown(String zip) {
-            for (Town town : TOWN_LIST) {
+        public static TownValueModel getTown(String zip) {
+            for (TownValueModel town : TOWN_LIST) {
                 if (town.getZip().equalsIgnoreCase(zip)) {
                     return town;
                 }
             }
-            throw new UnknownValueException();
+            throw new UnknownModelValueException();
         }
 
 //        /**
@@ -490,7 +489,7 @@ public class ProjectModel extends PolarisRecord {
         private final String zip;
         private final String district;
 
-        private Town(String name, String zip, String district) {
+        private TownValueModel(String name, String zip, String district) {
             this.name = name;
             this.zip = zip;
             this.district = district;
@@ -565,27 +564,17 @@ public class ProjectModel extends PolarisRecord {
          *
          * @param value Integer type business activity.
          * @return String Meaning.
-         * @throws UnknownValueException when an invalid value was entered.
+         * @throws UnknownModelValueException when an invalid value was entered.
          */
-        public static String getStringValue(int value) throws UnknownValueException {
+        public static String getStringValue(int value) throws UnknownModelValueException {
             for (BusinessActivity businessActivity : ACTIVITY_LIST) {
                 if (value == businessActivity.getValue()) {
                     return businessActivity.getName();
                 }
             }
-            throw new UnknownValueException();
+            throw new UnknownModelValueException();
         }
     } // end of business activity.
-
-    public static class UnknownValueException extends RuntimeException {
-
-        static final long serialVersionUID = 1L;
-
-        public UnknownValueException() {
-            super("Invalid Integer Equivalent.");
-        }
-
-    }
 
     /**
      * Project Type.

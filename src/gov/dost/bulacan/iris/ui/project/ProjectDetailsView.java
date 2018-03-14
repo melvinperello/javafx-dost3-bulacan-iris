@@ -413,7 +413,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         PrintDetails printable = new PrintDetails();
         //
         String city = this.projectModel.getFactoryCity();
-        ProjectModel.Town town = ProjectModel.Town.getTown(city);
+        ProjectModel.TownValueModel town = ProjectModel.TownValueModel.getTown(city);
         /**
          * Factory Address.
          */
@@ -515,7 +515,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
      */
     public void preloadData() {
         String city = this.projectModel.getFactoryCity();
-        ProjectModel.Town town = ProjectModel.Town.getTown(city);
+        ProjectModel.TownValueModel town = ProjectModel.TownValueModel.getTown(city);
 
         this.lbl_cooperator_header.setText(this.projectModel.getCompanyName());
         this.lbl_cooperator.setText(this.projectModel.getCompanyName());

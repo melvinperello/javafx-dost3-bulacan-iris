@@ -241,7 +241,7 @@ public class ProjectView extends PolarisFxController implements Messageable {
         //----------------------------------------------------------------------
         TableColumn<ProjectModel, String> districtCol = new TableColumn<>("District");
         districtCol.setPrefWidth(60.0);
-        districtCol.setCellValueFactory(value -> new SimpleStringProperty(ProjectModel.Town.getTown(value.getValue().getFactoryCity()).getDistrict()));
+        districtCol.setCellValueFactory(value -> new SimpleStringProperty(ProjectModel.TownValueModel.getTown(value.getValue().getFactoryCity()).getDistrict()));
         //----------------------------------------------------------------------
         TableColumn<ProjectModel, String> endorseCol = new TableColumn<>("Endorsed");
         endorseCol.setPrefWidth(100.0);

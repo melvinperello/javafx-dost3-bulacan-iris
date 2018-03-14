@@ -65,7 +65,7 @@ public class ProjectContactModel extends PolarisRecord {
     public final static String TABLE = "setup_projects_contact";
     public final static String ID = "id";
     // FOREIGN KEY to ProjectModel
-    public final static String SETUP_PROJECT_CODE = "setup_project_code";
+    public final static String SETUP_PROJECT_CODE = "fk_setup_project_code";
     public final static String NAME = "name";
     public final static String POSITION = "position";
     public final static String MOBILE = "mobile";

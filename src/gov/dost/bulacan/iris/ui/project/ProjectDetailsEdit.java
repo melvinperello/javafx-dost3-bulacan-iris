@@ -337,7 +337,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         //----------------------------------------------------------------------
         // City.
         //----------------------------------------------------------------------
-        Context.comboBoxValueFactory(this.cmb_city, ProjectModel.Town.TOWN_LIST);
+        Context.comboBoxValueFactory(this.cmb_city, ProjectModel.TownValueModel.TOWN_LIST);
         this.cmb_city.getSelectionModel().selectFirst();
         //----------------------------------------------------------------------
         // Type.
@@ -412,7 +412,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         this.frmStreetAddress = filterInput(txt_street_address);
         this.frmBrgy = filterInput(txt_brgy);
         // save zip code for town
-        ProjectModel.Town town = (ProjectModel.Town) this.cmb_city.getValue();
+        ProjectModel.TownValueModel town = (ProjectModel.TownValueModel) this.cmb_city.getValue();
         this.frmCityZip = town.getZip();
         this.frmLandMark = filterInput(txt_landmark);
 //        this.frmMapsLat = filterInput(txt_latitude);
@@ -636,7 +636,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         //----------------------------------------------------------------------
         String cityZip = this.receiveModel.getFactoryCity();
         for (Object item : this.cmb_city.getItems()) {
-            ProjectModel.Town activity = (ProjectModel.Town) item;
+            ProjectModel.TownValueModel activity = (ProjectModel.TownValueModel) item;
             if (activity.getZip().equalsIgnoreCase(cityZip)) {
                 this.cmb_city.getSelectionModel().select(item);
                 break;
