@@ -41,7 +41,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
 public class DataSafedModel extends PolarisRecord {
 
     public final static String TABLE = "file_table";
-    public final static String FILE_ID = "filed_id"; // primary key
+    public final static String FILE_ID = "file_id"; // primary key
     public final static String FILE_DISPLAY_NAME = "file_display_name";
     public final static String FILE_DESCRIPTION = "file_description";
     public final static String FILE_PATH = "file_path"; // folder location

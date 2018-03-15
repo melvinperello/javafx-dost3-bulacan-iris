@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<regions>
+	<region psgc = "130000000" abrev = "NCR" name = "NATIONAL CAPITAL REGION"/>
+	<region psgc = "140000000" abrev = "CAR" name = "CORDILLERA ADMINISTRATIVE REGION"/>
+	<region psgc = "010000000" abrev = "REGION I" name = "ILOCOS REGION"/>
+	<region psgc = "010000000" abrev = "REGION I" name = "ILOCOS REGION"/>
+
+</regions>

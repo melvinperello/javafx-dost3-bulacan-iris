@@ -49,6 +49,9 @@ public class Home extends PolarisFxController {
     @FXML
     private HBox menu_settings;
 
+    @FXML
+    private HBox menu_equipment;
+
     @Override
     protected void setup() {
         ProjectHeader.attach(hbox_header);
@@ -63,6 +66,11 @@ public class Home extends PolarisFxController {
 
         this.menu_settings.setOnMouseClicked(value -> {
             // settings window.
+            value.consume();
+        });
+
+        this.menu_equipment.setOnMouseClicked(value -> {
+            System.out.println("HELLO WORLD");
             value.consume();
         });
 

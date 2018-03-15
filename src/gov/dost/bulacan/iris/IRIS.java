@@ -29,7 +29,6 @@
 package gov.dost.bulacan.iris;
 
 import gov.dost.bulacan.iris.ui.Home;
-import gov.dost.bulacan.iris.ui.project.ProjectView;
 import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -37,7 +36,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.afterschoolcreatives.polaris.java.net.ip.HostFinder;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**

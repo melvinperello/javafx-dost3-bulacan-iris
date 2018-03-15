@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.2.13-MariaDB - mariadb.org binary distribution
+-- Server version:               10.2.10-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win32
 -- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
@@ -16,18 +16,67 @@
 CREATE DATABASE IF NOT EXISTS `iris_bulacan_dost3` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `iris_bulacan_dost3`;
 
--- Dumping structure for table iris_bulacan_dost3.filedata
-CREATE TABLE IF NOT EXISTS `filedata` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL DEFAULT '0',
-  `location` varchar(50) NOT NULL DEFAULT '0',
-  `hash` varchar(50) NOT NULL DEFAULT '0',
+-- Dumping structure for table iris_bulacan_dost3.equipment_qoutation
+CREATE TABLE IF NOT EXISTS `equipment_qoutation` (
+  `qoute_code` varchar(50) NOT NULL,
+  `fk_supplier_code` varchar(50) DEFAULT NULL,
+  `fk_project_code` varchar(50) DEFAULT NULL,
+  `equipment_name` varchar(50) DEFAULT NULL,
+  `specification` varchar(50) DEFAULT NULL,
+  `feedback` varchar(50) DEFAULT NULL,
+  `remarks` varchar(50) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `file_qoute_attachment` int(11) DEFAULT NULL,
+  `search_keys` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`qoute_code`),
+  KEY `equipment_qoutation_supplier_code` (`fk_supplier_code`),
+  KEY `equipment_qoutation_project_code` (`fk_project_code`),
+  CONSTRAINT `equipment_qoutation_project_code` FOREIGN KEY (`fk_project_code`) REFERENCES `setup_projects` (`project_code`),
+  CONSTRAINT `equipment_qoutation_supplier_code` FOREIGN KEY (`fk_supplier_code`) REFERENCES `equipment_supplier` (`supplier_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~0 rows (approximately)
+/*!40000 ALTER TABLE `equipment_qoutation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `equipment_qoutation` ENABLE KEYS */;
+
+-- Dumping structure for table iris_bulacan_dost3.equipment_supplier
+CREATE TABLE IF NOT EXISTS `equipment_supplier` (
+  `supplier_code` varchar(50) NOT NULL,
+  `supplier_name` varchar(50) DEFAULT NULL,
+  `mobile_no` varchar(50) DEFAULT NULL,
+  `telephone_no` varchar(50) DEFAULT NULL,
+  `fax_no` varchar(50) DEFAULT NULL,
+  `website_address` varchar(50) DEFAULT NULL,
+  `sector` int(11) DEFAULT NULL,
+  `dost_accredited` varchar(50) DEFAULT NULL,
+  `supplier_region` varchar(50) DEFAULT NULL COMMENT 'PSGC Code',
+  `supplier_province` varchar(50) DEFAULT NULL COMMENT 'PSGC Code',
+  `supplier_city` varchar(50) DEFAULT NULL,
+  `supplier_brgy` varchar(50) DEFAULT NULL,
+  `supplier_street` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`supplier_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table iris_bulacan_dost3.equipment_supplier: ~0 rows (approximately)
+/*!40000 ALTER TABLE `equipment_supplier` DISABLE KEYS */;
+/*!40000 ALTER TABLE `equipment_supplier` ENABLE KEYS */;
+
+-- Dumping structure for table iris_bulacan_dost3.file_table
+CREATE TABLE IF NOT EXISTS `file_table` (
+  `id` varchar(50) NOT NULL,
+  `file_display_name` varchar(50) DEFAULT NULL,
+  `file_description` varchar(50) DEFAULT NULL,
+  `file_path` varchar(50) DEFAULT NULL,
+  `file_name` varchar(50) DEFAULT NULL,
+  `file_ext` varchar(50) DEFAULT NULL,
+  `file_size` varchar(50) DEFAULT NULL,
+  `file_hash` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.filedata: ~0 rows (approximately)
-/*!40000 ALTER TABLE `filedata` DISABLE KEYS */;
-/*!40000 ALTER TABLE `filedata` ENABLE KEYS */;
+-- Dumping data for table iris_bulacan_dost3.file_table: ~0 rows (approximately)
+/*!40000 ALTER TABLE `file_table` DISABLE KEYS */;
+/*!40000 ALTER TABLE `file_table` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.setup_projects
 CREATE TABLE IF NOT EXISTS `setup_projects` (
