@@ -33,12 +33,18 @@ import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 
 /**
  *
- * @author DOST-3
+ * @author Jhon Melvin
  */
 public class EquipmentSupplierModel extends PolarisRecord {
 
     public final static String SUPPLIER_CODE = "supplier_code";
     public final static String SUPPLIER = "supplier_name";
+    //
+    public final static String MOBILE = "mobile_no";
+    public final static String TEL = "telephone_no";
+    public final static String FAX = "fax_no";
+    public final static String WEBSITE = "website_address";
+    //
     public final static String SECTOR = "sector";
     public final static String DOST_ACCREDITED = "dost_accredited";
     //--------------------------------------------------------------------------
@@ -48,7 +54,15 @@ public class EquipmentSupplierModel extends PolarisRecord {
     public final static String CITY = "supplier_city";
     public final static String BRGY = "supplier_brgy";
     public final static String STREET_ADDRESS = "supplier_street";
+
     //--------------------------------------------------------------------------
+    public static class DostAccredited {
+
+        public final static String YES = "YES";
+        public final static String NO = "NO";
+
+        public final static String[] LIST = new String[]{YES, NO};
+    }
 
     /**
      * Supplier Sector.

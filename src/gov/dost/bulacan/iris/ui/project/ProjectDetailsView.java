@@ -692,13 +692,6 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
     }
 
     /**
-     * Folder that contains any setup printable materials.
-     */
-    public final static String DIR_SETUP_PRINTS = Context.DIR_TEMP
-            + File.separator
-            + "setup_prints";
-
-    /**
      * Static Inner Class For Printing.
      */
     public static class PrintDetails {
@@ -935,20 +928,20 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
             /**
              * Attempt to check the template directory.
              */
-            if (!FileTool.checkFoldersQuietly(Context.DIR_TEMPLATE)) {
+            if (!FileTool.checkFoldersQuietly(Context.getDirectoryTemp())) {
                 throw new FileNotFoundException("Template directory cannot be created.");
             }
             /**
              * Attempt to check the certificates directory.
              */
-            if (!FileTool.checkFoldersQuietly(ProjectDetailsView.DIR_SETUP_PRINTS)) {
+            if (!FileTool.checkFoldersQuietly(Context.getDirectoryTempSetupPrints())) {
                 throw new FileNotFoundException("Temp directory cannot be created.");
             }
             /**
              * Template File Path.
              */
-            String templatePath = Context.DIR_TEMPLATE + File.separator + "setup_print_blank.pdf";
-            File templateFile = new File(templatePath);
+
+            File templateFile = new File(Context.getTemplateSetupPrint());
 
             /**
              * Check if the template file is not existing.
@@ -976,7 +969,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
                  * Output file.
                  */
                 File stampedCertificatePdf = new File(
-                        ProjectDetailsView.DIR_SETUP_PRINTS
+                        Context.getDirectoryTempSetupPrints()
                         + File.separator
                         + infoNamePdf);
 

@@ -49,30 +49,44 @@ import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 public class Context {
 
     //--------------------------------------------------------------------------
-    // Versioning
-    public final static int VERSION_CODE = 0;
-    public final static String VERSION_NAME = "v.1.0 Prototype";
+    // Project Constants.
+    private final static int VERSION_CODE = 0;
+    private final static String VERSION_NAME = "v.1.0 Prototype";
+    private final static String PROJECT_CODE_PREFIX = "STC3000";
+    // directory consta
+    private final static String DIR_TEMPLATE = "template";
+    private final static String DIR_TEMP = "temp";
+    //--------------------------------------------------------------------------
 
-    public int getVersionCode() {
+    public static int getVersionCode() {
         return Context.VERSION_CODE;
     }
 
-    public String getVersionName() {
+    public static String getVersionName() {
         return Context.VERSION_NAME;
     }
+
+    public static String getProvinceCodePrefix() {
+        return PROJECT_CODE_PREFIX;
+    }
+
+    public static String getDirectoryTemplate() {
+        return DIR_TEMPLATE;
+    }
+
+    public static String getDirectoryTemp() {
+        return DIR_TEMP;
+    }
+
+    public static String getTemplateSetupPrint() {
+        return DIR_TEMPLATE + File.separator + "setup_print_blank.pdf";
+    }
+
+    public static String getDirectoryTempSetupPrints() {
+        return DIR_TEMP + File.separator + "setup_prints";
+    }
+
     //--------------------------------------------------------------------------
-
-    public final static String PROJECT_CODE_PREFIX = "STC3000";
-
-    /**
-     * A public folder that must contain all the PDF Templates.
-     */
-    public final static String DIR_TEMPLATE = "template";
-    /**
-     * A public folder that will hold the generated certificates.
-     */
-    public final static String DIR_TEMP = "temp";
-
     /**
      * Instance Holder.
      */

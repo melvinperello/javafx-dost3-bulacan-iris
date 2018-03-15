@@ -254,7 +254,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
          * Generate Key.
          */
         Calendar dateKey = Calendar.getInstance();
-        String generatedKey = Context.PROJECT_CODE_PREFIX
+        String generatedKey = Context.getProvinceCodePrefix()
                 + String.valueOf(dateKey.get(Calendar.YEAR))
                 + "-"
                 + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());

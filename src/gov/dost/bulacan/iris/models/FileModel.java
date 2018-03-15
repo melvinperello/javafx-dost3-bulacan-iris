@@ -28,19 +28,10 @@
  */
 package gov.dost.bulacan.iris.models;
 
-import java.util.Date;
-
 /**
  *
  * @author Jhon Melvin
  */
 public class FileModel {
 
-    private Integer id;
-    private String fileName;
-    private String location;
-    private Long fileSize;
-    private String hash;
-    private Date createdDate;
-    private String createdBy;
 }
