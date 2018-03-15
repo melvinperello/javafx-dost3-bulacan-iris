@@ -31,26 +31,29 @@ package gov.dost.bulacan.iris.models;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
+import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
 
 /**
  *
  * @author Jhon Melvin
  */
+@Table(EquipmentQoutationModel.TABLE)
 public class EquipmentQoutationModel extends PolarisRecord {
 
-    private final static String QOUTE_CODE = "qoute_code";
-    private final static String FK_SUPPLIER_CODE = "fk_supplier_code";
-    private final static String FK_PROJECT_CODE = "fk_project_code"; // if related to any project
+    public final static String TABLE = "equipment_qoutation";
+    public final static String QOUTE_CODE = "qoute_code";
+    public final static String FK_SUPPLIER_CODE = "fk_supplier_code";
+    public final static String FK_PROJECT_CODE = "fk_project_code"; // if related to any project
     //
-    private final static String EQUIPMENT_NAME = "equipment_name";
-    private final static String SPECIFICATIONS = "specification";
-    private final static String FEEDBACK = "feedback";
-    private final static String REMARKS = "remarks";
+    public final static String EQUIPMENT_NAME = "equipment_name";
+    public final static String SPECIFICATIONS = "specification";
+    public final static String FEEDBACK = "feedback";
+    public final static String REMARKS = "remarks";
     //
-    private final static String STATUS = "status"; // purchased or canvassed
-    private final static String QOUTATION_ATTACHMENT = "file_qoute_attachment";
+    public final static String STATUS = "status"; // purchased or canvassed
+    public final static String QOUTATION_ATTACHMENT = "file_qoute_attachment";
     //
-    private final static String KEYWORD = "search_keys"; // separated by comma(',').
+    public final static String KEYWORD = "search_keys"; // separated by comma(',').
 
     /**
      * State of the equipment purchased.

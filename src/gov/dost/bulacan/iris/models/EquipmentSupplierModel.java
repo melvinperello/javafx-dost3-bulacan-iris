@@ -30,15 +30,20 @@ package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.models.ext.UnknownModelValueException;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
+import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
+import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
+import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
 
 /**
  *
  * @author Jhon Melvin
  */
+@Table(EquipmentSupplierModel.TABLE)
 public class EquipmentSupplierModel extends PolarisRecord {
 
+    public final static String TABLE = "equipment_supplier";
     public final static String SUPPLIER_CODE = "supplier_code";
-    public final static String SUPPLIER = "supplier_name";
+    public final static String SUPPLIER_NAME = "supplier_name";
     //
     public final static String MOBILE = "mobile_no";
     public final static String TEL = "telephone_no";
@@ -54,6 +59,35 @@ public class EquipmentSupplierModel extends PolarisRecord {
     public final static String CITY = "supplier_city";
     public final static String BRGY = "supplier_brgy";
     public final static String STREET_ADDRESS = "supplier_street";
+
+    //--------------------------------------------------------------------------
+    @PrimaryKey
+    @Column(SUPPLIER_CODE)
+    private String supplierCode;
+    @Column(SUPPLIER_NAME)
+    private String supplierName;
+    @Column(MOBILE)
+    private String mobileNo;
+    @Column(TEL)
+    private String telNo;
+    @Column(FAX)
+    private String faxNo;
+    @Column(WEBSITE)
+    private String websiteAddress;
+    @Column(SECTOR)
+    private String sector;
+    @Column(DOST_ACCREDITED)
+    private String dostAccredited;
+    @Column(REGION)
+    private String supplierRegion;
+    @Column(PROVINCE)
+    private String supplierProvince;
+    @Column(CITY)
+    private String supplierCity;
+    @Column(BRGY)
+    private String supplierBrgy;
+    @Column(STREET_ADDRESS)
+    private String supplierStreet;
 
     //--------------------------------------------------------------------------
     public static class DostAccredited {
@@ -137,6 +171,111 @@ public class EquipmentSupplierModel extends PolarisRecord {
             }
             throw new UnknownModelValueException();
         }
+    }
+
+    //--------------------------------------------------------------------------
+    public String getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public String getTelNo() {
+        return telNo;
+    }
+
+    public void setTelNo(String telNo) {
+        this.telNo = telNo;
+    }
+
+    public String getFaxNo() {
+        return faxNo;
+    }
+
+    public void setFaxNo(String faxNo) {
+        this.faxNo = faxNo;
+    }
+
+    public String getWebsiteAddress() {
+        return websiteAddress;
+    }
+
+    public void setWebsiteAddress(String websiteAddress) {
+        this.websiteAddress = websiteAddress;
+    }
+
+    public String getSector() {
+        return sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
+
+    public String getDostAccredited() {
+        return dostAccredited;
+    }
+
+    public void setDostAccredited(String dostAccredited) {
+        this.dostAccredited = dostAccredited;
+    }
+
+    public String getSupplierRegion() {
+        return supplierRegion;
+    }
+
+    public void setSupplierRegion(String supplierRegion) {
+        this.supplierRegion = supplierRegion;
+    }
+
+    public String getSupplierProvince() {
+        return supplierProvince;
+    }
+
+    public void setSupplierProvince(String supplierProvince) {
+        this.supplierProvince = supplierProvince;
+    }
+
+    public String getSupplierCity() {
+        return supplierCity;
+    }
+
+    public void setSupplierCity(String supplierCity) {
+        this.supplierCity = supplierCity;
+    }
+
+    public String getSupplierBrgy() {
+        return supplierBrgy;
+    }
+
+    public void setSupplierBrgy(String supplierBrgy) {
+        this.supplierBrgy = supplierBrgy;
+    }
+
+    public String getSupplierStreet() {
+        return supplierStreet;
+    }
+
+    public void setSupplierStreet(String supplierStreet) {
+        this.supplierStreet = supplierStreet;
     }
 
 }

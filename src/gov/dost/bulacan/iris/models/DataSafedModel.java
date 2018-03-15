@@ -32,6 +32,16 @@ package gov.dost.bulacan.iris.models;
  *
  * @author Jhon Melvin
  */
-public class FileModel {
+public class DataSafedModel {
+
+    public final static String TABLE = "file_table";
+    public final static String FILE_ID = "filed_id"; // primary key
+    public final static String FILE_DISPLAY_NAME = "file_display_name";
+    public final static String FILE_DESCRIPTION = "file_description";
+    public final static String FILE_PATH = "file_path"; // folder location
+    public final static String FILE_NAME = "file_name"; // file name
+    public final static String FILE_EXT = "file_ext"; // file extension
+    public final static String FILE_SIZE = "file_size";
+    public final static String FILE_HASH = "file_hash";
 
 }
