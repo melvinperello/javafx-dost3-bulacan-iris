@@ -75,7 +75,7 @@ public class EquipmentSupplierModel extends PolarisRecord {
     @Column(WEBSITE)
     private String websiteAddress;
     @Column(SECTOR)
-    private String sector;
+    private Integer sector;
     @Column(DOST_ACCREDITED)
     private String dostAccredited;
     @Column(REGION)
@@ -88,6 +88,22 @@ public class EquipmentSupplierModel extends PolarisRecord {
     private String supplierBrgy;
     @Column(STREET_ADDRESS)
     private String supplierStreet;
+
+    public EquipmentSupplierModel() {
+//        this.supplierCode = ""; PRIMARY
+        this.supplierName = "";
+        this.mobileNo = "";
+        this.telNo = "";
+        this.faxNo = "";
+        this.websiteAddress = "";
+        this.sector = null;
+        this.dostAccredited = "";
+        this.supplierRegion = "";
+        this.supplierProvince = "";
+        this.supplierCity = "";
+        this.supplierBrgy = "";
+        this.supplierStreet = "";
+    }
 
     //--------------------------------------------------------------------------
     public static class DostAccredited {
@@ -222,11 +238,11 @@ public class EquipmentSupplierModel extends PolarisRecord {
         this.websiteAddress = websiteAddress;
     }
 
-    public String getSector() {
+    public Integer getSector() {
         return sector;
     }
 
-    public void setSector(String sector) {
+    public void setSector(Integer sector) {
         this.sector = sector;
     }
 

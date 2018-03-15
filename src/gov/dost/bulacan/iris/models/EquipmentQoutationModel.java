@@ -92,6 +92,20 @@ public class EquipmentQoutationModel extends PolarisRecord {
     @Column(KEYWORD)
     private String keyword;
 
+    public EquipmentQoutationModel() {
+//        this.qouteCode = ""; PK
+        this.supplierCode = null;
+        this.projectCode = null;
+        //
+        this.equipmentName = "";
+        this.specifications = "";
+        this.feedBack = "";
+        this.remarks = "";
+        this.status = "";
+        this.qoutationAttachment = null;
+        this.keyword = "";
+    }
+
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------
