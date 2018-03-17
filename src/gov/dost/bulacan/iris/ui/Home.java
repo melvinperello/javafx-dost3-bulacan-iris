@@ -28,6 +28,7 @@
  */
 package gov.dost.bulacan.iris.ui;
 
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -38,7 +39,7 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  *
  * @author Jhon Melvin
  */
-public class Home extends PolarisFxController {
+public class Home extends IrisForm {
 
     @FXML
     private HBox hbox_header;
@@ -66,6 +67,8 @@ public class Home extends PolarisFxController {
 
         this.menu_settings.setOnMouseClicked(value -> {
             // settings window.
+            this.showWaitWarningMessage("This is a warning !", "WARNING WARNING");
+            System.out.println("AFTER WARNING");
             value.consume();
         });
 

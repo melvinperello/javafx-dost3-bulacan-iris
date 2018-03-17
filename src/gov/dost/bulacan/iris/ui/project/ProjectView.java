@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris.ui.project;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.Messageable;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
@@ -61,38 +62,39 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author Jhon Melvin
  */
-public class ProjectView extends PolarisFxController implements Messageable {
-
+public class ProjectView extends IrisForm {
+    
     @FXML
     private JFXButton btn_back_to_home;
-
+    
     @FXML
     private TextField txt_search;
-
+    
     @FXML
     private JFXButton btn_view_project;
-
+    
     @FXML
     private JFXButton btn_new_project;
-
+    
     @FXML
     private HBox hbox_header;
-
+    
     @FXML
     private JFXButton btn_delete_project;
-
+    
     @FXML
     private TableView<ProjectModel> tbl_project_table;
-
+    
     public ProjectView() {
         this.tableData = FXCollections.observableArrayList();
+        this.setDialogMessageTitle("IRIS SETUP/GIA");
     }
 
     /**
      * Contains the data of the table.
      */
     private final ObservableList<ProjectModel> tableData;
-
+    
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
@@ -117,7 +119,7 @@ public class ProjectView extends PolarisFxController implements Messageable {
             this.changeRoot(new ProjectDetailsEdit(this, null).load());
             value.consume();
         });
-
+        
         this.btn_view_project.setOnMouseClicked(value -> {
             ProjectModel selectedProject = this.tbl_project_table.getSelectionModel().getSelectedItem();
             if (selectedProject == null) {
@@ -128,10 +130,10 @@ public class ProjectView extends PolarisFxController implements Messageable {
             if (ProjectDetailsView.loadMyData(selectedProject, this.getStage())) {
                 this.changeRoot(new ProjectDetailsView(selectedProject).load());
             }
-
+            
             value.consume();
         });
-
+        
         this.btn_delete_project.setOnMouseClicked(value -> {
             ProjectModel selectedProject = this.tbl_project_table.getSelectionModel().getSelectedItem();
             if (selectedProject == null) {
@@ -158,56 +160,6 @@ public class ProjectView extends PolarisFxController implements Messageable {
             }
             value.consume();
         });
-    }
-
-    //--------------------------------------------------------------------------
-    // Message Boxes for this window.
-    //--------------------------------------------------------------------------
-    @Override
-    public void showWarningMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.WARNING)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Warning")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public void showInformationMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Information")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public void showErrorMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.ERROR)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Something Went Wrong !")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public int showConfirmation(String message) {
-        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Please Confirm")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .setButtons(yesButton, cancelButton)
-                .showAndWait();
-        if (res.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
-            return 1;
-        }
-        return 0;
     }
 
     /**
@@ -289,7 +241,7 @@ public class ProjectView extends PolarisFxController implements Messageable {
             }
             return new SimpleStringProperty(dateString);
         });
-
+        
         this.tbl_project_table.getColumns().setAll(yearCol, typeCol, statusCol, coopCol, districtCol, endorseCol,
                 approvedCol, actualCostCol, moaCol
         );
@@ -308,7 +260,7 @@ public class ProjectView extends PolarisFxController implements Messageable {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-
+                
                 String filterString = newValue.toLowerCase();
 
                 /**
@@ -317,7 +269,7 @@ public class ProjectView extends PolarisFxController implements Messageable {
                 if (project.getCompanyName().toLowerCase().contains(newValue)) {
                     return true;
                 }
-
+                
                 return false; // no match.
             });
         });
@@ -348,5 +300,5 @@ public class ProjectView extends PolarisFxController implements Messageable {
         }
         this.tableData.addAll(inquiries);
     }
-
+    
 }
