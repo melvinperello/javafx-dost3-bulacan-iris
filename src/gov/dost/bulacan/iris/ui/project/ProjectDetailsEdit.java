@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.project;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.Messageable;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
@@ -59,113 +59,113 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author DOST-3
  */
-public class ProjectDetailsEdit extends PolarisFxController implements Messageable {
-
+public class ProjectDetailsEdit extends IrisForm {
+    
     @FXML
     private HBox hbox_header;
-
+    
     @FXML
     private Label lbl_modify_header;
-
+    
     @FXML
     private Label lbl_modify_time;
-
+    
     @FXML
     private JFXButton btn_save_project;
-
+    
     @FXML
     private JFXButton btn_cancel_edit;
-
+    
     @FXML
     private TextField txt_cooperator;
-
+    
     @FXML
     private TextField txt_owner;
-
+    
     @FXML
     private TextField txt_owner_position;
-
+    
     @FXML
     private TextArea txt_owner_address;
-
+    
     @FXML
     private ComboBox cmb_sector;
-
+    
     @FXML
     private TextField txt_year_established;
-
+    
     @FXML
     private ComboBox cmb_class_capital;
-
+    
     @FXML
     private ComboBox cmb_class_employment;
-
+    
     @FXML
     private ComboBox cmb_ownership;
-
+    
     @FXML
     private ComboBox cmb_profitability;
-
+    
     @FXML
     private TextArea txt_registration;
-
+    
     @FXML
     private TextArea txt_products;
-
+    
     @FXML
     private TextArea txt_market;
-
+    
     @FXML
     private TextArea txt_street_address;
-
+    
     @FXML
     private TextField txt_brgy;
-
+    
     @FXML
     private ComboBox cmb_city;
-
+    
     @FXML
     private TextArea txt_landmark;
-
+    
     @FXML
     private TextField txt_website;
-
+    
     @FXML
     private TableView<?> tbl_contact_person;
-
+    
     @FXML
     private Label lbl_project_code;
-
+    
     @FXML
     private TextField txt_spin_no;
-
+    
     @FXML
     private ComboBox cmb_project_type;
-
+    
     @FXML
     private ComboBox cmb_project_status;
-
+    
     @FXML
     private TextArea txt_project_name;
-
+    
     @FXML
     private DatePicker date_endorsed;
-
+    
     @FXML
     private DatePicker date_approved;
-
+    
     @FXML
     private TextField txt_approved_cost;
-
+    
     @FXML
     private DatePicker date_duration_from;
-
+    
     @FXML
     private DatePicker date_duration_to;
-
+    
     @FXML
     private DatePicker date_moa;
-
+    
     @FXML
     private TextField txt_actual_cost;
 
@@ -176,6 +176,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
      * @param model
      */
     public ProjectDetailsEdit(PolarisFxController controller, ProjectModel model) {
+        this.setDialogMessageTitle("Project Edit");
         this.parentController = controller;
         this.receiveModel = model;
         /**
@@ -183,11 +184,11 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
          */
         this.willAddNew = this.receiveModel == null;
     }
-
+    
     private final PolarisFxController parentController;
     private final ProjectModel receiveModel;
     private final boolean willAddNew;
-
+    
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
@@ -237,7 +238,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                     if (ProjectDetailsView.loadMyData(this.receiveModel, this.getStage())) {
                         this.changeRoot(new ProjectDetailsView(this.receiveModel).load());
                     }
-
+                    
                 }
             }
             value.consume();
@@ -259,56 +260,6 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 + "-"
                 + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
         return generatedKey;
-    }
-
-    //--------------------------------------------------------------------------
-    // Message Boxes for this window.
-    //--------------------------------------------------------------------------
-    @Override
-    public void showWarningMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.WARNING)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Warning")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public void showInformationMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Information")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public void showErrorMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.ERROR)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Something Went Wrong !")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public int showConfirmation(String message) {
-        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Please Confirm")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .setButtons(yesButton, cancelButton)
-                .showAndWait();
-        if (res.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
-            return 1;
-        }
-        return 0;
     }
 
     /**
@@ -387,13 +338,13 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
      * Get Values in the Java FX Form.
      */
     private void getProjectValues() {
-
+        
         this.frmDateApproved = null;
         this.frmDateEndorsed = null;
         this.frmDurationFrom = null;
         this.frmDurationTo = null;
         this.frmMoaSigned = null;
-
+        
         this.frmCooperator = filterInput(txt_cooperator);
         this.frmOwner = filterInput(txt_owner);
         this.frmPosition = filterInput(txt_owner_position);
@@ -429,7 +380,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         if (this.date_endorsed.getValue() != null) {
             this.frmDateEndorsed = java.sql.Date.valueOf(this.date_endorsed.getValue());
         }
-
+        
         if (this.date_approved.getValue() != null) {
             this.frmDateApproved = java.sql.Date.valueOf(this.date_approved.getValue());
         }
@@ -442,7 +393,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         if (this.date_duration_from.getValue() != null) {
             this.frmDurationFrom = java.sql.Date.valueOf(this.date_duration_from.getValue());
         }
-
+        
         if (this.date_duration_to.getValue() != null) {
             this.frmDurationTo = java.sql.Date.valueOf(this.date_duration_to.getValue());
         }
@@ -450,7 +401,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         if (this.date_moa.getValue() != null) {
             this.frmMoaSigned = java.sql.Date.valueOf(this.date_moa.getValue());
         }
-
+        
         this.frmActualCost = filterInput(txt_actual_cost);
     }
 
@@ -495,7 +446,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            this.showWarningMessage("You have entered an invalid approved cost.");
+            this.showWarningMessage(null, "You have entered an invalid approved cost.");
             return false;
         }
         project.setApprovedFunding(approved_fund);
@@ -519,7 +470,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            this.showWarningMessage("You have entered an invalid actual cost.");
+            this.showWarningMessage(null, "You have entered an invalid actual cost.");
             return false;
         }
         project.setActualCost(approved_fund);
@@ -546,18 +497,16 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         try {
             projectAdded = ProjectModel.insertNewProject(project);
             if (projectAdded) {
-                this.showInformationMessage("Project was successfully added to the database.");
+                this.showInformationMessage(null, "Project was successfully added to the database.");
             } else {
-                this.showWarningMessage("The project cannot be inserted at the moment please try again.");
+                this.showWarningMessage(null, "The project cannot be inserted at the moment please try again.");
             }
         } catch (SQLException ex) {
-            PolarisDialog.exceptionDialog(ex)
-                    .setContentText("Failed to insert new project.")
-                    .show();
+            this.showWaitExceptionMessage(ex, null, "Failed to insert new project.");
         }
         return projectAdded;
     }
-
+    
     private String filterInput(TextInputControl textField) {
         return StringTools.clearExtraSpaces(textField.getText().trim());
     }
@@ -588,7 +537,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 break;
             }
         }
-
+        
         this.txt_year_established.setText(this.receiveModel.getYearEstablished());
         //----------------------------------------------------------------------
         // capital classification combo
@@ -700,7 +649,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
             picker.setValue(setDate);
         }
     }
-
+    
     private boolean updateExistingProject() {
         this.getProjectValues();
 
@@ -735,7 +684,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            this.showWarningMessage("You have entered an invalid approved cost.");
+            this.showWarningMessage(null, "You have entered an invalid approved cost.");
             return false;
         }
         project.setApprovedFunding(approved_fund);
@@ -759,7 +708,7 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            this.showWarningMessage("You have entered an invalid actual cost.");
+            this.showWarningMessage(null, "You have entered an invalid actual cost.");
             return false;
         }
         project.setActualCost(actual_cost);
@@ -782,23 +731,21 @@ public class ProjectDetailsEdit extends PolarisFxController implements Messageab
         project.setExistingMarket(frmMarket);
         //
         project.setWebsite(frmWebsite);
-
+        
         boolean projectUpdated = false;
         //----------------------------------------------------------------------
         try {
             projectUpdated = ProjectModel.updateExistingProject(project);
             if (projectUpdated) {
-                this.showInformationMessage("Project was successfully updated to the database.");
+                this.showInformationMessage(null, "Project was successfully updated to the database.");
             } else {
-                this.showWarningMessage("The project cannot be updated at the moment please try again.");
+                this.showWarningMessage(null, "The project cannot be updated at the moment please try again.");
             }
         } catch (SQLException ex) {
-            PolarisDialog.exceptionDialog(ex)
-                    .setContentText("Failed to update current project.")
-                    .show();
+            this.showWaitExceptionMessage(ex, null, "Failed to update current project.");
         }
         //----------------------------------------------------------------------
         return projectUpdated;
     }
-
+    
 }

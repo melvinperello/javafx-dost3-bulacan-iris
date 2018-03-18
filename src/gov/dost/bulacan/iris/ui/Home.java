@@ -34,6 +34,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
+import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
  *
@@ -67,8 +68,7 @@ public class Home extends IrisForm {
 
         this.menu_settings.setOnMouseClicked(value -> {
             // settings window.
-            this.showWaitWarningMessage("This is a warning !", "WARNING WARNING");
-            System.out.println("AFTER WARNING");
+
             value.consume();
         });
 

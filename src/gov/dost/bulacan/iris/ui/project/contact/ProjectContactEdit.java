@@ -29,25 +29,20 @@
 package gov.dost.bulacan.iris.ui.project.contact;
 
 import com.jfoenix.controls.JFXButton;
-import gov.dost.bulacan.iris.Messageable;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import java.sql.SQLException;
-import java.util.Optional;
 import javafx.fxml.FXML;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
-import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
-import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class ProjectContactEdit extends PolarisFxController implements Messageable {
+public class ProjectContactEdit extends IrisForm {
 
     @FXML
     private TextField txt_name;
@@ -80,6 +75,7 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
         this.contactModel = model;
         this.willAddNew = (model == null);
         this.projectModel = project;
+        this.setDialogMessageTitle("Contact Person");
     }
 
     private final ProjectContactModel contactModel;
@@ -113,58 +109,6 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
         this.btn_cancel.setOnMouseClicked(value -> {
             this.getStage().close();
         });
-    }
-
-    //--------------------------------------------------------------------------
-    // Message Boxes for this window.
-    //--------------------------------------------------------------------------
-    private final static String MESSAGE_TITLE = "Contact Person";
-
-    @Override
-    public void showWarningMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.WARNING)
-                .setTitle(MESSAGE_TITLE)
-                .setHeaderText("Warning")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public void showInformationMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
-                .setTitle(MESSAGE_TITLE)
-                .setHeaderText("Information")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public void showErrorMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.ERROR)
-                .setTitle(MESSAGE_TITLE)
-                .setHeaderText("Something Went Wrong !")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public int showConfirmation(String message) {
-        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
-                .setTitle(MESSAGE_TITLE)
-                .setHeaderText("Please Confirm")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .setButtons(yesButton, cancelButton)
-                .showAndWait();
-        if (res.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
-            return 1;
-        }
-        return 0;
     }
 
     //--------------------------------------------------------------------------
@@ -203,7 +147,7 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
         this.getFormDetails();
         // Filter
         if (this.frmName.isEmpty()) {
-            this.showWarningMessage("Please enter a contact name.");
+            this.showWarningMessage(null, "Please enter a contact name.");
             return;
         }
         //
@@ -221,19 +165,16 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
         try {
             boolean res = ProjectContactModel.insertNewContact(model);
             if (res) {
-                this.showInformationMessage("Contact successfully added to this project.");
+                this.showInformationMessage(null, "Contact successfully added to this project.");
                 /**
                  * Close stage for success.
                  */
                 this.getStage().close();
             } else {
-                this.showInformationMessage("Contact cannot be added at the moment please try again later.");
+                this.showInformationMessage(null, "Contact cannot be added at the moment please try again later.");
             }
         } catch (SQLException e) {
-            //
-            PolarisDialog.exceptionDialog(e)
-                    .setContentText("Failed to add new contact.")
-                    .show();
+            this.showWaitExceptionMessage(e, null, "Failed to add new contact.");
         }
     }
 
@@ -244,7 +185,7 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
         this.getFormDetails();
         // Filter
         if (this.frmName.isEmpty()) {
-            this.showWarningMessage("Please enter a contact name.");
+            this.showWarningMessage(null, "Please enter a contact name.");
             return;
         }
         //
@@ -262,19 +203,17 @@ public class ProjectContactEdit extends PolarisFxController implements Messageab
         try {
             boolean res = ProjectContactModel.updateContact(model);
             if (res) {
-                this.showInformationMessage("Contact successfully updated to this project.");
+                this.showInformationMessage(null, "Contact successfully updated to this project.");
                 /**
                  * Close stage for success.
                  */
                 this.getStage().close();
             } else {
-                this.showInformationMessage("Contact cannot be updated at the moment please try again later.");
+                this.showInformationMessage(null, "Contact cannot be updated at the moment please try again later.");
             }
         } catch (SQLException e) {
             //
-            PolarisDialog.exceptionDialog(e)
-                    .setContentText("Failed to update existing contact.")
-                    .show();
+            this.showWaitExceptionMessage(e, null, "Failed to update existing contact.");
         }
     }
 

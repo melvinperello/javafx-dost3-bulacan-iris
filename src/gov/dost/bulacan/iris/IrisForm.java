@@ -35,11 +35,15 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
+ * Polaris FX Controller Extension for this project. added messaging feature.
  *
  * @author Jhon Melvin
  */
 public abstract class IrisForm extends PolarisFxController {
 
+    //--------------------------------------------------------------------------
+    // Message box features added for Iris Form.
+    //--------------------------------------------------------------------------
     private String dialogMessageTitle = "Message";
 
     /**
@@ -47,17 +51,8 @@ public abstract class IrisForm extends PolarisFxController {
      *
      * @param dialogMessageTitle
      */
-    public void setDialogMessageTitle(String dialogMessageTitle) {
+    public final void setDialogMessageTitle(String dialogMessageTitle) {
         this.dialogMessageTitle = dialogMessageTitle;
-    }
-
-    /**
-     * Show warning message.
-     *
-     * @param message
-     */
-    public void showWarningMessage(String message) {
-        this.showWarningMessage("Warning", message);
     }
 
     /**
@@ -67,6 +62,9 @@ public abstract class IrisForm extends PolarisFxController {
      * @param message the message.
      */
     public void showWarningMessage(String header, String message) {
+        if (header == null) {
+            header = "Warning";
+        }
         PolarisDialog.create(PolarisDialog.Type.WARNING)
                 .setTitle(dialogMessageTitle)
                 .setHeaderText(header)
@@ -75,16 +73,10 @@ public abstract class IrisForm extends PolarisFxController {
                 .show();
     }
 
-    /**
-     * Show warning message and waits for the user to click OK.
-     *
-     * @param message
-     */
-    public void showWaitWarningMessage(String message) {
-        this.showWaitWarningMessage("Warning", message);
-    }
-
     public void showWaitWarningMessage(String header, String message) {
+        if (header == null) {
+            header = "Warning";
+        }
         PolarisDialog.create(PolarisDialog.Type.WARNING)
                 .setTitle(dialogMessageTitle)
                 .setHeaderText(header)
@@ -93,16 +85,10 @@ public abstract class IrisForm extends PolarisFxController {
                 .showAndWait();
     }
 
-    /**
-     * Show information message.
-     *
-     * @param message
-     */
-    public void showInformationMessage(String message) {
-        this.showInformationMessage("Information", message);
-    }
-
     public void showInformationMessage(String header, String message) {
+        if (header == null) {
+            header = "Information";
+        }
         PolarisDialog.create(PolarisDialog.Type.INFORMATION)
                 .setTitle(dialogMessageTitle)
                 .setHeaderText(header)
@@ -112,15 +98,27 @@ public abstract class IrisForm extends PolarisFxController {
     }
 
     /**
-     * Show error message.
+     * Show and wait information message.
      *
+     * @param header
      * @param message
      */
-    public void showErrorMessage(String message) {
-        this.showErrorMessage("Something Went Wrong !", message);
+    public void showWaitInformationMessage(String header, String message) {
+        if (header == null) {
+            header = "Information";
+        }
+        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
+                .setTitle(dialogMessageTitle)
+                .setHeaderText(header)
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .showAndWait();
     }
 
     public void showErrorMessage(String header, String message) {
+        if (header == null) {
+            header = "Error";
+        }
         PolarisDialog.create(PolarisDialog.Type.ERROR)
                 .setTitle(dialogMessageTitle)
                 .setHeaderText(header)
@@ -129,14 +127,16 @@ public abstract class IrisForm extends PolarisFxController {
                 .show();
     }
 
-    /**
-     * Show confirmation message.
-     *
-     * @param message
-     * @return
-     */
-    public int showConfirmation(String message) {
-        return this.showConfirmation("Please Confirm", message);
+    public void showWaitErrorMessage(String header, String message) {
+        if (header == null) {
+            header = "Error";
+        }
+        PolarisDialog.create(PolarisDialog.Type.ERROR)
+                .setTitle(dialogMessageTitle)
+                .setHeaderText(header)
+                .setContentText(message)
+                .setOwner(this.getStage())
+                .showAndWait();
     }
 
     /**
@@ -146,7 +146,10 @@ public abstract class IrisForm extends PolarisFxController {
      * @param message
      * @return
      */
-    public int showConfirmation(String header, String message) {
+    public int showConfirmationMessage(String header, String message) {
+        if (header == null) {
+            header = "Please Confirm";
+        }
         ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
         ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
@@ -161,4 +164,30 @@ public abstract class IrisForm extends PolarisFxController {
         }
         return 0;
     }
+
+    public void showWaitExceptionMessage(Exception e, String header, String message) {
+        if (header == null) {
+            header = "System Error Encountered !";
+        }
+        PolarisDialog.exceptionDialog(e)
+                .setContentText(message)
+                .setHeaderText(header)
+                .setOwner(this.getStage())
+                .setTitle(this.dialogMessageTitle)
+                .showAndWait();
+    }
+
+    public void showExceptionMessage(Exception e, String header, String message) {
+        if (header == null) {
+            header = "System Error Encountered !";
+        }
+        PolarisDialog.exceptionDialog(e)
+                .setContentText(message)
+                .setHeaderText(header)
+                .setOwner(this.getStage())
+                .setTitle(this.dialogMessageTitle)
+                .show();
+    }
+
+    //--------------------------------------------------------------------------
 }

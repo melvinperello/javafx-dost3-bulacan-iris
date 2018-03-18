@@ -31,8 +31,6 @@ package gov.dost.bulacan.iris.ui.project;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
-import gov.dost.bulacan.iris.Messageable;
-import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -41,7 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -49,13 +46,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
@@ -63,38 +57,38 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  * @author Jhon Melvin
  */
 public class ProjectView extends IrisForm {
-    
+
     @FXML
     private JFXButton btn_back_to_home;
-    
+
     @FXML
     private TextField txt_search;
-    
+
     @FXML
     private JFXButton btn_view_project;
-    
+
     @FXML
     private JFXButton btn_new_project;
-    
+
     @FXML
     private HBox hbox_header;
-    
+
     @FXML
     private JFXButton btn_delete_project;
-    
+
     @FXML
     private TableView<ProjectModel> tbl_project_table;
-    
+
     public ProjectView() {
         this.tableData = FXCollections.observableArrayList();
-        this.setDialogMessageTitle("IRIS SETUP/GIA");
+        this.setDialogMessageTitle("Project View");
     }
 
     /**
      * Contains the data of the table.
      */
     private final ObservableList<ProjectModel> tableData;
-    
+
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
@@ -119,43 +113,41 @@ public class ProjectView extends IrisForm {
             this.changeRoot(new ProjectDetailsEdit(this, null).load());
             value.consume();
         });
-        
+
         this.btn_view_project.setOnMouseClicked(value -> {
             ProjectModel selectedProject = this.tbl_project_table.getSelectionModel().getSelectedItem();
             if (selectedProject == null) {
-                this.showWarningMessage("Please highlight a project to view.");
+                this.showWarningMessage(null, "Please highlight a project to view.");
                 return;
             }
             // open project view
             if (ProjectDetailsView.loadMyData(selectedProject, this.getStage())) {
                 this.changeRoot(new ProjectDetailsView(selectedProject).load());
             }
-            
+
             value.consume();
         });
-        
+
         this.btn_delete_project.setOnMouseClicked(value -> {
             ProjectModel selectedProject = this.tbl_project_table.getSelectionModel().getSelectedItem();
             if (selectedProject == null) {
-                this.showWarningMessage("Please highlight a project to delete.");
+                this.showWarningMessage(null, "Please highlight a project to delete.");
                 return;
             }
-            int res = this.showConfirmation("Are you sure you want to remove this project? This operation is ireversible.");
+            int res = this.showConfirmationMessage(null, "Are you sure you want to remove this project? This operation is ireversible.");
             if (res == 1) {
                 try {
                     boolean deleted = ProjectModel.deleteProject(selectedProject);
                     if (deleted) {
-                        this.showInformationMessage("Contact successfully deleted to this project.");
+                        this.showInformationMessage(null, "Contact successfully deleted to this project.");
                         // refresh table
                         this.populateTable();
                     } else {
-                        this.showInformationMessage("Contact cannot be deleted at the moment please try again later.");
+                        this.showInformationMessage(null, "Contact cannot be deleted at the moment please try again later.");
                     }
                 } catch (SQLException e) {
                     //
-                    PolarisDialog.exceptionDialog(e)
-                            .setContentText("Failed to delete project.")
-                            .show();
+                    this.showWaitExceptionMessage(e, null, "Failed to delete project.");
                 }
             }
             value.consume();
@@ -241,7 +233,7 @@ public class ProjectView extends IrisForm {
             }
             return new SimpleStringProperty(dateString);
         });
-        
+
         this.tbl_project_table.getColumns().setAll(yearCol, typeCol, statusCol, coopCol, districtCol, endorseCol,
                 approvedCol, actualCostCol, moaCol
         );
@@ -260,7 +252,7 @@ public class ProjectView extends IrisForm {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                
+
                 String filterString = newValue.toLowerCase();
 
                 /**
@@ -269,7 +261,7 @@ public class ProjectView extends IrisForm {
                 if (project.getCompanyName().toLowerCase().contains(newValue)) {
                     return true;
                 }
-                
+
                 return false; // no match.
             });
         });
@@ -294,11 +286,9 @@ public class ProjectView extends IrisForm {
         try {
             inquiries = ProjectModel.getProjectTableData();
         } catch (SQLException ex) {
-            PolarisDialog.exceptionDialog(ex)
-                    .setContentText("Failed to loadp projects.")
-                    .show();
+            this.showWaitExceptionMessage(ex, null, "Failed to load projects.");
         }
         this.tableData.addAll(inquiries);
     }
-    
+
 }

@@ -34,7 +34,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.Messageable;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -47,14 +47,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -62,14 +59,13 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
-import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class ProjectDetailsView extends PolarisFxController implements Messageable {
+public class ProjectDetailsView extends IrisForm {
 
     @FXML
     private HBox hbox_header;
@@ -201,6 +197,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
     public ProjectDetailsView(ProjectModel model) {
         this.projectModel = model;
         this.tableData = FXCollections.observableArrayList();
+        this.setDialogMessageTitle("Poject Details");
     }
 
     /**
@@ -276,7 +273,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         this.btn_edit_contact.setOnMouseClicked(value -> {
             ProjectContactModel contact = this.tbl_contact_person.getSelectionModel().getSelectedItem();
             if (contact == null) {
-                this.showWarningMessage("Please highlight a contact to edit.");
+                this.showWarningMessage(null, "Please highlight a contact to edit.");
                 return;
             }
             this.showEditContacts(contact);
@@ -289,25 +286,23 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         this.btn_delete_contact.setOnMouseClicked(value -> {
             ProjectContactModel contact = this.tbl_contact_person.getSelectionModel().getSelectedItem();
             if (contact == null) {
-                this.showWarningMessage("Please highlight a contact to delete.");
+                this.showWarningMessage(null, "Please highlight a contact to delete.");
                 return;
             }
 
-            if (this.showConfirmation("Are you sure you want to delete this contact information.") == 1) {
+            if (this.showConfirmationMessage(null, "Are you sure you want to delete this contact information.") == 1) {
                 try {
                     boolean deleted = ProjectContactModel.deleteContact(contact);
                     if (deleted) {
-                        this.showInformationMessage("Contact successfully deleted to this project.");
+                        this.showInformationMessage(null, "Contact successfully deleted to this project.");
                         // refresh table
                         this.populateContactTable();
                     } else {
-                        this.showInformationMessage("Contact cannot be deleted at the moment please try again later.");
+                        this.showInformationMessage(null, "Contact cannot be deleted at the moment please try again later.");
                     }
                 } catch (SQLException ex) {
                     //
-                    PolarisDialog.exceptionDialog(ex)
-                            .setContentText("Failed to delete contact.")
-                            .show();
+                    this.showWaitExceptionMessage(ex, null, "Failed to delete contact.");
                 }
             }
 
@@ -327,74 +322,24 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
 //        });
         // open the website in the browser.
         this.lbl_click_website.setOnMouseClicked(value -> {
-            this.showWarningMessage("This feature is not yet supported.");
+            this.showWarningMessage(null, "This feature is not yet supported.");
             value.consume();
         });
         // view endorsement attachment
         this.lbl_click_endorse.setOnMouseClicked(value -> {
-            this.showWarningMessage("Attachment Feature not yet supported at the moment.");
+            this.showWarningMessage(null, "Attachment Feature not yet supported at the moment.");
             value.consume();
         });
         // view approval attachment
         this.lbl_click_approved.setOnMouseClicked(value -> {
-            this.showWarningMessage("Attachment Feature not yet supported at the moment.");
+            this.showWarningMessage(null, "Attachment Feature not yet supported at the moment.");
             value.consume();
         });
         // view MOA Attachment
         this.lbl_click_moa.setOnMouseClicked(value -> {
-            this.showWarningMessage("Attachment Feature not yet supported at the moment.");
+            this.showWarningMessage(null, "Attachment Feature not yet supported at the moment.");
             value.consume();
         });
-    }
-
-    //--------------------------------------------------------------------------
-    // Message Boxes for this window.
-    //--------------------------------------------------------------------------
-    @Override
-    public void showWarningMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.WARNING)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Warning")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public void showInformationMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Information")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public void showErrorMessage(String message) {
-        PolarisDialog.create(PolarisDialog.Type.ERROR)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Something Went Wrong !")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
-    }
-
-    @Override
-    public int showConfirmation(String message) {
-        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
-                .setTitle("SETUp/GIA Project")
-                .setHeaderText("Please Confirm")
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .setButtons(yesButton, cancelButton)
-                .showAndWait();
-        if (res.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
-            return 1;
-        }
-        return 0;
     }
 
     private void showEditContacts(ProjectContactModel model) {
@@ -684,9 +629,7 @@ public class ProjectDetailsView extends PolarisFxController implements Messageab
         try {
             inquiries = ProjectContactModel.getAllContacts(this.projectModel.getProjectCode());
         } catch (SQLException ex) {
-            PolarisDialog.exceptionDialog(ex)
-                    .setContentText("Failed to load contact list.")
-                    .show();
+            this.showWaitExceptionMessage(ex, null, "Failed to load contact list.");
         }
         this.tableData.setAll(inquiries);
     }
