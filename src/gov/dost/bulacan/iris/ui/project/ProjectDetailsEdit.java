@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.project;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
@@ -59,7 +59,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author DOST-3
  */
-public class ProjectDetailsEdit extends IrisForm {
+public class ProjectDetailsEdit extends PolarisForm {
     
     @FXML
     private HBox hbox_header;

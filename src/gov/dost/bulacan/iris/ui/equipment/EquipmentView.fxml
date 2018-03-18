@@ -4,15 +4,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-selection-bar-text: red;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox fx:id="hbox_header" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: black;">
          <padding>
@@ -23,9 +22,9 @@
          <children>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <Label text="Search SETUp/GIA Projects" />
+                  <Label text="Seach Equipment" />
                   <TextField fx:id="txt_search" prefHeight="25.0" prefWidth="461.0" promptText="Search Something . . ." />
-                  <JFXButton fx:id="btn_view_project" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="View Project">
+                  <JFXButton fx:id="btn_view" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="View">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -37,7 +36,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="btn_new_project" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="New Project">
+                  <JFXButton fx:id="btn_add" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Add">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -49,7 +48,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="btn_delete_project" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Remove">
+                  <JFXButton fx:id="btn_remove" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Remove">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -82,19 +81,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <TableView fx:id="tbl_project_table" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-              <columns>
-                <TableColumn prefWidth="75.0" text="Year" />
-                  <TableColumn prefWidth="100.0" text="Type" />
-                  <TableColumn prefWidth="100.0" text="Status" />
-                  <TableColumn prefWidth="245.0" text="Beneficiary" />
-                  <TableColumn prefWidth="60.0" text="District" />
-                  <TableColumn minWidth="100.0" prefWidth="100.0" text="Endorsed" />
-                  <TableColumn minWidth="100.0" prefWidth="100.0" text="Approved" />
-                  <TableColumn minWidth="120.0" prefWidth="150.0" text="Actual Project Cost" />
-                  <TableColumn minWidth="100.0" prefWidth="100.0" text="MOA Signed" />
-              </columns>
-            </TableView>
+            <ListView fx:id="list_equipment" prefHeight="200.0" prefWidth="200.0" stylesheets="@list-view.css" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>

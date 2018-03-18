@@ -39,7 +39,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author Jhon Melvin
  */
-public abstract class IrisForm extends PolarisFxController {
+public abstract class PolarisForm extends PolarisFxController {
 
     //--------------------------------------------------------------------------
     // Message box features added for Iris Form.

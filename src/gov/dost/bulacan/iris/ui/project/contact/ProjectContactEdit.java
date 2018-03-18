@@ -29,7 +29,7 @@
 package gov.dost.bulacan.iris.ui.project.contact;
 
 import com.jfoenix.controls.JFXButton;
-import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import java.sql.SQLException;
@@ -42,7 +42,7 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  *
  * @author Jhon Melvin
  */
-public class ProjectContactEdit extends IrisForm {
+public class ProjectContactEdit extends PolarisForm {
 
     @FXML
     private TextField txt_name;

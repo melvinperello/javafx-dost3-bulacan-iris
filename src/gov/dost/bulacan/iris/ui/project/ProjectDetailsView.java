@@ -34,7 +34,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -65,7 +65,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author Jhon Melvin
  */
-public class ProjectDetailsView extends IrisForm {
+public class ProjectDetailsView extends PolarisForm {
 
     @FXML
     private HBox hbox_header;
