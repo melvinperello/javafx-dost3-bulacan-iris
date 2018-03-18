@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.2.10-MariaDB - mariadb.org binary distribution
+-- Server version:               10.1.21-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win32
 -- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
@@ -22,12 +22,14 @@ CREATE TABLE IF NOT EXISTS `equipment_qoutation` (
   `fk_supplier_code` varchar(50) DEFAULT NULL,
   `fk_project_code` varchar(50) DEFAULT NULL,
   `equipment_name` varchar(50) DEFAULT NULL,
+  `qoutation_date` datetime DEFAULT NULL,
   `specification` varchar(50) DEFAULT NULL,
   `feedback` varchar(50) DEFAULT NULL,
   `remarks` varchar(50) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   `file_qoute_attachment` int(11) DEFAULT NULL,
   `search_keys` varchar(50) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`qoute_code`),
   KEY `equipment_qoutation_supplier_code` (`fk_supplier_code`),
   KEY `equipment_qoutation_project_code` (`fk_project_code`),
@@ -35,8 +37,12 @@ CREATE TABLE IF NOT EXISTS `equipment_qoutation` (
   CONSTRAINT `equipment_qoutation_supplier_code` FOREIGN KEY (`fk_supplier_code`) REFERENCES `equipment_supplier` (`supplier_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~0 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~1 rows (approximately)
 /*!40000 ALTER TABLE `equipment_qoutation` DISABLE KEYS */;
+INSERT INTO `equipment_qoutation` (`qoute_code`, `fk_supplier_code`, `fk_project_code`, `equipment_name`, `qoutation_date`, `specification`, `feedback`, `remarks`, `status`, `file_qoute_attachment`, `search_keys`, `deleted_at`) VALUES
+	('1', NULL, NULL, 'Thermonuclear Weapon', '2018-03-18 21:00:29', NULL, NULL, NULL, NULL, NULL, 'weapon', NULL),
+	('2', NULL, NULL, 'Shuriken', '2018-03-18 21:04:37', NULL, NULL, NULL, NULL, NULL, 'ninja', NULL),
+	('3', NULL, NULL, 'Knife', '2018-03-18 21:15:23', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `equipment_qoutation` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.equipment_supplier
