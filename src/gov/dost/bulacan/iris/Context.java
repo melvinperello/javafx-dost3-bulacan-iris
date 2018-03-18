@@ -201,6 +201,11 @@ public class Context {
         return new SimpleDateFormat("MM-dd-yyyy");
     }
 
+    /**
+     * Get Date Format. Sample: March 08, 2018
+     *
+     * @return
+     */
     public SimpleDateFormat getDateFormatNamed() {
         return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy");
     }

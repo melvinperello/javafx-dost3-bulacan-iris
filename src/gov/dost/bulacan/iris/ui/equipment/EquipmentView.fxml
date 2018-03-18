@@ -81,7 +81,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="list_equipment" HBox.hgrow="ALWAYS" />
+            <ListView fx:id="list_equipment" stylesheets="@../../polaris-list-view.css" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>

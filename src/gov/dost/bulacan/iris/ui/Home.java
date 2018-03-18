@@ -49,10 +49,16 @@ public class Home extends PolarisForm {
     private HBox menu_projects;
 
     @FXML
-    private HBox menu_settings;
+    private HBox menu_equipment;
 
     @FXML
-    private HBox menu_equipment;
+    private HBox menu_trainings;
+
+    @FXML
+    private HBox menu_directory;
+
+    @FXML
+    private HBox menu_documents;
 
     @Override
     protected void setup() {

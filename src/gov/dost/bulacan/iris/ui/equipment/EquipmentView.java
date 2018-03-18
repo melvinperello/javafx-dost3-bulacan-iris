@@ -29,15 +29,16 @@
 package gov.dost.bulacan.iris.ui.equipment;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
-import java.util.Set;
-import javafx.beans.value.ChangeListener;
+import java.sql.SQLException;
+import java.util.List;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -84,17 +85,36 @@ public class EquipmentView extends PolarisForm {
         ProjectHeader.attach(this.hbox_header);
         Home.addEventBackToHome(this.btn_back_to_home, this);
 
-        /**
-         * Populate observable list.
-         */
-        for (int x = 0; x < 10; x++) {
-            EquipmentViewListItem listItem = new EquipmentViewListItem();
-            listItem.setName("Hey: " + String.valueOf(x));
-            listItem.setKeys("asd, asd, asd ,asd");
-            listItem.setDate("March 18, 2018");
-            listItem.load();
-            this.observeableListItems.add(listItem);
-        }
+        this.populateList();
+        this.constructCustomList();
+
+        this.btn_view.setOnMouseClicked(value -> {
+            EquipmentViewListItem selectedProject = this.list_equipment.getSelectionModel().getSelectedItem();
+            if (selectedProject == null) {
+                this.showWarningMessage(null, "Please select equipment to view.");
+                return;
+            }
+
+            EquipmentQoutationModel model = selectedProject.getQouteModel();
+
+            value.consume();
+        });
+        this.btn_add.setOnMouseClicked(value -> {
+            value.consume();
+        });
+        this.btn_remove.setOnMouseClicked(value -> {
+            EquipmentViewListItem selectedProject = this.list_equipment.getSelectionModel().getSelectedItem();
+            if (selectedProject == null) {
+                this.showWarningMessage(null, "Please select equipment to delete.");
+                return;
+            }
+
+            EquipmentQoutationModel model = selectedProject.getQouteModel();
+            value.consume();
+        });
+    }
+
+    private void constructCustomList() {
         //----------------------------------------------------------------------
         // Add Search Predicate
         //----------------------------------------------------------------------
@@ -115,11 +135,11 @@ public class EquipmentView extends PolarisForm {
                 /**
                  * Allow search of cooperator's name.
                  */
-                if (equipment.getName().toLowerCase().contains(newValue)) {
+                if (equipment.getQouteModel().getEquipmentName().toLowerCase().contains(newValue)) {
                     return true;
                 }
 
-                if (equipment.getKeys().toLowerCase().contains(newValue)) {
+                if (equipment.getQouteModel().getKeyword().toLowerCase().contains(newValue)) {
                     return true;
                 }
 
@@ -132,6 +152,7 @@ public class EquipmentView extends PolarisForm {
          */
         this.list_equipment.setItems(filteredResult);
 
+        //----------------------------------------------------------------------
         /**
          * customize list view output.
          */
@@ -166,6 +187,31 @@ public class EquipmentView extends PolarisForm {
                 };
             }
         });
+        //----------------------------------------------------------------------
+    }
+
+    private void populateList() {
+        List<EquipmentQoutationModel> equipments = null;
+        try {
+            equipments = EquipmentQoutationModel.getAllActiveEquipment();
+        } catch (SQLException e) {
+            this.showWaitExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Equipment Records !");
+        }
+
+        // if error go back
+        if (equipments == null) {
+            return;
+        }
+        this.observeableListItems.clear();
+        /**
+         * Populate observable list.
+         */
+        for (EquipmentQoutationModel equip : equipments) {
+            EquipmentViewListItem listItem = new EquipmentViewListItem();
+            listItem.setQouteModel(equip);
+            listItem.load();
+            this.observeableListItems.add(listItem);
+        }
 
     }
 
