@@ -28,17 +28,85 @@
  */
 package gov.dost.bulacan.iris.ui.equipment;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
+import gov.dost.bulacan.iris.Listable;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class EquipmentViewListItem extends PolarisFxController {
+public class EquipmentViewListItem extends PolarisFxController implements Listable {
+
+    @FXML
+    private ImageView img_icon;
+
+    @FXML
+    private Label lbl_name;
+
+    @FXML
+    private Label lbl_date;
+
+    @FXML
+    private Label lbl_keys;
+
+    public EquipmentViewListItem() {
+        //
+        this.imgPath = "";
+        this.name = "";
+        this.date = "";
+        this.keys = "";
+    }
+    private String imgPath;
+    private String name;
+    private String date;
+    private String keys;
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getKeys() {
+        return keys;
+    }
+
+    public void setKeys(String keys) {
+        this.keys = keys;
+    }
 
     @Override
     protected void setup() {
+        this.lbl_name.setText(name);
+        this.lbl_date.setText(date);
+        this.lbl_keys.setText(keys);
+    }
 
+    @Override
+    public Pane getCustomListCellGraphic() {
+        return this.getRootPane();
     }
 
 }

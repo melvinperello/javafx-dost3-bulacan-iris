@@ -61,9 +61,9 @@ public class EquipmentQoutationModel extends PolarisRecord {
     public static class EquipmentStatus {
 
         public final static String CANVASSED = "CANVASSED";
-        public final static String PURCHASED = "PURCHASED";
+        public final static String ACQUIRED = "ACQUIRED";
 
-        public final static String[] LIST = new String[]{CANVASSED, PURCHASED};
+        public final static String[] LIST = new String[]{CANVASSED, ACQUIRED};
 
     }
 
