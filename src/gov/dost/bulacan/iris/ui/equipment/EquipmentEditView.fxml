@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fx:id="hbox_header" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: black;">
+         <padding>
+            <Insets left="1.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #E4E7EC;">
+         <children>
+            <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lbl_modify_header" maxWidth="1.7976931348623157E308" text="Modify Information">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_modify_time" text="Last Updated 02/02/2018 by melvin">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btn_save_qoutation" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Save">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/save_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_back" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Back">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/back_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox prefHeight="620.0" prefWidth="339.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="Equipment Information">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefWidth="630.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Equipment Code">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_code" text="STC300003192018104322" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefWidth="630.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Equipment Name">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <TextField fx:id="txt_equipment_name" promptText="Equipment Name" />
+                              <Label text="Equipment name including model number or any information related to easily identify the equipment." textFill="#6d6d6d" wrapText="true">
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Equipment Status">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <ComboBox fx:id="cmb_status" prefWidth="150.0" />
+                              <Label text="Acquired if the equipment was purchased already for other projects" textFill="#6d6d6d">
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Specifications">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <TextArea fx:id="txt_specs" wrapText="true" VBox.vgrow="ALWAYS" />
+                              <Label text="Technical description of the equipment (Optional, if included in the attachment)" textFill="#6d6d6d">
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="620.0" prefWidth="339.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label>
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Qoutation Date">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <DatePicker fx:id="date_qoutation" />
+                              <Label text="When was the qoutation issued ? This will be helpful to sort out obsolete qoutations. (Optional)" textFill="#6d6d6d" wrapText="true">
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="Remarks">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <TextArea fx:id="txt_remarks" prefHeight="157.0" prefWidth="480.0" wrapText="true" VBox.vgrow="ALWAYS" />
+                              <Label text="General notes or feebacks about this equipment (Optional)" textFill="#6d6d6d">
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="Keywords">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <TextArea fx:id="txt_searchkeys" prefHeight="94.0" prefWidth="480.0" promptText="ex. electronics, machine, table" wrapText="true" />
+                              <Label text="Make this qoutation easily searcheable by adding related keywords separated by ( , ) comma" textFill="#6d6d6d" wrapText="true">
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox style="-fx-border-color: black;">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/file_64.png" />
+                           </image>
+                        </ImageView>
+                        <VBox prefHeight="50.0" prefWidth="189.0">
+                           <children>
+                              <Label text="Qoutation Attachment">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btn_attachment" mnemonicParsing="false" text="Manage Attachment">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </VBox>
+                        <HBox>
+                           <children>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Label prefWidth="247.0" text="You can attach scanned copy of this equipment's qoutations" textFill="#6d6d6d" wrapText="true">
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

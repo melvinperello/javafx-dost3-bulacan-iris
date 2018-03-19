@@ -46,16 +46,16 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  */
 @Table(EquipmentQoutationModel.TABLE)
 public class EquipmentQoutationModel extends PolarisRecord {
-    
+
     public final static String TABLE = "equipment_qoutation";
     public final static String QOUTE_CODE = "qoute_code";
     public final static String FK_SUPPLIER_CODE = "fk_supplier_code";
-    public final static String FK_PROJECT_CODE = "fk_project_code"; // if related to any project
+//    public final static String FK_PROJECT_CODE = "fk_project_code"; // if related to any project
     //
     public final static String EQUIPMENT_NAME = "equipment_name";
     public final static String QOUTATION_DATE = "qoutation_date";
     public final static String SPECIFICATIONS = "specification";
-    public final static String FEEDBACK = "feedback";
+//    public final static String FEEDBACK = "feedback";
     public final static String REMARKS = "remarks";
     //
     public final static String STATUS = "status"; // purchased or canvassed
@@ -68,21 +68,21 @@ public class EquipmentQoutationModel extends PolarisRecord {
      * State of the equipment purchased.
      */
     public static class EquipmentStatus {
-        
+
         public final static String CANVASSED = "CANVASSED";
         public final static String ACQUIRED = "ACQUIRED";
-        
+
         public final static String[] LIST = new String[]{CANVASSED, ACQUIRED};
-        
+
     }
-    
+
     @PrimaryKey
     @Column(QOUTE_CODE)
     private String qouteCode;
     @Column(FK_SUPPLIER_CODE)
     private String supplierCode;
-    @Column(FK_PROJECT_CODE)
-    private String projectCode;
+//    @Column(FK_PROJECT_CODE)
+//    private String projectCode;
     //
     @Column(EQUIPMENT_NAME)
     private String equipmentName;
@@ -90,8 +90,8 @@ public class EquipmentQoutationModel extends PolarisRecord {
     private Date qoutationDate;
     @Column(SPECIFICATIONS)
     private String specifications;
-    @Column(FEEDBACK)
-    private String feedBack;
+//    @Column(FEEDBACK)
+//    private String feedBack;
     @Column(REMARKS)
     private String remarks;
     //
@@ -104,15 +104,15 @@ public class EquipmentQoutationModel extends PolarisRecord {
     private String keyword;
     @Column(DELETED_AT)
     private Date deletedAt;
-    
+
     public EquipmentQoutationModel() {
 //        this.qouteCode = ""; PK
         this.supplierCode = null;
-        this.projectCode = null;
+//        this.projectCode = null;
         //
         this.equipmentName = "";
         this.specifications = "";
-        this.feedBack = "";
+//        this.feedBack = "";
         this.remarks = "";
         this.status = "";
         this.qoutationAttachment = null;
@@ -137,53 +137,57 @@ public class EquipmentQoutationModel extends PolarisRecord {
         }
     }
 
+    public static boolean insertNew(EquipmentQoutationModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.insert(con);
+        }
+    }
+
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------
     public String getQouteCode() {
         return qouteCode;
     }
-    
+
     public String getSupplierCode() {
         return supplierCode;
     }
-    
-    public String getProjectCode() {
-        return projectCode;
-    }
-    
+
+//    public String getProjectCode() {
+//        return projectCode;
+//    }
     public String getEquipmentName() {
         return equipmentName;
     }
-    
+
     public Date getQoutationDate() {
         return qoutationDate;
     }
-    
+
     public String getSpecifications() {
         return specifications;
     }
-    
-    public String getFeedBack() {
-        return feedBack;
-    }
-    
+
+//    public String getFeedBack() {
+//        return feedBack;
+//    }
     public String getRemarks() {
         return remarks;
     }
-    
+
     public String getStatus() {
         return status;
     }
-    
+
     public Integer getQoutationAttachment() {
         return qoutationAttachment;
     }
-    
+
     public String getKeyword() {
         return ModelAccess.stringValue(this.keyword);
     }
-    
+
     public Date getDeletedAt() {
         return deletedAt;
     }
@@ -192,49 +196,47 @@ public class EquipmentQoutationModel extends PolarisRecord {
     public void setQouteCode(String qouteCode) {
         this.qouteCode = qouteCode;
     }
-    
+
     public void setSupplierCode(String supplierCode) {
         this.supplierCode = supplierCode;
     }
-    
-    public void setProjectCode(String projectCode) {
-        this.projectCode = projectCode;
-    }
-    
+
+//    public void setProjectCode(String projectCode) {
+//        this.projectCode = projectCode;
+//    }
     public void setEquipmentName(String equipmentName) {
         this.equipmentName = equipmentName;
     }
-    
+
     public void setQoutationDate(Date qoutationDate) {
         this.qoutationDate = qoutationDate;
     }
-    
+
     public void setSpecifications(String specifications) {
         this.specifications = specifications;
     }
-    
-    public void setFeedBack(String feedBack) {
-        this.feedBack = feedBack;
-    }
-    
+
+//    public void setFeedBack(String feedBack) {
+//        this.feedBack = feedBack;
+//    }
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
-    
+
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     public void setQoutationAttachment(Integer qoutationAttachment) {
         this.qoutationAttachment = qoutationAttachment;
     }
-    
+
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
-    
+
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
     }
-    
+
 }

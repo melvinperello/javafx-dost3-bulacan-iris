@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,7 @@ public class Context {
     // Project Constants.
     private final static int VERSION_CODE = 0;
     private final static String VERSION_NAME = "v.1.0 Prototype";
-    private final static String PROJECT_CODE_PREFIX = "STC3000";
+    private final static String PROJECT_CODE_PREFIX = "3000";
     // directory consta
     private final static String DIR_TEMPLATE = "template";
     private final static String DIR_TEMP = "temp";
@@ -221,6 +222,18 @@ public class Context {
      */
     public SimpleDateFormat getDateFormatTimeStamp() {
         return new SimpleDateFormat("MMddyyyy_HHmmss");
+    }
+
+    public String generateTimestampKey() {
+        /**
+         * Generate Key.
+         */
+        Calendar dateKey = Calendar.getInstance();
+        String generatedKey = Context.getProvinceCodePrefix()
+                + String.valueOf(dateKey.get(Calendar.YEAR))
+                + "-"
+                + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
+        return generatedKey;
     }
 
     /**

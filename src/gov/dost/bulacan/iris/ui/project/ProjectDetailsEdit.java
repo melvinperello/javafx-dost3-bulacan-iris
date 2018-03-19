@@ -251,15 +251,7 @@ public class ProjectDetailsEdit extends PolarisForm {
      * @return
      */
     private String generatedNewProjectKey() {
-        /**
-         * Generate Key.
-         */
-        Calendar dateKey = Calendar.getInstance();
-        String generatedKey = Context.getProvinceCodePrefix()
-                + String.valueOf(dateKey.get(Calendar.YEAR))
-                + "-"
-                + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
-        return generatedKey;
+        return Context.app().generateTimestampKey();
     }
 
     /**

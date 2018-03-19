@@ -96,10 +96,15 @@ public class EquipmentView extends PolarisForm {
             }
 
             EquipmentQoutationModel model = selectedProject.getQouteModel();
+            //
+            EquipmentEditView equipEdit = new EquipmentEditView(model);
+            this.changeRoot(equipEdit.load());
 
             value.consume();
         });
         this.btn_add.setOnMouseClicked(value -> {
+            EquipmentEditView equipEdit = new EquipmentEditView(null);
+            this.changeRoot(equipEdit.load());
             value.consume();
         });
         this.btn_remove.setOnMouseClicked(value -> {
