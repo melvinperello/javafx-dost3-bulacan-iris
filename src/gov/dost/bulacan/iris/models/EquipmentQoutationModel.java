@@ -143,6 +143,12 @@ public class EquipmentQoutationModel extends PolarisRecord {
         }
     }
 
+    public static boolean updateEquip(EquipmentQoutationModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.updateFull(con);
+        }
+    }
+
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------

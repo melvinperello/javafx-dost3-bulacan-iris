@@ -113,6 +113,10 @@ public class EquipmentView extends PolarisForm {
                 this.showWarningMessage(null, "Please select equipment to delete.");
                 return;
             }
+            
+            //------------------------------------------------------------------
+            // Remove Code
+            //------------------------------------------------------------------
 
             EquipmentQoutationModel model = selectedProject.getQouteModel();
             value.consume();
