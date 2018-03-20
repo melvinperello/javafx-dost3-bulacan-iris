@@ -149,6 +149,26 @@ public class EquipmentQoutationModel extends PolarisRecord {
         }
     }
 
+    public static boolean removeEquip(EquipmentQoutationModel model) throws SQLException {
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            //------------------------------------------------------------------
+            // get server date.
+            Date serverDate = Context.app().getServerDate();
+            // update value
+            model.setDeletedAt(serverDate);
+            // execute query.
+            return model.updateFull(con);
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------

@@ -113,12 +113,27 @@ public class EquipmentView extends PolarisForm {
                 this.showWarningMessage(null, "Please select equipment to delete.");
                 return;
             }
-            
+
+            EquipmentQoutationModel model = selectedProject.getQouteModel();
             //------------------------------------------------------------------
             // Remove Code
             //------------------------------------------------------------------
-
-            EquipmentQoutationModel model = selectedProject.getQouteModel();
+            int res = this.showConfirmationMessage(null, "Are you sure you want to remove this equipment? This operation is ireversible.");
+            if (res == 1) {
+                try {
+                    boolean deleted = EquipmentQoutationModel.removeEquip(model);
+                    if (deleted) {
+                        this.showInformationMessage(null, "Equipment successfully deleted.");
+                        // refresh table
+                        this.populateList();
+                    } else {
+                        this.showInformationMessage(null, "Equipment cannot be deleted at the moment please try again later.");
+                    }
+                } catch (SQLException e) {
+                    //
+                    this.showWaitExceptionMessage(e, null, "Failed to delete equipment.");
+                }
+            }
             value.consume();
         });
     }
