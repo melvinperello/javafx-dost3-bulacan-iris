@@ -29,10 +29,8 @@
 package gov.dost.bulacan.iris.ui.equipment;
 
 import com.jfoenix.controls.JFXButton;
-import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
-import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
@@ -88,6 +86,9 @@ public class EquipmentView extends PolarisForm {
         this.populateList();
         this.constructCustomList();
 
+        /**
+         * View or Update.
+         */
         this.btn_view.setOnMouseClicked(value -> {
             EquipmentViewListItem selectedProject = this.list_equipment.getSelectionModel().getSelectedItem();
             if (selectedProject == null) {
@@ -102,11 +103,17 @@ public class EquipmentView extends PolarisForm {
 
             value.consume();
         });
+        /**
+         * Add New.
+         */
         this.btn_add.setOnMouseClicked(value -> {
             EquipmentEditView equipEdit = new EquipmentEditView(null);
             this.changeRoot(equipEdit.load());
             value.consume();
         });
+        /**
+         * Remove Equipment.
+         */
         this.btn_remove.setOnMouseClicked(value -> {
             EquipmentViewListItem selectedProject = this.list_equipment.getSelectionModel().getSelectedItem();
             if (selectedProject == null) {
@@ -214,6 +221,9 @@ public class EquipmentView extends PolarisForm {
         //----------------------------------------------------------------------
     }
 
+    /**
+     * Refresh List.
+     */
     private void populateList() {
         List<EquipmentQoutationModel> equipments = null;
         try {

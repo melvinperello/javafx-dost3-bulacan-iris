@@ -26,6 +26,21 @@
          <children>
             <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                <children>
+                  <JFXButton fx:id="btn_back" graphicTextGap="10.0" prefWidth="120.0" text="Back">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/round_curve_left_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
                   <Label fx:id="lbl_modify_header" maxWidth="1.7976931348623157E308" text="Modify Information">
                      <font>
                         <Font name="System Bold" size="22.0" />
@@ -45,18 +60,6 @@
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../../../storage/drawable/save_64.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <JFXButton fx:id="btn_back" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Back">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../storage/drawable/back_64.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -113,14 +116,14 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <TextField fx:id="txt_equipment_name" promptText="Equipment Name" />
-                              <Label text="Equipment name including model number or any information related to easily identify the equipment." textFill="#6d6d6d" wrapText="true">
+                              <Label graphicTextGap="10.0" text="Equipment name including model number or any information related to easily identify the equipment." textFill="#6d6d6d" wrapText="true">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                          <Image url="@../../../../../../storage/drawable/right_round_64.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -142,14 +145,14 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <ComboBox fx:id="cmb_status" prefWidth="150.0" />
-                              <Label text="Acquired if the equipment was purchased already for other projects" textFill="#6d6d6d">
+                              <Label graphicTextGap="10.0" text="Acquired if the equipment was purchased already for other projects" textFill="#6d6d6d">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                          <Image url="@../../../../../../storage/drawable/right_round_64.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -214,7 +217,7 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Qoutation Date">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="Qoutation Date" wrapText="true">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -222,14 +225,14 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <DatePicker fx:id="date_qoutation" />
-                              <Label text="When was the qoutation issued ? This will be helpful to sort out obsolete qoutations. (Optional)" textFill="#6d6d6d" wrapText="true">
+                              <Label graphicTextGap="10.0" text="When was the qoutation issued ? This will be helpful to sort out obsolete qoutations. (Optional)" textFill="#6d6d6d" wrapText="true">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                          <Image url="@../../../../../../storage/drawable/right_round_64.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -251,14 +254,14 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <TextArea fx:id="txt_remarks" prefHeight="157.0" prefWidth="480.0" wrapText="true" VBox.vgrow="ALWAYS" />
-                              <Label text="General notes or feebacks about this equipment (Optional)" textFill="#6d6d6d">
+                              <Label graphicTextGap="10.0" text="General notes or feebacks about this equipment (Optional)" textFill="#6d6d6d">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                          <Image url="@../../../../../../storage/drawable/right_round_64.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -280,14 +283,14 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <TextArea fx:id="txt_searchkeys" prefHeight="94.0" prefWidth="480.0" promptText="ex. electronics, machine, table" wrapText="true" />
-                              <Label text="Make this qoutation easily searcheable by adding related keywords separated by ( , ) comma" textFill="#6d6d6d" wrapText="true">
+                              <Label graphicTextGap="10.0" text="Make this qoutation easily searcheable by adding related keywords separated by ( , ) comma" textFill="#6d6d6d" wrapText="true">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../storage/drawable/tip_64.png" />
+                                          <Image url="@../../../../../../storage/drawable/right_round_64.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -303,7 +306,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../storage/drawable/file_64.png" />
+                              <Image url="@../../../../../../storage/drawable/price_tag_64.png" />
                            </image>
                         </ImageView>
                         <VBox prefHeight="50.0" prefWidth="189.0">
@@ -312,8 +315,11 @@
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
+                                 <padding>
+                                    <Insets bottom="3.0" />
+                                 </padding>
                               </Label>
-                              <Button fx:id="btn_attachment" mnemonicParsing="false" text="Manage Attachment">
+                              <Button fx:id="btn_attachment" mnemonicParsing="false" text="View Qoutation">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -330,7 +336,7 @@
                                     <Image url="@../../../../../../storage/drawable/tip_64.png" />
                                  </image>
                                  <HBox.margin>
-                                    <Insets top="5.0" />
+                                    <Insets right="10.0" top="5.0" />
                                  </HBox.margin>
                               </ImageView>
                               <Label prefWidth="247.0" text="You can attach scanned copy of this equipment's qoutations" textFill="#6d6d6d" wrapText="true">
@@ -346,6 +352,57 @@
                      </padding>
                      <VBox.margin>
                         <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox style="-fx-border-color: black;">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/manufacturer_64.png" />
+                           </image>
+                        </ImageView>
+                        <VBox prefHeight="50.0" prefWidth="189.0">
+                           <children>
+                              <Label text="Supplier Information">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="3.0" />
+                                 </padding>
+                              </Label>
+                              <Button fx:id="btn_attachment1" mnemonicParsing="false" text="View Supplier">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox style="-fx-border-width: 0 0 0 1; -fx-border-color: black;" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Microsoft Corporation">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Information and Communications / Electronics" />
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="2.0" top="2.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="5.0" />
                      </VBox.margin>
                   </HBox>
                </children>

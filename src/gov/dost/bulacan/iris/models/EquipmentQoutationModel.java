@@ -130,7 +130,10 @@ public class EquipmentQoutationModel extends PolarisRecord {
         querySample.addStatement("SELECT")
                 .addStatement("*")
                 .addStatement("FROM")
-                .addStatement(TABLE);
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL");
         //======================================================================
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new EquipmentQoutationModel().findMany(con, querySample);

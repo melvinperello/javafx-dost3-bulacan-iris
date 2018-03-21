@@ -53,6 +53,9 @@ public class EquipmentViewListItem extends PolarisFxController implements Listab
     private Label lbl_date;
 
     @FXML
+    private Label lbl_supplier;
+    
+    @FXML
     private Label lbl_keys;
 
     public EquipmentViewListItem() {
@@ -72,13 +75,23 @@ public class EquipmentViewListItem extends PolarisFxController implements Listab
     @Override
     protected void setup() {
         if (qouteModel != null) {
+            //
             this.lbl_name.setText(qouteModel.getEquipmentName());
+            //
             String date = "No Specified Date";
             if (qouteModel.getQoutationDate() != null) {
                 date = Context.app().getDateFormatNamed().format(qouteModel.getQoutationDate());
             }
+            //
             this.lbl_date.setText(date);
-            this.lbl_keys.setText(qouteModel.getKeyword());
+            //
+            this.lbl_keys.setText("No Related Keywords");
+            if (!qouteModel.getKeyword().isEmpty()) {
+                this.lbl_keys.setText(qouteModel.getKeyword());
+            }
+            //
+            lbl_supplier.setText("Unknown Supplier");
+
         }
     }
 

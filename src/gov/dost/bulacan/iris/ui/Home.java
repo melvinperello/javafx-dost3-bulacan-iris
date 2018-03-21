@@ -90,10 +90,14 @@ public class Home extends PolarisForm {
      */
     public static void addEventBackToHome(Node button, PolarisFxController controller) {
         button.setOnMouseClicked(value -> {
-            Home home = new Home();
-            controller.changeRoot(home.load());
+            invokeEventBackToHome(controller);
             value.consume();
         });
+    }
+
+    public static void invokeEventBackToHome(PolarisFxController controller) {
+        Home home = new Home();
+        controller.changeRoot(home.load());
     }
 
 }

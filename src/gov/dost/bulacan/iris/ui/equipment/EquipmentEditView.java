@@ -58,46 +58,46 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  * @author Jhon Melvin
  */
 public class EquipmentEditView extends PolarisForm {
-    
+
     @FXML
     private HBox hbox_header;
-    
+
     @FXML
     private Label lbl_modify_header;
-    
+
     @FXML
     private Label lbl_modify_time;
-    
+
     @FXML
     private JFXButton btn_save_qoutation;
-    
+
     @FXML
     private JFXButton btn_back;
-    
+
     @FXML
     private TextField txt_equipment_name;
-    
+
     @FXML
     private ComboBox<String> cmb_status;
-    
+
     @FXML
     private TextArea txt_specs;
-    
+
     @FXML
     private DatePicker date_qoutation;
-    
+
     @FXML
     private TextArea txt_remarks;
-    
+
     @FXML
     private TextArea txt_searchkeys;
-    
+
     @FXML
     private Button btn_attachment;
-    
+
     @FXML
     private Label lbl_code;
-    
+
     public EquipmentEditView(EquipmentQoutationModel model) {
         this.setDialogMessageTitle("Equipment Qoutation");
         this.equipModel = model;
@@ -107,13 +107,13 @@ public class EquipmentEditView extends PolarisForm {
             this.addingMode = false;
         }
     }
-    
+
     private final EquipmentQoutationModel equipModel;
     private final boolean addingMode;
-    
+
     private final static String BTN_EDIT_TEXT = "Edit";
     private final static String BTN_SAVE_TEXT = "Save";
-    
+
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
@@ -121,8 +121,7 @@ public class EquipmentEditView extends PolarisForm {
         this.cmb_status.getItems().setAll(Arrays.asList(EquipmentQoutationModel.EquipmentStatus.LIST));
         this.cmb_status.getSelectionModel().selectFirst();
         //----------------------------------------------------------------------
-        
-        
+
         if (addingMode) {
             this.lbl_code.setText(Context.app().generateTimestampKey());
         } else {
@@ -174,8 +173,15 @@ public class EquipmentEditView extends PolarisForm {
             }
             value.consume();
         });
-        
+
         this.btn_back.setOnMouseClicked(value -> {
+            if (this.btn_save_qoutation.getText().equalsIgnoreCase(BTN_SAVE_TEXT)) {
+                int res = this.showConfirmationMessage("Discard Changes", "Your changes was not save are you sure you want to go back ?");
+                if (res != 1) {
+                    return;
+                }
+            }
+
             EquipmentView equipmentView = new EquipmentView();
             this.changeRoot(equipmentView.load());
             value.consume();
@@ -200,7 +206,7 @@ public class EquipmentEditView extends PolarisForm {
         this.txt_remarks.setText(this.equipModel.getRemarks());
         this.txt_searchkeys.setText(this.equipModel.getKeyword());
     }
-    
+
     private void setDateToPicker(DatePicker picker, Date dateEndorsed) {
         if (dateEndorsed != null) {
             SimpleDateFormat format = Context.app().getDateFormat();
@@ -233,14 +239,14 @@ public class EquipmentEditView extends PolarisForm {
         this.frmRemarks = filterInput(this.txt_remarks);
         this.frmSearchKeys = filterInput(this.txt_searchkeys);
     }
-    
+
     private boolean updateEquipment() {
         this.getFormValues();
         if (frmEquipName.isEmpty()) {
             this.showWarningMessage("Euipment Name Required", "Please enter the equipment name.");
             return false;
         }
-        
+
         EquipmentQoutationModel model = this.equipModel;
 //        model.setQouteCode(this.lbl_code.getText());
         model.setEquipmentName(frmEquipName);
@@ -250,7 +256,7 @@ public class EquipmentEditView extends PolarisForm {
         model.setStatus(frmEquipStatus);
         model.setQoutationAttachment(null);
         model.setKeyword(frmSearchKeys);
-        
+
         boolean updated = false;
         try {
             updated = EquipmentQoutationModel.updateEquip(model);
@@ -264,15 +270,15 @@ public class EquipmentEditView extends PolarisForm {
         }
         return updated;
     }
-    
+
     private boolean addEquipment() {
         this.getFormValues();
-        
+
         if (frmEquipName.isEmpty()) {
             this.showWarningMessage("Euipment Name Required", "Please enter the equipment name.");
             return false;
         }
-        
+
         EquipmentQoutationModel model = new EquipmentQoutationModel();
         model.setQouteCode(this.lbl_code.getText());
         model.setEquipmentName(frmEquipName);
@@ -296,9 +302,9 @@ public class EquipmentEditView extends PolarisForm {
         }
         return inserted;
     }
-    
+
     private String filterInput(TextInputControl textField) {
         return StringTools.clearExtraSpaces(textField.getText().trim());
     }
-    
+
 }
