@@ -237,6 +237,7 @@ public class EquipmentEditView extends PolarisForm {
         this.txt_searchkeys.setEditable(editable);
         this.cmb_status.setDisable(disable);
         this.date_qoutation.setDisable(disable);
+        this.btn_supplier.setDisable(editable);
     }
     //--------------------------------------------------------------------------
     private String frmEquipName;
