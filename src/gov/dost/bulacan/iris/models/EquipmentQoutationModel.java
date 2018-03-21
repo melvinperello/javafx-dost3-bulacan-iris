@@ -81,6 +81,19 @@ public class EquipmentQoutationModel extends PolarisRecord {
     private String qouteCode;
     @Column(FK_SUPPLIER_CODE)
     private String supplierCode;
+    //--------------------------------------------------------------------------
+    // WTIH
+    private EquipmentSupplierModel supplierModel;
+
+    /**
+     * Allows fetching with relation.
+     *
+     * @return the SupplierModel related to this Equipment.
+     */
+    public EquipmentSupplierModel getSupplierModel() {
+        return supplierModel;
+    }
+    //--------------------------------------------------------------------------
 //    @Column(FK_PROJECT_CODE)
 //    private String projectCode;
     //
@@ -106,6 +119,7 @@ public class EquipmentQoutationModel extends PolarisRecord {
     private Date deletedAt;
 
     public EquipmentQoutationModel() {
+        this.supplierModel = null;
 //        this.qouteCode = ""; PK
         this.supplierCode = null;
 //        this.projectCode = null;
@@ -230,9 +244,6 @@ public class EquipmentQoutationModel extends PolarisRecord {
         this.supplierCode = supplierCode;
     }
 
-//    public void setProjectCode(String projectCode) {
-//        this.projectCode = projectCode;
-//    }
     public void setEquipmentName(String equipmentName) {
         this.equipmentName = equipmentName;
     }

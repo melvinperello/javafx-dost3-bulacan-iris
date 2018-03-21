@@ -339,7 +339,7 @@
                                     <Insets right="10.0" top="5.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <Label prefWidth="247.0" text="You can attach scanned copy of this equipment's qoutations" textFill="#6d6d6d" wrapText="true">
+                              <Label prefWidth="247.0" text="You can attach scanned copy of this equipment's qoutation" textFill="#6d6d6d" wrapText="true">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
@@ -371,7 +371,7 @@
                                     <Insets bottom="3.0" />
                                  </padding>
                               </Label>
-                              <Button fx:id="btn_attachment1" mnemonicParsing="false" text="View Supplier">
+                              <Button fx:id="btn_supplier" mnemonicParsing="false" text="View Supplier">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -383,12 +383,12 @@
                         </VBox>
                         <VBox style="-fx-border-width: 0 0 0 1; -fx-border-color: black;" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Microsoft Corporation">
+                              <Label fx:id="lbl_supplier" text="Microsoft Corporation">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label text="Information and Communications / Electronics" />
+                              <Label fx:id="lbl_supplier_category" text="Information and Communications / Electronics" />
                            </children>
                            <HBox.margin>
                               <Insets bottom="2.0" top="2.0" />

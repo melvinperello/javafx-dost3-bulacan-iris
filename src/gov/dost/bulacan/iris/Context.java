@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -133,22 +134,26 @@ public class Context {
      * @param collection A collection of object with override toString Method.
      */
     public static void comboBoxValueFactory(ComboBox comboBase, Object[] collection) {
-        comboBase.getItems().setAll(collection);
-        comboBase.setCellFactory((Object param) -> {
-            final ListCell cell = new ListCell() {
-                @Override
-                protected void updateItem(Object item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item != null) {
-                        setText(item.toString());
-                    } else {
-                        setText(null);
-                    }
-                }
-            };
-            return cell;
-        });
-        comboBase.setButtonCell((ListCell) comboBase.getCellFactory().call(null));
+//        comboBase.getItems().setAll(collection);
+//        comboBase.setCellFactory((Object param) -> {
+//            final ListCell cell = new ListCell() {
+//                @Override
+//                protected void updateItem(Object item, boolean empty) {
+//                    super.updateItem(item, empty);
+//                    if (item != null) {
+//                        setText(item.toString());
+//                    } else {
+//                        setText(null);
+//                    }
+//                }
+//            };
+//            return cell;
+//        });
+//        comboBase.setButtonCell((ListCell) comboBase.getCellFactory().call(null));
+        /**
+         * simplified approach.
+         */
+        comboBase.getItems().setAll(Arrays.asList(collection));
     } // end of Combo Box Value Factory.
 
     //--------------------------------------------------------------------------

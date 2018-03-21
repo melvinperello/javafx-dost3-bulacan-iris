@@ -54,11 +54,12 @@ public class EquipmentSupplierModel extends PolarisRecord {
     public final static String DOST_ACCREDITED = "dost_accredited";
     //--------------------------------------------------------------------------
     // Address Fields for Analytics
-    public final static String REGION = "supplier_region";
-    public final static String PROVINCE = "supplier_province";
-    public final static String CITY = "supplier_city";
-    public final static String BRGY = "supplier_brgy";
-    public final static String STREET_ADDRESS = "supplier_street";
+    public final static String SUPPLIER_ADDRESS = "supplier_region";
+//    public final static String REGION = "supplier_region";
+//    public final static String PROVINCE = "supplier_province";
+//    public final static String CITY = "supplier_city";
+//    public final static String BRGY = "supplier_brgy";
+//    public final static String STREET_ADDRESS = "supplier_street";
 
     //--------------------------------------------------------------------------
     @PrimaryKey
@@ -78,16 +79,18 @@ public class EquipmentSupplierModel extends PolarisRecord {
     private Integer sector;
     @Column(DOST_ACCREDITED)
     private String dostAccredited;
-    @Column(REGION)
-    private String supplierRegion;
-    @Column(PROVINCE)
-    private String supplierProvince;
-    @Column(CITY)
-    private String supplierCity;
-    @Column(BRGY)
-    private String supplierBrgy;
-    @Column(STREET_ADDRESS)
-    private String supplierStreet;
+    @Column(SUPPLIER_ADDRESS)
+    private String supplierAddress;
+//    @Column(REGION)
+//    private String supplierRegion;
+//    @Column(PROVINCE)
+//    private String supplierProvince;
+//    @Column(CITY)
+//    private String supplierCity;
+//    @Column(BRGY)
+//    private String supplierBrgy;
+//    @Column(STREET_ADDRESS)
+//    private String supplierStreet;
 
     public EquipmentSupplierModel() {
 //        this.supplierCode = ""; PRIMARY
@@ -98,11 +101,12 @@ public class EquipmentSupplierModel extends PolarisRecord {
         this.websiteAddress = "";
         this.sector = null;
         this.dostAccredited = "";
-        this.supplierRegion = "";
-        this.supplierProvince = "";
-        this.supplierCity = "";
-        this.supplierBrgy = "";
-        this.supplierStreet = "";
+        this.supplierAddress = "";
+//        this.supplierRegion = "";
+//        this.supplierProvince = "";
+//        this.supplierCity = "";
+//        this.supplierBrgy = "";
+//        this.supplierStreet = "";
     }
 
     //--------------------------------------------------------------------------
@@ -190,108 +194,85 @@ public class EquipmentSupplierModel extends PolarisRecord {
     }
 
     //--------------------------------------------------------------------------
+    // Getter
+    //--------------------------------------------------------------------------
     public String getSupplierCode() {
         return supplierCode;
-    }
-
-    public void setSupplierCode(String supplierCode) {
-        this.supplierCode = supplierCode;
     }
 
     public String getSupplierName() {
         return supplierName;
     }
 
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
     public String getMobileNo() {
         return mobileNo;
-    }
-
-    public void setMobileNo(String mobileNo) {
-        this.mobileNo = mobileNo;
     }
 
     public String getTelNo() {
         return telNo;
     }
 
-    public void setTelNo(String telNo) {
-        this.telNo = telNo;
-    }
-
     public String getFaxNo() {
         return faxNo;
-    }
-
-    public void setFaxNo(String faxNo) {
-        this.faxNo = faxNo;
     }
 
     public String getWebsiteAddress() {
         return websiteAddress;
     }
 
-    public void setWebsiteAddress(String websiteAddress) {
-        this.websiteAddress = websiteAddress;
-    }
-
     public Integer getSector() {
         return sector;
-    }
-
-    public void setSector(Integer sector) {
-        this.sector = sector;
     }
 
     public String getDostAccredited() {
         return dostAccredited;
     }
 
+    public String getSupplierAddress() {
+        return supplierAddress;
+    }
+
+    //--------------------------------------------------------------------------
+    // Setter
+    //--------------------------------------------------------------------------
+    /**
+     *
+     * @param supplierCode
+     */
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public void setTelNo(String telNo) {
+        this.telNo = telNo;
+    }
+
+    public void setFaxNo(String faxNo) {
+        this.faxNo = faxNo;
+    }
+
+    public void setWebsiteAddress(String websiteAddress) {
+        this.websiteAddress = websiteAddress;
+    }
+
+    public void setSector(Integer sector) {
+        this.sector = sector;
+    }
+
     public void setDostAccredited(String dostAccredited) {
         this.dostAccredited = dostAccredited;
     }
 
-    public String getSupplierRegion() {
-        return supplierRegion;
-    }
-
-    public void setSupplierRegion(String supplierRegion) {
-        this.supplierRegion = supplierRegion;
-    }
-
-    public String getSupplierProvince() {
-        return supplierProvince;
-    }
-
-    public void setSupplierProvince(String supplierProvince) {
-        this.supplierProvince = supplierProvince;
-    }
-
-    public String getSupplierCity() {
-        return supplierCity;
-    }
-
-    public void setSupplierCity(String supplierCity) {
-        this.supplierCity = supplierCity;
-    }
-
-    public String getSupplierBrgy() {
-        return supplierBrgy;
-    }
-
-    public void setSupplierBrgy(String supplierBrgy) {
-        this.supplierBrgy = supplierBrgy;
-    }
-
-    public String getSupplierStreet() {
-        return supplierStreet;
-    }
-
-    public void setSupplierStreet(String supplierStreet) {
-        this.supplierStreet = supplierStreet;
+    public void setSupplierAddress(String supplierAddress) {
+        this.supplierAddress = supplierAddress;
     }
 
 }

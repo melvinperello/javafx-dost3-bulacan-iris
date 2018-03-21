@@ -34,6 +34,7 @@ import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
+import gov.dost.bulacan.iris.ui.equipment.supplier.SupplierHome;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -63,6 +64,9 @@ public class EquipmentEditView extends PolarisForm {
     private HBox hbox_header;
 
     @FXML
+    private JFXButton btn_back;
+
+    @FXML
     private Label lbl_modify_header;
 
     @FXML
@@ -72,7 +76,7 @@ public class EquipmentEditView extends PolarisForm {
     private JFXButton btn_save_qoutation;
 
     @FXML
-    private JFXButton btn_back;
+    private Label lbl_code;
 
     @FXML
     private TextField txt_equipment_name;
@@ -96,7 +100,13 @@ public class EquipmentEditView extends PolarisForm {
     private Button btn_attachment;
 
     @FXML
-    private Label lbl_code;
+    private Button btn_supplier;
+
+    @FXML
+    private Label lbl_supplier;
+
+    @FXML
+    private Label lbl_supplier_category;
 
     public EquipmentEditView(EquipmentQoutationModel model) {
         this.setDialogMessageTitle("Equipment Qoutation");
@@ -124,18 +134,18 @@ public class EquipmentEditView extends PolarisForm {
 
         if (addingMode) {
             this.lbl_code.setText(Context.app().generateTimestampKey());
+            //
+            this.lbl_supplier.setText("Unknown Supplier");
+            this.lbl_supplier_category.setText("Unknown Sector");
+            this.btn_attachment.setDisable(true);
+            this.btn_supplier.setDisable(true);
         } else {
             this.btn_save_qoutation.setText(BTN_EDIT_TEXT);
             this.lbl_code.setText(this.equipModel.getQouteCode());
             // preload data
             this.preloadData();
-            // editable false
-            this.txt_equipment_name.setEditable(false);
-            this.txt_specs.setEditable(false);
-            this.txt_remarks.setEditable(false);
-            this.txt_searchkeys.setEditable(false);
-            this.cmb_status.setDisable(true);
-            this.date_qoutation.setDisable(true);
+            //
+            this.disableComponents(true);
         }
         //----------------------------------------------------------------------
         this.btn_save_qoutation.setOnMouseClicked(value -> {
@@ -148,12 +158,7 @@ public class EquipmentEditView extends PolarisForm {
                 if (this.btn_save_qoutation.getText().equalsIgnoreCase(BTN_EDIT_TEXT)) {
                     this.btn_save_qoutation.setText(BTN_SAVE_TEXT);
                     //
-                    this.txt_equipment_name.setEditable(true);
-                    this.txt_specs.setEditable(true);
-                    this.txt_remarks.setEditable(true);
-                    this.txt_searchkeys.setEditable(true);
-                    this.cmb_status.setDisable(false);
-                    this.date_qoutation.setDisable(false);
+                    this.disableComponents(false);
                     //
                 } else if (this.btn_save_qoutation.getText().equalsIgnoreCase(BTN_SAVE_TEXT)) {
                     //----------------------------------------------------------
@@ -162,18 +167,16 @@ public class EquipmentEditView extends PolarisForm {
                     if (this.updateEquipment()) {
                         this.btn_save_qoutation.setText(BTN_EDIT_TEXT);
                         //
-                        this.txt_equipment_name.setEditable(false);
-                        this.txt_specs.setEditable(false);
-                        this.txt_remarks.setEditable(false);
-                        this.txt_searchkeys.setEditable(false);
-                        this.cmb_status.setDisable(true);
-                        this.date_qoutation.setDisable(true);
+                        this.disableComponents(true);
                     }
                 }
             }
             value.consume();
         });
 
+        /**
+         * Back to Equip Home.
+         */
         this.btn_back.setOnMouseClicked(value -> {
             if (this.btn_save_qoutation.getText().equalsIgnoreCase(BTN_SAVE_TEXT)) {
                 int res = this.showConfirmationMessage("Discard Changes", "Your changes was not save are you sure you want to go back ?");
@@ -184,6 +187,12 @@ public class EquipmentEditView extends PolarisForm {
 
             EquipmentView equipmentView = new EquipmentView();
             this.changeRoot(equipmentView.load());
+            value.consume();
+        });
+
+        this.btn_supplier.setOnMouseClicked(value -> {
+            SupplierHome supHome = new SupplierHome(this.equipModel);
+            this.changeRoot(supHome.load());
             value.consume();
         });
     }
@@ -213,6 +222,21 @@ public class EquipmentEditView extends PolarisForm {
             LocalDate setDate = LocalDate.parse(format.format(dateEndorsed), DateTimeFormatter.ofPattern(format.toPattern()));
             picker.setValue(setDate);
         }
+    }
+
+    /**
+     * Disable components
+     *
+     * @param disable
+     */
+    private void disableComponents(boolean disable) {
+        boolean editable = (!disable);
+        this.txt_equipment_name.setEditable(editable);
+        this.txt_specs.setEditable(editable);
+        this.txt_remarks.setEditable(editable);
+        this.txt_searchkeys.setEditable(editable);
+        this.cmb_status.setDisable(disable);
+        this.date_qoutation.setDisable(disable);
     }
     //--------------------------------------------------------------------------
     private String frmEquipName;

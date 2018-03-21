@@ -843,6 +843,11 @@ public class ProjectModel extends PolarisRecord {
     }
     //--------------------------------------------------------------------------
 
+    /**
+     * Setter for code including prefix.
+     *
+     * @param projectCode
+     */
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
     }
