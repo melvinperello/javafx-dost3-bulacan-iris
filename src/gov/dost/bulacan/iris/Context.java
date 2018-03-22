@@ -52,7 +52,7 @@ public class Context {
     // Project Constants.
     private final static int VERSION_CODE = 0;
     private final static String VERSION_NAME = "v.1.0 Prototype";
-    private final static String PROJECT_CODE_PREFIX = "3000";
+    private final static String PROJECT_CODE_PREFIX = "BUL3000";
     // directory consta
     private final static String DIR_TEMPLATE = "template";
     private final static String DIR_TEMP = "temp";

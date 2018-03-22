@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.ui.project.contact;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
@@ -152,6 +153,7 @@ public class ProjectContactEdit extends PolarisForm {
         }
         //
         ProjectContactModel model = new ProjectContactModel();
+        model.setContactCode(Context.app().generateTimestampKey());
         model.setEmail(frmMail);
         model.setLandline(frmTel);
         model.setMobile(frmMobile);
@@ -165,7 +167,7 @@ public class ProjectContactEdit extends PolarisForm {
         try {
             boolean res = ProjectContactModel.insertNewContact(model);
             if (res) {
-                this.showInformationMessage(null, "Contact successfully added to this project.");
+                this.showWaitInformationMessage(null, "Contact successfully added to this project.");
                 /**
                  * Close stage for success.
                  */
@@ -203,7 +205,7 @@ public class ProjectContactEdit extends PolarisForm {
         try {
             boolean res = ProjectContactModel.updateContact(model);
             if (res) {
-                this.showInformationMessage(null, "Contact successfully updated to this project.");
+                this.showWaitInformationMessage(null, "Contact successfully updated to this project.");
                 /**
                  * Close stage for success.
                  */

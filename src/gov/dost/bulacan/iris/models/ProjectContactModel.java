@@ -51,7 +51,7 @@ public class ProjectContactModel extends PolarisRecord {
      * Initialize default values.
      */
     public ProjectContactModel() {
-        this.id = null; // primary key
+        this.contactCode = ""; // primary key
         this.name = "";
         this.position = "";
         this.mobile = "";
@@ -62,8 +62,8 @@ public class ProjectContactModel extends PolarisRecord {
     // TABLE FIELDS
     //--------------------------------------------------------------------------    
     public final static String TABLE = "setup_projects_contact";
-    
-    public final static String ID = "id";
+
+    public final static String CONTACT_CODE = "contact_code";
     // FOREIGN KEY to ProjectModel
     public final static String SETUP_PROJECT_CODE = "fk_setup_project_code";
     public final static String NAME = "name";
@@ -77,9 +77,8 @@ public class ProjectContactModel extends PolarisRecord {
     // DECLARATIONS
     //--------------------------------------------------------------------------
     @PrimaryKey
-    @FetchOnly
-    @Column(ID)
-    private Integer id;
+    @Column(CONTACT_CODE)
+    private String contactCode;
     @Column(SETUP_PROJECT_CODE)
     private String setupProjectCode;
     @Column(NAME)
@@ -166,12 +165,12 @@ public class ProjectContactModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------
-    public Integer getId() {
-        return id;
+    public String getContactCode() {
+        return contactCode;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setContactCode(String contactCode) {
+        this.contactCode = contactCode;
     }
 
     public String getSetupProjectCode() {
