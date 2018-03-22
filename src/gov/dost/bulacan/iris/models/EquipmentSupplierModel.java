@@ -29,9 +29,13 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
+import static gov.dost.bulacan.iris.models.EquipmentQoutationModel.DELETED_AT;
 import gov.dost.bulacan.iris.models.ext.UnknownModelValueException;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
+import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
@@ -64,6 +68,8 @@ public class EquipmentSupplierModel extends PolarisRecord {
 //    public final static String CITY = "supplier_city";
 //    public final static String BRGY = "supplier_brgy";
 //    public final static String STREET_ADDRESS = "supplier_street";
+
+    public final static String DELETED_AT = "deleted_at";
 
     //--------------------------------------------------------------------------
     @PrimaryKey
@@ -98,6 +104,9 @@ public class EquipmentSupplierModel extends PolarisRecord {
 //    @Column(STREET_ADDRESS)
 //    private String supplierStreet;
 
+    @Column(DELETED_AT)
+    private Date deletedAt;
+
     public EquipmentSupplierModel() {
 //        this.supplierCode = ""; PRIMARY
         this.supplierName = "";
@@ -114,6 +123,7 @@ public class EquipmentSupplierModel extends PolarisRecord {
 //        this.supplierBrgy = "";
 //        this.supplierStreet = "";
         this.supplierEmail = "";
+        this.deletedAt = null;
     }
 
     //--------------------------------------------------------------------------
@@ -216,9 +226,28 @@ public class EquipmentSupplierModel extends PolarisRecord {
         }
     }
 
+    public static <T> List<T> getAllActiveSupplier() throws SQLException {
+        SimpleQuery querySample = new SimpleQuery();
+        querySample.addStatement("SELECT")
+                .addStatement("*")
+                .addStatement("FROM")
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL");
+        //======================================================================
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return new EquipmentSupplierModel().findMany(con, querySample);
+        }
+    }
+
     //--------------------------------------------------------------------------
     // Getter
     //--------------------------------------------------------------------------
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
     public String getSupplierCode() {
         return supplierCode;
     }
@@ -304,6 +333,10 @@ public class EquipmentSupplierModel extends PolarisRecord {
 
     public void setSupplierEmail(String supplierEmail) {
         this.supplierEmail = supplierEmail;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
 }

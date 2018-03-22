@@ -37,12 +37,18 @@ import gov.dost.bulacan.iris.models.EquipmentSupplierModel.Sector;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentEditView;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
+import gov.dost.bulacan.iris.ui.equipment.EquipmentViewListItem;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -50,12 +56,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 /**
  *
  * @author Jhon Melvin
  */
 public class SupplierHome extends PolarisForm {
+
+    @FXML
+    private TextField txt_search;
 
     @FXML
     private HBox hbox_header;
@@ -76,7 +86,7 @@ public class SupplierHome extends PolarisForm {
     private JFXButton btn_save_qoutation;
 
     @FXML
-    private ListView<?> lst_supplier;
+    private ListView<SupplierHomeList> lst_supplier;
 
     @FXML
     private Label lbl_code;
@@ -123,7 +133,10 @@ public class SupplierHome extends PolarisForm {
     public SupplierHome(EquipmentQoutationModel equipModel) {
         this.equipModel = equipModel;
         this.setDialogMessageTitle("Supplier");
+        this.observeableListItems = FXCollections.observableArrayList();
     }
+
+    private final ObservableList<SupplierHomeList> observeableListItems;
 
     private final EquipmentQoutationModel equipModel;
     private final static String STR_NOT_ACCREDITED = "This supplier is NOT Accedited";
@@ -135,6 +148,10 @@ public class SupplierHome extends PolarisForm {
         this.cmb_sector.getItems().setAll(Arrays.asList(EquipmentSupplierModel.Sector.LIST));
         this.cmb_sector.getSelectionModel().selectFirst();
         this.rdb_no.setSelected(true);
+
+        //
+        this.populateList();
+        this.constructCustomList();
 
         this.rdo_group_accredited.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
             if (this.rdb_yes.isSelected()) {
@@ -176,6 +193,109 @@ public class SupplierHome extends PolarisForm {
         this.btn_save_qoutation.setOnMouseClicked(value -> {
 
         });
+    }
+
+    /**
+     * Refresh List.
+     */
+    private void populateList() {
+        List<EquipmentSupplierModel> equipments = null;
+        try {
+            equipments = EquipmentSupplierModel.getAllActiveSupplier();
+        } catch (SQLException e) {
+            this.showWaitExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Supplier Records !");
+        }
+
+        // if error go back
+        if (equipments == null) {
+            return;
+        }
+        this.observeableListItems.clear();
+        /**
+         * Populate observable list.
+         */
+        for (EquipmentSupplierModel supplier : equipments) {
+            SupplierHomeList listItem = new SupplierHomeList();
+            listItem.setSupplierModel(supplier);
+            listItem.load();
+            this.observeableListItems.add(listItem);
+        }
+
+    }
+
+    /**
+     * Construct Custom List.
+     */
+    private void constructCustomList() {
+        //----------------------------------------------------------------------
+        // Add Search Predicate
+        //----------------------------------------------------------------------
+        // 01. wrap the observeable list inside the filter list.
+        FilteredList<SupplierHomeList> filteredResult = new FilteredList<>(this.observeableListItems, predicate -> true);
+
+        // 02. bind the filter to a text source and add filters
+        this.txt_search.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            filteredResult.setPredicate((SupplierHomeList supplier) -> {
+
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String filterString = newValue.toLowerCase();
+
+                /**
+                 * Allow search of cooperator's name.
+                 */
+                if (supplier.getSupplierModel().getSupplierName().toLowerCase().contains(newValue)) {
+                    return true;
+                }
+
+                return false; // no match.
+            });
+        });
+
+        /**
+         * Add filtering
+         */
+        this.lst_supplier.setItems(filteredResult);
+
+        //----------------------------------------------------------------------
+        /**
+         * customize list view output.
+         */
+        this.lst_supplier.setCellFactory(new Callback<ListView<SupplierHomeList>, ListCell<SupplierHomeList>>() {
+            @Override
+            public ListCell<SupplierHomeList> call(ListView<SupplierHomeList> param) {
+                return new ListCell() {
+                    {
+                        this.setPrefHeight(70.0);
+                    }
+
+                    @Override
+                    protected void updateItem(Object item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            /**
+                             * Must implement Polaris list item. must be loaded.
+                             */
+                            SupplierHomeList listItem = (SupplierHomeList) item;
+                            // bind pref width.
+                            listItem.getRootPane().prefWidthProperty().bind(this.prefWidthProperty());
+                            // load to cell.
+                            setGraphic(listItem.getCustomListCellGraphic());
+                        } else {
+                            /**
+                             * Redraws the cell.
+                             */
+                            setGraphic(null);
+                        }
+
+                    }
+                };
+            }
+        });
+        //----------------------------------------------------------------------
     }
 
     /**

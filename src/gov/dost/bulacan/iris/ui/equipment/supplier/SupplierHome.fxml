@@ -104,7 +104,7 @@
                   <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <Label text="Search Supplier" />
-                        <TextField promptText="Try to enter something . . ." HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txt_search" promptText="Try to enter something . . ." HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" />

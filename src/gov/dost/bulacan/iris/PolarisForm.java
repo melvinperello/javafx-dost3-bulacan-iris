@@ -165,6 +165,7 @@ public abstract class PolarisForm extends PolarisFxController {
         return 0;
     }
 
+    //--------------------------------------------------------------------------
     public void showWaitExceptionMessage(Exception e, String header, String message) {
         if (header == null) {
             header = "System Error Encountered !";
@@ -172,8 +173,8 @@ public abstract class PolarisForm extends PolarisFxController {
         PolarisDialog.exceptionDialog(e)
                 .setContentText(message)
                 .setHeaderText(header)
-                .setOwner(this.getStage())
-                .setTitle(this.dialogMessageTitle)
+                .setOwner(null)
+                .setTitle("Fatal Exception")
                 .showAndWait();
     }
 
@@ -184,8 +185,8 @@ public abstract class PolarisForm extends PolarisFxController {
         PolarisDialog.exceptionDialog(e)
                 .setContentText(message)
                 .setHeaderText(header)
-                .setOwner(this.getStage())
-                .setTitle(this.dialogMessageTitle)
+                .setOwner(null)
+                .setTitle("Fatal Exception")
                 .show();
     }
 

@@ -55,14 +55,15 @@ CREATE TABLE IF NOT EXISTS `equipment_supplier` (
   `sector` int(11) DEFAULT NULL,
   `dost_accredited` varchar(50) DEFAULT NULL,
   `supplier_address` varchar(50) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`supplier_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table iris_bulacan_dost3.equipment_supplier: ~2 rows (approximately)
 /*!40000 ALTER TABLE `equipment_supplier` DISABLE KEYS */;
-INSERT INTO `equipment_supplier` (`supplier_code`, `supplier_name`, `mobile_no`, `telephone_no`, `fax_no`, `email`, `website_address`, `sector`, `dost_accredited`, `supplier_address`) VALUES
-	('30002018-0322111406', 'Microsoft', '', '', NULL, '', '', 6, 'NO', ''),
-	('30002018-0322111550', 'Microsoft Technologies', '09368955866', '044 215 2145', NULL, 'info@microsoft.com', 'microsoft.com', 6, 'YES', '');
+INSERT INTO `equipment_supplier` (`supplier_code`, `supplier_name`, `mobile_no`, `telephone_no`, `fax_no`, `email`, `website_address`, `sector`, `dost_accredited`, `supplier_address`, `deleted_at`) VALUES
+	('30002018-0322111406', 'Microsoft', '', '', NULL, '', '', 6, 'NO', '', NULL),
+	('30002018-0322111550', 'Microsoft Technologies', '09368955866', '044 215 2145', NULL, 'info@microsoft.com', 'microsoft.com', 6, 'YES', '', NULL);
 /*!40000 ALTER TABLE `equipment_supplier` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.file_table
@@ -121,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `setup_projects` (
   PRIMARY KEY (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.setup_projects: ~0 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.setup_projects: ~1 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects` DISABLE KEYS */;
 INSERT INTO `setup_projects` (`project_code`, `spin_no`, `company_name`, `company_owner`, `owner_position`, `owner_address`, `project_name`, `project_status`, `project_type`, `endorsed_date`, `file_endorsed_attachment`, `approved_date`, `approved_funding`, `file_approved_attachment`, `moa_date`, `file_moa_attachment`, `actual_cost`, `duration_from`, `duration_to`, `factory_street`, `factory_brgy`, `factory_city`, `factory_landmark`, `year_established`, `business_activity`, `capital_classification`, `employment_classification`, `company_ownership`, `profitability`, `registration_info`, `major_products`, `existing_market`, `website`, `deleted_at`) VALUES
 	('BUL30002018-0322115144', '', 'Sample', '', '', '', '', 0, 'GIA', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, '', '', '3012', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '', NULL);
@@ -142,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `setup_projects_contact` (
   CONSTRAINT `spc_fk_sp_code` FOREIGN KEY (`fk_setup_project_code`) REFERENCES `setup_projects` (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.setup_projects_contact: ~0 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.setup_projects_contact: ~3 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects_contact` DISABLE KEYS */;
 INSERT INTO `setup_projects_contact` (`contact_code`, `fk_setup_project_code`, `name`, `position`, `mobile`, `landline`, `email`, `deleted_at`) VALUES
 	('BUL30002018-0322115157', 'BUL30002018-0322115144', 'Sample', '', '', '', '', NULL),

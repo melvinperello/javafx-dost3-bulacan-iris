@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.ui.equipment.supplier;
 
 import gov.dost.bulacan.iris.Listable;
+import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
 import javafx.scene.layout.Pane;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
@@ -36,7 +37,21 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  *
  * @author Jhon Melvin
  */
-public class SupplierHomeList extends PolarisFxController implements Listable{
+public class SupplierHomeList extends PolarisFxController implements Listable {
+
+    public SupplierHomeList() {
+
+    }
+
+    private EquipmentSupplierModel supplierModel;
+
+    public EquipmentSupplierModel getSupplierModel() {
+        return supplierModel;
+    }
+
+    public void setSupplierModel(EquipmentSupplierModel supplierModel) {
+        this.supplierModel = supplierModel;
+    }
 
     @Override
     protected void setup() {
@@ -47,5 +62,5 @@ public class SupplierHomeList extends PolarisFxController implements Listable{
     public Pane getCustomListCellGraphic() {
         return this.getRootPane();
     }
-    
+
 }
