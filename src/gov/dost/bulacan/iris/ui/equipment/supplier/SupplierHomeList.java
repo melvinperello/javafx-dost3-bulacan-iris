@@ -30,6 +30,10 @@ package gov.dost.bulacan.iris.ui.equipment.supplier;
 
 import gov.dost.bulacan.iris.Listable;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
+import gov.dost.bulacan.iris.models.EquipmentSupplierModel.Sector;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
@@ -39,10 +43,23 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  */
 public class SupplierHomeList extends PolarisFxController implements Listable {
 
+    @FXML
+    private ImageView img_icon;
+
+    @FXML
+    private Label lbl_name;
+
+    @FXML
+    private Label lbl_sector;
+
+    @FXML
+    private Label lbl_date;
+
+    //--------------------------------------------------------------------------
     public SupplierHomeList() {
-
+        
     }
-
+    private String sector;
     private EquipmentSupplierModel supplierModel;
 
     public EquipmentSupplierModel getSupplierModel() {
@@ -50,12 +67,21 @@ public class SupplierHomeList extends PolarisFxController implements Listable {
     }
 
     public void setSupplierModel(EquipmentSupplierModel supplierModel) {
+        this.sector = Sector.getStringValue(supplierModel.getSector());
         this.supplierModel = supplierModel;
+    }
+
+    public String getSector() {
+        if (this.sector == null) {
+            return "";
+        }
+        return this.sector;
     }
 
     @Override
     protected void setup() {
-
+        this.lbl_name.setText(this.supplierModel.getSupplierName());
+        this.lbl_sector.setText(sector);
     }
 
     @Override

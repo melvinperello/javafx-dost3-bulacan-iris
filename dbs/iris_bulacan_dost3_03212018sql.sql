@@ -59,11 +59,13 @@ CREATE TABLE IF NOT EXISTS `equipment_supplier` (
   PRIMARY KEY (`supplier_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.equipment_supplier: ~2 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.equipment_supplier: ~3 rows (approximately)
 /*!40000 ALTER TABLE `equipment_supplier` DISABLE KEYS */;
 INSERT INTO `equipment_supplier` (`supplier_code`, `supplier_name`, `mobile_no`, `telephone_no`, `fax_no`, `email`, `website_address`, `sector`, `dost_accredited`, `supplier_address`, `deleted_at`) VALUES
 	('30002018-0322111406', 'Microsoft', '', '', NULL, '', '', 6, 'NO', '', NULL),
-	('30002018-0322111550', 'Microsoft Technologies', '09368955866', '044 215 2145', NULL, 'info@microsoft.com', 'microsoft.com', 6, 'YES', '', NULL);
+	('30002018-0322111550', 'Microsoft Technologies', '09368955866', '044 215 2145', NULL, 'info@microsoft.com', 'microsoft.com', 6, 'YES', '', NULL),
+	('BUL30002018-0322142702', 'Ewan', '', '', NULL, '', '', 1, 'NO', '', NULL),
+	('BUL30002018-0322144319', 'Microsoft', '', '', NULL, '', '', 6, 'NO', '', NULL);
 /*!40000 ALTER TABLE `equipment_supplier` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.file_table

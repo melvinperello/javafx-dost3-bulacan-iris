@@ -41,6 +41,7 @@ import gov.dost.bulacan.iris.ui.equipment.EquipmentViewListItem;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -141,9 +142,11 @@ public class SupplierHome extends PolarisForm {
     private final EquipmentQoutationModel equipModel;
     private final static String STR_NOT_ACCREDITED = "This supplier is NOT Accedited";
     private final static String STR_ACCREDITED = "This supplier is DOST Accedited";
+    private final static String STR_NA = "N/A";
 
     @Override
     protected void setup() {
+        this.lbl_code.setAccessibleHelp(STR_NA);
         ProjectHeader.attach(hbox_header);
         this.cmb_sector.getItems().setAll(Arrays.asList(EquipmentSupplierModel.Sector.LIST));
         this.cmb_sector.getSelectionModel().selectFirst();
@@ -175,7 +178,14 @@ public class SupplierHome extends PolarisForm {
          * Add New.
          */
         this.btn_add.setOnMouseClicked(value -> {
+            SupplierHomeList list = this.lst_supplier.getSelectionModel().getSelectedItem();
+            if (list != null) {
+                this.showWarningMessage(null, "Please clear press the clear button before adding new entries.");
+                return;
+            }
+
             if (this.addSupplier()) {
+
                 this.clear();
             }
         });
@@ -191,8 +201,44 @@ public class SupplierHome extends PolarisForm {
          * Save changes.
          */
         this.btn_save_qoutation.setOnMouseClicked(value -> {
-
+            SupplierHomeList list = this.lst_supplier.getSelectionModel().getSelectedItem();
+            if (list == null) {
+                this.showWaitWarningMessage(null, "Please select a supplier to update");
+                return;
+            }
         });
+
+        this.lst_supplier.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends SupplierHomeList> observable, SupplierHomeList oldValue, SupplierHomeList newValue) -> {
+            if (newValue == null) {
+                return;
+            }
+
+            EquipmentSupplierModel model = newValue.getSupplierModel();
+            if (model == null) {
+                return;
+            }
+
+            this.lbl_code.setText(model.getSupplierCode());
+            this.txt_name.setText(model.getSupplierName());
+
+            Sector sector = Sector.getObject(model.getSector());
+            this.cmb_sector.getSelectionModel().select(sector);
+
+            if (model.getDostAccredited().equalsIgnoreCase(EquipmentSupplierModel.DostAccredited.YES)) {
+                this.rdb_yes.setSelected(true);
+            } else {
+                this.rdb_no.setSelected(true);
+            }
+
+            this.txt_mobile.setText(model.getMobileNo());
+            this.txt_tel.setText(model.getTelNo());
+            this.txt_fax.setText(model.getFaxNo());
+            this.txt_email.setText(model.getSupplierEmail());
+            this.txt_address.setText(model.getSupplierAddress());
+            this.txt_website.setText(model.getWebsiteAddress());
+
+        }
+        );
     }
 
     /**
@@ -251,6 +297,10 @@ public class SupplierHome extends PolarisForm {
                     return true;
                 }
 
+                if (supplier.getSector().toLowerCase().contains(newValue)) {
+                    return true;
+                }
+
                 return false; // no match.
             });
         });
@@ -302,7 +352,7 @@ public class SupplierHome extends PolarisForm {
      * Clear Text Fields.
      */
     private void clear() {
-        this.lbl_code.setText("N/A");
+        this.lbl_code.setText(STR_NA);
         this.cmb_sector.getSelectionModel().selectFirst();
         this.lbl_sector_selected.setText(this.cmb_sector.getSelectionModel().getSelectedItem().toString());
         this.rdb_no.setSelected(true);
@@ -314,6 +364,8 @@ public class SupplierHome extends PolarisForm {
         this.txt_address.setText("");
         this.txt_name.setText("");
         this.txt_website.setText("");
+
+        this.lst_supplier.getSelectionModel().clearSelection();
     }
 
     private String frmSupplierCodel;

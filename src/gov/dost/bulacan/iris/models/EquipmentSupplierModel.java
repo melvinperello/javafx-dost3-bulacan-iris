@@ -208,6 +208,15 @@ public class EquipmentSupplierModel extends PolarisRecord {
             }
             throw new UnknownModelValueException();
         }
+
+        public static Sector getObject(int value) throws UnknownModelValueException {
+            for (Sector sector : LIST) {
+                if (value == sector.getValue()) {
+                    return sector;
+                }
+            }
+            throw new UnknownModelValueException();
+        }
     }
 
     //--------------------------------------------------------------------------
