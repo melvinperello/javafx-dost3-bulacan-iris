@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.1.21-MariaDB - mariadb.org binary distribution
+-- Server version:               10.2.10-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win32
 -- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `equipment_qoutation` (
   CONSTRAINT `equipment_qoutation_supplier_code` FOREIGN KEY (`fk_supplier_code`) REFERENCES `equipment_supplier` (`supplier_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~4 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~5 rows (approximately)
 /*!40000 ALTER TABLE `equipment_qoutation` DISABLE KEYS */;
 INSERT INTO `equipment_qoutation` (`qoute_code`, `fk_supplier_code`, `equipment_name`, `qoutation_date`, `specification`, `remarks`, `status`, `file_qoute_attachment`, `search_keys`, `deleted_at`) VALUES
 	('30002018-0319104945', NULL, 'Table', NULL, '', '', 'CANVASSED', NULL, '', '2018-03-21 11:58:32'),
@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `equipment_supplier` (
   `mobile_no` varchar(50) DEFAULT NULL,
   `telephone_no` varchar(50) DEFAULT NULL,
   `fax_no` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   `website_address` varchar(50) DEFAULT NULL,
   `sector` int(11) DEFAULT NULL,
   `dost_accredited` varchar(50) DEFAULT NULL,
@@ -59,6 +60,9 @@ CREATE TABLE IF NOT EXISTS `equipment_supplier` (
 
 -- Dumping data for table iris_bulacan_dost3.equipment_supplier: ~0 rows (approximately)
 /*!40000 ALTER TABLE `equipment_supplier` DISABLE KEYS */;
+INSERT INTO `equipment_supplier` (`supplier_code`, `supplier_name`, `mobile_no`, `telephone_no`, `fax_no`, `email`, `website_address`, `sector`, `dost_accredited`, `supplier_address`) VALUES
+	('30002018-0322111406', 'Microsoft', '', '', NULL, '', '', 6, 'NO', ''),
+	('30002018-0322111550', 'Microsoft Technologies', '09368955866', '044 215 2145', NULL, 'info@microsoft.com', 'microsoft.com', 6, 'YES', '');
 /*!40000 ALTER TABLE `equipment_supplier` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.file_table

@@ -28,7 +28,10 @@
  */
 package gov.dost.bulacan.iris.models;
 
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.models.ext.UnknownModelValueException;
+import java.sql.SQLException;
+import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
@@ -49,12 +52,13 @@ public class EquipmentSupplierModel extends PolarisRecord {
     public final static String TEL = "telephone_no";
     public final static String FAX = "fax_no";
     public final static String WEBSITE = "website_address";
+    public final static String EMAIL = "email";
     //
     public final static String SECTOR = "sector";
     public final static String DOST_ACCREDITED = "dost_accredited";
     //--------------------------------------------------------------------------
     // Address Fields for Analytics
-    public final static String SUPPLIER_ADDRESS = "supplier_region";
+    public final static String SUPPLIER_ADDRESS = "supplier_address";
 //    public final static String REGION = "supplier_region";
 //    public final static String PROVINCE = "supplier_province";
 //    public final static String CITY = "supplier_city";
@@ -81,6 +85,8 @@ public class EquipmentSupplierModel extends PolarisRecord {
     private String dostAccredited;
     @Column(SUPPLIER_ADDRESS)
     private String supplierAddress;
+    @Column(EMAIL)
+    private String supplierEmail;
 //    @Column(REGION)
 //    private String supplierRegion;
 //    @Column(PROVINCE)
@@ -107,6 +113,7 @@ public class EquipmentSupplierModel extends PolarisRecord {
 //        this.supplierCity = "";
 //        this.supplierBrgy = "";
 //        this.supplierStreet = "";
+        this.supplierEmail = "";
     }
 
     //--------------------------------------------------------------------------
@@ -194,6 +201,22 @@ public class EquipmentSupplierModel extends PolarisRecord {
     }
 
     //--------------------------------------------------------------------------
+    // Class Coverage
+    //--------------------------------------------------------------------------
+    /**
+     * Add New Supplier.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
+    public static boolean addNewSupplier(EquipmentSupplierModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.insert(con);
+        }
+    }
+
+    //--------------------------------------------------------------------------
     // Getter
     //--------------------------------------------------------------------------
     public String getSupplierCode() {
@@ -230,6 +253,10 @@ public class EquipmentSupplierModel extends PolarisRecord {
 
     public String getSupplierAddress() {
         return supplierAddress;
+    }
+
+    public String getSupplierEmail() {
+        return supplierEmail;
     }
 
     //--------------------------------------------------------------------------
@@ -273,6 +300,10 @@ public class EquipmentSupplierModel extends PolarisRecord {
 
     public void setSupplierAddress(String supplierAddress) {
         this.supplierAddress = supplierAddress;
+    }
+
+    public void setSupplierEmail(String supplierEmail) {
+        this.supplierEmail = supplierEmail;
     }
 
 }

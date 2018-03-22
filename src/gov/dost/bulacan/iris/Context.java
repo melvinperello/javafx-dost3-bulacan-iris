@@ -37,12 +37,10 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import org.afterschoolcreatives.polaris.java.net.ip.HostFinder;
+import javafx.scene.control.TextInputControl;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
+import org.afterschoolcreatives.polaris.java.util.StringTools;
 
 /**
  *
@@ -155,6 +153,15 @@ public class Context {
          */
         comboBase.getItems().setAll(Arrays.asList(collection));
     } // end of Combo Box Value Factory.
+
+    /**
+     *
+     * @param textField
+     * @return
+     */
+    public final String filterInputControl(TextInputControl textField) {
+        return StringTools.clearExtraSpaces(textField.getText().trim());
+    }
 
     //--------------------------------------------------------------------------
     // Instance Scope.
