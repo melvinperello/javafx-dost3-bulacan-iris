@@ -131,31 +131,50 @@ public class SupplierHome extends PolarisForm {
     @FXML
     private TextField txt_website;
 
+    /**
+     * Initialize this object.
+     *
+     * @param equipModel
+     */
     public SupplierHome(EquipmentQoutationModel equipModel) {
-        this.equipModel = equipModel;
+        this.selectedEquipmentModel = equipModel;
         this.setDialogMessageTitle("Supplier");
         this.observeableListItems = FXCollections.observableArrayList();
+        this.editingMode = false;
     }
-
+    //--------------------------------------------------------------------------
     private final ObservableList<SupplierHomeList> observeableListItems;
-
-    private final EquipmentQoutationModel equipModel;
+    //--------------------------------------------------------------------------
+    private final EquipmentQoutationModel selectedEquipmentModel;
+    //--------------------------------------------------------------------------
+    // String List
+    //--------------------------------------------------------------------------
     private final static String STR_NOT_ACCREDITED = "This supplier is NOT Accedited";
     private final static String STR_ACCREDITED = "This supplier is DOST Accedited";
     private final static String STR_NA = "N/A";
+    private final static String STR_EDIT = "Edit";
+    private final static String STR_SAVE = "Save";
+    //--------------------------------------------------------------------------
+    private boolean editingMode;
 
+    /**
+     * Initialize View.
+     */
     @Override
     protected void setup() {
-        this.lbl_code.setAccessibleHelp(STR_NA);
+        //----------------------------------------------------------------------
+        // build components
         ProjectHeader.attach(hbox_header);
+        this.lbl_code.setText(STR_NA);
         this.cmb_sector.getItems().setAll(Arrays.asList(EquipmentSupplierModel.Sector.LIST));
         this.cmb_sector.getSelectionModel().selectFirst();
         this.rdb_no.setSelected(true);
-
-        //
+        //----------------------------------------------------------------------
+        // build list
         this.populateList();
         this.constructCustomList();
-
+        //----------------------------------------------------------------------
+        // Actions
         this.rdo_group_accredited.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
             if (this.rdb_yes.isSelected()) {
                 this.lbl_accredited_selected.setText(STR_ACCREDITED);
@@ -169,7 +188,7 @@ public class SupplierHome extends PolarisForm {
         });
 
         this.btn_back.setOnMouseClicked(value -> {
-            EquipmentEditView editEquip = new EquipmentEditView(equipModel);
+            EquipmentEditView editEquip = new EquipmentEditView(selectedEquipmentModel);
             editEquip.load();
             this.changeRoot(editEquip.getRootPane());
         });
@@ -197,48 +216,115 @@ public class SupplierHome extends PolarisForm {
             this.clear();
         });
 
-        /**
-         * Save changes.
-         */
+        //----------------------------------------------------------------------
+        // Save or Edit Entries.
         this.btn_save_qoutation.setOnMouseClicked(value -> {
             SupplierHomeList list = this.lst_supplier.getSelectionModel().getSelectedItem();
+            // if no item was selected in the list prompt user
             if (list == null) {
                 this.showWaitWarningMessage(null, "Please select a supplier to update");
                 return;
             }
+            //------------------------------------------------------------------
+            if (this.btn_save_qoutation.getText().equals(STR_SAVE)) {
+                //--------------------------------------------------------------
+                // execute update to the database
+
+            } else if (this.btn_save_qoutation.getText().equals(STR_EDIT)) {
+                //--------------------------------------------------------------
+                // Editing mode
+                this.btn_save_qoutation.setText(STR_SAVE);
+                this.btn_add.setDisable(true);
+                this.btn_clear.setDisable(true);
+                // flag editing mode
+                this.editingMode = true;
+                // enable components
+                this.enableEdit(true);
+            } else {
+                // do nothing no scope
+            }
         });
+        //----------------------------------------------------------------------
 
         this.lst_supplier.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends SupplierHomeList> observable, SupplierHomeList oldValue, SupplierHomeList newValue) -> {
-            if (newValue == null) {
-                return;
-            }
+            this.listChangeListener(newValue, oldValue);
+        });
+    } // END SETUP
 
-            EquipmentSupplierModel model = newValue.getSupplierModel();
-            if (model == null) {
-                return;
-            }
-
-            this.lbl_code.setText(model.getSupplierCode());
-            this.txt_name.setText(model.getSupplierName());
-
-            Sector sector = Sector.getObject(model.getSector());
-            this.cmb_sector.getSelectionModel().select(sector);
-
-            if (model.getDostAccredited().equalsIgnoreCase(EquipmentSupplierModel.DostAccredited.YES)) {
-                this.rdb_yes.setSelected(true);
-            } else {
-                this.rdb_no.setSelected(true);
-            }
-
-            this.txt_mobile.setText(model.getMobileNo());
-            this.txt_tel.setText(model.getTelNo());
-            this.txt_fax.setText(model.getFaxNo());
-            this.txt_email.setText(model.getSupplierEmail());
-            this.txt_address.setText(model.getSupplierAddress());
-            this.txt_website.setText(model.getWebsiteAddress());
-
+    /**
+     * Executes when the selection of the list view changes.
+     *
+     * @param newValue
+     */
+    private void listChangeListener(SupplierHomeList newValue, SupplierHomeList old) {
+        //----------------------------------------------------------------------
+        if (newValue == null) {
+            return;
         }
-        );
+        //----------------------------------------------------------------------
+        EquipmentSupplierModel model = newValue.getSupplierModel();
+        if (model == null) {
+            return;
+        } else {
+            //------------------------------------------------------------------
+            /**
+             * When an item in the list box was selected do not allow the user
+             * to add new entries. hence the add button will be disabled and and
+             * the save button will be renamed to "EDIT"
+             */
+            this.enableEdit(false);
+            this.btn_add.setDisable(true);
+            this.btn_save_qoutation.setText(STR_EDIT);
+            //------------------------------------------------------------------
+            // When editing mode is enabled
+            // prompt the user that currently in editing mode and will be cancel
+            if (this.editingMode) {
+                int res = this.showConfirmationMessage("Save Changes ?", "Do you want to save your changes ?");
+                if (res == 1) {
+                    // update
+                } else {
+                    // discard
+                }
+
+            }
+        }
+        //
+        this.lbl_code.setText(model.getSupplierCode());
+        this.txt_name.setText(model.getSupplierName());
+
+        Sector sector = Sector.getObject(model.getSector());
+        this.cmb_sector.getSelectionModel().select(sector);
+
+        if (model.getDostAccredited().equalsIgnoreCase(EquipmentSupplierModel.DostAccredited.YES)) {
+            this.rdb_yes.setSelected(true);
+        } else {
+            this.rdb_no.setSelected(true);
+        }
+
+        this.txt_mobile.setText(model.getMobileNo());
+        this.txt_tel.setText(model.getTelNo());
+        this.txt_fax.setText(model.getFaxNo());
+        this.txt_email.setText(model.getSupplierEmail());
+        this.txt_address.setText(model.getSupplierAddress());
+        this.txt_website.setText(model.getWebsiteAddress());
+    }
+
+    /**
+     * Checks for components editable status.
+     *
+     * 0* @param editable
+     */
+    private void enableEdit(boolean editable) {
+        this.txt_name.setEditable(editable);
+        this.cmb_sector.setDisable(!editable);
+        this.rdb_no.setDisable(!editable);
+        this.rdb_yes.setDisable(!editable);
+        this.txt_mobile.setEditable(editable);
+        this.txt_tel.setEditable(editable);
+        this.txt_fax.setEditable(editable);
+        this.txt_email.setEditable(editable);
+        this.txt_address.setEditable(editable);
+        this.txt_website.setEditable(editable);
     }
 
     /**
