@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.ui.equipment;
 
 import com.jfoenix.controls.JFXButton;
+import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAdapter;
 import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.ui.Home;
@@ -51,38 +52,38 @@ import javafx.util.Callback;
  * @author Jhon Melvin
  */
 public class EquipmentView extends PolarisForm {
-
+    
     @FXML
     private HBox hbox_header;
-
+    
     @FXML
     private TextField txt_search;
-
+    
     @FXML
     private JFXButton btn_view;
-
+    
     @FXML
     private JFXButton btn_add;
-
+    
     @FXML
     private JFXButton btn_remove;
-
+    
     @FXML
     private JFXButton btn_back_to_home;
-
+    
     @FXML
     private ListView<EquipmentViewListItem> list_equipment;
-
+    
     public EquipmentView() {
         this.observeableListItems = FXCollections.observableArrayList();
     }
     private final ObservableList<EquipmentViewListItem> observeableListItems;
-
+    
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
         Home.addEventBackToHome(this.btn_back_to_home, this);
-
+        
         this.populateList();
         this.constructCustomList();
 
@@ -95,12 +96,12 @@ public class EquipmentView extends PolarisForm {
                 this.showWarningMessage(null, "Please select equipment to view.");
                 return;
             }
-
+            
             EquipmentQoutationModel model = selectedProject.getQouteModel();
             //
             EquipmentEditView equipEdit = new EquipmentEditView(model);
             this.changeRoot(equipEdit.load());
-
+            
             value.consume();
         });
         /**
@@ -120,7 +121,7 @@ public class EquipmentView extends PolarisForm {
                 this.showWarningMessage(null, "Please select equipment to delete.");
                 return;
             }
-
+            
             EquipmentQoutationModel model = selectedProject.getQouteModel();
             //------------------------------------------------------------------
             // Remove Code
@@ -144,7 +145,7 @@ public class EquipmentView extends PolarisForm {
             value.consume();
         });
     }
-
+    
     private void constructCustomList() {
         //----------------------------------------------------------------------
         // Add Search Predicate
@@ -160,7 +161,7 @@ public class EquipmentView extends PolarisForm {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-
+                
                 String filterString = newValue.toLowerCase();
 
                 /**
@@ -169,55 +170,18 @@ public class EquipmentView extends PolarisForm {
                 if (equipment.getQouteModel().getEquipmentName().toLowerCase().contains(newValue)) {
                     return true;
                 }
-
+                
                 if (equipment.getQouteModel().getKeyword().toLowerCase().contains(newValue)) {
                     return true;
                 }
-
+                
                 return false; // no match.
             });
         });
-
-        /**
-         * Add filtering
-         */
-        this.list_equipment.setItems(filteredResult);
-
-        //----------------------------------------------------------------------
-        /**
-         * customize list view output.
-         */
-        this.list_equipment.setCellFactory(new Callback<ListView<EquipmentViewListItem>, ListCell<EquipmentViewListItem>>() {
-            @Override
-            public ListCell<EquipmentViewListItem> call(ListView<EquipmentViewListItem> param) {
-                return new ListCell() {
-                    {
-                        this.setPrefHeight(70.0);
-                    }
-
-                    @Override
-                    protected void updateItem(Object item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item != null) {
-                            /**
-                             * Must implement Polaris list item. must be loaded.
-                             */
-                            EquipmentViewListItem listItem = (EquipmentViewListItem) item;
-                            // bind pref width.
-                            listItem.getRootPane().prefWidthProperty().bind(this.prefWidthProperty());
-                            // load to cell.
-                            setGraphic(listItem.getCustomListCellGraphic());
-                        } else {
-                            /**
-                             * Redraws the cell.
-                             */
-                            setGraphic(null);
-                        }
-
-                    }
-                };
-            }
-        });
+        
+        PolarisCustomListAdapter adapter = new PolarisCustomListAdapter(this.list_equipment, filteredResult);
+        adapter.setCustomCellPrefHeight(70.0);
+        adapter.customize();
         //----------------------------------------------------------------------
     }
 
@@ -246,7 +210,7 @@ public class EquipmentView extends PolarisForm {
             listItem.load();
             this.observeableListItems.add(listItem);
         }
-
+        
     }
-
+    
 }

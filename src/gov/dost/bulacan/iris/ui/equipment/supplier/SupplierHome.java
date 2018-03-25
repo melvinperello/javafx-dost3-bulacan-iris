@@ -30,18 +30,16 @@ package gov.dost.bulacan.iris.ui.equipment.supplier;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
+import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAdapter;
 import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel.Sector;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentEditView;
-import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
-import gov.dost.bulacan.iris.ui.equipment.EquipmentViewListItem;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,7 +47,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -57,7 +54,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 
 /**
  *
@@ -163,6 +159,9 @@ public class SupplierHome extends PolarisForm {
     @Override
     protected void setup() {
         //----------------------------------------------------------------------
+        this.btn_save_qoutation.setText(STR_EDIT);
+        this.btn_save_qoutation.setDisable(true);
+        //----------------------------------------------------------------------
         // build components
         ProjectHeader.attach(hbox_header);
         this.lbl_code.setText(STR_NA);
@@ -206,6 +205,9 @@ public class SupplierHome extends PolarisForm {
             if (this.addSupplier()) {
 
                 this.clear();
+                this.lst_supplier.getSelectionModel().clearSelection();
+                this.btn_add.setDisable(false);
+                this.enableEdit(true);
             }
         });
 
@@ -214,6 +216,11 @@ public class SupplierHome extends PolarisForm {
          */
         this.btn_clear.setOnMouseClicked(value -> {
             this.clear();
+            this.lst_supplier.getSelectionModel().clearSelection();
+            this.btn_add.setDisable(false);
+            this.enableEdit(true);
+            //------------------------------------------------------------------
+            this.btn_save_qoutation.setDisable(true);
         });
 
         //----------------------------------------------------------------------
@@ -266,6 +273,7 @@ public class SupplierHome extends PolarisForm {
         if (model == null) {
             return;
         } else {
+            this.btn_save_qoutation.setDisable(false);
             //------------------------------------------------------------------
             /**
              * When an item in the list box was selected do not allow the user
@@ -282,8 +290,18 @@ public class SupplierHome extends PolarisForm {
                 int res = this.showConfirmationMessage("Save Changes ?", "Do you want to save your changes ?");
                 if (res == 1) {
                     // update
+                    //
+                    //
+                    this.btn_save_qoutation.setText(STR_EDIT);
+                    this.clear();
+                    this.editingMode = false;
+                    this.btn_clear.setDisable(false);
                 } else {
                     // discard
+                    this.btn_save_qoutation.setText(STR_EDIT);
+                    this.clear();
+                    this.editingMode = false;
+                    this.btn_clear.setDisable(false);
                 }
 
             }
@@ -391,46 +409,13 @@ public class SupplierHome extends PolarisForm {
             });
         });
 
-        /**
-         * Add filtering
-         */
-        this.lst_supplier.setItems(filteredResult);
-
         //----------------------------------------------------------------------
         /**
          * customize list view output.
          */
-        this.lst_supplier.setCellFactory(new Callback<ListView<SupplierHomeList>, ListCell<SupplierHomeList>>() {
-            @Override
-            public ListCell<SupplierHomeList> call(ListView<SupplierHomeList> param) {
-                return new ListCell() {
-                    {
-                        this.setPrefHeight(70.0);
-                    }
-
-                    @Override
-                    protected void updateItem(Object item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item != null) {
-                            /**
-                             * Must implement Polaris list item. must be loaded.
-                             */
-                            SupplierHomeList listItem = (SupplierHomeList) item;
-                            // bind pref width.
-                            listItem.getRootPane().prefWidthProperty().bind(this.prefWidthProperty());
-                            // load to cell.
-                            setGraphic(listItem.getCustomListCellGraphic());
-                        } else {
-                            /**
-                             * Redraws the cell.
-                             */
-                            setGraphic(null);
-                        }
-
-                    }
-                };
-            }
-        });
+        PolarisCustomListAdapter adapter = new PolarisCustomListAdapter(this.lst_supplier, filteredResult);
+        adapter.setCustomCellPrefHeight(70.0);
+        adapter.customize();
         //----------------------------------------------------------------------
     }
 
@@ -451,7 +436,6 @@ public class SupplierHome extends PolarisForm {
         this.txt_name.setText("");
         this.txt_website.setText("");
 
-        this.lst_supplier.getSelectionModel().clearSelection();
     }
 
     private String frmSupplierCodel;

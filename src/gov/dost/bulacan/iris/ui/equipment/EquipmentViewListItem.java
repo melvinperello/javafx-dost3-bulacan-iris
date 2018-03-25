@@ -34,7 +34,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
-import gov.dost.bulacan.iris.Listable;
+import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAdapter.Listable;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 
 /**
@@ -96,7 +96,7 @@ public class EquipmentViewListItem extends PolarisFxController implements Listab
     }
 
     @Override
-    public Pane getCustomListCellGraphic() {
+    public Pane getCellGraphic() {
         return this.getRootPane();
     }
 

@@ -28,65 +28,80 @@
  */
 package gov.dost.bulacan.iris.ui.equipment.supplier;
 
-import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAdapter.Listable;
-import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
-import gov.dost.bulacan.iris.models.EquipmentSupplierModel.Sector;
+import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.PolarisForm;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class SupplierHomeList extends PolarisFxController implements Listable {
+public class SupplierEdit extends PolarisForm {
 
     @FXML
-    private ImageView img_icon;
+    private HBox hbox_header;
 
     @FXML
-    private Label lbl_name;
+    private JFXButton btn_back;
 
     @FXML
-    private Label lbl_sector;
+    private Label lbl_modify_header;
 
     @FXML
-    private Label lbl_date;
+    private JFXButton btn_save_qoutation;
 
-    //--------------------------------------------------------------------------
-    public SupplierHomeList() {
-        
-    }
-    private String sector;
-    private EquipmentSupplierModel supplierModel;
+    @FXML
+    private Label lbl_code;
 
-    public EquipmentSupplierModel getSupplierModel() {
-        return supplierModel;
-    }
+    @FXML
+    private TextField txt_name;
 
-    public void setSupplierModel(EquipmentSupplierModel supplierModel) {
-        this.sector = Sector.getStringValue(supplierModel.getSector());
-        this.supplierModel = supplierModel;
-    }
+    @FXML
+    private ComboBox<?> cmb_sector;
 
-    public String getSector() {
-        if (this.sector == null) {
-            return "";
-        }
-        return this.sector;
-    }
+    @FXML
+    private Label lbl_sector_selected;
+
+    @FXML
+    private RadioButton rdb_yes;
+
+    @FXML
+    private ToggleGroup rdo_group_accredited;
+
+    @FXML
+    private RadioButton rdb_no;
+
+    @FXML
+    private Label lbl_accredited_selected;
+
+    @FXML
+    private TextField txt_mobile;
+
+    @FXML
+    private TextField txt_tel;
+
+    @FXML
+    private TextField txt_fax;
+
+    @FXML
+    private TextField txt_email;
+
+    @FXML
+    private TextArea txt_address;
+
+    @FXML
+    private TextField txt_website;
 
     @Override
     protected void setup() {
-        this.lbl_name.setText(this.supplierModel.getSupplierName());
-        this.lbl_sector.setText(sector);
-    }
-
-    @Override
-    public Pane getCellGraphic() {
-        return this.getRootPane();
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
