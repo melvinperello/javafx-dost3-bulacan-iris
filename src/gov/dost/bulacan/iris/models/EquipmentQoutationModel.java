@@ -82,17 +82,7 @@ public class EquipmentQoutationModel extends PolarisRecord {
     @Column(FK_SUPPLIER_CODE)
     private String supplierCode;
     //--------------------------------------------------------------------------
-    // WTIH
-    private EquipmentSupplierModel supplierModel;
 
-    /**
-     * Allows fetching with relation.
-     *
-     * @return the SupplierModel related to this Equipment.
-     */
-    public EquipmentSupplierModel getSupplierModel() {
-        return supplierModel;
-    }
     //--------------------------------------------------------------------------
 //    @Column(FK_PROJECT_CODE)
 //    private String projectCode;
@@ -119,7 +109,6 @@ public class EquipmentQoutationModel extends PolarisRecord {
     private Date deletedAt;
 
     public EquipmentQoutationModel() {
-        this.supplierModel = null;
 //        this.qouteCode = ""; PK
         this.supplierCode = null;
 //        this.projectCode = null;
@@ -151,6 +140,30 @@ public class EquipmentQoutationModel extends PolarisRecord {
         //======================================================================
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new EquipmentQoutationModel().findMany(con, querySample);
+        }
+    }
+
+    public EquipmentSupplierModel fetchSupplierModel() throws SQLException {
+        if (this.getSupplierCode() == null) {
+            return null;
+        }
+
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            SimpleQuery querySample = new SimpleQuery();
+            querySample.addStatement("SELECT")
+                    .addStatement("*")
+                    .addStatement("FROM")
+                    .addStatement(EquipmentSupplierModel.TABLE)
+                    .addStatement("WHERE")
+                    .addStatement(EquipmentSupplierModel.SUPPLIER_CODE)
+                    .addStatementWithParameter(" = ?", this.getSupplierCode());
+
+            EquipmentSupplierModel supplier = new EquipmentSupplierModel();
+            if (supplier.findQuery(con, querySample)) {
+                return supplier;
+            } else {
+                return null;
+            }
         }
     }
 

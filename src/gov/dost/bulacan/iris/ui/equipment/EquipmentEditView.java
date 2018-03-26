@@ -32,6 +32,7 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.PolarisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
+import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.equipment.supplier.SupplierHome;
 import java.sql.SQLException;
@@ -123,7 +124,7 @@ public class EquipmentEditView extends PolarisForm {
 
     @Override
     protected void setup() {
-     
+
         ProjectHeader.attach(this.hbox_header);
         //----------------------------------------------------------------------
         this.cmb_status.getItems().setAll(Arrays.asList(EquipmentQoutationModel.EquipmentStatus.LIST));
@@ -193,6 +194,25 @@ public class EquipmentEditView extends PolarisForm {
             this.changeRoot(supHome.load());
             value.consume();
         });
+
+        //----------------------------------------------------------------------
+        this.loadSupplierInformation();
+    }
+
+    private void loadSupplierInformation() {
+        try {
+            EquipmentSupplierModel model = this.equipModel.fetchSupplierModel();
+            if (model == null) {
+                this.lbl_supplier.setText("No Associated Supplier");
+                this.lbl_supplier_category.setText("No Category");
+            } else {
+                this.lbl_supplier.setText(model.getSupplierName());
+            }
+        } catch (Exception e) {
+            this.lbl_supplier.setText("No Associated Supplier");
+            this.lbl_supplier_category.setText("No Category");
+        }
+
     }
 
     //--------------------------------------------------------------------------
