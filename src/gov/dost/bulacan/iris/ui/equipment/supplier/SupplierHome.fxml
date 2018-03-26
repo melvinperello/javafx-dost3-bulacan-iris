@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox fx:id="hbox_header" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: black;">
          <padding>
@@ -42,20 +42,25 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <Label fx:id="lbl_modify_header" maxWidth="1.7976931348623157E308" text="Assign Supplier for Equipment">
-                     <font>
-                        <Font name="System Bold" size="22.0" />
-                     </font>
-                  </Label>
+                  <VBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label fx:id="lbl_modify_header" maxWidth="1.7976931348623157E308" text="Assign Supplier for Equipment">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_equipment_name" text="Chiller 123" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <JFXButton fx:id="btn_clear" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Clear">
+                  <JFXButton fx:id="btn_select" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Select">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../storage/drawable/clear_form_black_64.png" />
+                              <Image url="@../../../../../../../storage/drawable/select_black_64.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -75,7 +80,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="btn_save_qoutation" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Save">
+                  <JFXButton fx:id="btn_save_qoutation" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Edit">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>

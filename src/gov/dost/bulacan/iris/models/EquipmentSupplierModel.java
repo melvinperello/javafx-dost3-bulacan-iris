@@ -235,6 +235,12 @@ public class EquipmentSupplierModel extends PolarisRecord {
         }
     }
 
+    public static boolean updateNewSupplier(EquipmentSupplierModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.updateFull(con);
+        }
+    }
+
     public static <T> List<T> getAllActiveSupplier() throws SQLException {
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")

@@ -144,7 +144,7 @@ public class ProjectContactModel extends PolarisRecord {
      */
     public static boolean updateContact(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
-            return model.update(con);
+            return model.updateFull(con);
         }
     }
 

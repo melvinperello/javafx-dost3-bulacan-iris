@@ -29,7 +29,13 @@
 package gov.dost.bulacan.iris.ui.equipment.supplier;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
+import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
+import gov.dost.bulacan.iris.ui.ProjectHeader;
+import java.sql.SQLException;
+import java.util.Arrays;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -55,7 +61,7 @@ public class SupplierEdit extends PolarisForm {
     private Label lbl_modify_header;
 
     @FXML
-    private JFXButton btn_save_qoutation;
+    private JFXButton btn_save;
 
     @FXML
     private Label lbl_code;
@@ -64,10 +70,7 @@ public class SupplierEdit extends PolarisForm {
     private TextField txt_name;
 
     @FXML
-    private ComboBox<?> cmb_sector;
-
-    @FXML
-    private Label lbl_sector_selected;
+    private ComboBox<EquipmentSupplierModel.Sector> cmb_sector;
 
     @FXML
     private RadioButton rdb_yes;
@@ -77,9 +80,6 @@ public class SupplierEdit extends PolarisForm {
 
     @FXML
     private RadioButton rdb_no;
-
-    @FXML
-    private Label lbl_accredited_selected;
 
     @FXML
     private TextField txt_mobile;
@@ -99,9 +99,183 @@ public class SupplierEdit extends PolarisForm {
     @FXML
     private TextField txt_website;
 
+    public SupplierEdit(EquipmentSupplierModel supplierModel, EquipmentQoutationModel qoutationModel) {
+        this.supplierModel = supplierModel;
+        this.qoutationModel = qoutationModel;
+        if (supplierModel == null) {
+            this.addingMode = true;
+        } else {
+            this.addingMode = false;
+        }
+    }
+
+    private final EquipmentSupplierModel supplierModel;
+    private final EquipmentQoutationModel qoutationModel;
+    private final boolean addingMode;
+
     @Override
     protected void setup() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //----------------------------------------------------------------------
+        ProjectHeader.attach(hbox_header);
+        this.cmb_sector.getItems().setAll(Arrays.asList(EquipmentSupplierModel.Sector.LIST));
+        this.cmb_sector.getSelectionModel().selectFirst();
+        this.rdb_no.setSelected(true);
+        //----------------------------------------------------------------------
+        this.btn_back.setOnMouseClicked(value -> {
+            SupplierHome supplyHome = new SupplierHome(this.qoutationModel);
+            this.changeRoot(supplyHome.load());
+            value.consume();
+        });
+
+        this.btn_save.setOnMouseClicked(value -> {
+            if (this.addingMode) {
+                if (this.addSupplier()) {
+                    // go back after insert
+                    SupplierHome supplyHome = new SupplierHome(this.qoutationModel);
+                    this.changeRoot(supplyHome.load());
+                }
+            } else {
+                if (this.updateSupplier()) {
+                    // go back after update
+                    SupplierHome supplyHome = new SupplierHome(this.qoutationModel);
+                    this.changeRoot(supplyHome.load());
+                }
+            }
+
+            value.consume();
+        });
+
+        //----------------------------------------------------------------------
+        if (this.addingMode) {
+            //
+            this.lbl_code.setText(Context.app().generateTimestampKey());
+        } else {
+            this.preloadData();
+        }
+        //----------------------------------------------------------------------
+
+    }
+
+    private void preloadData() {
+        EquipmentSupplierModel model = this.supplierModel;
+        this.lbl_code.setText(model.getSupplierCode());
+        this.txt_name.setText(model.getSupplierName());
+
+        EquipmentSupplierModel.Sector sector = EquipmentSupplierModel.Sector.getObject(model.getSector());
+        this.cmb_sector.getSelectionModel().select(sector);
+
+        if (model.getDostAccredited().equalsIgnoreCase(EquipmentSupplierModel.DostAccredited.YES)) {
+            this.rdb_yes.setSelected(true);
+        } else {
+            this.rdb_no.setSelected(true);
+        }
+
+        this.txt_mobile.setText(model.getMobileNo());
+        this.txt_tel.setText(model.getTelNo());
+        this.txt_fax.setText(model.getFaxNo());
+        this.txt_email.setText(model.getSupplierEmail());
+        this.txt_address.setText(model.getSupplierAddress());
+        this.txt_website.setText(model.getWebsiteAddress());
+    }
+
+    private String frmSupplierCodel;
+    private String frmSupplierName;
+    private Integer frmSector;
+    private String frmAccredited;
+    private String frmMobile;
+    private String frmlTel;
+    private String frmFax;
+    private String frmEmail;
+    private String frmAddress;
+    private String frmWebsite;
+
+    private void getFormValues() {
+        this.frmSupplierCodel = this.lbl_code.getText();
+        EquipmentSupplierModel.Sector selectedSector = this.cmb_sector.getSelectionModel().getSelectedItem();
+        this.frmSector = selectedSector.getValue();
+        this.frmAccredited = this.rdb_no.isSelected()
+                ? EquipmentSupplierModel.DostAccredited.NO
+                : EquipmentSupplierModel.DostAccredited.YES;
+
+        this.frmMobile = Context.app().filterInputControl(this.txt_mobile);
+        this.frmlTel = Context.app().filterInputControl(this.txt_tel);
+        this.frmEmail = Context.app().filterInputControl(this.txt_email);
+        this.frmAddress = Context.app().filterInputControl(this.txt_address);
+        this.frmSupplierName = Context.app().filterInputControl(this.txt_name);
+        this.frmWebsite = Context.app().filterInputControl(this.txt_website);
+    }
+
+    private boolean addSupplier() {
+        //----------------------------------------------------------------------
+        this.getFormValues();
+        //----------------------------------------------------------------------
+        if (this.frmSupplierName.isEmpty()) {
+            this.showWarningMessage(null, "Please enter the supplier name.");
+            return false;
+        }
+
+        EquipmentSupplierModel supplier = new EquipmentSupplierModel();
+        supplier.setSupplierCode(Context.app().generateTimestampKey());
+        supplier.setSupplierName(frmSupplierName);
+        supplier.setSector(frmSector);
+        supplier.setDostAccredited(frmAccredited);
+        supplier.setMobileNo(frmMobile);
+        supplier.setTelNo(frmlTel);
+        supplier.setFaxNo(frmFax);
+        supplier.setWebsiteAddress(frmWebsite);
+        supplier.setSupplierEmail(frmEmail);
+
+        boolean inserted = false;
+        try {
+            inserted = EquipmentSupplierModel.addNewSupplier(supplier);
+            if (inserted) {
+                this.showWaitInformationMessage(null, "Supplier was successfully added to the database.");
+            } else {
+                this.showWaitWarningMessage(null, "The Supplier cannot be inserted at the moment please try again.");
+            }
+        } catch (SQLException ex) {
+            this.showWaitExceptionMessage(ex, null, "Failed to insert New Supplier.");
+        }
+        return inserted;
+    }
+
+    /**
+     * Update Supplier information.
+     *
+     * @return
+     */
+    private boolean updateSupplier() {
+        //----------------------------------------------------------------------
+        this.getFormValues();
+        //----------------------------------------------------------------------
+        if (this.frmSupplierName.isEmpty()) {
+            this.showWarningMessage(null, "Please enter the supplier name.");
+            return false;
+        }
+
+        EquipmentSupplierModel supplier = this.supplierModel;
+        //supplier.setSupplierCode(Context.app().generateTimestampKey());
+        supplier.setSupplierName(frmSupplierName);
+        supplier.setSector(frmSector);
+        supplier.setDostAccredited(frmAccredited);
+        supplier.setMobileNo(frmMobile);
+        supplier.setTelNo(frmlTel);
+        supplier.setFaxNo(frmFax);
+        supplier.setWebsiteAddress(frmWebsite);
+        supplier.setSupplierEmail(frmEmail);
+
+        boolean updated = false;
+        try {
+            updated = EquipmentSupplierModel.updateNewSupplier(supplier);
+            if (updated) {
+                this.showWaitInformationMessage(null, "Supplier was successfully added to the database.");
+            } else {
+                this.showWaitWarningMessage(null, "The Supplier cannot be inserted at the moment please try again.");
+            }
+        } catch (SQLException ex) {
+            this.showWaitExceptionMessage(ex, null, "Failed to insert New Supplier.");
+        }
+        return updated;
     }
 
 }

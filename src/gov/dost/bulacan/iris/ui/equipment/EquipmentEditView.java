@@ -123,6 +123,7 @@ public class EquipmentEditView extends PolarisForm {
 
     @Override
     protected void setup() {
+     
         ProjectHeader.attach(this.hbox_header);
         //----------------------------------------------------------------------
         this.cmb_status.getItems().setAll(Arrays.asList(EquipmentQoutationModel.EquipmentStatus.LIST));

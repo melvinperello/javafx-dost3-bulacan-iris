@@ -50,7 +50,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <JFXButton fx:id="btn_save_qoutation" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Save">
+                  <JFXButton fx:id="btn_save" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Save">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -98,7 +98,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lbl_code" text="STC300003192018104322" />
+                        <Label fx:id="lbl_code" text="No Data" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -114,7 +114,7 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <TextField fx:id="txt_name" promptText="Supplier Name" />
-                              <Label graphicTextGap="5.0" text="Please enter supplier name." textFill="#6d6d6d" wrapText="true">
+                              <Label graphicTextGap="5.0" text="Please enter supplier name. (REQUIRED)" textFill="#6d6d6d" wrapText="true">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
@@ -143,7 +143,7 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <ComboBox fx:id="cmb_sector" prefHeight="25.0" prefWidth="506.0" />
-                              <Label fx:id="lbl_sector_selected" graphicTextGap="5.0" text="Major sector the firm contributes." textFill="#6d6d6d">
+                              <Label graphicTextGap="5.0" text="Major sector the firm contributes." textFill="#6d6d6d">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
@@ -182,7 +182,7 @@
                               <Insets right="10.0" />
                            </padding>
                         </HBox>
-                        <Label fx:id="lbl_accredited_selected" graphicTextGap="5.0" text="Is this supplier DOST Accredited ?" textFill="#6d6d6d">
+                        <Label graphicTextGap="5.0" text="Is this supplier DOST Accredited ?" textFill="#6d6d6d">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
