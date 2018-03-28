@@ -36,11 +36,8 @@ CREATE TABLE IF NOT EXISTS `equipment_qoutation` (
 -- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~5 rows (approximately)
 /*!40000 ALTER TABLE `equipment_qoutation` DISABLE KEYS */;
 INSERT INTO `equipment_qoutation` (`qoute_code`, `fk_supplier_code`, `equipment_name`, `qoutation_date`, `specification`, `remarks`, `status`, `file_qoute_attachment`, `search_keys`, `deleted_at`) VALUES
-	('30002018-0319104945', NULL, 'Table', NULL, '', '', 'CANVASSED', NULL, '', '2018-03-21 11:58:32'),
-	('30002018-0319105653', NULL, 'Cutting Table', '2018-03-05 00:00:00', '', '', 'CANVASSED', NULL, 'table, kitchen, food', NULL),
-	('30002018-0319111019', NULL, 'Chiller', '2018-03-14 00:00:00', '', '', 'ACQUIRED', NULL, '', '2018-03-21 11:55:50'),
-	('30002018-0321120239', NULL, 'Embroider', '2018-02-28 00:00:00', '', '', 'ACQUIRED', NULL, '', NULL),
-	('30002018-0321153446', NULL, 'High Tech Super Computer', '2018-03-15 00:00:00', '', '', 'CANVASSED', NULL, 'computer, ict, electronics', NULL);
+	('BUL30002018-0328103231', NULL, 'Ultrasonic Scissors', NULL, '', '', 'CANVASSED', NULL, '', NULL),
+	('BUL30002018-0328103240', NULL, 'Electro Magnetic Eraser', NULL, '', '', 'CANVASSED', NULL, '', NULL);
 /*!40000 ALTER TABLE `equipment_qoutation` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.equipment_supplier
@@ -59,13 +56,12 @@ CREATE TABLE IF NOT EXISTS `equipment_supplier` (
   PRIMARY KEY (`supplier_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.equipment_supplier: ~3 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.equipment_supplier: ~4 rows (approximately)
 /*!40000 ALTER TABLE `equipment_supplier` DISABLE KEYS */;
 INSERT INTO `equipment_supplier` (`supplier_code`, `supplier_name`, `mobile_no`, `telephone_no`, `fax_no`, `email`, `website_address`, `sector`, `dost_accredited`, `supplier_address`, `deleted_at`) VALUES
-	('30002018-0322111406', 'Microsoft', '', '', NULL, '', '', 6, 'NO', '', NULL),
-	('30002018-0322111550', 'Microsoft Technologies', '09368955866', '044 215 2145', NULL, 'info@microsoft.com', 'microsoft.com', 6, 'YES', '', NULL),
-	('BUL30002018-0322142702', 'Ewan', '', '', NULL, '', '', 1, 'NO', '', NULL),
-	('BUL30002018-0322144319', 'Microsoft', '', '', NULL, '', '', 6, 'NO', '', NULL);
+	('BUL30002018-0328103308', 'Mongol', '', '', NULL, '', '', 3, 'NO', '', '2018-03-28 10:33:25'),
+	('BUL30002018-0328103505', 'Mongol', '', '', NULL, '', '', 1, 'NO', '', '2018-03-28 10:35:10'),
+	('BUL30002018-0328104546', 'Mongol', '', '', NULL, '', '', 1, 'NO', '', '2018-03-28 10:46:34');
 /*!40000 ALTER TABLE `equipment_supplier` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.file_table
@@ -124,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `setup_projects` (
   PRIMARY KEY (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.setup_projects: ~1 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.setup_projects: ~0 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects` DISABLE KEYS */;
 INSERT INTO `setup_projects` (`project_code`, `spin_no`, `company_name`, `company_owner`, `owner_position`, `owner_address`, `project_name`, `project_status`, `project_type`, `endorsed_date`, `file_endorsed_attachment`, `approved_date`, `approved_funding`, `file_approved_attachment`, `moa_date`, `file_moa_attachment`, `actual_cost`, `duration_from`, `duration_to`, `factory_street`, `factory_brgy`, `factory_city`, `factory_landmark`, `year_established`, `business_activity`, `capital_classification`, `employment_classification`, `company_ownership`, `profitability`, `registration_info`, `major_products`, `existing_market`, `website`, `deleted_at`) VALUES
 	('BUL30002018-0322115144', '', 'Sample', '', '', '', '', 0, 'GIA', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, '', '', '3012', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '', NULL);

@@ -128,6 +128,14 @@ public class EquipmentQoutationModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // Code Coverage
     //--------------------------------------------------------------------------
+    /**
+     * Get All active equipment in the database. with the partial supplier
+     * model.
+     *
+     * @param <T>
+     * @return
+     * @throws SQLException
+     */
     public static <T> List<T> getAllActiveEquipment() throws SQLException {
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")
@@ -138,16 +146,83 @@ public class EquipmentQoutationModel extends PolarisRecord {
                 .addStatement(DELETED_AT)
                 .addStatement("IS NULL");
         //======================================================================
+        List<T> equipment = null;
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
-            return new EquipmentQoutationModel().findMany(con, querySample);
+            equipment = new EquipmentQoutationModel().findMany(con, querySample);
+            //------------------------------------------------------------------
+            // If empty //
+            if (equipment.isEmpty()) {
+                return equipment;
+            }
+            //------------------------------------------------------------------
+            // Where In Query to get the Partial Supplier Model
+            SimpleQuery whereInQuery = new SimpleQuery();
+            whereInQuery.addStatement("SELECT")
+                    .addStatement(EquipmentSupplierModel.SUPPLIER_CODE)
+                    .addStatement(",")
+                    .addStatement(EquipmentSupplierModel.SUPPLIER_NAME)
+                    .addStatement("FROM")
+                    .addStatement(EquipmentSupplierModel.TABLE)
+                    .addStatement("WHERE")
+                    .addStatement(EquipmentSupplierModel.SUPPLIER_CODE)
+                    .addStatement("IN (");
+            // Query Preamble End.
+            //------------------------------------------------------------------
+            // Iterate to the equipment to get IN parmeters of SUPPLIER CODE of EQUIPMENT QOUTATUION
+            for (int ctr = 0; ctr < equipment.size(); ctr++) {
+                EquipmentQoutationModel model = (EquipmentQoutationModel) equipment.get(ctr);
+                String code = model.getSupplierCode();
+                whereInQuery.addStatementWithParameter("?", code);
+
+                // attach comma if not last
+                if (ctr < (equipment.size() - 1)) {
+                    whereInQuery.addStatement(",");
+                }
+
+            }
+            whereInQuery.addStatement(")"); // Close Query Preamble
+            //------------------------------------------------------------------
+            List<EquipmentSupplierModel> supplier = new EquipmentSupplierModel().findMany(con, whereInQuery);
+            //------------------------------------------------------------------
+            if (supplier.isEmpty()) {
+                return equipment;
+            }
+            //------------------------------------------------------------------
+            // Compare SUPPLIER CODE to attach Model to EQUIP QOUTATION MODEL.
+            for (T equip : equipment) {
+                // type case
+                EquipmentQoutationModel equipModel = (EquipmentQoutationModel) equip;
+                // if no assigned supplier code skip this.
+                if (equipModel.getSupplierCode() == null) {
+                    continue;
+                }
+                //--------------------------------------------------------------
+                for (EquipmentSupplierModel supply : supplier) {
+                    if (equipModel.getSupplierCode().equalsIgnoreCase(supply.getSupplierCode())) {
+                        equipModel.setSupplierModel(supply);
+                        break;
+                    }
+                }
+            }
+            //------------------------------------------------------------------
+
+            //------------------------------------------------------------------
+            return equipment;
         }
+        //======================================================================
     }
 
+    /**
+     * Get this model's assigned supplier code.
+     *
+     * @return
+     * @throws SQLException
+     */
     public EquipmentSupplierModel fetchSupplierModel() throws SQLException {
         if (this.getSupplierCode() == null) {
             return null;
         }
-
+        //----------------------------------------------------------------------
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             SimpleQuery querySample = new SimpleQuery();
             querySample.addStatement("SELECT")
@@ -157,7 +232,6 @@ public class EquipmentQoutationModel extends PolarisRecord {
                     .addStatement("WHERE")
                     .addStatement(EquipmentSupplierModel.SUPPLIER_CODE)
                     .addStatementWithParameter(" = ?", this.getSupplierCode());
-
             EquipmentSupplierModel supplier = new EquipmentSupplierModel();
             if (supplier.findQuery(con, querySample)) {
                 return supplier;
@@ -167,18 +241,39 @@ public class EquipmentQoutationModel extends PolarisRecord {
         }
     }
 
+    /**
+     * Insert new record of quotation.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
     public static boolean insertNew(EquipmentQoutationModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.insert(con);
         }
     }
 
+    /**
+     * Update this equipment.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
     public static boolean updateEquip(EquipmentQoutationModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.updateFull(con);
         }
     }
 
+    /**
+     * Remove this equipment.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
     public static boolean removeEquip(EquipmentQoutationModel model) throws SQLException {
         ConnectionManager con = null;
         try {
@@ -198,6 +293,18 @@ public class EquipmentQoutationModel extends PolarisRecord {
             }
         }
     }
+
+    //--------------------------------------------------------------------------
+    private EquipmentSupplierModel supplierModel;
+
+    public EquipmentSupplierModel getSupplierModel() {
+        return supplierModel;
+    }
+
+    public void setSupplierModel(EquipmentSupplierModel supplierModel) {
+        this.supplierModel = supplierModel;
+    }
+    //--------------------------------------------------------------------------
 
     //--------------------------------------------------------------------------
     // GETTERS AND SETTERS

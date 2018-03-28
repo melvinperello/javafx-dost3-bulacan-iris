@@ -235,12 +235,74 @@ public class EquipmentSupplierModel extends PolarisRecord {
         }
     }
 
+    /**
+     * Updating this current supplier model instance.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
     public static boolean updateNewSupplier(EquipmentSupplierModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.updateFull(con);
         }
     }
 
+    public static boolean removeSupplier(EquipmentSupplierModel model) throws SQLException {
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            //------------------------------------------------------------------
+            // REMOVED DEPENDENCIES
+            SimpleQuery searchAssignment = new SimpleQuery();
+            searchAssignment.addStatement("UPDATE")
+                    .addStatement(EquipmentQoutationModel.TABLE)
+                    .addStatement("SET")
+                    .addStatement(EquipmentQoutationModel.FK_SUPPLIER_CODE + " = NULL")
+                    .addStatement("WHERE")
+                    .addStatement(EquipmentQoutationModel.FK_SUPPLIER_CODE + " = ?")
+                    .addParameter(model.getSupplierCode());
+
+            boolean removedDependency = false;
+            try {
+                con.update(searchAssignment);
+                removedDependency = true;
+            } catch (SQLException e) {
+                con.transactionRollBack();
+                return false;
+            }
+            //------------------------------------------------------------------
+            if (removedDependency) {
+                // get server date.
+                Date serverDate = Context.app().getServerDate();
+                // update value
+                model.setDeletedAt(serverDate);
+                // execute query.
+                boolean updated = model.updateFull(con);
+                if (updated) {
+                    con.transactionCommit();
+                    return true;
+                }
+            }
+
+            con.transactionRollBack();
+            return false;
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    /**
+     * Get All active supplier model in the database.
+     *
+     * @param <T>
+     * @return
+     * @throws SQLException
+     */
     public static <T> List<T> getAllActiveSupplier() throws SQLException {
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")

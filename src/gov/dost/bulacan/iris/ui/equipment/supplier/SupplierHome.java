@@ -130,20 +130,40 @@ public class SupplierHome extends PolarisForm {
     @FXML
     private Label lbl_equipment_name;
 
+    @FXML
+    private JFXButton btn_delete;
+
     /**
      * Initialize this object.
      *
      * @param equipModel
      */
-    public SupplierHome(EquipmentQoutationModel equipModel) {
+    public SupplierHome(EquipmentQoutationModel equipModel, EquipmentSupplierModel currentSupplier) {
         this.selectedEquipmentModel = equipModel;
         this.setDialogMessageTitle("Supplier");
         this.observeableListItems = FXCollections.observableArrayList();
+        this.selectedSupplierModel = currentSupplier;
+    }
+
+    private void preSelectedSupplier() {
+        if (this.selectedSupplierModel != null) {
+
+            for (SupplierHomeList item : lst_supplier.getItems()) {
+                if (item.getSupplierModel().getSupplierCode()
+                        .equalsIgnoreCase(this.selectedSupplierModel.getSupplierCode())) {
+                    this.lst_supplier.getSelectionModel().select(item);
+                    break;
+                }
+            }
+
+        }
     }
     //--------------------------------------------------------------------------
     private final ObservableList<SupplierHomeList> observeableListItems;
     //--------------------------------------------------------------------------
     private final EquipmentQoutationModel selectedEquipmentModel;
+    //--------------------------------------------------------------------------
+    private final EquipmentSupplierModel selectedSupplierModel;
     //--------------------------------------------------------------------------
     // String List
     //--------------------------------------------------------------------------
@@ -225,15 +245,79 @@ public class SupplierHome extends PolarisForm {
                 this.showWaitWarningMessage(null, "Please select a supplier for this equipment.");
                 return;
             }
+            //------------------------------------------------------------------
+            EquipmentQoutationModel qoutation = this.selectedEquipmentModel;
+            this.selectedEquipmentModel.setSupplierCode(list.getSupplierModel().getSupplierCode());
+
+            if (this.changeSupplier(qoutation)) {
+                //
+                EquipmentEditView editView = new EquipmentEditView(qoutation);
+                editView.load();
+                this.changeRoot(editView.getRootPane());
+            }
 
             value.consume();
         });
-        //----------------------------------------------------------------------
 
+        this.btn_delete.setOnMouseClicked(value -> {
+            SupplierHomeList list = this.lst_supplier.getSelectionModel().getSelectedItem();
+            // if no item was selected in the list prompt user
+            if (list == null) {
+                this.showWaitWarningMessage(null, "Please select a supplier to delete.");
+                return;
+            }
+            //------------------------------------------------------------------
+            // Remove Code
+            //------------------------------------------------------------------
+            int res = this.showConfirmationMessage(null, "Are you sure you want to remove this supplier? This operation is ireversible.");
+            if (res == 1) {
+                try {
+                    boolean deleted = EquipmentSupplierModel.removeSupplier(list.getSupplierModel());
+                    if (deleted) {
+                        this.showInformationMessage(null, "Supplier successfully deleted.");
+                        // refresh table
+                        this.populateList();
+                        //
+                    } else {
+                        this.showInformationMessage(null, "Supplier cannot be deleted at the moment please try again later.");
+                    }
+                } catch (SQLException e) {
+                    //
+                    this.showWaitExceptionMessage(e, null, "Failed to delete supplier.");
+                }
+            }
+
+            value.consume();
+        });
+
+        //----------------------------------------------------------------------
         this.lst_supplier.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends SupplierHomeList> observable, SupplierHomeList oldValue, SupplierHomeList newValue) -> {
             this.listChangeListener(newValue, oldValue);
         });
+
+        //----------------------------------------------------------------------
+        this.preSelectedSupplier();
+        //----------------------------------------------------------------------
     } // END SETUP
+
+    private boolean changeSupplier(EquipmentQoutationModel qoutation) {
+        boolean updated = false;
+        try {
+            updated = EquipmentQoutationModel.updateEquip(qoutation);
+            if (updated) {
+                this.showWaitInformationMessage(null, "Supplier was successfully added to the database.");
+            } else {
+                this.showWaitWarningMessage(null, "The Supplier cannot be inserted at the moment please try again.");
+            }
+        } catch (SQLException ex) {
+            this.showWaitExceptionMessage(ex, null, "Failed to insert New Supplier.");
+        }
+        return updated;
+    }
+
+    private void deleteSupplier() {
+
+    }
 
     /**
      * Executes when the selection of the list view changes.

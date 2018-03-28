@@ -52,38 +52,38 @@ import javafx.util.Callback;
  * @author Jhon Melvin
  */
 public class EquipmentView extends PolarisForm {
-    
+
     @FXML
     private HBox hbox_header;
-    
+
     @FXML
     private TextField txt_search;
-    
+
     @FXML
     private JFXButton btn_view;
-    
+
     @FXML
     private JFXButton btn_add;
-    
+
     @FXML
     private JFXButton btn_remove;
-    
+
     @FXML
     private JFXButton btn_back_to_home;
-    
+
     @FXML
     private ListView<EquipmentViewListItem> list_equipment;
-    
+
     public EquipmentView() {
         this.observeableListItems = FXCollections.observableArrayList();
     }
     private final ObservableList<EquipmentViewListItem> observeableListItems;
-    
+
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
         Home.addEventBackToHome(this.btn_back_to_home, this);
-        
+
         this.populateList();
         this.constructCustomList();
 
@@ -96,12 +96,12 @@ public class EquipmentView extends PolarisForm {
                 this.showWarningMessage(null, "Please select equipment to view.");
                 return;
             }
-            
+
             EquipmentQoutationModel model = selectedProject.getQouteModel();
             //
             EquipmentEditView equipEdit = new EquipmentEditView(model);
             this.changeRoot(equipEdit.load());
-            
+
             value.consume();
         });
         /**
@@ -121,7 +121,7 @@ public class EquipmentView extends PolarisForm {
                 this.showWarningMessage(null, "Please select equipment to delete.");
                 return;
             }
-            
+
             EquipmentQoutationModel model = selectedProject.getQouteModel();
             //------------------------------------------------------------------
             // Remove Code
@@ -145,7 +145,7 @@ public class EquipmentView extends PolarisForm {
             value.consume();
         });
     }
-    
+
     private void constructCustomList() {
         //----------------------------------------------------------------------
         // Add Search Predicate
@@ -161,7 +161,7 @@ public class EquipmentView extends PolarisForm {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                
+
                 String filterString = newValue.toLowerCase();
 
                 /**
@@ -170,15 +170,15 @@ public class EquipmentView extends PolarisForm {
                 if (equipment.getQouteModel().getEquipmentName().toLowerCase().contains(newValue)) {
                     return true;
                 }
-                
+
                 if (equipment.getQouteModel().getKeyword().toLowerCase().contains(newValue)) {
                     return true;
                 }
-                
+
                 return false; // no match.
             });
         });
-        
+
         PolarisCustomListAdapter adapter = new PolarisCustomListAdapter(this.list_equipment, filteredResult);
         adapter.setCustomCellPrefHeight(70.0);
         adapter.customize();
@@ -189,12 +189,15 @@ public class EquipmentView extends PolarisForm {
      * Refresh List.
      */
     private void populateList() {
+        
+        //----------------------------------------------------------------------
         List<EquipmentQoutationModel> equipments = null;
         try {
             equipments = EquipmentQoutationModel.getAllActiveEquipment();
         } catch (SQLException e) {
             this.showWaitExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Equipment Records !");
         }
+        //----------------------------------------------------------------------
 
         // if error go back
         if (equipments == null) {
@@ -210,7 +213,7 @@ public class EquipmentView extends PolarisForm {
             listItem.load();
             this.observeableListItems.add(listItem);
         }
-        
+
     }
-    
+
 }

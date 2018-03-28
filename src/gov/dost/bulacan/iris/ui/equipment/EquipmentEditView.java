@@ -130,7 +130,6 @@ public class EquipmentEditView extends PolarisForm {
         this.cmb_status.getItems().setAll(Arrays.asList(EquipmentQoutationModel.EquipmentStatus.LIST));
         this.cmb_status.getSelectionModel().selectFirst();
         //----------------------------------------------------------------------
-
         if (addingMode) {
             this.lbl_code.setText(Context.app().generateTimestampKey());
             //
@@ -146,6 +145,8 @@ public class EquipmentEditView extends PolarisForm {
             //
             this.disableComponents(true);
         }
+        //----------------------------------------------------------------------
+        this.loadSupplierInformation(); // FETCH DB OP
         //----------------------------------------------------------------------
         this.btn_save_qoutation.setOnMouseClicked(value -> {
             if (this.addingMode) {
@@ -190,14 +191,15 @@ public class EquipmentEditView extends PolarisForm {
         });
 
         this.btn_supplier.setOnMouseClicked(value -> {
-            SupplierHome supHome = new SupplierHome(this.equipModel);
+            SupplierHome supHome = new SupplierHome(this.equipModel, this.currentSupplierModel);
             this.changeRoot(supHome.load());
             value.consume();
         });
 
         //----------------------------------------------------------------------
-        this.loadSupplierInformation();
     }
+
+    private EquipmentSupplierModel currentSupplierModel;
 
     private void loadSupplierInformation() {
         try {
@@ -206,7 +208,16 @@ public class EquipmentEditView extends PolarisForm {
                 this.lbl_supplier.setText("No Associated Supplier");
                 this.lbl_supplier_category.setText("No Category");
             } else {
-                this.lbl_supplier.setText(model.getSupplierName());
+                if (model.getDeletedAt() == null) {
+                    this.lbl_supplier.setText(model.getSupplierName());
+                    String sector = EquipmentSupplierModel.Sector.getStringValue(model.getSector());
+                    this.lbl_supplier_category.setText(sector);
+                    this.currentSupplierModel = model;
+                } else {
+                    this.lbl_supplier.setText("Supplier Was Removed");
+                    this.lbl_supplier_category.setText("No Category");
+                }
+
             }
         } catch (Exception e) {
             this.lbl_supplier.setText("No Associated Supplier");

@@ -122,8 +122,7 @@ public class SupplierEdit extends PolarisForm {
         this.rdb_no.setSelected(true);
         //----------------------------------------------------------------------
         this.btn_back.setOnMouseClicked(value -> {
-            SupplierHome supplyHome = new SupplierHome(this.qoutationModel);
-            this.changeRoot(supplyHome.load());
+            this.backToSupplyHome(null);
             value.consume();
         });
 
@@ -131,14 +130,12 @@ public class SupplierEdit extends PolarisForm {
             if (this.addingMode) {
                 if (this.addSupplier()) {
                     // go back after insert
-                    SupplierHome supplyHome = new SupplierHome(this.qoutationModel);
-                    this.changeRoot(supplyHome.load());
+                    this.backToSupplyHome(null);
                 }
             } else {
                 if (this.updateSupplier()) {
                     // go back after update
-                    SupplierHome supplyHome = new SupplierHome(this.qoutationModel);
-                    this.changeRoot(supplyHome.load());
+                    this.backToSupplyHome(null);
                 }
             }
 
@@ -154,6 +151,16 @@ public class SupplierEdit extends PolarisForm {
         }
         //----------------------------------------------------------------------
 
+    }
+
+    /**
+     * Go back to supplier home.
+     *
+     * @param selected
+     */
+    private void backToSupplyHome(EquipmentSupplierModel selected) {
+        SupplierHome supplyHome = new SupplierHome(this.qoutationModel, selected);
+        this.changeRoot(supplyHome.load());
     }
 
     private void preloadData() {

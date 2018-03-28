@@ -54,7 +54,7 @@ public class EquipmentViewListItem extends PolarisFxController implements Listab
 
     @FXML
     private Label lbl_supplier;
-    
+
     @FXML
     private Label lbl_keys;
 
@@ -89,8 +89,13 @@ public class EquipmentViewListItem extends PolarisFxController implements Listab
             if (!qouteModel.getKeyword().isEmpty()) {
                 this.lbl_keys.setText(qouteModel.getKeyword());
             }
+
+            if (this.qouteModel.getSupplierModel() != null) {
+                lbl_supplier.setText(this.qouteModel.getSupplierModel().getSupplierName());
+            } else {
+                lbl_supplier.setText("Unknown Supplier");
+            }
             //
-            lbl_supplier.setText("Unknown Supplier");
 
         }
     }
