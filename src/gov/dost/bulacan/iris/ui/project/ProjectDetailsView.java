@@ -211,25 +211,24 @@ public class ProjectDetailsView extends IrisForm {
     private final ProjectModel projectModel;
 
     /**
-     * checks for data disparity. upon loading the data.
+     * Reloading the data of a project.
      *
      * @param projectModel
-     * @param stage
      * @return
      */
-    public static boolean loadMyData(ProjectModel projectModel, Stage stage) {
+    public static boolean reloadModel(ProjectModel projectModel) {
         try {
-            if (!ProjectModel.getProjectViaProjectCode(projectModel, projectModel.getProjectCode())) {
+            if (!ProjectModel.fetchByCode(projectModel, projectModel.getProjectCode())) {
                 // not loaded
                 throw new SQLException();
             }
         } catch (SQLException e) {
             // error
             PolarisDialog.create(PolarisDialog.Type.WARNING)
-                    .setTitle("SETUp/GIA Project")
-                    .setHeaderText("Warning")
-                    .setContentText("There was a problem loading the data")
-                    .setOwner(stage)
+                    .setTitle("Reloading Project Model")
+                    .setHeaderText("Error")
+                    .setContentText("There was a problem with reloading the data")
+                    .setOwner(null)
                     .showAndWait();
             return false;
         }

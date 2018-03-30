@@ -39,11 +39,13 @@ import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
+import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
 
 /**
  *
  * @author Jhon Melvin
  */
+@Table(ContactInformationModel.TABLE)
 public class ContactInformationModel extends PolarisRecord {
 
     public final static String TABLE = "contact_information";
@@ -131,6 +133,38 @@ public class ContactInformationModel extends PolarisRecord {
         }
     }
 
+    public static boolean insert(ContactInformationModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.insert(con);
+        }
+    }
+
+    public static boolean update(ContactInformationModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.updateFull(con);
+        }
+    }
+
+    public static boolean remove(ContactInformationModel model) throws SQLException {
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            //------------------------------------------------------------------
+            // get server date.
+            Date serverDate = Context.app().getServerDate();
+            // update value
+            model.setDeletedAt(serverDate);
+            // execute query.
+            return model.updateFull(con);
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
     //--------------------------------------------------------------------------
     // GETTERS
     //--------------------------------------------------------------------------
@@ -171,6 +205,9 @@ public class ContactInformationModel extends PolarisRecord {
     }
 
     public Date getDeletedAt() {
+        if (this.deletedAt == null) {
+            return null;
+        }
         return new Date(deletedAt.getTime());
     }
     //--------------------------------------------------------------------------
@@ -214,6 +251,10 @@ public class ContactInformationModel extends PolarisRecord {
     }
 
     public void setDeletedAt(Date deletedAt) {
+        if (deletedAt == null) {
+            this.deletedAt = null;
+            return;
+        }
         this.deletedAt = new Date(deletedAt.getTime());
     }
 

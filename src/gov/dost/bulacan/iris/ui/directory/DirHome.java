@@ -29,16 +29,14 @@
 package gov.dost.bulacan.iris.ui.directory;
 
 import com.jfoenix.controls.JFXButton;
-import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ContactInformationModel;
+import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -56,7 +54,7 @@ import javafx.scene.layout.HBox;
  *
  * @author Jhon Melvin
  */
-public class ProjectView extends IrisForm {
+public class DirHome extends IrisForm {
 
     @FXML
     private HBox hbox_header;
@@ -79,7 +77,7 @@ public class ProjectView extends IrisForm {
     @FXML
     private TableView<ContactInformationModel> tbl_contacts;
 
-    public ProjectView() {
+    public DirHome() {
         this.setDialogMessageTitle("Local Directory");
         this.tableData = FXCollections.observableArrayList();
     }
@@ -93,9 +91,57 @@ public class ProjectView extends IrisForm {
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
         Home.addEventBackToHome(this.btn_back_to_home, this);
-        
+
         this.createTable();
         this.populateTable();
+
+        this.btn_add_contacts.setOnMouseClicked(value -> {
+            this.changeRoot(new DirEdit(null).load());
+            value.consume();
+        });
+
+        this.btn_edit.setOnMouseClicked(value -> {
+            ContactInformationModel model = this.tbl_contacts.getSelectionModel().getSelectedItem();
+            if (model == null) {
+                this.showWarningMessage(null, "Please highlight a contact to view.");
+                return;
+            }
+
+            this.changeRoot(new DirEdit(model).load());
+
+            value.consume();
+        });
+
+        this.btn_delete.setOnMouseClicked(value -> {
+            ContactInformationModel model = this.tbl_contacts.getSelectionModel().getSelectedItem();
+            if (model == null) {
+                this.showWarningMessage(null, "Please highlight a contact to remove.");
+                return;
+            }
+
+            //------------------------------------------------------------------
+            // Remove Code
+            //------------------------------------------------------------------
+            int res = this.showConfirmationMessage(null, "Are you sure you want to remove this contact? This operation is ireversible.");
+            if (res == 1) {
+                try {
+                    boolean deleted = ContactInformationModel.remove(model);
+                    if (deleted) {
+                        this.showInformationMessage(null, "Contact Information successfully deleted.");
+                        // refresh table
+                        this.populateTable();
+                    } else {
+                        this.showInformationMessage(null, "Contact Information cannot be deleted at the moment please try again later.");
+                    }
+                } catch (SQLException e) {
+                    //
+                    this.showExceptionMessage(e, null, "Failed to delete Contact Information.");
+                }
+            }
+
+            value.consume();
+        });
+
     }
 
     /**
@@ -176,17 +222,17 @@ public class ProjectView extends IrisForm {
         // 5. Add sorted (and filtered) data to the table.
         this.tbl_contacts.setItems(sortedData);
     }
-    
+
     public void populateTable() {
         this.tableData.clear();
         //----------------------------------------------------------------------
-        List<ContactInformationModel> inquiries = new ArrayList<>();
+        List<ContactInformationModel> list = new ArrayList<>();
         try {
-            inquiries = ProjectModel.listAllActive();
+            list = ContactInformationModel.listAllActive();
         } catch (SQLException ex) {
             this.showExceptionMessage(ex, null, "Failed to load projects.");
         }
-        this.tableData.addAll(inquiries);
+        this.tableData.addAll(list);
     }
 
 }

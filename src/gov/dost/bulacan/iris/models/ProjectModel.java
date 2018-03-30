@@ -628,7 +628,7 @@ public class ProjectModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean getProjectViaProjectCode(ProjectModel model, String projectCode) throws SQLException {
+    public static boolean fetchByCode(ProjectModel model, String projectCode) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.find(con, projectCode);
         }

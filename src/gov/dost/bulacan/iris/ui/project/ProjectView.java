@@ -121,7 +121,7 @@ public class ProjectView extends IrisForm {
                 return;
             }
             // open project view
-            if (ProjectDetailsView.loadMyData(selectedProject, this.getStage())) {
+            if (ProjectDetailsView.reloadModel(selectedProject)) {
                 this.changeRoot(new ProjectDetailsView(selectedProject).load());
             }
 

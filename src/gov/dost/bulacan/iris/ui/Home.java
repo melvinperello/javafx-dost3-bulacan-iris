@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.ui;
 
 import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.ui.directory.DirHome;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
 import javafx.fxml.FXML;
@@ -77,6 +78,15 @@ public class Home extends IrisForm {
         this.menu_equipment.setOnMouseClicked(value -> {
             EquipmentView equipmentView = new EquipmentView();
             this.changeRoot(equipmentView.load());
+            value.consume();
+        });
+
+        /**
+         * Open Equipments.
+         */
+        this.menu_directory.setOnMouseClicked(value -> {
+            DirHome fx = new DirHome();
+            this.changeRoot(fx.load());
             value.consume();
         });
 
