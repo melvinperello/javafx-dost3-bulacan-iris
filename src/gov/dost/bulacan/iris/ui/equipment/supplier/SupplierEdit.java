@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.equipment.supplier;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -49,7 +49,7 @@ import javafx.scene.layout.HBox;
  *
  * @author Jhon Melvin
  */
-public class SupplierEdit extends PolarisForm {
+public class SupplierEdit extends IrisForm {
 
     @FXML
     private HBox hbox_header;
@@ -234,14 +234,14 @@ public class SupplierEdit extends PolarisForm {
 
         boolean inserted = false;
         try {
-            inserted = EquipmentSupplierModel.addNewSupplier(supplier);
+            inserted = EquipmentSupplierModel.insert(supplier);
             if (inserted) {
                 this.showWaitInformationMessage(null, "Supplier was successfully added to the database.");
             } else {
                 this.showWaitWarningMessage(null, "The Supplier cannot be inserted at the moment please try again.");
             }
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to insert New Supplier.");
+            this.showExceptionMessage(ex, null, "Failed to insert New Supplier.");
         }
         return inserted;
     }
@@ -273,14 +273,14 @@ public class SupplierEdit extends PolarisForm {
 
         boolean updated = false;
         try {
-            updated = EquipmentSupplierModel.updateNewSupplier(supplier);
+            updated = EquipmentSupplierModel.update(supplier);
             if (updated) {
                 this.showWaitInformationMessage(null, "Supplier was successfully added to the database.");
             } else {
                 this.showWaitWarningMessage(null, "The Supplier cannot be inserted at the moment please try again.");
             }
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to insert New Supplier.");
+            this.showExceptionMessage(ex, null, "Failed to insert New Supplier.");
         }
         return updated;
     }

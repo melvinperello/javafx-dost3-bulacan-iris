@@ -578,7 +578,7 @@ public class ProjectModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean insertNewProject(ProjectModel project) throws SQLException {
+    public static boolean insert(ProjectModel project) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return project.insert(con);
         }
@@ -591,7 +591,7 @@ public class ProjectModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean updateExistingProject(ProjectModel project) throws SQLException {
+    public static boolean update(ProjectModel project) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return project.updateFull(con);
         }
@@ -605,7 +605,7 @@ public class ProjectModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static <T> List<T> getProjectTableData() throws SQLException {
+    public static <T> List<T> listAllActive() throws SQLException {
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")
                 .addStatement("*")
@@ -641,7 +641,7 @@ public class ProjectModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean deleteProject(ProjectModel model) throws SQLException {
+    public static boolean remove(ProjectModel model) throws SQLException {
         ConnectionManager con = null;
         try {
             //------------------------------------------------------------------

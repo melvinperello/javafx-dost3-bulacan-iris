@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.project;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -56,7 +56,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author Jhon Melvin
  */
-public class ProjectView extends PolarisForm {
+public class ProjectView extends IrisForm {
 
     @FXML
     private JFXButton btn_back_to_home;
@@ -137,7 +137,7 @@ public class ProjectView extends PolarisForm {
             int res = this.showConfirmationMessage(null, "Are you sure you want to remove this project? This operation is ireversible.");
             if (res == 1) {
                 try {
-                    boolean deleted = ProjectModel.deleteProject(selectedProject);
+                    boolean deleted = ProjectModel.remove(selectedProject);
                     if (deleted) {
                         this.showInformationMessage(null, "Contact successfully deleted to this project.");
                         // refresh table
@@ -147,7 +147,7 @@ public class ProjectView extends PolarisForm {
                     }
                 } catch (SQLException e) {
                     //
-                    this.showWaitExceptionMessage(e, null, "Failed to delete project.");
+                    this.showExceptionMessage(e, null, "Failed to delete project.");
                 }
             }
             value.consume();
@@ -284,9 +284,9 @@ public class ProjectView extends PolarisForm {
         //----------------------------------------------------------------------
         List<ProjectModel> inquiries = new ArrayList<>();
         try {
-            inquiries = ProjectModel.getProjectTableData();
+            inquiries = ProjectModel.listAllActive();
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to load projects.");
+            this.showExceptionMessage(ex, null, "Failed to load projects.");
         }
         this.tableData.addAll(inquiries);
     }

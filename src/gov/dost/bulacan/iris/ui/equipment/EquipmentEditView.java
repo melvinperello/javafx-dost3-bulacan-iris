@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.equipment;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -56,7 +56,7 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  *
  * @author Jhon Melvin
  */
-public class EquipmentEditView extends PolarisForm {
+public class EquipmentEditView extends IrisForm {
 
     @FXML
     private HBox hbox_header;
@@ -313,14 +313,14 @@ public class EquipmentEditView extends PolarisForm {
 
         boolean updated = false;
         try {
-            updated = EquipmentQoutationModel.updateEquip(model);
+            updated = EquipmentQoutationModel.update(model);
             if (updated) {
                 this.showInformationMessage(null, "Equipment was successfully updated to the database.");
             } else {
                 this.showWarningMessage(null, "The Equipment cannot be updated at the moment please try again.");
             }
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to update equipment.");
+            this.showExceptionMessage(ex, null, "Failed to update equipment.");
         }
         return updated;
     }
@@ -345,14 +345,14 @@ public class EquipmentEditView extends PolarisForm {
         //----------------------------------------------------------------------
         boolean inserted = false;
         try {
-            inserted = EquipmentQoutationModel.insertNew(model);
+            inserted = EquipmentQoutationModel.insert(model);
             if (inserted) {
                 this.showInformationMessage(null, "Equipment was successfully added to the database.");
             } else {
                 this.showWarningMessage(null, "The Equipment cannot be inserted at the moment please try again.");
             }
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to insert New Equipment.");
+            this.showExceptionMessage(ex, null, "Failed to insert New Equipment.");
         }
         return inserted;
     }

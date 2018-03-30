@@ -28,7 +28,7 @@
  */
 package gov.dost.bulacan.iris.ui;
 
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
 import javafx.fxml.FXML;
@@ -40,7 +40,7 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  *
  * @author Jhon Melvin
  */
-public class Home extends PolarisForm {
+public class Home extends IrisForm {
 
     @FXML
     private HBox hbox_header;

@@ -34,7 +34,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -65,7 +65,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author Jhon Melvin
  */
-public class ProjectDetailsView extends PolarisForm {
+public class ProjectDetailsView extends IrisForm {
 
     @FXML
     private HBox hbox_header;
@@ -292,7 +292,7 @@ public class ProjectDetailsView extends PolarisForm {
 
             if (this.showConfirmationMessage(null, "Are you sure you want to delete this contact information.") == 1) {
                 try {
-                    boolean deleted = ProjectContactModel.deleteContact(contact);
+                    boolean deleted = ProjectContactModel.delete(contact);
                     if (deleted) {
                         this.showInformationMessage(null, "Contact successfully deleted to this project.");
                         // refresh table
@@ -302,7 +302,7 @@ public class ProjectDetailsView extends PolarisForm {
                     }
                 } catch (SQLException ex) {
                     //
-                    this.showWaitExceptionMessage(ex, null, "Failed to delete contact.");
+                    this.showExceptionMessage(ex, null, "Failed to delete contact.");
                 }
             }
 
@@ -394,7 +394,7 @@ public class ProjectDetailsView extends PolarisForm {
         printable.setContactInformation("");
         try {
             StringBuilder temp_contact = new StringBuilder("");
-            List<ProjectContactModel> contacts = ProjectContactModel.getAllContacts(this.projectModel.getProjectCode());
+            List<ProjectContactModel> contacts = ProjectContactModel.listAllActive(this.projectModel.getProjectCode());
             for (ProjectContactModel contact : contacts) {
                 String temp = contact.getName() + " ( " + contact.getPosition()
                         + " ) Mobile:"
@@ -627,9 +627,9 @@ public class ProjectDetailsView extends PolarisForm {
         //----------------------------------------------------------------------
         List<ProjectContactModel> inquiries = new ArrayList<>();
         try {
-            inquiries = ProjectContactModel.getAllContacts(this.projectModel.getProjectCode());
+            inquiries = ProjectContactModel.listAllActive(this.projectModel.getProjectCode());
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to load contact list.");
+            this.showExceptionMessage(ex, null, "Failed to load contact list.");
         }
         this.tableData.setAll(inquiries);
     }

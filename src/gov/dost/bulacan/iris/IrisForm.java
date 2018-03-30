@@ -39,7 +39,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author Jhon Melvin
  */
-public abstract class PolarisForm extends PolarisFxController {
+public abstract class IrisForm extends PolarisFxController {
 
     //--------------------------------------------------------------------------
     // Message box features added for Iris Form.
@@ -166,18 +166,6 @@ public abstract class PolarisForm extends PolarisFxController {
     }
 
     //--------------------------------------------------------------------------
-    public void showWaitExceptionMessage(Exception e, String header, String message) {
-        if (header == null) {
-            header = "System Error Encountered !";
-        }
-        PolarisDialog.exceptionDialog(e)
-                .setContentText(message)
-                .setHeaderText(header)
-                .setOwner(null)
-                .setTitle("Fatal Exception")
-                .showAndWait();
-    }
-
     public void showExceptionMessage(Exception e, String header, String message) {
         if (header == null) {
             header = "System Error Encountered !";
@@ -187,7 +175,7 @@ public abstract class PolarisForm extends PolarisFxController {
                 .setHeaderText(header)
                 .setOwner(null)
                 .setTitle("Fatal Exception")
-                .show();
+                .showAndWait();
     }
 
     //--------------------------------------------------------------------------

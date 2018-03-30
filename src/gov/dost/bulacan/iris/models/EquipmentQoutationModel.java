@@ -136,7 +136,7 @@ public class EquipmentQoutationModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static <T> List<T> getAllActiveEquipment() throws SQLException {
+    public static <T> List<T> listAllActive() throws SQLException {
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")
                 .addStatement("*")
@@ -248,7 +248,7 @@ public class EquipmentQoutationModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean insertNew(EquipmentQoutationModel model) throws SQLException {
+    public static boolean insert(EquipmentQoutationModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.insert(con);
         }
@@ -261,7 +261,7 @@ public class EquipmentQoutationModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean updateEquip(EquipmentQoutationModel model) throws SQLException {
+    public static boolean update(EquipmentQoutationModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.updateFull(con);
         }
@@ -274,7 +274,7 @@ public class EquipmentQoutationModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean removeEquip(EquipmentQoutationModel model) throws SQLException {
+    public static boolean remove(EquipmentQoutationModel model) throws SQLException {
         ConnectionManager con = null;
         try {
             //------------------------------------------------------------------

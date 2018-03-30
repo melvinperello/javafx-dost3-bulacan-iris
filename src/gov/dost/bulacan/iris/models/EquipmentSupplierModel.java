@@ -229,7 +229,7 @@ public class EquipmentSupplierModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean addNewSupplier(EquipmentSupplierModel model) throws SQLException {
+    public static boolean insert(EquipmentSupplierModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.insert(con);
         }
@@ -242,13 +242,13 @@ public class EquipmentSupplierModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean updateNewSupplier(EquipmentSupplierModel model) throws SQLException {
+    public static boolean update(EquipmentSupplierModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.updateFull(con);
         }
     }
 
-    public static boolean removeSupplier(EquipmentSupplierModel model) throws SQLException {
+    public static boolean remove(EquipmentSupplierModel model) throws SQLException {
         ConnectionManager con = null;
         try {
             //------------------------------------------------------------------
@@ -303,7 +303,7 @@ public class EquipmentSupplierModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static <T> List<T> getAllActiveSupplier() throws SQLException {
+    public static <T> List<T> listAllActive() throws SQLException {
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")
                 .addStatement("*")

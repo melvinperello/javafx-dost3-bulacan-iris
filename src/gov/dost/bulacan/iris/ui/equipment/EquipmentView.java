@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.equipment;
 
 import com.jfoenix.controls.JFXButton;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAdapter;
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
@@ -51,7 +51,7 @@ import javafx.util.Callback;
  *
  * @author Jhon Melvin
  */
-public class EquipmentView extends PolarisForm {
+public class EquipmentView extends IrisForm {
 
     @FXML
     private HBox hbox_header;
@@ -129,7 +129,7 @@ public class EquipmentView extends PolarisForm {
             int res = this.showConfirmationMessage(null, "Are you sure you want to remove this equipment? This operation is ireversible.");
             if (res == 1) {
                 try {
-                    boolean deleted = EquipmentQoutationModel.removeEquip(model);
+                    boolean deleted = EquipmentQoutationModel.remove(model);
                     if (deleted) {
                         this.showInformationMessage(null, "Equipment successfully deleted.");
                         // refresh table
@@ -139,7 +139,7 @@ public class EquipmentView extends PolarisForm {
                     }
                 } catch (SQLException e) {
                     //
-                    this.showWaitExceptionMessage(e, null, "Failed to delete equipment.");
+                    this.showExceptionMessage(e, null, "Failed to delete equipment.");
                 }
             }
             value.consume();
@@ -193,9 +193,9 @@ public class EquipmentView extends PolarisForm {
         //----------------------------------------------------------------------
         List<EquipmentQoutationModel> equipments = null;
         try {
-            equipments = EquipmentQoutationModel.getAllActiveEquipment();
+            equipments = EquipmentQoutationModel.listAllActive();
         } catch (SQLException e) {
-            this.showWaitExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Equipment Records !");
+            this.showExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Equipment Records !");
         }
         //----------------------------------------------------------------------
 

@@ -31,7 +31,7 @@ package gov.dost.bulacan.iris.ui.equipment.supplier;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAdapter;
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel.Sector;
@@ -59,7 +59,7 @@ import javafx.scene.layout.HBox;
  *
  * @author Jhon Melvin
  */
-public class SupplierHome extends PolarisForm {
+public class SupplierHome extends IrisForm {
 
     @FXML
     private TextField txt_search;
@@ -272,7 +272,7 @@ public class SupplierHome extends PolarisForm {
             int res = this.showConfirmationMessage(null, "Are you sure you want to remove this supplier? This operation is ireversible.");
             if (res == 1) {
                 try {
-                    boolean deleted = EquipmentSupplierModel.removeSupplier(list.getSupplierModel());
+                    boolean deleted = EquipmentSupplierModel.remove(list.getSupplierModel());
                     if (deleted) {
                         this.showInformationMessage(null, "Supplier successfully deleted.");
                         // refresh table
@@ -283,7 +283,7 @@ public class SupplierHome extends PolarisForm {
                     }
                 } catch (SQLException e) {
                     //
-                    this.showWaitExceptionMessage(e, null, "Failed to delete supplier.");
+                    this.showExceptionMessage(e, null, "Failed to delete supplier.");
                 }
             }
 
@@ -303,14 +303,14 @@ public class SupplierHome extends PolarisForm {
     private boolean changeSupplier(EquipmentQoutationModel qoutation) {
         boolean updated = false;
         try {
-            updated = EquipmentQoutationModel.updateEquip(qoutation);
+            updated = EquipmentQoutationModel.update(qoutation);
             if (updated) {
                 this.showWaitInformationMessage(null, "Supplier was successfully added to the database.");
             } else {
                 this.showWaitWarningMessage(null, "The Supplier cannot be inserted at the moment please try again.");
             }
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to insert New Supplier.");
+            this.showExceptionMessage(ex, null, "Failed to insert New Supplier.");
         }
         return updated;
     }
@@ -380,9 +380,9 @@ public class SupplierHome extends PolarisForm {
     private void populateList() {
         List<EquipmentSupplierModel> equipments = null;
         try {
-            equipments = EquipmentSupplierModel.getAllActiveSupplier();
+            equipments = EquipmentSupplierModel.listAllActive();
         } catch (SQLException e) {
-            this.showWaitExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Supplier Records !");
+            this.showExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Supplier Records !");
         }
 
         // if error go back

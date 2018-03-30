@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.project;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
@@ -59,7 +59,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author DOST-3
  */
-public class ProjectDetailsEdit extends PolarisForm {
+public class ProjectDetailsEdit extends IrisForm {
     
     @FXML
     private HBox hbox_header;
@@ -487,14 +487,14 @@ public class ProjectDetailsEdit extends PolarisForm {
         project.setWebsite(frmWebsite);
         boolean projectAdded = false;
         try {
-            projectAdded = ProjectModel.insertNewProject(project);
+            projectAdded = ProjectModel.insert(project);
             if (projectAdded) {
                 this.showInformationMessage(null, "Project was successfully added to the database.");
             } else {
                 this.showWarningMessage(null, "The project cannot be inserted at the moment please try again.");
             }
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to insert new project.");
+            this.showExceptionMessage(ex, null, "Failed to insert new project.");
         }
         return projectAdded;
     }
@@ -727,14 +727,14 @@ public class ProjectDetailsEdit extends PolarisForm {
         boolean projectUpdated = false;
         //----------------------------------------------------------------------
         try {
-            projectUpdated = ProjectModel.updateExistingProject(project);
+            projectUpdated = ProjectModel.update(project);
             if (projectUpdated) {
                 this.showInformationMessage(null, "Project was successfully updated to the database.");
             } else {
                 this.showWarningMessage(null, "The project cannot be updated at the moment please try again.");
             }
         } catch (SQLException ex) {
-            this.showWaitExceptionMessage(ex, null, "Failed to update current project.");
+            this.showExceptionMessage(ex, null, "Failed to update current project.");
         }
         //----------------------------------------------------------------------
         return projectUpdated;

@@ -105,7 +105,7 @@ public class ProjectContactModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static <T> List<T> getAllContacts(String projectCode) throws SQLException {
+    public static <T> List<T> listAllActive(String projectCode) throws SQLException {
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")
                 .addStatement("*")
@@ -129,7 +129,7 @@ public class ProjectContactModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean insertNewContact(ProjectContactModel model) throws SQLException {
+    public static boolean insert(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.insert(con);
         }
@@ -142,7 +142,7 @@ public class ProjectContactModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean updateContact(ProjectContactModel model) throws SQLException {
+    public static boolean update(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.updateFull(con);
         }
@@ -155,7 +155,7 @@ public class ProjectContactModel extends PolarisRecord {
      * @return
      * @throws SQLException
      */
-    public static boolean deleteContact(ProjectContactModel model) throws SQLException {
+    public static boolean delete(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             model.setDeleted_at(Context.app().getServerDate());
             return model.update(con);

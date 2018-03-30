@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.project.contact;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.PolarisForm;
+import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  *
  * @author Jhon Melvin
  */
-public class ProjectContactEdit extends PolarisForm {
+public class ProjectContactEdit extends IrisForm {
 
     @FXML
     private TextField txt_name;
@@ -165,7 +165,7 @@ public class ProjectContactEdit extends PolarisForm {
         model.setSetupProjectCode(this.projectModel.getProjectCode());
         //
         try {
-            boolean res = ProjectContactModel.insertNewContact(model);
+            boolean res = ProjectContactModel.insert(model);
             if (res) {
                 this.showWaitInformationMessage(null, "Contact successfully added to this project.");
                 /**
@@ -176,7 +176,7 @@ public class ProjectContactEdit extends PolarisForm {
                 this.showInformationMessage(null, "Contact cannot be added at the moment please try again later.");
             }
         } catch (SQLException e) {
-            this.showWaitExceptionMessage(e, null, "Failed to add new contact.");
+            this.showExceptionMessage(e, null, "Failed to add new contact.");
         }
     }
 
@@ -203,7 +203,7 @@ public class ProjectContactEdit extends PolarisForm {
         model.setSetupProjectCode(this.projectModel.getProjectCode());
         //
         try {
-            boolean res = ProjectContactModel.updateContact(model);
+            boolean res = ProjectContactModel.update(model);
             if (res) {
                 this.showWaitInformationMessage(null, "Contact successfully updated to this project.");
                 /**
@@ -215,7 +215,7 @@ public class ProjectContactEdit extends PolarisForm {
             }
         } catch (SQLException e) {
             //
-            this.showWaitExceptionMessage(e, null, "Failed to update existing contact.");
+            this.showExceptionMessage(e, null, "Failed to update existing contact.");
         }
     }
 

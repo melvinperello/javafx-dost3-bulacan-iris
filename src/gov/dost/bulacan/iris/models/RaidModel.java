@@ -37,8 +37,8 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  *
  * @author Jhon Melvin
  */
-@Table(DataSafedModel.TABLE)
-public class DataSafedModel extends PolarisRecord {
+@Table(RaidModel.TABLE)
+public class RaidModel extends PolarisRecord {
 
     public final static String TABLE = "file_table";
     public final static String FILE_ID = "file_id"; // primary key
