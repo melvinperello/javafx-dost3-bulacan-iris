@@ -157,22 +157,13 @@ public class ProjectDetailsView extends IrisForm {
     private Label lbl_date_endorsed;
 
     @FXML
-    private Label lbl_click_endorse;
-
-    @FXML
     private Label lbl_date_approve;
-
-    @FXML
-    private Label lbl_click_approved;
 
     @FXML
     private Label lbl_approved_cost;
 
     @FXML
     private Label lbl_date_moa;
-
-    @FXML
-    private Label lbl_click_moa;
 
     @FXML
     private Label lbl_project_duration;
@@ -324,21 +315,7 @@ public class ProjectDetailsView extends IrisForm {
             this.showWarningMessage(null, "This feature is not yet supported.");
             value.consume();
         });
-        // view endorsement attachment
-        this.lbl_click_endorse.setOnMouseClicked(value -> {
-            this.showWarningMessage(null, "Attachment Feature not yet supported at the moment.");
-            value.consume();
-        });
-        // view approval attachment
-        this.lbl_click_approved.setOnMouseClicked(value -> {
-            this.showWarningMessage(null, "Attachment Feature not yet supported at the moment.");
-            value.consume();
-        });
-        // view MOA Attachment
-        this.lbl_click_moa.setOnMouseClicked(value -> {
-            this.showWarningMessage(null, "Attachment Feature not yet supported at the moment.");
-            value.consume();
-        });
+
     }
 
     private void showEditContacts(ProjectContactModel model) {
@@ -414,7 +391,7 @@ public class ProjectDetailsView extends IrisForm {
         printable.setSpinNo(this.projectModel.getSpinNo());
         String type = this.projectModel.getProjectType() + " - " + this.projectModel.getProjectStatus();
         printable.setProjectType(type);
-        printable.setDistrict(Context.app().intToRoman(town.getDistrict()));
+        printable.setDistrict(Context.integerToRomanNumber(town.getDistrict()));
         //
         if (this.projectModel.getEndorsedDate() != null) {
             printable.setDateEndorsed(Context.app().getDateFormatNamed().format(this.projectModel.getEndorsedDate()));
@@ -430,11 +407,11 @@ public class ProjectDetailsView extends IrisForm {
         }
         String durFrom = "No Data";
         String durTo = "No Data";
-        if (this.projectModel.getDurationFrom() == null) {
+        if (this.projectModel.getDurationFrom() != null) {
             durFrom = Context.app().getDateFormatNamed().format(this.projectModel.getDurationFrom());
         }
 
-        if (this.projectModel.getDurationTo() == null) {
+        if (this.projectModel.getDurationTo() != null) {
             durTo = Context.app().getDateFormatNamed().format(this.projectModel.getDurationTo());
         }
 
@@ -930,7 +907,7 @@ public class ProjectDetailsView extends IrisForm {
                 stamper.close();
                 reader.close();
                 // Attempt to open the file.
-                Context.app().desktopOpenQuietly(stampedCertificatePdf);
+                Context.desktopOpenQuietly(stampedCertificatePdf);
             } finally {
                 try {
                     if (stamper != null) {

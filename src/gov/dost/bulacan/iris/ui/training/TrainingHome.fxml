@@ -41,7 +41,7 @@
                         <Font name="System Bold" size="16.0" />
                      </font></Label>
                   <TextField fx:id="txt_search" prefHeight="25.0" prefWidth="461.0" promptText="Search Something . . ." />
-                  <JFXButton fx:id="btn_add_contacts" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Add">
+                  <JFXButton fx:id="btn_add" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Add">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -53,7 +53,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="btn_edit" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Edit">
+                  <JFXButton fx:id="btn_view" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="View">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -65,7 +65,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="btn_delete" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Remove">
+                  <JFXButton fx:id="btn_remove" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Remove">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -86,7 +86,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <TableView fx:id="tbl_contacts" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <TableView fx:id="tbl_trainings" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <columns>
                 <TableColumn prefWidth="75.0" text="Year" />
                   <TableColumn prefWidth="100.0" text="Type" />

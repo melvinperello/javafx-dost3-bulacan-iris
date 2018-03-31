@@ -29,7 +29,6 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
-import static gov.dost.bulacan.iris.models.EquipmentQoutationModel.DELETED_AT;
 import gov.dost.bulacan.iris.models.ext.UnknownModelValueException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -69,8 +68,6 @@ public class EquipmentSupplierModel extends PolarisRecord {
 //    public final static String BRGY = "supplier_brgy";
 //    public final static String STREET_ADDRESS = "supplier_street";
 
-    public final static String DELETED_AT = "deleted_at";
-
     //--------------------------------------------------------------------------
     @PrimaryKey
     @Column(SUPPLIER_CODE)
@@ -104,9 +101,6 @@ public class EquipmentSupplierModel extends PolarisRecord {
 //    @Column(STREET_ADDRESS)
 //    private String supplierStreet;
 
-    @Column(DELETED_AT)
-    private Date deletedAt;
-
     public EquipmentSupplierModel() {
 //        this.supplierCode = ""; PRIMARY
         this.supplierName = "";
@@ -123,7 +117,6 @@ public class EquipmentSupplierModel extends PolarisRecord {
 //        this.supplierBrgy = "";
 //        this.supplierStreet = "";
         this.supplierEmail = "";
-        this.deletedAt = null;
     }
 
     //--------------------------------------------------------------------------
@@ -321,10 +314,6 @@ public class EquipmentSupplierModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // Getter
     //--------------------------------------------------------------------------
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
     public String getSupplierCode() {
         return supplierCode;
     }
@@ -412,8 +401,91 @@ public class EquipmentSupplierModel extends PolarisRecord {
         this.supplierEmail = supplierEmail;
     }
 
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
+    //==========================================================================
+    // ANNEX-A. Table Audit
+    //==========================================================================
+    // Table Columns
+    //--------------------------------------------------------------------------
+    public final static String CREATED_BY = "created_by";
+    public final static String CREATED_AT = "created_at";
+    public final static String UPDATED_BY = "updated_by";
+    public final static String UPDATED_AT = "updated_at";
+    public final static String DELETED_BY = "deleted_by";
+    public final static String DELETED_AT = "deleted_at";
+    //--------------------------------------------------------------------------
+    // Fields
+    //--------------------------------------------------------------------------
+    @Column(CREATED_BY)
+    private String createdBy;
+
+    @Column(CREATED_AT)
+    private java.util.Date createdAt;
+
+    @Column(UPDATED_BY)
+    private String updatedBy;
+
+    @Column(UPDATED_AT)
+    private java.util.Date updatedAt;
+
+    @Column(DELETED_BY)
+    private String deletedBy;
+
+    @Column(DELETED_AT)
+    private java.util.Date deletedAt;
+
+    //--------------------------------------------------------------------------
+    // Getters
+    //--------------------------------------------------------------------------
+    public String getCreatedBy() {
+        return (this.createdBy == null) ? "" : this.createdBy;
     }
+
+    public java.util.Date getCreatedAt() {
+        return (this.createdAt == null) ? null : new Date(this.createdAt.getTime());
+    }
+
+    public String getUpdatedBy() {
+        return (this.updatedBy == null) ? "" : this.updatedBy;
+    }
+
+    public java.util.Date getUpdatedAt() {
+        return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
+    }
+
+    public String getDeletedBy() {
+        return (this.deletedBy == null) ? "" : this.deletedBy;
+    }
+
+    public java.util.Date getDeletedAt() {
+        return (this.deletedAt == null) ? null : new Date(this.deletedAt.getTime());
+    }
+    //--------------------------------------------------------------------------
+    // Setters
+    //--------------------------------------------------------------------------
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = (createdBy == null) ? "" : createdBy;
+    }
+
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = (createdAt == null) ? null : new Date(createdAt.getTime());
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = (updatedBy == null) ? "" : updatedBy;
+    }
+
+    public void setUpdatedAt(java.util.Date updatedAt) {
+        this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = (deletedBy == null) ? "" : deletedBy;
+    }
+
+    public void setDeletedAt(java.util.Date deletedAt) {
+        this.deletedAt = (deletedAt == null) ? null : new Date(deletedAt.getTime());
+    }
+    // </ANNEX-A. Table Audit> 
 
 }

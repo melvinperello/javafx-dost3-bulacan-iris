@@ -32,6 +32,7 @@ import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.ui.directory.DirHome;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
+import gov.dost.bulacan.iris.ui.training.TrainingHome;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
@@ -78,6 +79,11 @@ public class Home extends IrisForm {
         this.menu_equipment.setOnMouseClicked(value -> {
             EquipmentView equipmentView = new EquipmentView();
             this.changeRoot(equipmentView.load());
+            value.consume();
+        });
+        
+        this.menu_trainings.setOnMouseClicked(value -> {
+            this.changeRoot(new TrainingHome().load());
             value.consume();
         });
 

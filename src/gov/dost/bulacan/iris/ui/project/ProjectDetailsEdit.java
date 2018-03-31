@@ -251,7 +251,7 @@ public class ProjectDetailsEdit extends IrisForm {
      * @return
      */
     private String generatedNewProjectKey() {
-        return Context.app().generateTimestampKey();
+        return Context.createLocalKey();
     }
 
     /**
@@ -423,7 +423,7 @@ public class ProjectDetailsEdit extends IrisForm {
         project.setOwnerPosition(frmPosition);
         project.setOwnerAddress(frmOwnerAddress);
         project.setEndorsedDate(frmDateEndorsed);
-        project.setEndorsedAttachment(null); // upon creation then add
+//        project.setEndorsedAttachment(null); // upon creation then add
         project.setApprovedDate(frmDateApproved);
 
         //----------------------------------------------------------------------
@@ -443,10 +443,10 @@ public class ProjectDetailsEdit extends IrisForm {
         }
         project.setApprovedFunding(approved_fund);
         //----------------------------------------------------------------------
-        project.setApprovedAttachment(null);
+//        project.setApprovedAttachment(null);
         //
         project.setMoaDate(frmMoaSigned);
-        project.setMoaAttachment(null);
+//        project.setMoaAttachment(null);
         project.setDurationFrom(frmDurationFrom);
         project.setDurationTo(frmDurationTo);
 
@@ -661,7 +661,7 @@ public class ProjectDetailsEdit extends IrisForm {
         project.setOwnerPosition(frmPosition);
         project.setOwnerAddress(frmOwnerAddress);
         project.setEndorsedDate(frmDateEndorsed);
-        project.setEndorsedAttachment(null); // upon creation then add
+//        project.setEndorsedAttachment(null); // upon creation then add
         project.setApprovedDate(frmDateApproved);
 
         //----------------------------------------------------------------------
@@ -681,10 +681,10 @@ public class ProjectDetailsEdit extends IrisForm {
         }
         project.setApprovedFunding(approved_fund);
         //----------------------------------------------------------------------
-        project.setApprovedAttachment(null);
+//        project.setApprovedAttachment(null);
         //
         project.setMoaDate(frmMoaSigned);
-        project.setMoaAttachment(null);
+//        project.setMoaAttachment(null);
         project.setDurationFrom(frmDurationFrom);
         project.setDurationTo(frmDurationTo);
 

@@ -48,7 +48,9 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  */
 public class Context {
 
-    //--------------------------------------------------------------------------
+    //==========================================================================
+    // Configuration Values
+    //==========================================================================
     // Project Constants.
     private final static int VERSION_CODE = 0;
     private final static String VERSION_NAME = "v.1.0 Prototype";
@@ -56,8 +58,10 @@ public class Context {
     // directory consta
     private final static String DIR_TEMPLATE = "template";
     private final static String DIR_TEMP = "temp";
-    //--------------------------------------------------------------------------
 
+    //==========================================================================
+    // Static Accessors
+    //==========================================================================
     public static int getVersionCode() {
         return Context.VERSION_CODE;
     }
@@ -86,7 +90,92 @@ public class Context {
         return DIR_TEMP + File.separator + "setup_prints";
     }
 
-    //--------------------------------------------------------------------------
+    //==========================================================================
+    // Static Methods
+    //==========================================================================
+    public final static String createLocalKey() {
+        /**
+         * Generate Key.
+         */
+        Calendar dateKey = Calendar.getInstance();
+        String generatedKey
+                = Context.getProvinceCodePrefix() // BUL3000
+                + String.valueOf(dateKey.get(Calendar.YEAR)) // 2018
+                + "-" // -
+                + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
+        return generatedKey;
+    }
+
+    /**
+     * This allows installation of Custom Objects to the Combo box and displays
+     * the toString Value of the object.
+     *
+     * @param comboBase the combo box control.
+     * @param collection A collection of object with override toString Method.
+     */
+    public final static void comboBoxValueFactory(ComboBox comboBase, Object[] collection) {
+        comboBase.getItems().setAll(Arrays.asList(collection));
+    }
+
+    /**
+     *
+     * @param textField
+     * @return
+     */
+    public final static String filterInputControl(TextInputControl textField) {
+        return StringTools.clearExtraSpaces(textField.getText().trim());
+    }
+
+    /**
+     * Since districts are required to be represented in roman numerals.
+     *
+     * @param number
+     * @return
+     */
+    public final static String integerToRomanNumber(String number) {
+        switch (number) {
+            case "0":
+                return "Lone District";
+            case "1":
+                return "I";
+            case "2":
+                return "II";
+            case "3":
+                return "III";
+            case "4":
+                return "IV";
+            default:
+                return "";
+        }
+    }
+
+    /**
+     * Launches the native Operating System default application to open a given
+     * file.
+     *
+     * @param file file to open.
+     * @return true or false for operation result.
+     */
+    public static boolean desktopOpenQuietly(File file) {
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.OPEN)) {
+                try {
+                    desktop.open(file);
+                    return true;
+                } catch (IOException | IllegalArgumentException ex) {
+                    // ignore exception.
+                    return false;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    //==========================================================================
+    // DOUBLE CHECK Singleton Synchronization
+    //==========================================================================
     /**
      * Instance Holder.
      */
@@ -121,56 +210,27 @@ public class Context {
         return localInstance;
     }
 
+    //==========================================================================
+    // Non-Static Methods (Instance Scope)
+    //==========================================================================
     //--------------------------------------------------------------------------
-    // Static Methods.
+    // Runtime
     //--------------------------------------------------------------------------
-    /**
-     * This allows installation of Custom Objects to the Combo box and displays
-     * the toString Value of the object.
-     *
-     * @param comboBase the combo box control.
-     * @param collection A collection of object with override toString Method.
-     */
-    public static void comboBoxValueFactory(ComboBox comboBase, Object[] collection) {
-//        comboBase.getItems().setAll(collection);
-//        comboBase.setCellFactory((Object param) -> {
-//            final ListCell cell = new ListCell() {
-//                @Override
-//                protected void updateItem(Object item, boolean empty) {
-//                    super.updateItem(item, empty);
-//                    if (item != null) {
-//                        setText(item.toString());
-//                    } else {
-//                        setText(null);
-//                    }
-//                }
-//            };
-//            return cell;
-//        });
-//        comboBase.setButtonCell((ListCell) comboBase.getCellFactory().call(null));
-        /**
-         * simplified approach.
-         */
-        comboBase.getItems().setAll(Arrays.asList(collection));
-    } // end of Combo Box Value Factory.
+    private String activeUser;
 
-    /**
-     *
-     * @param textField
-     * @return
-     */
-    public final String filterInputControl(TextInputControl textField) {
-        return StringTools.clearExtraSpaces(textField.getText().trim());
+    public String getActiveUser() {
+        return activeUser;
+    }
+
+    public void setActiveUser(String activeUser) {
+        this.activeUser = activeUser;
     }
 
     //--------------------------------------------------------------------------
-    // Instance Scope.
+    // Connection Management
     //--------------------------------------------------------------------------
     private ConnectionFactory connectionFactory;
 
-    /**
-     * Initialize Object.
-     */
     private Context() {
         this.createConnectionFactory();
     }
@@ -192,10 +252,16 @@ public class Context {
         return this.connectionFactory;
     }
 
+    //--------------------------------------------------------------------------
+    // Resource Management
+    //--------------------------------------------------------------------------
     public InputStream getResourceStream(String name) {
         return this.getClass().getResourceAsStream("/storage/" + name);
     }
 
+    //==========================================================================
+    // Format Control
+    //==========================================================================
     /**
      * Get Project Money Format.
      *
@@ -206,7 +272,7 @@ public class Context {
     }
 
     /**
-     * Get Project Date Format.
+     * SAMPLE: 04-20-1997
      *
      * @return
      */
@@ -223,29 +289,22 @@ public class Context {
         return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy");
     }
 
+    /**
+     * SAMPLE: MAY 26, 2018 - 04:25:17 AM (12 HR)
+     *
+     * @return
+     */
     public SimpleDateFormat getDateFormat12() {
         return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy - hh:mm:ss a");
     }
 
     /**
-     * Get Project Timestamp format for naming files or other things.
+     * SAMPLE: 06101997_162517 (24 HR FORMAT)
      *
      * @return
      */
     public SimpleDateFormat getDateFormatTimeStamp() {
         return new SimpleDateFormat("MMddyyyy_HHmmss");
-    }
-
-    public String generateTimestampKey() {
-        /**
-         * Generate Key.
-         */
-        Calendar dateKey = Calendar.getInstance();
-        String generatedKey = Context.getProvinceCodePrefix()
-                + String.valueOf(dateKey.get(Calendar.YEAR))
-                + "-"
-                + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
-        return generatedKey;
     }
 
     /**
@@ -264,47 +323,6 @@ public class Context {
      */
     public Date getLocalDate() {
         return new Date();
-    }
-
-    /**
-     * Launches the native Operating System default application to open a given
-     * file.
-     *
-     * @param file file to open.
-     * @return true or false for operation result.
-     */
-    public boolean desktopOpenQuietly(File file) {
-        if (Desktop.isDesktopSupported()) {
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.OPEN)) {
-                try {
-                    desktop.open(file);
-                    return true;
-                } catch (IOException | IllegalArgumentException ex) {
-                    // ignore exception.
-                    return false;
-                }
-            }
-            return false;
-        }
-        return false;
-    }
-
-    public String intToRoman(String number) {
-        switch (number) {
-            case "0":
-                return "Lone District";
-            case "1":
-                return "I";
-            case "2":
-                return "II";
-            case "3":
-                return "III";
-            case "4":
-                return "IV";
-            default:
-                return "";
-        }
     }
 
 }

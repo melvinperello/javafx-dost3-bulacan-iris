@@ -153,7 +153,7 @@ public class ProjectContactEdit extends IrisForm {
         }
         //
         ProjectContactModel model = new ProjectContactModel();
-        model.setContactCode(Context.app().generateTimestampKey());
+        model.setContactCode(Context.createLocalKey());
         model.setEmail(frmMail);
         model.setLandline(frmTel);
         model.setMobile(frmMobile);

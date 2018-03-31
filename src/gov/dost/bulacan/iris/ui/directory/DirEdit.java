@@ -107,7 +107,7 @@ public class DirEdit extends IrisForm {
         this.cmb_org_type.getSelectionModel().selectFirst();
         //----------------------------------------------------------------------
         if (addingMode) {
-            this.lbll_dir_id.setText(Context.app().generateTimestampKey());
+            this.lbll_dir_id.setText(Context.createLocalKey());
         } else {
             this.preloadData();
         }
@@ -163,14 +163,14 @@ public class DirEdit extends IrisForm {
     private String frmEmail;
 
     private void submit() {
-        this.frmOrg = Context.app().filterInputControl(this.txt_org);
+        this.frmOrg = Context.filterInputControl(this.txt_org);
         this.frmType = this.cmb_org_type.getSelectionModel().getSelectedItem();
-        this.frmDept = Context.app().filterInputControl(this.txt_department);
-        this.frmContact = Context.app().filterInputControl(this.txt_contact);
-        this.frmTel = Context.app().filterInputControl(this.txt_tel);
-        this.frmFax = Context.app().filterInputControl(this.txt_fax);
-        this.frmMobile = Context.app().filterInputControl(this.txt_mobile);
-        this.frmEmail = Context.app().filterInputControl(this.txt_email);
+        this.frmDept = Context.filterInputControl(this.txt_department);
+        this.frmContact = Context.filterInputControl(this.txt_contact);
+        this.frmTel = Context.filterInputControl(this.txt_tel);
+        this.frmFax = Context.filterInputControl(this.txt_fax);
+        this.frmMobile = Context.filterInputControl(this.txt_mobile);
+        this.frmEmail = Context.filterInputControl(this.txt_email);
     }
 
     private boolean insert() {

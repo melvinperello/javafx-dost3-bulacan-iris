@@ -71,7 +71,6 @@ public class ProjectContactModel extends PolarisRecord {
     public final static String MOBILE = "mobile";
     public final static String LANDLINE = "landline";
     public final static String EMAIL = "email";
-    public final static String DELETED_AT = "deleted_at";
 
     //--------------------------------------------------------------------------
     // DECLARATIONS
@@ -91,8 +90,6 @@ public class ProjectContactModel extends PolarisRecord {
     private String landline;
     @Column(EMAIL)
     private String email;
-    @Column(DELETED_AT)
-    private Date deleted_at;
 
     //--------------------------------------------------------------------------
     // Static Methods
@@ -157,7 +154,7 @@ public class ProjectContactModel extends PolarisRecord {
      */
     public static boolean delete(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
-            model.setDeleted_at(Context.app().getServerDate());
+            model.setDeletedAt(Context.app().getServerDate());
             return model.update(con);
         }
     }
@@ -221,12 +218,91 @@ public class ProjectContactModel extends PolarisRecord {
         this.email = email;
     }
 
-    public Date getDeleted_at() {
-        return deleted_at;
+    //==========================================================================
+    // ANNEX-A. Table Audit
+    //==========================================================================
+    // Table Columns
+    //--------------------------------------------------------------------------
+    public final static String CREATED_BY = "created_by";
+    public final static String CREATED_AT = "created_at";
+    public final static String UPDATED_BY = "updated_by";
+    public final static String UPDATED_AT = "updated_at";
+    public final static String DELETED_BY = "deleted_by";
+    public final static String DELETED_AT = "deleted_at";
+    //--------------------------------------------------------------------------
+    // Fields
+    //--------------------------------------------------------------------------
+    @Column(CREATED_BY)
+    private String createdBy;
+
+    @Column(CREATED_AT)
+    private java.util.Date createdAt;
+
+    @Column(UPDATED_BY)
+    private String updatedBy;
+
+    @Column(UPDATED_AT)
+    private java.util.Date updatedAt;
+
+    @Column(DELETED_BY)
+    private String deletedBy;
+
+    @Column(DELETED_AT)
+    private java.util.Date deletedAt;
+
+    //--------------------------------------------------------------------------
+    // Getters
+    //--------------------------------------------------------------------------
+    public String getCreatedBy() {
+        return (this.createdBy == null) ? "" : this.createdBy;
     }
 
-    public void setDeleted_at(Date deleted_at) {
-        this.deleted_at = deleted_at;
+    public java.util.Date getCreatedAt() {
+        return (this.createdAt == null) ? null : new Date(this.createdAt.getTime());
     }
+
+    public String getUpdatedBy() {
+        return (this.updatedBy == null) ? "" : this.updatedBy;
+    }
+
+    public java.util.Date getUpdatedAt() {
+        return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
+    }
+
+    public String getDeletedBy() {
+        return (this.deletedBy == null) ? "" : this.deletedBy;
+    }
+
+    public java.util.Date getDeletedAt() {
+        return (this.deletedAt == null) ? null : new Date(this.deletedAt.getTime());
+    }
+    //--------------------------------------------------------------------------
+    // Setters
+    //--------------------------------------------------------------------------
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = (createdBy == null) ? "" : createdBy;
+    }
+
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = (createdAt == null) ? null : new Date(createdAt.getTime());
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = (updatedBy == null) ? "" : updatedBy;
+    }
+
+    public void setUpdatedAt(java.util.Date updatedAt) {
+        this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = (deletedBy == null) ? "" : deletedBy;
+    }
+
+    public void setDeletedAt(java.util.Date deletedAt) {
+        this.deletedAt = (deletedAt == null) ? null : new Date(deletedAt.getTime());
+    }
+    // </ANNEX-A. Table Audit> 
 
 }

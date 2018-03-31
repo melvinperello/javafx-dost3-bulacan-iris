@@ -55,6 +55,11 @@ CREATE TABLE IF NOT EXISTS `equipment_qoutation` (
   `status` varchar(50) DEFAULT NULL,
   `file_qoute_attachment` int(11) DEFAULT NULL,
   `search_keys` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`qoute_code`),
   KEY `equipment_qoutation_supplier_code` (`fk_supplier_code`),
@@ -63,9 +68,9 @@ CREATE TABLE IF NOT EXISTS `equipment_qoutation` (
 
 -- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~2 rows (approximately)
 /*!40000 ALTER TABLE `equipment_qoutation` DISABLE KEYS */;
-INSERT INTO `equipment_qoutation` (`qoute_code`, `fk_supplier_code`, `equipment_name`, `qoutation_date`, `specification`, `remarks`, `status`, `file_qoute_attachment`, `search_keys`, `deleted_at`) VALUES
-	('BUL30002018-0328103231', NULL, 'Ultrasonic Scissors', NULL, '', '', 'CANVASSED', NULL, '', NULL),
-	('BUL30002018-0328103240', NULL, 'Electro Magnetic Eraser', NULL, '', '', 'CANVASSED', NULL, '', NULL);
+INSERT INTO `equipment_qoutation` (`qoute_code`, `fk_supplier_code`, `equipment_name`, `qoutation_date`, `specification`, `remarks`, `status`, `file_qoute_attachment`, `search_keys`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+	('BUL30002018-0328103231', NULL, 'Ultrasonic Scissors', NULL, '', '', 'CANVASSED', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
+	('BUL30002018-0328103240', NULL, 'Electro Magnetic Eraser', NULL, '', '', 'CANVASSED', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `equipment_qoutation` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.equipment_supplier
@@ -80,16 +85,21 @@ CREATE TABLE IF NOT EXISTS `equipment_supplier` (
   `sector` int(11) DEFAULT NULL,
   `dost_accredited` varchar(50) DEFAULT NULL,
   `supplier_address` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`supplier_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table iris_bulacan_dost3.equipment_supplier: ~3 rows (approximately)
 /*!40000 ALTER TABLE `equipment_supplier` DISABLE KEYS */;
-INSERT INTO `equipment_supplier` (`supplier_code`, `supplier_name`, `mobile_no`, `telephone_no`, `fax_no`, `email`, `website_address`, `sector`, `dost_accredited`, `supplier_address`, `deleted_at`) VALUES
-	('BUL30002018-0328103308', 'Mongol', '', '', NULL, '', '', 3, 'NO', '', '2018-03-28 10:33:25'),
-	('BUL30002018-0328103505', 'Mongol', '', '', NULL, '', '', 1, 'NO', '', '2018-03-28 10:35:10'),
-	('BUL30002018-0328104546', 'Mongol', '', '', NULL, '', '', 1, 'NO', '', '2018-03-28 10:46:34');
+INSERT INTO `equipment_supplier` (`supplier_code`, `supplier_name`, `mobile_no`, `telephone_no`, `fax_no`, `email`, `website_address`, `sector`, `dost_accredited`, `supplier_address`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+	('BUL30002018-0328103308', 'Mongol', '', '', NULL, '', '', 3, 'NO', '', NULL, NULL, NULL, NULL, NULL, '2018-03-28 10:33:25'),
+	('BUL30002018-0328103505', 'Mongol', '', '', NULL, '', '', 1, 'NO', '', NULL, NULL, NULL, NULL, NULL, '2018-03-28 10:35:10'),
+	('BUL30002018-0328104546', 'Mongol', '', '', NULL, '', '', 1, 'NO', '', NULL, NULL, NULL, NULL, NULL, '2018-03-28 10:46:34');
 /*!40000 ALTER TABLE `equipment_supplier` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.raid_table
@@ -102,7 +112,11 @@ CREATE TABLE IF NOT EXISTS `raid_table` (
   `file_ext` varchar(50) DEFAULT NULL,
   `file_size` varchar(50) DEFAULT NULL,
   `file_hash` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -126,7 +140,11 @@ CREATE TABLE IF NOT EXISTS `scholar_information` (
   `mobile_no` varchar(50) DEFAULT NULL,
   `tel_no` varchar(50) DEFAULT NULL,
   `e_mail` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`scholar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -142,7 +160,11 @@ CREATE TABLE IF NOT EXISTS `scholar_submission` (
   `fk_transmittal_id` varchar(50) DEFAULT NULL,
   `documents_submitted` varchar(50) DEFAULT NULL,
   `remarks` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`submission_id`),
   KEY `submission_scholar_id` (`fk_scholar_id`),
@@ -160,6 +182,11 @@ CREATE TABLE IF NOT EXISTS `scholar_transmittal` (
   `transmittal_id` varchar(50) NOT NULL,
   `transmittal_date` datetime DEFAULT NULL,
   `transmitted_by` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`transmittal_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -200,14 +227,19 @@ CREATE TABLE IF NOT EXISTS `setup_projects` (
   `major_products` varchar(300) DEFAULT NULL,
   `existing_market` varchar(300) DEFAULT NULL,
   `website` varchar(300) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.setup_projects: ~1 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.setup_projects: ~0 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects` DISABLE KEYS */;
-INSERT INTO `setup_projects` (`project_code`, `spin_no`, `company_name`, `company_owner`, `owner_position`, `owner_address`, `project_name`, `project_status`, `project_type`, `endorsed_date`, `approved_date`, `approved_funding`, `moa_date`, `actual_cost`, `duration_from`, `duration_to`, `factory_street`, `factory_brgy`, `factory_city`, `factory_landmark`, `year_established`, `business_activity`, `capital_classification`, `employment_classification`, `company_ownership`, `profitability`, `registration_info`, `major_products`, `existing_market`, `website`, `deleted_at`) VALUES
-	('BUL30002018-0322115144', '', 'Sample', '', '', '', '', 0, 'GIA', NULL, NULL, 0, NULL, 0, NULL, NULL, '', '', '3012', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '', NULL);
+INSERT INTO `setup_projects` (`project_code`, `spin_no`, `company_name`, `company_owner`, `owner_position`, `owner_address`, `project_name`, `project_status`, `project_type`, `endorsed_date`, `approved_date`, `approved_funding`, `moa_date`, `actual_cost`, `duration_from`, `duration_to`, `factory_street`, `factory_brgy`, `factory_city`, `factory_landmark`, `year_established`, `business_activity`, `capital_classification`, `employment_classification`, `company_ownership`, `profitability`, `registration_info`, `major_products`, `existing_market`, `website`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+	('BUL30002018-0322115144', '', 'Sample', '', '', '', '', 0, 'GIA', NULL, NULL, 0, NULL, 0, NULL, NULL, '', '', '3012', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `setup_projects` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.setup_projects_contact
@@ -219,6 +251,11 @@ CREATE TABLE IF NOT EXISTS `setup_projects_contact` (
   `mobile` varchar(50) DEFAULT NULL,
   `landline` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`contact_code`),
   KEY `spc_fk_sp_code` (`fk_setup_project_code`),
@@ -227,16 +264,21 @@ CREATE TABLE IF NOT EXISTS `setup_projects_contact` (
 
 -- Dumping data for table iris_bulacan_dost3.setup_projects_contact: ~3 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects_contact` DISABLE KEYS */;
-INSERT INTO `setup_projects_contact` (`contact_code`, `fk_setup_project_code`, `name`, `position`, `mobile`, `landline`, `email`, `deleted_at`) VALUES
-	('BUL30002018-0322115157', 'BUL30002018-0322115144', 'Sample', '', '', '', '', NULL),
-	('BUL30002018-0322115210', 'BUL30002018-0322115144', 'Sampple2', '', '', '', '', NULL),
-	('BUL30002018-0322115329', 'BUL30002018-0322115144', 'Sample3', '', '', '', '', NULL);
+INSERT INTO `setup_projects_contact` (`contact_code`, `fk_setup_project_code`, `name`, `position`, `mobile`, `landline`, `email`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+	('BUL30002018-0322115157', 'BUL30002018-0322115144', 'Sample', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL),
+	('BUL30002018-0322115210', 'BUL30002018-0322115144', 'Sampple2', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL),
+	('BUL30002018-0322115329', 'BUL30002018-0322115144', 'Sample3', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `setup_projects_contact` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.shared_documents
 CREATE TABLE IF NOT EXISTS `shared_documents` (
   `doc_id` varchar(50) NOT NULL,
   `doc_name` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`doc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -253,6 +295,11 @@ CREATE TABLE IF NOT EXISTS `training` (
   `venue` varchar(50) DEFAULT NULL,
   `date_start` datetime DEFAULT NULL,
   `date_end` datetime DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`training_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -272,6 +319,11 @@ CREATE TABLE IF NOT EXISTS `training_data` (
   `overall_rating` varchar(50) DEFAULT NULL,
   `comment` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`data_code`),
   KEY `training_data_training_code` (`fk_training_code`),
@@ -293,8 +345,11 @@ CREATE TABLE IF NOT EXISTS `user_account` (
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
   `access_level` varchar(50) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -145,7 +145,7 @@ public class SupplierEdit extends IrisForm {
         //----------------------------------------------------------------------
         if (this.addingMode) {
             //
-            this.lbl_code.setText(Context.app().generateTimestampKey());
+            this.lbl_code.setText(Context.createLocalKey());
         } else {
             this.preloadData();
         }
@@ -204,12 +204,12 @@ public class SupplierEdit extends IrisForm {
                 ? EquipmentSupplierModel.DostAccredited.NO
                 : EquipmentSupplierModel.DostAccredited.YES;
 
-        this.frmMobile = Context.app().filterInputControl(this.txt_mobile);
-        this.frmlTel = Context.app().filterInputControl(this.txt_tel);
-        this.frmEmail = Context.app().filterInputControl(this.txt_email);
-        this.frmAddress = Context.app().filterInputControl(this.txt_address);
-        this.frmSupplierName = Context.app().filterInputControl(this.txt_name);
-        this.frmWebsite = Context.app().filterInputControl(this.txt_website);
+        this.frmMobile = Context.filterInputControl(this.txt_mobile);
+        this.frmlTel = Context.filterInputControl(this.txt_tel);
+        this.frmEmail = Context.filterInputControl(this.txt_email);
+        this.frmAddress = Context.filterInputControl(this.txt_address);
+        this.frmSupplierName = Context.filterInputControl(this.txt_name);
+        this.frmWebsite = Context.filterInputControl(this.txt_website);
     }
 
     private boolean addSupplier() {
@@ -222,7 +222,7 @@ public class SupplierEdit extends IrisForm {
         }
 
         EquipmentSupplierModel supplier = new EquipmentSupplierModel();
-        supplier.setSupplierCode(Context.app().generateTimestampKey());
+        supplier.setSupplierCode(Context.createLocalKey());
         supplier.setSupplierName(frmSupplierName);
         supplier.setSector(frmSector);
         supplier.setDostAccredited(frmAccredited);
@@ -261,7 +261,7 @@ public class SupplierEdit extends IrisForm {
         }
 
         EquipmentSupplierModel supplier = this.supplierModel;
-        //supplier.setSupplierCode(Context.app().generateTimestampKey());
+        //supplier.setSupplierCode(Context.app().createLocalKey());
         supplier.setSupplierName(frmSupplierName);
         supplier.setSector(frmSector);
         supplier.setDostAccredited(frmAccredited);

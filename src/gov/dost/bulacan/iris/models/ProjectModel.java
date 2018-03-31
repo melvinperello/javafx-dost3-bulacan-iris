@@ -63,13 +63,13 @@ public class ProjectModel extends PolarisRecord {
         this.ownerAddress = "";
         //
         this.endorsedDate = null;
-        this.endorsedAttachment = null;
+//        this.endorsedAttachment = null;
         this.approvedDate = null;
         this.approvedFunding = null;
-        this.approvedAttachment = null;
+//        this.approvedAttachment = null;
         //
         this.moaDate = null;
-        this.moaAttachment = null;
+//        this.moaAttachment = null;
         this.durationFrom = null;
         this.durationTo = null;
         //
@@ -113,17 +113,17 @@ public class ProjectModel extends PolarisRecord {
     public final static String PROJECT_TYPE = "project_type";
     //ext
     public final static String ENDORSED_DATE = "endorsed_date";
-    public final static String ENDORSED_ATTACHMENT = "file_endorsed_attachment";
+//    public final static String ENDORSED_ATTACHMENT = "file_endorsed_attachment";
     //
     public final static String APPROVED_DATE = "approved_date";
     public final static String APPROVED_FUNDING = "approved_funding";
-    public final static String APPROVED_ATTACHMENT = "file_approved_attachment";
+//    public final static String APPROVED_ATTACHMENT = "file_approved_attachment";
     //
 //    public final static String RESTRUCTURED_FUNDING = "restructured_funding";
 //    public final static String RESTRUCTURED_ATTACHMENT = "restructured_attachment";
     //
     public final static String MOA_DATE = "moa_date";
-    public final static String MOA_ATTACHMENT = "file_moa_attachment";
+//    public final static String MOA_ATTACHMENT = "file_moa_attachment";
 
     public final static String ACTUAL_COST = "actual_cost";
     public final static String DURATION_FROM = "duration_from";
@@ -186,15 +186,15 @@ public class ProjectModel extends PolarisRecord {
     // endorsement
     @Column(ENDORSED_DATE)
     private Date endorsedDate;
-    @Column(ENDORSED_ATTACHMENT)
-    private Integer endorsedAttachment;
+//    @Column(ENDORSED_ATTACHMENT)
+//    private Integer endorsedAttachment;
     // approval
     @Column(APPROVED_DATE)
     private Date approvedDate;
     @Column(APPROVED_FUNDING)
     private Double approvedFunding;
-    @Column(APPROVED_ATTACHMENT)
-    private Integer approvedAttachment;
+//    @Column(APPROVED_ATTACHMENT)
+//    private Integer approvedAttachment;
     // restructuring
 //    @Column(RESTRUCTURED_FUNDING)
 //    private Double restructuredFunding;
@@ -203,8 +203,8 @@ public class ProjectModel extends PolarisRecord {
     // moa
     @Column(MOA_DATE)
     private Date moaDate;
-    @Column(MOA_ATTACHMENT)
-    private Integer moaAttachment;
+//    @Column(MOA_ATTACHMENT)
+//    private Integer moaAttachment;
     @Column(DURATION_FROM)
     private Date durationFrom;
     @Column(DURATION_TO)
@@ -743,10 +743,6 @@ public class ProjectModel extends PolarisRecord {
         return endorsedDate;
     }
 
-    public Integer getEndorsedAttachment() {
-        return endorsedAttachment;
-    }
-
     public Date getApprovedDate() {
         return approvedDate;
     }
@@ -755,16 +751,8 @@ public class ProjectModel extends PolarisRecord {
         return approvedFunding;
     }
 
-    public Integer getApprovedAttachment() {
-        return approvedAttachment;
-    }
-
     public Date getMoaDate() {
         return moaDate;
-    }
-
-    public Integer getMoaAttachment() {
-        return moaAttachment;
     }
 
     public Date getDurationFrom() {
@@ -888,10 +876,6 @@ public class ProjectModel extends PolarisRecord {
         this.endorsedDate = endorsedDate;
     }
 
-    public void setEndorsedAttachment(Integer endorsedAttachment) {
-        this.endorsedAttachment = endorsedAttachment;
-    }
-
     public void setApprovedDate(Date approvedDate) {
         this.approvedDate = approvedDate;
     }
@@ -900,16 +884,8 @@ public class ProjectModel extends PolarisRecord {
         this.approvedFunding = approvedFunding;
     }
 
-    public void setApprovedAttachment(Integer approvedAttachment) {
-        this.approvedAttachment = approvedAttachment;
-    }
-
     public void setMoaDate(Date moaDate) {
         this.moaDate = moaDate;
-    }
-
-    public void setMoaAttachment(Integer moaAttachment) {
-        this.moaAttachment = moaAttachment;
     }
 
     public void setDurationFrom(Date durationFrom) {

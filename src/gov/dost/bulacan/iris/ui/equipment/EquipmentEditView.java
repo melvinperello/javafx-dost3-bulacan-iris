@@ -131,7 +131,7 @@ public class EquipmentEditView extends IrisForm {
         this.cmb_status.getSelectionModel().selectFirst();
         //----------------------------------------------------------------------
         if (addingMode) {
-            this.lbl_code.setText(Context.app().generateTimestampKey());
+            this.lbl_code.setText(Context.createLocalKey());
             //
             this.lbl_supplier.setText("Unknown Supplier");
             this.lbl_supplier_category.setText("Unknown Sector");
