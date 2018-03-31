@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +45,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(ScholarInformationModel.TABLE)
-public class ScholarInformationModel extends PolarisRecord {
+public class ScholarInformationModel extends PolarisRecord implements TableAuditor{
 
     //==========================================================================
     // Afterschool Creatives Polaris Record Content Standardization
@@ -177,12 +178,14 @@ public class ScholarInformationModel extends PolarisRecord {
 
     public static boolean insert(ScholarInformationModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            model.auditCreate();
             return model.insert(con);
         }
     }
 
     public static boolean update(ScholarInformationModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            model.auditUpdate();
             return model.updateFull(con);
         }
     }
@@ -194,10 +197,7 @@ public class ScholarInformationModel extends PolarisRecord {
             // open connection
             con = Context.app().db().createConnectionManager();
             //------------------------------------------------------------------
-            // get server date.
-            Date serverDate = Context.app().getServerDate();
-            // update value
-            model.setDeletedAt(serverDate);
+            model.auditDelete();
             // execute query.
             return model.updateFull(con);
         } finally {
@@ -362,26 +362,32 @@ public class ScholarInformationModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // Getters
     //--------------------------------------------------------------------------
+    @Override
     public String getCreatedBy() {
         return (this.createdBy == null) ? "" : this.createdBy;
     }
 
+    @Override
     public java.util.Date getCreatedAt() {
         return (this.createdAt == null) ? null : new Date(this.createdAt.getTime());
     }
 
+    @Override
     public String getUpdatedBy() {
         return (this.updatedBy == null) ? "" : this.updatedBy;
     }
 
+    @Override
     public java.util.Date getUpdatedAt() {
         return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
     }
 
+    @Override
     public String getDeletedBy() {
         return (this.deletedBy == null) ? "" : this.deletedBy;
     }
 
+    @Override
     public java.util.Date getDeletedAt() {
         return (this.deletedAt == null) ? null : new Date(this.deletedAt.getTime());
     }
@@ -389,26 +395,32 @@ public class ScholarInformationModel extends PolarisRecord {
     // Setters
     //--------------------------------------------------------------------------
 
+    @Override
     public void setCreatedBy(String createdBy) {
         this.createdBy = (createdBy == null) ? "" : createdBy;
     }
 
+    @Override
     public void setCreatedAt(java.util.Date createdAt) {
         this.createdAt = (createdAt == null) ? null : new Date(createdAt.getTime());
     }
 
+    @Override
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = (updatedBy == null) ? "" : updatedBy;
     }
 
+    @Override
     public void setUpdatedAt(java.util.Date updatedAt) {
         this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
     }
 
+    @Override
     public void setDeletedBy(String deletedBy) {
         this.deletedBy = (deletedBy == null) ? "" : deletedBy;
     }
 
+    @Override
     public void setDeletedAt(java.util.Date deletedAt) {
         this.deletedAt = (deletedAt == null) ? null : new Date(deletedAt.getTime());
     }

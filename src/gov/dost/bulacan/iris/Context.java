@@ -216,14 +216,14 @@ public class Context {
     //--------------------------------------------------------------------------
     // Runtime
     //--------------------------------------------------------------------------
-    private String activeUser;
+    private String auditUser;
 
-    public String getActiveUser() {
-        return activeUser;
+    public String getAuditUser() {
+        return auditUser;
     }
 
-    public void setActiveUser(String activeUser) {
-        this.activeUser = activeUser;
+    public void setAuditUser(String auditUser) {
+        this.auditUser = auditUser;
     }
 
     //--------------------------------------------------------------------------

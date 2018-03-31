@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,6 @@ import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
-import org.afterschoolcreatives.polaris.java.sql.orm.annotations.FetchOnly;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
 
@@ -45,7 +45,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(ProjectContactModel.TABLE)
-public class ProjectContactModel extends PolarisRecord {
+public class ProjectContactModel extends PolarisRecord implements TableAuditor{
 
     /**
      * Initialize default values.
@@ -128,6 +128,7 @@ public class ProjectContactModel extends PolarisRecord {
      */
     public static boolean insert(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            model.auditCreate();
             return model.insert(con);
         }
     }
@@ -141,6 +142,7 @@ public class ProjectContactModel extends PolarisRecord {
      */
     public static boolean update(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            model.auditUpdate();
             return model.updateFull(con);
         }
     }
@@ -154,8 +156,8 @@ public class ProjectContactModel extends PolarisRecord {
      */
     public static boolean delete(ProjectContactModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
-            model.setDeletedAt(Context.app().getServerDate());
-            return model.update(con);
+            model.auditDelete();
+            return model.updateFull(con);
         }
     }
 
@@ -253,26 +255,32 @@ public class ProjectContactModel extends PolarisRecord {
     //--------------------------------------------------------------------------
     // Getters
     //--------------------------------------------------------------------------
+    @Override
     public String getCreatedBy() {
         return (this.createdBy == null) ? "" : this.createdBy;
     }
 
+    @Override
     public java.util.Date getCreatedAt() {
         return (this.createdAt == null) ? null : new Date(this.createdAt.getTime());
     }
 
+    @Override
     public String getUpdatedBy() {
         return (this.updatedBy == null) ? "" : this.updatedBy;
     }
 
+    @Override
     public java.util.Date getUpdatedAt() {
         return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
     }
 
+    @Override
     public String getDeletedBy() {
         return (this.deletedBy == null) ? "" : this.deletedBy;
     }
 
+    @Override
     public java.util.Date getDeletedAt() {
         return (this.deletedAt == null) ? null : new Date(this.deletedAt.getTime());
     }
@@ -280,26 +288,32 @@ public class ProjectContactModel extends PolarisRecord {
     // Setters
     //--------------------------------------------------------------------------
 
+    @Override
     public void setCreatedBy(String createdBy) {
         this.createdBy = (createdBy == null) ? "" : createdBy;
     }
 
+    @Override
     public void setCreatedAt(java.util.Date createdAt) {
         this.createdAt = (createdAt == null) ? null : new Date(createdAt.getTime());
     }
 
+    @Override
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = (updatedBy == null) ? "" : updatedBy;
     }
 
+    @Override
     public void setUpdatedAt(java.util.Date updatedAt) {
         this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
     }
 
+    @Override
     public void setDeletedBy(String deletedBy) {
         this.deletedBy = (deletedBy == null) ? "" : deletedBy;
     }
 
+    @Override
     public void setDeletedAt(java.util.Date deletedAt) {
         this.deletedAt = (deletedAt == null) ? null : new Date(deletedAt.getTime());
     }

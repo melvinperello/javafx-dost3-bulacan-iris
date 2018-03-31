@@ -28,7 +28,10 @@
  */
 package gov.dost.bulacan.iris.models;
 
+import gov.dost.bulacan.iris.models.ext.TableAuditor;
+import java.util.Date;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
+import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
 
 /**
@@ -36,7 +39,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(UserAccountModel.TABLE)
-public class UserAccountModel extends PolarisRecord {
+public class UserAccountModel extends PolarisRecord implements TableAuditor {
 
     //==========================================================================
     // Afterschool Creatives Polaris Record Content Standardization
@@ -61,4 +64,103 @@ public class UserAccountModel extends PolarisRecord {
     // 01. Table Columns
     //==========================================================================
     public final static String TABLE = "scholar_information";
+
+    //==========================================================================
+    // ANNEX-A. Table Audit
+    //==========================================================================
+    // Table Columns
+    //--------------------------------------------------------------------------
+    public final static String CREATED_BY = "created_by";
+    public final static String CREATED_AT = "created_at";
+    public final static String UPDATED_BY = "updated_by";
+    public final static String UPDATED_AT = "updated_at";
+    public final static String DELETED_BY = "deleted_by";
+    public final static String DELETED_AT = "deleted_at";
+    //--------------------------------------------------------------------------
+    // Fields
+    //--------------------------------------------------------------------------
+    @Column(CREATED_BY)
+    private String createdBy;
+
+    @Column(CREATED_AT)
+    private java.util.Date createdAt;
+
+    @Column(UPDATED_BY)
+    private String updatedBy;
+
+    @Column(UPDATED_AT)
+    private java.util.Date updatedAt;
+
+    @Column(DELETED_BY)
+    private String deletedBy;
+
+    @Column(DELETED_AT)
+    private java.util.Date deletedAt;
+
+    //--------------------------------------------------------------------------
+    // Getters
+    //--------------------------------------------------------------------------
+    @Override
+    public String getCreatedBy() {
+        return (this.createdBy == null) ? "" : this.createdBy;
+    }
+
+    @Override
+    public java.util.Date getCreatedAt() {
+        return (this.createdAt == null) ? null : new Date(this.createdAt.getTime());
+    }
+
+    @Override
+    public String getUpdatedBy() {
+        return (this.updatedBy == null) ? "" : this.updatedBy;
+    }
+
+    @Override
+    public java.util.Date getUpdatedAt() {
+        return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
+    }
+
+    @Override
+    public String getDeletedBy() {
+        return (this.deletedBy == null) ? "" : this.deletedBy;
+    }
+
+    @Override
+    public java.util.Date getDeletedAt() {
+        return (this.deletedAt == null) ? null : new Date(this.deletedAt.getTime());
+    }
+
+    //--------------------------------------------------------------------------
+    // Setters
+    //--------------------------------------------------------------------------
+    @Override
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = (createdBy == null) ? "" : createdBy;
+    }
+
+    @Override
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = (createdAt == null) ? null : new Date(createdAt.getTime());
+    }
+
+    @Override
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = (updatedBy == null) ? "" : updatedBy;
+    }
+
+    @Override
+    public void setUpdatedAt(java.util.Date updatedAt) {
+        this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
+    }
+
+    @Override
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = (deletedBy == null) ? "" : deletedBy;
+    }
+
+    @Override
+    public void setDeletedAt(java.util.Date deletedAt) {
+        this.deletedAt = (deletedAt == null) ? null : new Date(deletedAt.getTime());
+    }
+    // </ANNEX-A. Table Audit> 
 }

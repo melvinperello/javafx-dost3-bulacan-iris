@@ -89,6 +89,7 @@ public class IRIS extends Application {
      * @param args
      */
     public static void main(String[] args) {
+        Context.app().setAuditUser("JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000");
         Application.launch(args);
 //        HostFinder finder = new HostFinder();
 //        finder.setHostName("dost-3-pc");
@@ -102,7 +103,7 @@ public class IRIS extends Application {
 //            System.out.println(addr);
 //        });
     }
-
+    
     public static void onCloseConfirmation(Stage owner) {
         Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
                 .setTitle("Exit")
@@ -114,5 +115,5 @@ public class IRIS extends Application {
             Platform.exit(); // exit java fx
         }
     }
-
+    
 }
