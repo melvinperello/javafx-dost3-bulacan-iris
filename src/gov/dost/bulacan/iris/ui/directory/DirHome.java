@@ -202,6 +202,10 @@ public class DirHome extends IrisForm {
 
                 String filterString = newValue.toLowerCase();
 
+                if (contacts.getOrgType().toLowerCase().equals(newValue)) {
+                    return true;
+                }
+
                 /**
                  * Allow search of cooperator's name.
                  */

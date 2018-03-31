@@ -49,6 +49,7 @@ public class RaidModel extends PolarisRecord {
     public final static String FILE_EXT = "file_ext"; // file extension
     public final static String FILE_SIZE = "file_size";
     public final static String FILE_HASH = "file_hash";
+    public final static String CREATED_AT = "created_at";
 
     @PrimaryKey
     @Column(FILE_ID)
@@ -67,6 +68,19 @@ public class RaidModel extends PolarisRecord {
     private String size;
     @Column(FILE_HASH)
     private String hash;
+    @Column(CREATED_AT)
+    private String createdAt;
+
+    public RaidModel() {
+        this.displayName = "";
+        this.description = "";
+        this.path = "";
+        this.name = "";
+        this.extenstion = "";
+        this.size = "";
+        this.hash = "";
+        this.createdAt = null;
+    }
 
     //--------------------------------------------------------------------------
     // Getters and Setters
@@ -133,6 +147,14 @@ public class RaidModel extends PolarisRecord {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
 }
