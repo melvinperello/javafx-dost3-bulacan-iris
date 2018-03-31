@@ -108,6 +108,12 @@ public class TrainingHome extends IrisForm {
         //======================================================================
         // S-03. Event Section
         //======================================================================
+        this.btn_add.setOnMouseClicked(value -> {
+            this.changeRoot(new TrainingAdd(null).load());
+            value.consume();
+        });
+        
+        
     }
 
     //==========================================================================
@@ -136,7 +142,7 @@ public class TrainingHome extends IrisForm {
         });
         //----------------------------------------------------------------------
 
-        this.tbl_trainings.getColumns().setAll(dateStart,titleCol,venueCol);
+        this.tbl_trainings.getColumns().setAll(dateStart, titleCol, venueCol);
 
         //----------------------------------------------------------------------
         // Add Search Predicate

@@ -177,7 +177,7 @@ public class DirEdit extends IrisForm {
         this.submit();
 
         if (this.frmOrg.isEmpty()) {
-            this.showWarningMessage("Euipment Name Required", "Please enter the equipment name.");
+            this.showWarningMessage(null, "Please enter the equipment name.");
             return false;
         }
 
@@ -211,7 +211,7 @@ public class DirEdit extends IrisForm {
         this.submit();
 
         if (this.frmOrg.isEmpty()) {
-            this.showWarningMessage("Euipment Name Required", "Please enter the equipment name.");
+            this.showWarningMessage(null, "Please enter the equipment name.");
             return false;
         }
 

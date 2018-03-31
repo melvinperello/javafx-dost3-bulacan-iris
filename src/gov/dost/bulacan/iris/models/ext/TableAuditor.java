@@ -83,4 +83,18 @@ public interface TableAuditor {
         this.setDeletedBy(Context.app().getAuditUser());
         this.setDeletedAt(Context.app().getServerDate());
     }
+
+    public default String auditLatest() {
+        if (this.getUpdatedAt() == null) {
+            if (this.getCreatedAt() != null) {
+                return "Entry Created by [ " + this.getCreatedBy() + " ] "
+                        + " at " + Context.app().getDateFormat12().format(this.getCreatedAt());
+            } else {
+                return "No Audit History";
+            }
+        } else {
+            return "Last Updated by [ " + this.getUpdatedBy() + " ] "
+                    + " at " + Context.app().getDateFormat12().format(this.getUpdatedAt());
+        }
+    }
 }
