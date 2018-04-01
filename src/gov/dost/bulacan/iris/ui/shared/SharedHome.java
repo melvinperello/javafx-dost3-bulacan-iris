@@ -29,45 +29,62 @@
 package gov.dost.bulacan.iris.ui.shared;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
+import gov.dost.bulacan.iris.ui.raid.RaidUpload;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
  * @author Jhon Melvin
  */
 public class SharedHome extends IrisForm {
-
+    
     @FXML
     private HBox hbox_header;
-
+    
     @FXML
     private JFXButton btn_back_to_home;
-
+    
     @FXML
     private TextField txt_search;
-
+    
     @FXML
     private JFXButton btn_view;
-
+    
     @FXML
     private JFXButton btn_add;
-
+    
     @FXML
     private JFXButton btn_remove;
-
+    
     @FXML
     private ListView<?> list_files;
-
+    
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
         Home.addEventBackToHome(this.btn_back_to_home, this);
+        
+        this.btn_add.setOnMouseClicked(value -> {
+            Stage raidStage = new Stage();
+            raidStage.setScene(new Scene(new RaidUpload().load()));
+            raidStage.setWidth(600.0);
+            raidStage.setHeight(400.0);
+            raidStage.setResizable(false);
+            raidStage.initOwner(this.getStage());
+            raidStage.initModality(Modality.WINDOW_MODAL);
+            raidStage.setTitle(Context.getRaidInfo());
+            raidStage.showAndWait();
+        });
     }
-
+    
 }

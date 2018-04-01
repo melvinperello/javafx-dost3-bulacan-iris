@@ -34,12 +34,77 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  *
  * @author Jhon Melvin
  */
 public class RaidTool {
+
+    public final static long MAX_SIZE = 52428800;
+
+    public final static String BIN_DIR = "bin";
+
+    public static class Meta {
+
+        private String fileName;
+        private Long fileSize;
+        private File file;
+        private String fileHash;
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public Long getFileSize() {
+            return fileSize;
+        }
+
+        public void setFileSize(Long fileSize) {
+            this.fileSize = fileSize;
+        }
+
+        public File getFile() {
+            return file;
+        }
+
+        public void setFile(File file) {
+            this.file = file;
+        }
+
+        public String getFileHash() {
+            return fileHash;
+        }
+
+        public void setFileHash(String fileHash) {
+            this.fileHash = fileHash;
+        }
+
+    }
+
+    public final static String createRaidKey() {
+        /**
+         * Generate Key.
+         */
+        Calendar dateKey = Calendar.getInstance();
+        String generatedKey
+                = Context.getRaidPrefix()// BUL3000
+                + String.valueOf(dateKey.get(Calendar.YEAR)) // 2018
+                + "_" // -
+                + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
+        return generatedKey;
+    }
+
+    public static DecimalFormat byteStringFormat() {
+        return new DecimalFormat("#,##0");
+    }
 
     /**
      * Checks if the file is a regular file.

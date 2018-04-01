@@ -28,6 +28,7 @@
  */
 package gov.dost.bulacan.iris.models;
 
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import java.util.Date;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
@@ -142,8 +143,8 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     //--------------------------------------------------------------------------
     public final static String CREATED_BY = "created_by";
     public final static String CREATED_AT = "created_at";
-    public final static String UPDATED_BY = "updated_by";
-    public final static String UPDATED_AT = "updated_at";
+//    public final static String UPDATED_BY = "updated_by";
+//    public final static String UPDATED_AT = "updated_at";
     public final static String DELETED_BY = "deleted_by";
     public final static String DELETED_AT = "deleted_at";
     //--------------------------------------------------------------------------
@@ -155,12 +156,11 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     @Column(CREATED_AT)
     private java.util.Date createdAt;
 
-    @Column(UPDATED_BY)
-    private String updatedBy;
-
-    @Column(UPDATED_AT)
-    private java.util.Date updatedAt;
-
+//    @Column(UPDATED_BY)
+//    private String updatedBy;
+//
+//    @Column(UPDATED_AT)
+//    private java.util.Date updatedAt;
     @Column(DELETED_BY)
     private String deletedBy;
 
@@ -182,12 +182,14 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
 
     @Override
     public String getUpdatedBy() {
-        return (this.updatedBy == null) ? "" : this.updatedBy;
+//        return (this.updatedBy == null) ? "" : this.updatedBy;
+        throw new UnsupportedOperationException("NO UPDATE");
     }
 
     @Override
     public java.util.Date getUpdatedAt() {
-        return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
+//        return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
+        throw new UnsupportedOperationException("NO UPDATE");
     }
 
     @Override
@@ -215,12 +217,14 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
 
     @Override
     public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = (updatedBy == null) ? "" : updatedBy;
+//        this.updatedBy = (updatedBy == null) ? "" : updatedBy;
+        throw new UnsupportedOperationException("NO UPDATE");
     }
 
     @Override
     public void setUpdatedAt(java.util.Date updatedAt) {
-        this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
+//        this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
+        throw new UnsupportedOperationException("NO UPDATE");
     }
 
     @Override
@@ -233,5 +237,20 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
         this.deletedAt = (deletedAt == null) ? null : new Date(deletedAt.getTime());
     }
     // </ANNEX-A. Table Audit> 
+
+    @Override
+    public String auditLatest() {
+        if (this.getCreatedAt() != null) {
+            return "Entry Created by [ " + this.getCreatedBy() + " ] "
+                    + " at " + Context.app().getDateFormat12().format(this.getCreatedAt());
+        } else {
+            return "No Audit History";
+        }
+    }
+
+    @Override
+    public void auditUpdate() {
+        throw new UnsupportedOperationException("NO UPDATE");
+    }
 
 }

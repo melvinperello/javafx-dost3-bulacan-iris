@@ -57,9 +57,12 @@ public class Context {
     private final static int VERSION_CODE = 0;
     private final static String VERSION_NAME = "v.1.0 Prototype";
     private final static String PROJECT_CODE_PREFIX = "BUL3000";
+    private final static String RAID_CODE_PREFIX = "RAID3000";
     // directory consta
     private final static String DIR_TEMPLATE = "template";
     private final static String DIR_TEMP = "temp";
+    //
+    private final static String RAID_INFO = "RAID ver.0";
 
     //==========================================================================
     // Static Accessors
@@ -67,29 +70,37 @@ public class Context {
     public static int getVersionCode() {
         return Context.VERSION_CODE;
     }
-    
+
     public static String getVersionName() {
         return Context.VERSION_NAME;
     }
-    
+
     public static String getProvinceCodePrefix() {
         return PROJECT_CODE_PREFIX;
     }
-    
+
     public static String getDirectoryTemplate() {
         return DIR_TEMPLATE;
     }
-    
+
     public static String getDirectoryTemp() {
         return DIR_TEMP;
     }
-    
+
     public static String getTemplateSetupPrint() {
         return DIR_TEMPLATE + File.separator + "setup_print_blank.pdf";
     }
-    
+
     public static String getDirectoryTempSetupPrints() {
         return DIR_TEMP + File.separator + "setup_prints";
+    }
+
+    public static String getRaidInfo() {
+        return RAID_INFO;
+    }
+
+    public static String getRaidPrefix() {
+        return RAID_CODE_PREFIX;
     }
 
     //==========================================================================
@@ -219,11 +230,11 @@ public class Context {
     // Runtime
     //--------------------------------------------------------------------------
     private String auditUser;
-    
+
     public String getAuditUser() {
         return auditUser;
     }
-    
+
     public void setAuditUser(String auditUser) {
         this.auditUser = auditUser;
     }
@@ -233,7 +244,7 @@ public class Context {
     //--------------------------------------------------------------------------
     private HikariConnectionPool connectionFactory;
     private ApacheFTPClientFactory ftpClientFactory;
-    
+
     private Context() {
         this.createConnectionFactory();
         this.createFtpConnectionFactory();
@@ -252,7 +263,7 @@ public class Context {
         this.connectionFactory.setPassword("123456");
         this.connectionFactory.start();
     }
-    
+
     private void createFtpConnectionFactory() {
         ApacheFTPClientFactory ftp = new ApacheFTPClientFactory();
         ftp.setServer("127.0.0.1");
@@ -261,11 +272,11 @@ public class Context {
         ftp.setPort(21);
         this.ftpClientFactory = ftp;
     }
-    
+
     public HikariConnectionPool db() {
         return this.connectionFactory;
     }
-    
+
     public ApacheFTPClientFactory ftp() {
         return this.ftpClientFactory;
     }
@@ -287,15 +298,6 @@ public class Context {
      */
     public DecimalFormat getMoneyFormat() {
         return new DecimalFormat("#,##0.00");
-    }
-
-    /**
-     * Get Project Money Format.
-     *
-     * @return
-     */
-    public DecimalFormat getIntegerPrettyFormat() {
-        return new DecimalFormat("#,##0");
     }
 
     /**
@@ -351,5 +353,5 @@ public class Context {
     public Date getLocalDate() {
         return new Date();
     }
-    
+
 }
