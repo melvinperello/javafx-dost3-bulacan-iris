@@ -112,8 +112,34 @@ public class TrainingHome extends IrisForm {
             this.changeRoot(new TrainingAdd(null).load());
             value.consume();
         });
-        
-        
+
+        this.btn_remove.setOnMouseClicked(value -> {
+            TrainingModel selectedModel = this.tbl_trainings.getSelectionModel().getSelectedItem();
+            if (selectedModel == null) {
+                this.showWarningMessage(null, "Please select an item to delete.");
+                return;
+            }
+
+            int res = this.showConfirmationMessage(null, "Are you sure you want to remove this training? All of its relevant data will be removed.");
+            if (res == 1) {
+                try {
+                    boolean deleted = TrainingModel.remove(selectedModel);
+                    if (deleted) {
+                        this.showInformationMessage(null, "Successfully removed from the database.");
+                        // refresh table
+                        this.populateTable();
+                    } else {
+                        this.showInformationMessage(null, "Cannot be removed at the moment please try again later.");
+                    }
+                } catch (SQLException e) {
+                    //
+                    this.showExceptionMessage(e, null, "Failed to remove from the database.");
+                }
+            }
+
+            value.consume();
+        });
+
     }
 
     //==========================================================================

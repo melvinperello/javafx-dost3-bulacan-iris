@@ -103,7 +103,7 @@ public class IRIS extends Application {
 //            System.out.println(addr);
 //        });
     }
-    
+
     public static void onCloseConfirmation(Stage owner) {
         Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
                 .setTitle("Exit")
@@ -112,8 +112,9 @@ public class IRIS extends Application {
                 .setContentText("Are you sure you want to close the application ?")
                 .showAndWait();
         if (res.get().getText().equals("OK")) {
+            Context.app().db().close();
             Platform.exit(); // exit java fx
         }
     }
-    
+
 }

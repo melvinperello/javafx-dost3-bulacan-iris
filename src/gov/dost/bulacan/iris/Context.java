@@ -229,7 +229,7 @@ public class Context {
     //--------------------------------------------------------------------------
     // Connection Management
     //--------------------------------------------------------------------------
-    private ConnectionFactory connectionFactory;
+    private HikariConnectionPool connectionFactory;
 
     private Context() {
         this.createConnectionFactory();
@@ -239,16 +239,17 @@ public class Context {
      * Creates The Connection Factory.
      */
     private void createConnectionFactory() {
-        this.connectionFactory = new ConnectionFactory();
+        this.connectionFactory = new HikariConnectionPool();
         this.connectionFactory.setConnectionDriver(ConnectionFactory.Driver.MariaDB);
         this.connectionFactory.setDatabaseName("iris_bulacan_dost3");
         this.connectionFactory.setHost("127.0.0.1");
         this.connectionFactory.setPort("3306");
         this.connectionFactory.setUsername("dost3bulacan");
         this.connectionFactory.setPassword("123456");
+        this.connectionFactory.start();
     }
 
-    public ConnectionFactory db() {
+    public HikariConnectionPool db() {
         return this.connectionFactory;
     }
 

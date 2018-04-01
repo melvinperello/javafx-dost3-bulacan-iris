@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -151,11 +150,6 @@
                            </font>
                         </Label>
                         <DatePicker fx:id="dp_start" promptText="Start" />
-                        <CheckBox fx:id="chk_one_day" mnemonicParsing="false" text="Single Day Training">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </CheckBox>
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
