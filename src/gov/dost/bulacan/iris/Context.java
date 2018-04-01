@@ -39,6 +39,8 @@ import java.util.Calendar;
 import java.util.Date;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextInputControl;
+import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientFactory;
+import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientManager;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 
@@ -65,27 +67,27 @@ public class Context {
     public static int getVersionCode() {
         return Context.VERSION_CODE;
     }
-
+    
     public static String getVersionName() {
         return Context.VERSION_NAME;
     }
-
+    
     public static String getProvinceCodePrefix() {
         return PROJECT_CODE_PREFIX;
     }
-
+    
     public static String getDirectoryTemplate() {
         return DIR_TEMPLATE;
     }
-
+    
     public static String getDirectoryTemp() {
         return DIR_TEMP;
     }
-
+    
     public static String getTemplateSetupPrint() {
         return DIR_TEMPLATE + File.separator + "setup_print_blank.pdf";
     }
-
+    
     public static String getDirectoryTempSetupPrints() {
         return DIR_TEMP + File.separator + "setup_prints";
     }
@@ -217,11 +219,11 @@ public class Context {
     // Runtime
     //--------------------------------------------------------------------------
     private String auditUser;
-
+    
     public String getAuditUser() {
         return auditUser;
     }
-
+    
     public void setAuditUser(String auditUser) {
         this.auditUser = auditUser;
     }
@@ -230,9 +232,11 @@ public class Context {
     // Connection Management
     //--------------------------------------------------------------------------
     private HikariConnectionPool connectionFactory;
-
+    private ApacheFTPClientFactory ftpClientFactory;
+    
     private Context() {
         this.createConnectionFactory();
+        this.createFtpConnectionFactory();
     }
 
     /**
@@ -248,9 +252,22 @@ public class Context {
         this.connectionFactory.setPassword("123456");
         this.connectionFactory.start();
     }
-
+    
+    private void createFtpConnectionFactory() {
+        ApacheFTPClientFactory ftp = new ApacheFTPClientFactory();
+        ftp.setServer("127.0.0.1");
+        ftp.setUsername("iris_ftp");
+        ftp.setPassword("123456");
+        ftp.setPort(21);
+        this.ftpClientFactory = ftp;
+    }
+    
     public HikariConnectionPool db() {
         return this.connectionFactory;
+    }
+    
+    public ApacheFTPClientFactory ftp() {
+        return this.ftpClientFactory;
     }
 
     //--------------------------------------------------------------------------
@@ -270,6 +287,15 @@ public class Context {
      */
     public DecimalFormat getMoneyFormat() {
         return new DecimalFormat("#,##0.00");
+    }
+
+    /**
+     * Get Project Money Format.
+     *
+     * @return
+     */
+    public DecimalFormat getIntegerPrettyFormat() {
+        return new DecimalFormat("#,##0");
     }
 
     /**
@@ -325,5 +351,5 @@ public class Context {
     public Date getLocalDate() {
         return new Date();
     }
-
+    
 }

@@ -40,12 +40,11 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(RaidModel.TABLE)
-public class RaidModel extends PolarisRecord implements TableAuditor{
+public class RaidModel extends PolarisRecord implements TableAuditor {
 
     public final static String TABLE = "file_table";
     public final static String FILE_ID = "file_id"; // primary key
     public final static String FILE_DISPLAY_NAME = "file_display_name";
-    public final static String FILE_DESCRIPTION = "file_description";
     public final static String FILE_PATH = "file_path"; // folder location
     public final static String FILE_NAME = "file_name"; // file name
     public final static String FILE_EXT = "file_ext"; // file extension
@@ -57,8 +56,6 @@ public class RaidModel extends PolarisRecord implements TableAuditor{
     private String id;
     @Column(FILE_DISPLAY_NAME)
     private String displayName;
-    @Column(FILE_DESCRIPTION)
-    private String description;
     @Column(FILE_PATH)
     private String path;
     @Column(FILE_NAME)
@@ -66,17 +63,16 @@ public class RaidModel extends PolarisRecord implements TableAuditor{
     @Column(FILE_EXT)
     private String extenstion;
     @Column(FILE_SIZE)
-    private String size;
+    private Long size;
     @Column(FILE_HASH)
     private String hash;
 
     public RaidModel() {
         this.displayName = "";
-        this.description = "";
         this.path = "";
         this.name = "";
         this.extenstion = "";
-        this.size = "";
+        this.size = 0L;
         this.hash = "";
     }
 
@@ -97,14 +93,6 @@ public class RaidModel extends PolarisRecord implements TableAuditor{
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getPath() {
@@ -131,11 +119,11 @@ public class RaidModel extends PolarisRecord implements TableAuditor{
         this.extenstion = extenstion;
     }
 
-    public String getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
@@ -211,6 +199,7 @@ public class RaidModel extends PolarisRecord implements TableAuditor{
     public java.util.Date getDeletedAt() {
         return (this.deletedAt == null) ? null : new Date(this.deletedAt.getTime());
     }
+
     //--------------------------------------------------------------------------
     // Setters
     //--------------------------------------------------------------------------
