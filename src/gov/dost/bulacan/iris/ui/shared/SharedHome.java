@@ -31,27 +31,26 @@ package gov.dost.bulacan.iris.ui.shared;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
-import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.RaidModel;
 import gov.dost.bulacan.iris.models.SharedDocumentModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
-import gov.dost.bulacan.iris.ui.equipment.EquipmentViewListItem;
+import gov.dost.bulacan.iris.ui.raid.RaidDownload;
 import gov.dost.bulacan.iris.ui.raid.RaidUpload;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAdapter;
 
 /**
@@ -79,6 +78,9 @@ public class SharedHome extends IrisForm {
     private JFXButton btn_remove;
 
     @FXML
+    private JFXButton btn_refresh;
+
+    @FXML
     private ListView<DocumentItem> list_files;
 
     public SharedHome() {
@@ -96,6 +98,74 @@ public class SharedHome extends IrisForm {
 
         this.populateList();
         this.constructCustomList();
+
+        this.btn_refresh.setOnMouseClicked(value -> {
+            this.txt_search.setText("");
+            this.populateList();
+            value.consume();
+        });
+
+        this.list_files.setOnMouseClicked(value -> {
+            if (value.getClickCount() == 2 && value.getButton().compareTo(MouseButton.PRIMARY) == 0) {
+                // double click primary
+                DocumentItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
+                if (selectedItem == null) {
+                    return;
+                }
+                SharedDocumentModel model = selectedItem.getDocumentModel();
+
+                TextInputDialog dialog = new TextInputDialog(model.getDocName());
+                dialog.initOwner(this.getStage());
+                dialog.initModality(Modality.WINDOW_MODAL);
+
+                dialog.getDialogPane().setPrefWidth(500.0);
+
+                dialog.setTitle("Rename File");
+                dialog.setHeaderText("Rename File");
+                dialog.setContentText("New Name");
+
+                Optional<String> result = dialog.showAndWait();
+
+                result.ifPresent(name -> {
+                    if (name.isEmpty()) {
+                        return;
+                    }
+
+                    if (name.equals(model.getDocName())) {
+                        return;
+                    }
+                    try {
+
+                        model.setDocName(name);
+                        if (SharedDocumentModel.update(model)) {
+                            // success
+                            this.populateList();
+                            this.showWaitInformationMessage(null, "Shared File Successfully Renamed !");
+                            return;
+                        }
+                        // failed
+                        this.showWaitWarningMessage(null, "Failed to renamed shared file.");
+                    } catch (SQLException e) {
+                        // error
+                        this.showExceptionMessage(e, "Rename Failed", "Failed to renamed shared file.");
+                    }
+                });
+
+            }
+        });
+
+        this.btn_view.setOnMouseClicked(value -> {
+            DocumentItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
+            if (selectedItem == null) {
+                this.showWarningMessage(null, "Please select file to view.");
+                return;
+            }
+
+            SharedDocumentModel model = selectedItem.getDocumentModel();
+            RaidModel raid = model.getLinkedModel();
+            //------------------------------------------------------------------
+            RaidDownload.callRaidUpload(raid).showAndWait();
+        });
 
         this.btn_add.setOnMouseClicked(value -> {
             RaidUpload.callRaidUpload((raidModel) -> {

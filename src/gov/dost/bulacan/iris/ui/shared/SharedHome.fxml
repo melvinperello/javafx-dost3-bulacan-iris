@@ -40,6 +40,18 @@
                         <Font name="System Bold" size="16.0" />
                      </font></Label>
                   <TextField fx:id="txt_search" prefHeight="25.0" prefWidth="461.0" promptText="Search Something . . ." />
+                  <JFXButton fx:id="btn_refresh" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Refresh">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/refresh_128.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
                   <JFXButton fx:id="btn_view" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="View">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

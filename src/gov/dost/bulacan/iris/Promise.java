@@ -58,10 +58,6 @@ public class Promise {
         return this;
     }
 
-    public Promise until() {
-        return this;
-    }
-
     /**
      * A pending promise can only ever lead to either a fulfilled state or a
      * rejected state once and only once, which can avoid some pretty complex
@@ -83,44 +79,43 @@ public class Promise {
 
     }
 
-    public static void main(String[] args) {
-        //----------------------------------------------------------------------
-        // Promise Cretion sample.
-        Promise.make()
-                .then() // action 1 
-                .then() // will wait for action 1 before doing this
-                .then()
-                .until() // do this until a condition is met
-                .then()
-                .pending() // while the promise is running callback or updates 
-                .fulfilled() // when all the promises are completed
-                .rejected() // when promise encounters an error
-                .broken() // when break was called (cancel)
-                .done() // promise is completed fullfilled or broken
-                .swear(); // start running this promise
-        //----------------------------------------------------------------------
-        // non blocking
-        ExecutorService service = Executors.newCachedThreadPool();
-        for (int xx = 0; xx < 1000; xx++) {
-            Future future = service.submit(() -> {
-                long y = 0;
-                for (long x = -999999999; x < 999999999; x++) {
-                    y = x;
-                }
-                System.out.println(y);
-            });
-            System.out.println("hi");
-        }
-        //----------------------------------------------------------------------
-        // future to get the value of a service once it is completed
-//        try {
-//            future.get();
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(Promise.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ExecutionException ex) {
-//            Logger.getLogger(Promise.class.getName()).log(Level.SEVERE, null, ex);
+//    public static void main(String[] args) {
+//        //----------------------------------------------------------------------
+//        // Promise Cretion sample.
+//        Promise.make()
+//                .then() // action 1 
+//                .then() // will wait for action 1 before doing this
+//                .then()
+//                .then()
+//                .pending() // while the promise is running callback or updates 
+//                .fulfilled() // when all the promises are completed
+//                .rejected() // when promise encounters an error
+//                .broken() // when break was called (cancel)
+//                .done() // promise is completed fullfilled or broken
+//                .swear(); // start running this promise
+//        //----------------------------------------------------------------------
+//        // non blocking
+//        ExecutorService service = Executors.newCachedThreadPool();
+//        for (int xx = 0; xx < 1000; xx++) {
+//            Future future = service.submit(() -> {
+//                long y = 0;
+//                for (long x = -999999999; x < 999999999; x++) {
+//                    y = x;
+//                }
+//                System.out.println(y);
+//            });
+//            System.out.println("hi");
 //        }
-        System.out.println("hello");
-
-    }
+//        //----------------------------------------------------------------------
+//        // future to get the value of a service once it is completed
+////        try {
+////            future.get();
+////        } catch (InterruptedException ex) {
+////            Logger.getLogger(Promise.class.getName()).log(Level.SEVERE, null, ex);
+////        } catch (ExecutionException ex) {
+////            Logger.getLogger(Promise.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+//        System.out.println("hello");
+//
+//    }
 }
