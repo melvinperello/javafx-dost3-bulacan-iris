@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `raid_table` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.raid_table: ~14 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.raid_table: ~0 rows (approximately)
 /*!40000 ALTER TABLE `raid_table` DISABLE KEYS */;
 /*!40000 ALTER TABLE `raid_table` ENABLE KEYS */;
 
@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `shared_documents` (
   CONSTRAINT `shared_docs_raid_id` FOREIGN KEY (`fk_raid_id`) REFERENCES `raid_table` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.shared_documents: ~14 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.shared_documents: ~0 rows (approximately)
 /*!40000 ALTER TABLE `shared_documents` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shared_documents` ENABLE KEYS */;
 

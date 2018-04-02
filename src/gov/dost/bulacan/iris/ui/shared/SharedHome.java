@@ -93,15 +93,45 @@ public class SharedHome extends IrisForm {
         ProjectHeader.attach(this.hbox_header);
         Home.addEventBackToHome(this.btn_back_to_home, this);
         //
-        
+
         this.populateList();
         this.constructCustomList();
-        
+
         this.btn_add.setOnMouseClicked(value -> {
             RaidUpload.callRaidUpload((raidModel) -> {
                 return this.insert(raidModel);
             }).showAndWait();
             this.populateList();
+        });
+
+        this.btn_remove.setOnMouseClicked(value -> {
+            DocumentItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
+            if (selectedItem == null) {
+                this.showWarningMessage(null, "Please select file to remove.");
+                return;
+            }
+
+            SharedDocumentModel model = selectedItem.getDocumentModel();
+            //------------------------------------------------------------------
+            // Remove Code
+            //------------------------------------------------------------------
+            int res = this.showConfirmationMessage(null, "Are you sure you want to remove this file? This operation is ireversible.");
+            if (res == 1) {
+                try {
+                    boolean deleted = SharedDocumentModel.remove(model);
+                    if (deleted) {
+                        this.showInformationMessage(null, "File successfully removed.");
+                        // refresh table
+                        this.populateList();
+                    } else {
+                        this.showInformationMessage(null, "File cannot be deleted at the moment please try again later.");
+                    }
+                } catch (SQLException e) {
+                    //
+                    this.showExceptionMessage(e, null, "Failed to delete file.");
+                }
+            }
+
         });
     }
 

@@ -228,13 +228,27 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
     public static boolean remove(SharedDocumentModel model) throws SQLException {
         ConnectionManager con = null;
         try {
+            // delete this shared docs entry
+            model.auditDelete();
+            //
+            RaidModel raid = model.getLinkedModel();
+            raid.setReferenceState(RaidModel.ReferenceState.DELETED);
+            raid.auditDelete(); // delete this raid model
             //------------------------------------------------------------------
             // open connection
             con = Context.app().db().createConnectionManager();
             //------------------------------------------------------------------
-            model.auditDelete();
-            // execute query.
-            return model.updateFull(con);
+            con.transactionStart();
+
+            if (model.updateFull(con)) {
+                if (raid.updateFull(con)) {
+                    con.transactionCommit();
+                    return true;
+                }
+            }
+
+            con.transactionRollBack();
+            return false;
         } finally {
             if (con != null) {
                 con.close();
