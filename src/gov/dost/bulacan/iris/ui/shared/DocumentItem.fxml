@@ -30,7 +30,7 @@
          <children>
             <Label fx:id="lbl_file_name" text="36172-CinemaMKV_The.Anthem.of.the.Heart.2017.BDrip.720p.1.2GB.SUBPIG.mkv_Sub_1521712166.mp4-480.mp4">
                <font>
-                  <Font size="13.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
             <Label fx:id="lbl_description" text="Powerpoint - Jhon Melvin Perello - April 01, 2018 - 03:08:23 AM (32 MB)">

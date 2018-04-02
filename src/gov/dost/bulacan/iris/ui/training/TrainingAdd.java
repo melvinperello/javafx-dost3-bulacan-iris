@@ -101,7 +101,7 @@ public class TrainingAdd extends IrisForm {
             this.lbl_modify_header.setText("Edit Training");
             this.lbl_code.setText(this.dataModel.getTrainingCode());
             this.lbl_modify_time.setVisible(true);
-            this.lbl_modify_time.setText(this.dataModel.auditLatest());
+            this.lbl_modify_time.setText(this.dataModel.auditToString());
         }
 
         this.btn_back.setOnMouseClicked(value -> {

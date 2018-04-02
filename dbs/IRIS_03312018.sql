@@ -36,12 +36,15 @@ CREATE TABLE IF NOT EXISTS `contact_information` (
   PRIMARY KEY (`contact_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.contact_information: ~3 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.contact_information: ~5 rows (approximately)
 /*!40000 ALTER TABLE `contact_information` DISABLE KEYS */;
 INSERT INTO `contact_information` (`contact_id`, `organization`, `org_type`, `office_name`, `contact_person`, `tel_no`, `fax_no`, `mobile_no`, `email`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
 	('BUL30002018-0330195516', 'bulsu', 'OTHERS', 'registrar', 'leila', '11', '2', '3', '4', NULL, NULL, NULL, NULL, NULL, '2018-03-30 20:11:26'),
 	('BUL30002018-0330223916', 'bulsu', 'ACADEME', 'registrar', 'asd', '', '', '', '', NULL, NULL, NULL, NULL, NULL, '2018-03-30 22:39:36'),
-	('BUL30002018-0330232136', 'bsu', 'ACADEME', '', '', '', '', '09368955866', '', NULL, NULL, NULL, NULL, NULL, '2018-03-31 20:02:43');
+	('BUL30002018-0330232136', 'bsu', 'ACADEME', '', '', '', '', '09368955866', '', NULL, NULL, NULL, NULL, NULL, '2018-03-31 20:02:43'),
+	('BUL30002018-0331231108', 'ewan', 'OTHERS', '23', '', '', '', '', '', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-03-31 23:11:11', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-03-31 23:11:16', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-03-31 23:11:30'),
+	('BUL30002018-0401111233', 'dr yanga', 'OTHERS', '', '', '', '', '', '', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:12:38', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:14:27'),
+	('BUL30002018-0401111241', 'dr yanga', 'OTHERS', '', '', '', '', '', '', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:12:44', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:14:31');
 /*!40000 ALTER TABLE `contact_information` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.equipment_qoutation
@@ -66,11 +69,13 @@ CREATE TABLE IF NOT EXISTS `equipment_qoutation` (
   CONSTRAINT `equipment_qoutation_supplier_code` FOREIGN KEY (`fk_supplier_code`) REFERENCES `equipment_supplier` (`supplier_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~2 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.equipment_qoutation: ~4 rows (approximately)
 /*!40000 ALTER TABLE `equipment_qoutation` DISABLE KEYS */;
 INSERT INTO `equipment_qoutation` (`qoute_code`, `fk_supplier_code`, `equipment_name`, `qoutation_date`, `specification`, `remarks`, `status`, `file_qoute_attachment`, `search_keys`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
-	('BUL30002018-0328103231', NULL, 'Ultrasonic Scissors', NULL, '', '', 'CANVASSED', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-	('BUL30002018-0328103240', NULL, 'Electro Magnetic Eraser', NULL, '', '', 'CANVASSED', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
+	('BUL30002018-0328103231', NULL, 'Ultrasonic Scissors', NULL, '', '', 'CANVASSED', NULL, '', '', NULL, '', NULL, '', '2018-03-31 21:31:17'),
+	('BUL30002018-0328103240', NULL, 'Electro Magnetic Eraser', NULL, '', '', 'CANVASSED', NULL, '', '', NULL, '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-03-31 23:04:46'),
+	('BUL30002018-0331222107', NULL, 'Kamot Chopper', NULL, '', '', 'ACQUIRED', NULL, '', 'Jhon Melvin Nieto Perello/BUL30002018-0330232136', '2018-03-31 22:21:14', 'Jhon Melvin Nieto Perello/BUL30002018-0330232136', '2018-03-31 22:21:35', 'Jhon Melvin Nieto Perello/BUL30002018-0330232136', '2018-03-31 22:21:54'),
+	('BUL30002018-0401150845', NULL, 'asd', NULL, '', '', 'CANVASSED', NULL, '', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 15:08:47', '', NULL, '', NULL);
 /*!40000 ALTER TABLE `equipment_qoutation` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.equipment_supplier
@@ -105,23 +110,22 @@ INSERT INTO `equipment_supplier` (`supplier_code`, `supplier_name`, `mobile_no`,
 -- Dumping structure for table iris_bulacan_dost3.raid_table
 CREATE TABLE IF NOT EXISTS `raid_table` (
   `id` varchar(50) NOT NULL,
-  `file_display_name` varchar(50) DEFAULT NULL,
-  `file_description` varchar(50) DEFAULT NULL,
+  `file_name` varchar(500) DEFAULT NULL,
+  `file_display_name` varchar(500) DEFAULT NULL,
   `file_path` varchar(50) DEFAULT NULL,
-  `file_name` varchar(50) DEFAULT NULL,
   `file_ext` varchar(50) DEFAULT NULL,
-  `file_size` varchar(50) DEFAULT NULL,
-  `file_hash` varchar(50) DEFAULT NULL,
+  `file_size` bigint(20) DEFAULT NULL,
+  `file_hash` varchar(128) DEFAULT NULL,
+  `reference_state` tinyint(4) DEFAULT NULL,
+  `reference_description` varchar(100) DEFAULT NULL,
   `created_by` varchar(50) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_by` varchar(50) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
   `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.raid_table: ~0 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.raid_table: ~14 rows (approximately)
 /*!40000 ALTER TABLE `raid_table` DISABLE KEYS */;
 /*!40000 ALTER TABLE `raid_table` ENABLE KEYS */;
 
@@ -236,10 +240,11 @@ CREATE TABLE IF NOT EXISTS `setup_projects` (
   PRIMARY KEY (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.setup_projects: ~0 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.setup_projects: ~2 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects` DISABLE KEYS */;
 INSERT INTO `setup_projects` (`project_code`, `spin_no`, `company_name`, `company_owner`, `owner_position`, `owner_address`, `project_name`, `project_status`, `project_type`, `endorsed_date`, `approved_date`, `approved_funding`, `moa_date`, `actual_cost`, `duration_from`, `duration_to`, `factory_street`, `factory_brgy`, `factory_city`, `factory_landmark`, `year_established`, `business_activity`, `capital_classification`, `employment_classification`, `company_ownership`, `profitability`, `registration_info`, `major_products`, `existing_market`, `website`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
-	('BUL30002018-0322115144', '', 'Sample', '', '', '', '', 0, 'GIA', NULL, NULL, 0, NULL, 0, NULL, NULL, '', '', '3012', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL);
+	('BUL30002018-0322115144', '', 'Sample', '', '', '', '', 0, 'GIA', NULL, NULL, 0, NULL, 0, NULL, NULL, '', '', '3012', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '', '', NULL, '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-03-31 23:22:36'),
+	('BUL30002018-0401111132', '', 'hello', '', '', '', '', 0, 'GIA', NULL, NULL, 0, NULL, 0, NULL, NULL, '', '', '3012', '', '', 1, 'MICRO', 'MICRO', 'SINGLE PROPRIETORSHIP', 'PROFIT', '', '', '', '', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:11:37', '', NULL, '', NULL);
 /*!40000 ALTER TABLE `setup_projects` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.setup_projects_contact
@@ -265,25 +270,28 @@ CREATE TABLE IF NOT EXISTS `setup_projects_contact` (
 -- Dumping data for table iris_bulacan_dost3.setup_projects_contact: ~3 rows (approximately)
 /*!40000 ALTER TABLE `setup_projects_contact` DISABLE KEYS */;
 INSERT INTO `setup_projects_contact` (`contact_code`, `fk_setup_project_code`, `name`, `position`, `mobile`, `landline`, `email`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
-	('BUL30002018-0322115157', 'BUL30002018-0322115144', 'Sample', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL),
-	('BUL30002018-0322115210', 'BUL30002018-0322115144', 'Sampple2', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL),
-	('BUL30002018-0322115329', 'BUL30002018-0322115144', 'Sample3', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL);
+	('BUL30002018-0322115157', 'BUL30002018-0322115144', 'Maria Sinukuan', 'Diwata', '09368955866', '', '', '', NULL, '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-03-31 23:22:37'),
+	('BUL30002018-0322115210', 'BUL30002018-0322115144', 'Sampple2', '', '', '', '', NULL, NULL, NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-03-31 23:22:37'),
+	('BUL30002018-0322115329', 'BUL30002018-0322115144', 'Sample3', '', '', '', '', NULL, NULL, NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-03-31 23:22:37');
 /*!40000 ALTER TABLE `setup_projects_contact` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.shared_documents
 CREATE TABLE IF NOT EXISTS `shared_documents` (
   `doc_id` varchar(50) NOT NULL,
-  `doc_name` varchar(50) DEFAULT NULL,
+  `fk_raid_id` varchar(50) DEFAULT NULL,
+  `doc_name` varchar(500) DEFAULT NULL,
   `created_by` varchar(50) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_by` varchar(50) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_by` varchar(50) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`doc_id`)
+  PRIMARY KEY (`doc_id`),
+  KEY `shared_docs_raid_id` (`fk_raid_id`),
+  CONSTRAINT `shared_docs_raid_id` FOREIGN KEY (`fk_raid_id`) REFERENCES `raid_table` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.shared_documents: ~0 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.shared_documents: ~14 rows (approximately)
 /*!40000 ALTER TABLE `shared_documents` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shared_documents` ENABLE KEYS */;
 
@@ -304,8 +312,11 @@ CREATE TABLE IF NOT EXISTS `training` (
   PRIMARY KEY (`training_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.training: ~0 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.training: ~2 rows (approximately)
 /*!40000 ALTER TABLE `training` DISABLE KEYS */;
+INSERT INTO `training` (`training_code`, `title_of_training`, `resource_speakers`, `venue`, `date_start`, `date_end`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+	('BUL30002018-0401023819', NULL, NULL, NULL, NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 02:38:26', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:18:28'),
+	('BUL30002018-0401024958', 'GMP', 'asd', '', NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 02:50:03', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:18:31');
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.training_data

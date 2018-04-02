@@ -693,7 +693,7 @@ public class ProjectModel extends PolarisRecord implements TableAuditor {
             return true;
         } finally {
             if (con != null) {
-                con.close();
+                con.close(); // auto roll back
             }
         }
     } // end delete project.

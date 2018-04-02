@@ -32,7 +32,9 @@ import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
+import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
@@ -42,8 +44,8 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  *
  * @author Jhon Melvin
  */
-@Table(RaidModel.TABLE)
-public class RaidModel extends PolarisRecord implements TableAuditor {
+@Table(SharedDocumentModel.TABLE)
+public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
 
     //==========================================================================
     // Afterschool Creatives Polaris Record Content Standardization
@@ -67,100 +69,163 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     //==========================================================================
     // 01. Table Columns
     //==========================================================================
-    public final static String TABLE = "raid_table";
-    public final static String ID = "id"; // primary key
-    public final static String FILE_DISPLAY_NAME = "file_display_name";
-    public final static String FILE_PATH = "file_path"; // folder location
-    public final static String FILE_NAME = "file_name"; // file name
-    public final static String FILE_EXT = "file_ext"; // file extension
-    public final static String FILE_SIZE = "file_size";
-    public final static String FILE_HASH = "file_hash";
-    public final static String REF_STATE = "reference_state";
-    public final static String REF_DESCRIPTION = "reference_description";
+    public final static String TABLE = "shared_documents";
+    public final static String DOC_ID = "doc_id";
+    public final static String FK_RAID_ID = "fk_raid_id";
+    public final static String DOC_NAME = "doc_name";
 
     //==========================================================================
     // 02. Model Fields
     //==========================================================================
     @PrimaryKey
-    @Column(ID)
-    private String id;
+    @Column(DOC_ID)
+    private String docId;
 
-    @Column(FILE_DISPLAY_NAME)
-    private String displayName;
+    @Column(FK_RAID_ID)
+    private String raidId;
 
-    @Column(FILE_PATH)
-    private String path;
-
-    @Column(FILE_NAME)
-    private String name;
-
-    @Column(FILE_EXT)
-    private String extenstion;
-
-    @Column(FILE_SIZE)
-    private Long size;
-
-    @Column(FILE_HASH)
-    private String hash;
-
-    @Column(REF_STATE)
-    private Integer referenceState;
-
-    @Column(REF_DESCRIPTION)
-    private String referenceDescription;
+    @Column(DOC_NAME)
+    private String docName;
 
     //==========================================================================
     // 03. Constructor (Initialize Default Values)
     //==========================================================================
-    public RaidModel() {
-        this.displayName = "";
-        this.path = "";
-        this.name = "";
-        this.extenstion = "";
-        this.size = 0L;
-        this.hash = "";
-        this.referenceState = ReferenceState.BROKEN;
-        this.referenceDescription = "BROKEN";
+    public SharedDocumentModel() {
+        this.docId = null;
+        this.raidId = null;
+        this.docName = null;
     }
 
     //==========================================================================
     // 04-A. Static Inner Classes
     //==========================================================================
-    public static class ReferenceState {
-
-        /**
-         * If the file was no longer reference and deleted.
-         */
-        public final static int DELETED = -1;
-        /**
-         * The file was uploaded to the server but unreachable due to no
-         * reference.
-         */
-        public final static int BROKEN = 0;
-        /**
-         * File was successfully uploaded to the server and reachable thru a
-         * reference.
-         */
-        public final static int LINKED = 1;
-
-    }
-
+    // N/A
     //==========================================================================
     // 04-B. Static Class Methods
     //==========================================================================
-    public static boolean insert(RaidModel model) throws SQLException {
+    public static <T> List<T> listActiveFilesWithRaid() throws SQLException {
+        // Build Query
+        SimpleQuery querySample = new SimpleQuery();
+        querySample.addStatement("SELECT")
+                .addStatement("*")
+                .addStatement("FROM")
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL")
+                .addStatement("ORDER BY")
+                .addStatement(CREATED_AT)
+                .addStatement("DESC");
+        // Execute Query
+        List<T> files = null;
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
-            return model.insert(con);
+            files = new SharedDocumentModel().findMany(con, querySample);
+            //------------------------------------------------------------------
+            // If empty //
+            if (files.isEmpty()) {
+                return files;
+            }
+            //------------------------------------------------------------------
+            //------------------------------------------------------------------
+            // Where In Query to get the Partial Supplier Model
+            SimpleQuery whereInQuery = new SimpleQuery();
+            whereInQuery.addStatement("SELECT")
+                    .addStatement("*")
+                    .addStatement("FROM")
+                    .addStatement(RaidModel.TABLE)
+                    .addStatement("WHERE")
+                    .addStatement(RaidModel.ID)
+                    .addStatement("IN (");
+            // Query Preamble End.
+            //------------------------------------------------------------------
+            // Iterate to the equipment to get IN parmeters of SUPPLIER CODE of EQUIPMENT QOUTATUION
+            for (int ctr = 0; ctr < files.size(); ctr++) {
+                SharedDocumentModel model = (SharedDocumentModel) files.get(ctr);
+                String code = model.getRaidId();
+                whereInQuery.addStatementWithParameter("?", code);
+
+                // attach comma if not last
+                if (ctr < (files.size() - 1)) {
+                    whereInQuery.addStatement(",");
+                }
+
+            }
+            whereInQuery.addStatement(")"); // Close Query Preamble
+            //------------------------------------------------------------------
+            List<RaidModel> raidList = new RaidModel().findMany(con, whereInQuery);
+            //------------------------------------------------------------------
+            if (raidList.isEmpty()) {
+                return files;
+            }
+            //------------------------------------------------------------------
+            //------------------------------------------------------------------
+            // Compare SUPPLIER CODE to attach Model to EQUIP QOUTATION MODEL.
+            for (T file : files) {
+                // type case
+                SharedDocumentModel shareModel = (SharedDocumentModel) file;
+                // if no assigned supplier code skip this.
+                if (shareModel.getRaidId() == null) {
+                    continue;
+                }
+                //--------------------------------------------------------------
+                for (RaidModel raid : raidList) {
+                    if (shareModel.getRaidId().equalsIgnoreCase(raid.getId())) {
+                        shareModel.setLinkedModel(raid);
+                        break;
+                    }
+                }
+            }
+            //------------------------------------------------------------------
+            //==================================================================
+            return files;
+        } // end try
+    }
+
+    public static boolean insert(SharedDocumentModel model) throws SQLException {
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            // establish raid reference
+            RaidModel raid = model.getLinkedModel();
+            raid.setReferenceState(RaidModel.ReferenceState.LINKED);
+            raid.setReferenceDescription("SHARED DOCUMENTS");
+            raid.auditCreate();
+            //------------------------------------------------------------------
+            // link document to raid
+            model.setRaidId(raid.getId());
+            model.setDocName(raid.getDisplayName());
+            model.auditCreate();
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            //------------------------------------------------------------------
+            // begin transaction
+            con.transactionStart();
+
+            if (raid.updateFull(con)) {
+                if (model.insert(con)) {
+                    con.transactionCommit();
+                    return true;
+                }
+            }
+
+            con.transactionRollBack();
+            return false;
+        } finally {
+            if (con != null) {
+                con.close(); // auto rollback
+            }
         }
     }
 
-    public static boolean update(RaidModel model) throws SQLException {
+    public static boolean update(SharedDocumentModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            model.auditUpdate();
             return model.updateFull(con);
         }
     }
 
-    public static boolean remove(RaidModel model) throws SQLException {
+    public static boolean remove(SharedDocumentModel model) throws SQLException {
         ConnectionManager con = null;
         try {
             //------------------------------------------------------------------
@@ -180,83 +245,44 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     //==========================================================================
     // 04-C. Custom Methods
     //==========================================================================
-    // N/A
+    private RaidModel linkedModel;
+
+    public RaidModel getLinkedModel() {
+        return linkedModel;
+    }
+
+    public void setLinkedModel(RaidModel linkedModel) {
+        this.linkedModel = linkedModel;
+    }
+
     //==========================================================================
     // 05-A. Getters
     //==========================================================================
-    public String getId() {
-        return id;
+    public String getDocId() {
+        return docId;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getRaidId() {
+        return raidId;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getExtenstion() {
-        return extenstion;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public Integer getReferenceState() {
-        return referenceState;
-    }
-
-    public String getReferenceDescription() {
-        return referenceDescription;
+    public String getDocName() {
+        return docName;
     }
 
     //==========================================================================
     // 05-B. Setters
     //==========================================================================
-    public void setId(String id) {
-        this.id = id;
+    public void setDocId(String docId) {
+        this.docId = docId;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setRaidId(String raidId) {
+        this.raidId = raidId;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setExtenstion(String extenstion) {
-        this.extenstion = extenstion;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-
-    public void setReferenceState(Integer referenceState) {
-        this.referenceState = referenceState;
-    }
-
-    public void setReferenceDescription(String referenceDescription) {
-        this.referenceDescription = referenceDescription;
+    public void setDocName(String docName) {
+        this.docName = docName;
     }
 
     //==========================================================================
@@ -266,6 +292,8 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     //--------------------------------------------------------------------------
     public final static String CREATED_BY = "created_by";
     public final static String CREATED_AT = "created_at";
+    public final static String UPDATED_BY = "updated_by";
+    public final static String UPDATED_AT = "updated_at";
     public final static String DELETED_BY = "deleted_by";
     public final static String DELETED_AT = "deleted_at";
     //--------------------------------------------------------------------------
@@ -276,6 +304,12 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
 
     @Column(CREATED_AT)
     private java.util.Date createdAt;
+
+    @Column(UPDATED_BY)
+    private String updatedBy;
+
+    @Column(UPDATED_AT)
+    private java.util.Date updatedAt;
 
     @Column(DELETED_BY)
     private String deletedBy;
@@ -298,14 +332,12 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
 
     @Override
     public String getUpdatedBy() {
-//        return (this.updatedBy == null) ? "" : this.updatedBy;
-        throw new UnsupportedOperationException("NO UPDATE");
+        return (this.updatedBy == null) ? "" : this.updatedBy;
     }
 
     @Override
     public java.util.Date getUpdatedAt() {
-//        return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
-        throw new UnsupportedOperationException("NO UPDATE");
+        return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
     }
 
     @Override
@@ -317,10 +349,10 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     public java.util.Date getDeletedAt() {
         return (this.deletedAt == null) ? null : new Date(this.deletedAt.getTime());
     }
-
     //--------------------------------------------------------------------------
     // Setters
     //--------------------------------------------------------------------------
+
     @Override
     public void setCreatedBy(String createdBy) {
         this.createdBy = (createdBy == null) ? "" : createdBy;
@@ -333,14 +365,12 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
 
     @Override
     public void setUpdatedBy(String updatedBy) {
-//        this.updatedBy = (updatedBy == null) ? "" : updatedBy;
-        throw new UnsupportedOperationException("NO UPDATE");
+        this.updatedBy = (updatedBy == null) ? "" : updatedBy;
     }
 
     @Override
     public void setUpdatedAt(java.util.Date updatedAt) {
-//        this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
-        throw new UnsupportedOperationException("NO UPDATE");
+        this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
     }
 
     @Override
@@ -353,20 +383,5 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
         this.deletedAt = (deletedAt == null) ? null : new Date(deletedAt.getTime());
     }
     // </ANNEX-A. Table Audit> 
-
-    @Override
-    public String auditToString() {
-        if (this.getCreatedAt() != null) {
-            return "Entry Created by [ " + this.getCreatedBy() + " ] "
-                    + " at " + Context.app().getDateFormat12().format(this.getCreatedAt());
-        } else {
-            return "No Audit History";
-        }
-    }
-
-    @Override
-    public void auditUpdate() {
-        throw new UnsupportedOperationException("NO UPDATE");
-    }
 
 }

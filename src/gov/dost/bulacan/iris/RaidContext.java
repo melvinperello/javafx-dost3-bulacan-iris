@@ -101,6 +101,12 @@ public class RaidContext {
         return Files.size(file.toPath());
     }
 
+    /**
+     * Pretty File Size
+     *
+     * @param bytes
+     * @return
+     */
     public static String getStringFileSize(long bytes) {
         boolean si = true;
         int unit = si ? 1000 : 1024;
