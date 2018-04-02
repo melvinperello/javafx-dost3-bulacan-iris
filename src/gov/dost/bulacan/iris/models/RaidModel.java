@@ -29,8 +29,14 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
+import static gov.dost.bulacan.iris.models.ScholarInformationModel.DELETED_AT;
+import static gov.dost.bulacan.iris.models.ScholarInformationModel.TABLE;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
+import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
+import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.PrimaryKey;
@@ -43,8 +49,8 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
 @Table(RaidModel.TABLE)
 public class RaidModel extends PolarisRecord implements TableAuditor {
 
-    public final static String TABLE = "file_table";
-    public final static String FILE_ID = "file_id"; // primary key
+    public final static String TABLE = "raid_table";
+    public final static String ID = "id"; // primary key
     public final static String FILE_DISPLAY_NAME = "file_display_name";
     public final static String FILE_PATH = "file_path"; // folder location
     public final static String FILE_NAME = "file_name"; // file name
@@ -53,7 +59,7 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     public final static String FILE_HASH = "file_hash";
 
     @PrimaryKey
-    @Column(FILE_ID)
+    @Column(ID)
     private String id;
     @Column(FILE_DISPLAY_NAME)
     private String displayName;
@@ -75,6 +81,38 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
         this.extenstion = "";
         this.size = 0L;
         this.hash = "";
+    }
+
+    //==========================================================================
+    // 04-B. Static Class Methods
+    //==========================================================================
+    public static boolean insert(RaidModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.insert(con);
+        }
+    }
+
+    public static boolean update(RaidModel model) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.updateFull(con);
+        }
+    }
+
+    public static boolean remove(RaidModel model) throws SQLException {
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            //------------------------------------------------------------------
+            model.auditDelete();
+            // execute query.
+            return model.updateFull(con);
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+        }
     }
 
     //--------------------------------------------------------------------------

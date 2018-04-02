@@ -62,7 +62,6 @@ public class Context {
     private final static String DIR_TEMPLATE = "template";
     private final static String DIR_TEMP = "temp";
     //
-    private final static String RAID_INFO = "RAID ver.0";
 
     //==========================================================================
     // Static Accessors
@@ -93,10 +92,6 @@ public class Context {
 
     public static String getDirectoryTempSetupPrints() {
         return DIR_TEMP + File.separator + "setup_prints";
-    }
-
-    public static String getRaidInfo() {
-        return RAID_INFO;
     }
 
     public static String getRaidPrefix() {

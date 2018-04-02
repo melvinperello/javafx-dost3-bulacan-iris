@@ -42,52 +42,11 @@ import java.util.Calendar;
  *
  * @author Jhon Melvin
  */
-public class RaidTool {
+public class RaidContext {
 
     public final static long MAX_SIZE = 52428800;
-
+    public final static String RAID_INFO = "RAID System (version 0.00)";
     public final static String BIN_DIR = "bin";
-
-    public static class Meta {
-
-        private String fileName;
-        private Long fileSize;
-        private File file;
-        private String fileHash;
-
-        public String getFileName() {
-            return fileName;
-        }
-
-        public void setFileName(String fileName) {
-            this.fileName = fileName;
-        }
-
-        public Long getFileSize() {
-            return fileSize;
-        }
-
-        public void setFileSize(Long fileSize) {
-            this.fileSize = fileSize;
-        }
-
-        public File getFile() {
-            return file;
-        }
-
-        public void setFile(File file) {
-            this.file = file;
-        }
-
-        public String getFileHash() {
-            return fileHash;
-        }
-
-        public void setFileHash(String fileHash) {
-            this.fileHash = fileHash;
-        }
-
-    }
 
     public final static String createRaidKey() {
         /**

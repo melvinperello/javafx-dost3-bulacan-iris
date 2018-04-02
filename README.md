@@ -10,16 +10,13 @@ This project is based on Java FX and will utilize the following technologies
 2. MariaDB for SQL Database
 3. FileZilla FTP Server for File Storage
 4. Apache Commons Net 3.6
-
-#### Description
-The project covers the most basic operations of the organization.
-1. Incomming/Outgoing Communications
-2. Shared Forms and Templates
-3. SETUp
-4. Shared Folders
+5. itext 5.5.11
+6. guava 24.1
+7. Hikari 2.7.8
+8. JFoenix Material
 
 Since the project is file intensive it will be integrated with an experimental algorithm that will assure that the files are copied in each active terminal in the local network of the organization.
 
-It will utilize Afterschool Creatives' **Redundant Application Information Drive** ( RAID ). RAID maintains to provide local copy of the digitalized documents to each active terminal in the network to avoid data loss.
+It will utilize Afterschool Creatives' **Redundant Application Information Distribution** ( RAID ). RAID maintains to provide local copy of the digitalized documents to each active terminal in the network to avoid data loss.
 
 This project is License under the Open-Source MIT License. https://opensource.org/licenses/MIT
