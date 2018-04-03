@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.1.21-MariaDB - mariadb.org binary distribution
+-- Server version:               10.2.13-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win32
 -- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `contact_information` (
   PRIMARY KEY (`contact_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.contact_information: ~5 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.contact_information: ~6 rows (approximately)
 /*!40000 ALTER TABLE `contact_information` DISABLE KEYS */;
 INSERT INTO `contact_information` (`contact_id`, `organization`, `org_type`, `office_name`, `contact_person`, `tel_no`, `fax_no`, `mobile_no`, `email`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
 	('BUL30002018-0330195516', 'bulsu', 'OTHERS', 'registrar', 'leila', '11', '2', '3', '4', NULL, NULL, NULL, NULL, NULL, '2018-03-30 20:11:26'),
@@ -139,7 +139,8 @@ CREATE TABLE IF NOT EXISTS `scholar_information` (
   `ext_name` varchar(50) DEFAULT NULL,
   `gender` varchar(50) DEFAULT NULL,
   `course` varchar(50) DEFAULT NULL,
-  `year_section` varchar(50) DEFAULT NULL,
+  `year` varchar(50) DEFAULT NULL,
+  `section` varchar(50) DEFAULT NULL,
   `university` varchar(50) DEFAULT NULL,
   `mobile_no` varchar(50) DEFAULT NULL,
   `tel_no` varchar(50) DEFAULT NULL,
@@ -312,11 +313,13 @@ CREATE TABLE IF NOT EXISTS `training` (
   PRIMARY KEY (`training_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.training: ~2 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.training: ~4 rows (approximately)
 /*!40000 ALTER TABLE `training` DISABLE KEYS */;
 INSERT INTO `training` (`training_code`, `title_of_training`, `resource_speakers`, `venue`, `date_start`, `date_end`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
 	('BUL30002018-0401023819', NULL, NULL, NULL, NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 02:38:26', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:18:28'),
-	('BUL30002018-0401024958', 'GMP', 'asd', '', NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 02:50:03', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:18:31');
+	('BUL30002018-0401024958', 'GMP', 'asd', '', NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 02:50:03', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:18:31'),
+	('BUL30002018-0403132048', 'Pyro', 'asd', 'asdawd', '2018-04-12 00:00:00', '2018-05-11 00:00:00', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-03 13:21:00', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-03 13:47:42', '', NULL),
+	('BUL30002018-0403132549', 'sample', '', '', NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-03 13:25:52', '', NULL, '', NULL);
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.training_data

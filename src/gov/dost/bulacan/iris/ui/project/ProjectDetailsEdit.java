@@ -635,11 +635,7 @@ public class ProjectDetailsEdit extends IrisForm {
      * @param dateEndorsed
      */
     private void setDateToPicker(DatePicker picker, Date dateEndorsed) {
-        if (dateEndorsed != null) {
-            SimpleDateFormat format = Context.app().getDateFormat();
-            LocalDate setDate = LocalDate.parse(format.format(dateEndorsed), DateTimeFormatter.ofPattern(format.toPattern()));
-            picker.setValue(setDate);
-        }
+        Context.applyDateToPicker(picker, dateEndorsed);
     }
 
     private boolean updateExistingProject() {

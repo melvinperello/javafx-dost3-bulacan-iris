@@ -31,13 +31,10 @@ package gov.dost.bulacan.iris.ui.training;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
-import gov.dost.bulacan.iris.models.ContactInformationModel;
-import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.models.TrainingModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,6 +70,9 @@ public class TrainingHome extends IrisForm {
 
     @FXML
     private JFXButton btn_view;
+
+    @FXML
+    private JFXButton btn_edit;
 
     @FXML
     private JFXButton btn_remove;
@@ -113,6 +113,18 @@ public class TrainingHome extends IrisForm {
             value.consume();
         });
 
+        this.btn_edit.setOnMouseClicked(value -> {
+            TrainingModel selectedModel = this.tbl_trainings.getSelectionModel().getSelectedItem();
+            if (selectedModel == null) {
+                this.showWarningMessage(null, "Please select an item to edit.");
+                return;
+            }
+
+            TrainingAdd add = new TrainingAdd(selectedModel);
+            this.changeRoot(add.load());
+            value.consume();
+        });
+
         this.btn_remove.setOnMouseClicked(value -> {
             TrainingModel selectedModel = this.tbl_trainings.getSelectionModel().getSelectedItem();
             if (selectedModel == null) {
@@ -148,12 +160,16 @@ public class TrainingHome extends IrisForm {
     private void createTable() {
         //----------------------------------------------------------------------
         TableColumn<TrainingModel, String> titleCol = new TableColumn<>("Title");
-        titleCol.setPrefWidth(600.0);
+        titleCol.setPrefWidth(500.0);
         titleCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getTrainingTitle()));
         //----------------------------------------------------------------------
         TableColumn<TrainingModel, String> venueCol = new TableColumn<>("Venue");
-        venueCol.setPrefWidth(400.0);
+        venueCol.setPrefWidth(300.0);
         venueCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getVenue()));
+        //----------------------------------------------------------------------
+        TableColumn<TrainingModel, String> speakCol = new TableColumn<>("Speaker");
+        speakCol.setPrefWidth(200.0);
+        speakCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getResourceSpeakers()));
         //----------------------------------------------------------------------
         TableColumn<TrainingModel, String> dateStart = new TableColumn<>("Date");
         dateStart.setPrefWidth(120.0);
@@ -168,7 +184,7 @@ public class TrainingHome extends IrisForm {
         });
         //----------------------------------------------------------------------
 
-        this.tbl_trainings.getColumns().setAll(dateStart, titleCol, venueCol);
+        this.tbl_trainings.getColumns().setAll(dateStart, titleCol, venueCol, speakCol);
 
         //----------------------------------------------------------------------
         // Add Search Predicate

@@ -36,7 +36,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <Label text="Search Training">
+                  <Label text="Search Scholar">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></Label>

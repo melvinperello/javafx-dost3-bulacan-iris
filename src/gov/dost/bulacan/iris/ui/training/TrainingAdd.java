@@ -102,6 +102,8 @@ public class TrainingAdd extends IrisForm {
             this.lbl_code.setText(this.dataModel.getTrainingCode());
             this.lbl_modify_time.setVisible(true);
             this.lbl_modify_time.setText(this.dataModel.auditToString());
+
+            this.preloadData();
         }
 
         this.btn_back.setOnMouseClicked(value -> {
@@ -145,6 +147,15 @@ public class TrainingAdd extends IrisForm {
         if (this.dp_end.getValue() != null) {
             this.frmDateEnd = java.sql.Date.valueOf(this.dp_end.getValue());
         }
+    }
+
+    private void preloadData() {
+        this.txt_title.setText(this.dataModel.getTrainingTitle());
+        this.txt_speaker.setText(this.dataModel.getResourceSpeakers());
+        this.txt_venue.setText(this.dataModel.getVenue());
+
+        Context.applyDateToPicker(dp_start, this.dataModel.getDateStart());
+        Context.applyDateToPicker(dp_end, this.dataModel.getDateEnd());
     }
 
     private boolean insert() {

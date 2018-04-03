@@ -34,10 +34,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextInputControl;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientFactory;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientManager;
@@ -49,6 +52,8 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  * @author Jhon Melvin
  */
 public class Context {
+
+    private final static String HOST = "127.0.0.1";
 
     //==========================================================================
     // Configuration Values
@@ -132,6 +137,14 @@ public class Context {
      */
     public final static String filterInputControl(TextInputControl textField) {
         return StringTools.clearExtraSpaces(textField.getText().trim());
+    }
+
+    public final static void applyDateToPicker(DatePicker picker, Date dateEndorsed) {
+        if (dateEndorsed != null) {
+            SimpleDateFormat format = Context.app().getDateFormat();
+            LocalDate setDate = LocalDate.parse(format.format(dateEndorsed), DateTimeFormatter.ofPattern(format.toPattern()));
+            picker.setValue(setDate);
+        }
     }
 
     /**
@@ -252,7 +265,7 @@ public class Context {
         this.connectionFactory = new HikariConnectionPool();
         this.connectionFactory.setConnectionDriver(ConnectionFactory.Driver.MariaDB);
         this.connectionFactory.setDatabaseName("iris_bulacan_dost3");
-        this.connectionFactory.setHost("127.0.0.1");
+        this.connectionFactory.setHost(HOST);
         this.connectionFactory.setPort("3306");
         this.connectionFactory.setUsername("dost3bulacan");
         this.connectionFactory.setPassword("123456");
@@ -261,7 +274,7 @@ public class Context {
 
     private void createFtpConnectionFactory() {
         ApacheFTPClientFactory ftp = new ApacheFTPClientFactory();
-        ftp.setServer("127.0.0.1");
+        ftp.setServer(HOST);
         ftp.setUsername("iris_ftp");
         ftp.setPassword("123456");
         ftp.setPort(21);

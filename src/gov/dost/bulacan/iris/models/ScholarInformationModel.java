@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
+import gov.dost.bulacan.iris.models.ext.UnknownModelValueException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(ScholarInformationModel.TABLE)
-public class ScholarInformationModel extends PolarisRecord implements TableAuditor{
+public class ScholarInformationModel extends PolarisRecord implements TableAuditor {
 
     //==========================================================================
     // Afterschool Creatives Polaris Record Content Standardization
@@ -78,7 +79,8 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     public final static String EXT_NAME = "ext_name";
     public final static String GENDER = "gender";
     public final static String COURSE = "course";
-    public final static String YEAR_SECTION = "year_section";
+    public final static String YEAR = "year";
+    public final static String SECTION = "section";
     public final static String UNIVERSITY = "university";
     public final static String MOBILE_NO = "mobile_no";
     public final static String TEL_NO = "tel_no";
@@ -112,8 +114,11 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     @Column(COURSE)
     private String course;
 
-    @Column(YEAR_SECTION)
-    private String yearSection;
+    @Column(YEAR)
+    private String year;
+
+    @Column(SECTION)
+    private String section;
 
     @Column(UNIVERSITY)
     private String university;
@@ -138,7 +143,8 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         this.extName = "";
         this.gender = Gender.UNKNOWN;
         this.course = "";
-        this.yearSection = "";
+        this.year = "";
+        this.section = "";
         this.university = "";
         this.mobileNo = "";
         this.telNo = "";
@@ -155,6 +161,35 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         public final static String UNKNOWN = "UNKNOWN";
 
         public final static String[] LIST = new String[]{MALE, FEMALE};
+    }
+
+    public final static class YearLevel {
+
+        public final static String _1 = "1";
+        public final static String _2 = "2";
+        public final static String _3 = "3";
+        public final static String _4 = "4";
+        public final static String _5 = "5";
+
+        public final static String[] LIST = new String[]{_1, _2, _3, _4, _5};
+
+        public final static String toWord(String year) {
+            switch (year) {
+                case "1":
+                    return "FIRST YEAR";
+                case "2":
+                    return "SECOND YEAR";
+                case "3":
+                    return "THIRD YEAR";
+                case "4":
+                    return "FOURTH YEAR";
+                case "5":
+                    return "FIFTH YEAR";
+                default:
+                    throw new UnknownModelValueException();
+            }
+        }
+
     }
 
     //==========================================================================
@@ -252,8 +287,12 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         return course;
     }
 
-    public String getYearSection() {
-        return yearSection;
+    public String getYear() {
+        return year;
+    }
+
+    public String getSection() {
+        return section;
     }
 
     public String getUniversity() {
@@ -307,8 +346,12 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         this.course = course;
     }
 
-    public void setYearSection(String yearSection) {
-        this.yearSection = yearSection;
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 
     public void setUniversity(String university) {
