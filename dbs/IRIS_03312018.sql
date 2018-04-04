@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `scholar_information` (
   `ext_name` varchar(50) DEFAULT NULL,
   `gender` varchar(50) DEFAULT NULL,
   `course` varchar(50) DEFAULT NULL,
-  `year` varchar(50) DEFAULT NULL,
+  `year_level` tinyint(4) DEFAULT NULL,
   `section` varchar(50) DEFAULT NULL,
   `university` varchar(50) DEFAULT NULL,
   `mobile_no` varchar(50) DEFAULT NULL,
@@ -156,6 +156,10 @@ CREATE TABLE IF NOT EXISTS `scholar_information` (
 
 -- Dumping data for table iris_bulacan_dost3.scholar_information: ~0 rows (approximately)
 /*!40000 ALTER TABLE `scholar_information` DISABLE KEYS */;
+INSERT INTO `scholar_information` (`scholar_id`, `student_number`, `last_name`, `first_name`, `middle_name`, `ext_name`, `gender`, `course`, `year_level`, `section`, `university`, `mobile_no`, `tel_no`, `e_mail`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+	('BUL30002018-0404144955', '123', '', '', '', '', 'UNKNOWN', '', 0, '', '', '', '', '', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-04 14:49:59', '', NULL, '', NULL),
+	('BUL30002018-0404145013', '123', '', '', '', '', 'UNKNOWN', '', 0, '', '', '', '', '', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-04 14:50:15', '', NULL, '', NULL),
+	('BUL30002018-0404150133', '2014113844', '', '', '', '', 'MALE', '', 1, '', '', '', '', '', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-04 15:01:47', '', NULL, '', NULL);
 /*!40000 ALTER TABLE `scholar_information` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.scholar_submission
@@ -313,13 +317,12 @@ CREATE TABLE IF NOT EXISTS `training` (
   PRIMARY KEY (`training_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table iris_bulacan_dost3.training: ~4 rows (approximately)
+-- Dumping data for table iris_bulacan_dost3.training: ~3 rows (approximately)
 /*!40000 ALTER TABLE `training` DISABLE KEYS */;
 INSERT INTO `training` (`training_code`, `title_of_training`, `resource_speakers`, `venue`, `date_start`, `date_end`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
 	('BUL30002018-0401023819', NULL, NULL, NULL, NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 02:38:26', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:18:28'),
 	('BUL30002018-0401024958', 'GMP', 'asd', '', NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 02:50:03', '', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-01 11:18:31'),
-	('BUL30002018-0403132048', 'Pyro', 'asd', 'asdawd', '2018-04-12 00:00:00', '2018-05-11 00:00:00', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-03 13:21:00', 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-03 13:47:42', '', NULL),
-	('BUL30002018-0403132549', 'sample', '', '', NULL, NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-03 13:25:52', '', NULL, '', NULL);
+	('BUL30002018-0404135102', 'ewan', '', '', '2018-04-18 00:00:00', NULL, 'JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000', '2018-04-04 13:51:09', '', NULL, '', NULL);
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 
 -- Dumping structure for table iris_bulacan_dost3.training_data

@@ -159,7 +159,7 @@
             </VBox>
             <VBox prefHeight="570.0" prefWidth="378.0" HBox.hgrow="ALWAYS">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="378.0" styleClass="home-menu-button">
+                  <HBox fx:id="menu_scholar" alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="378.0" styleClass="home-menu-button">
                      <children>
                         <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -187,7 +187,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="378.0" styleClass="home-menu-button">
+                  <HBox fx:id="menu_gmp" alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="378.0" styleClass="home-menu-button">
                      <children>
                         <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -243,7 +243,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <HBox fx:id="menu_documents1" alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="378.0" styleClass="home-menu-button">
+                  <HBox fx:id="menu_about" alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="378.0" styleClass="home-menu-button">
                      <children>
                         <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>

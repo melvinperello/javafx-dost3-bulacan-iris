@@ -79,7 +79,7 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     public final static String EXT_NAME = "ext_name";
     public final static String GENDER = "gender";
     public final static String COURSE = "course";
-    public final static String YEAR = "year";
+    public final static String YEAR = "year_level";
     public final static String SECTION = "section";
     public final static String UNIVERSITY = "university";
     public final static String MOBILE_NO = "mobile_no";
@@ -115,7 +115,7 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     private String course;
 
     @Column(YEAR)
-    private String year;
+    private Integer year;
 
     @Column(SECTION)
     private String section;
@@ -130,7 +130,7 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     private String telNo;
 
     @Column(E_MAIL)
-    private String eMail;
+    private String mail;
 
     //==========================================================================
     // 03. Constructor (Initialize Default Values)
@@ -143,12 +143,12 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         this.extName = "";
         this.gender = Gender.UNKNOWN;
         this.course = "";
-        this.year = "";
+        this.year = YearLevel.DEFAULT;
         this.section = "";
         this.university = "";
         this.mobileNo = "";
         this.telNo = "";
-        this.eMail = "";
+        this.mail = "";
     }
 
     //==========================================================================
@@ -165,25 +165,26 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
 
     public final static class YearLevel {
 
-        public final static String _1 = "1";
-        public final static String _2 = "2";
-        public final static String _3 = "3";
-        public final static String _4 = "4";
-        public final static String _5 = "5";
+        public final static int DEFAULT = 0;
+        public final static int _1 = 1;
+        public final static int _2 = 2;
+        public final static int _3 = 3;
+        public final static int _4 = 4;
+        public final static int _5 = 5;
 
-        public final static String[] LIST = new String[]{_1, _2, _3, _4, _5};
+        public final static Integer[] LIST = new Integer[]{_1, _2, _3, _4, _5};
 
-        public final static String toWord(String year) {
+        public final static String toWord(int year) {
             switch (year) {
-                case "1":
+                case _1:
                     return "FIRST YEAR";
-                case "2":
+                case _2:
                     return "SECOND YEAR";
-                case "3":
+                case _3:
                     return "THIRD YEAR";
-                case "4":
+                case _4:
                     return "FOURTH YEAR";
-                case "5":
+                case _5:
                     return "FIFTH YEAR";
                 default:
                     throw new UnknownModelValueException();
@@ -287,7 +288,7 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         return course;
     }
 
-    public String getYear() {
+    public Integer getYear() {
         return year;
     }
 
@@ -307,8 +308,8 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         return telNo;
     }
 
-    public String geteMail() {
-        return eMail;
+    public String getMail() {
+        return mail;
     }
 
     //==========================================================================
@@ -346,7 +347,7 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         this.course = course;
     }
 
-    public void setYear(String year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
@@ -366,8 +367,8 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         this.telNo = telNo;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     //==========================================================================

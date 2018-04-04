@@ -32,6 +32,7 @@ import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.ui.directory.DirHome;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
+import gov.dost.bulacan.iris.ui.scholarship.ScholarshipHome;
 import gov.dost.bulacan.iris.ui.shared.SharedHome;
 import gov.dost.bulacan.iris.ui.training.TrainingHome;
 import javafx.fxml.FXML;
@@ -45,7 +46,7 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  */
 public class Home extends IrisForm {
 
-    @FXML
+      @FXML
     private HBox hbox_header;
 
     @FXML
@@ -61,7 +62,16 @@ public class Home extends IrisForm {
     private HBox menu_directory;
 
     @FXML
+    private HBox menu_scholar;
+
+    @FXML
+    private HBox menu_gmp;
+
+    @FXML
     private HBox menu_documents;
+
+    @FXML
+    private HBox menu_about;
 
     @Override
     protected void setup() {
@@ -102,6 +112,11 @@ public class Home extends IrisForm {
          */
         this.menu_documents.setOnMouseClicked(value -> {
             this.changeRoot(new SharedHome().load());
+            value.consume();
+        });
+        
+        this.menu_scholar.setOnMouseClicked(value -> {
+            this.changeRoot(new ScholarshipHome().load());
             value.consume();
         });
 

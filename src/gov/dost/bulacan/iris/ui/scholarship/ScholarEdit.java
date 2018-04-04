@@ -29,7 +29,14 @@
 package gov.dost.bulacan.iris.ui.scholarship;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.models.ScholarInformationModel;
+import gov.dost.bulacan.iris.models.TrainingModel;
+import gov.dost.bulacan.iris.ui.ProjectHeader;
+import gov.dost.bulacan.iris.ui.training.TrainingHome;
+import java.sql.SQLException;
+import java.util.Arrays;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -76,13 +83,13 @@ public class ScholarEdit extends IrisForm {
     private TextField txt_middle_name;
 
     @FXML
-    private ComboBox<?> cmb_gender;
+    private ComboBox<String> cmb_gender;
 
     @FXML
     private TextField txt_course;
 
     @FXML
-    private ComboBox<?> cmb_year;
+    private ComboBox<Integer> cmb_year;
 
     @FXML
     private TextField txt_section;
@@ -99,9 +106,168 @@ public class ScholarEdit extends IrisForm {
     @FXML
     private TextField txt_email;
 
+    public ScholarEdit(ScholarInformationModel model) {
+        this.scholarModel = model;
+        this.addingMode = (model == null);
+
+    }
+
+    private final ScholarInformationModel scholarModel;
+    private final boolean addingMode;
+
     @Override
     protected void setup() {
+        ProjectHeader.attach(this.hbox_header);
 
+        //----------------------------------------------------------------------
+        // Initialize combo box.
+        //----------------------------------------------------------------------
+        this.cmb_gender.getItems().setAll(Arrays.asList(ScholarInformationModel.Gender.LIST));
+        this.cmb_year.getItems().setAll(Arrays.asList(ScholarInformationModel.YearLevel.LIST));
+        this.cmb_gender.getSelectionModel().selectFirst();
+        this.cmb_year.getSelectionModel().selectFirst();
+        //
+        if (this.addingMode) {
+            this.lbl_scholar_id.setText(Context.createLocalKey());
+        } else {
+            // nothing to initialize on editing mode.
+        }
+
+        this.btn_back.setOnMouseClicked(value -> {
+            this.changeRoot(new ScholarshipHome().load());
+            value.consume();
+        });
+
+        this.btn_save.setOnMouseClicked(value -> {
+            if (this.addingMode) {
+                if (this.insert()) {
+                    this.changeRoot(new ScholarshipHome().load());
+                }
+            } else {
+                if (this.update()) {
+                    this.changeRoot(new ScholarshipHome().load());
+                }
+            }
+        });
+    }
+
+    //--------------------------------------------------------------------------
+    // Form Values.
+    //--------------------------------------------------------------------------
+    private String frmStudentNumber;
+    private String frmLastName;
+    private String frmExtName;
+    private String frmFirstName;
+    private String frmMiddleName;
+    private String frmGender;
+    private String frmCourse;
+    private Integer frmYearLevel;
+    private String frmSection;
+    private String frmUniversity;
+    private String frmMobileNo;
+    private String frmTelNo;
+    private String frmEmail;
+
+    private void submit() {
+        this.frmStudentNumber = Context.filterInputControl(txt_student_number);
+        this.frmLastName = Context.filterInputControl(txt_last_name);
+        this.frmExtName = Context.filterInputControl(txt_ext_name);
+        this.frmFirstName = Context.filterInputControl(txt_first_name);
+        this.frmMiddleName = Context.filterInputControl(txt_middle_name);
+        this.frmGender = this.cmb_gender.getSelectionModel().getSelectedItem();
+        this.frmCourse = Context.filterInputControl(txt_course);
+        this.frmYearLevel = this.cmb_year.getSelectionModel().getSelectedItem();
+        this.frmSection = Context.filterInputControl(txt_section);
+        this.frmUniversity = Context.filterInputControl(txt_university);
+        this.frmMobileNo = Context.filterInputControl(txt_mobile_no);
+        this.frmTelNo = Context.filterInputControl(txt_tel_no);
+        this.frmEmail = Context.filterInputControl(txt_email);
+    }
+
+    /**
+     * Update add scholar method.
+     *
+     * @return
+     */
+    private boolean insert() {
+        this.submit();
+
+        if (this.frmStudentNumber.isEmpty()) {
+            this.showWarningMessage(null, "Please enter the student number");
+            return false;
+        }
+
+        ScholarInformationModel model = new ScholarInformationModel();
+        model.setScholarId(this.lbl_scholar_id.getText());
+        model.setStudentNumber(frmStudentNumber);
+        model.setLastName(frmLastName);
+        model.setExtName(frmExtName);
+        model.setFirstName(frmFirstName);
+        model.setMiddleName(frmMiddleName);
+        model.setGender(frmGender);
+        model.setCourse(frmCourse);
+        model.setYear(frmYearLevel);
+        model.setSection(frmSection);
+        model.setUniversity(frmUniversity);
+        model.setMobileNo(frmMobileNo);
+        model.setTelNo(frmTelNo);
+        model.setMail(frmEmail);
+
+        boolean inserted = false;
+        try {
+            inserted = ScholarInformationModel.insert(model);
+            if (inserted) {
+                this.showInformationMessage(null, "Successfully added to the database.");
+            } else {
+                this.showWarningMessage(null, "Cannot be added to the database at the moment. Please try again later.");
+            }
+        } catch (SQLException ex) {
+            this.showExceptionMessage(ex, null, "Failed to insert to the database");
+        }
+        return inserted;
+
+    }
+
+    /**
+     * Update scholarship information.
+     *
+     * @return
+     */
+    private boolean update() {
+        this.submit();
+
+        if (this.frmStudentNumber.isEmpty()) {
+            this.showWarningMessage(null, "Please enter the student number");
+            return false;
+        }
+
+        ScholarInformationModel model = this.scholarModel;
+//        model.setStudentNumber(frmStudentNumber);
+        model.setLastName(frmLastName);
+        model.setExtName(frmExtName);
+        model.setFirstName(frmFirstName);
+        model.setMiddleName(frmMiddleName);
+        model.setGender(frmGender);
+        model.setCourse(frmCourse);
+        model.setYear(frmYearLevel);
+        model.setSection(frmSection);
+        model.setUniversity(frmUniversity);
+        model.setMobileNo(frmMobileNo);
+        model.setTelNo(frmTelNo);
+        model.setMail(frmEmail);
+
+        boolean updated = false;
+        try {
+            updated = ScholarInformationModel.update(model);
+            if (updated) {
+                this.showInformationMessage(null, "Successfully updated the database.");
+            } else {
+                this.showWarningMessage(null, "Cannot be updated at the moment. Please try again later.");
+            }
+        } catch (SQLException ex) {
+            this.showExceptionMessage(ex, null, "Failed to update the database");
+        }
+        return updated;
     }
 
 }
