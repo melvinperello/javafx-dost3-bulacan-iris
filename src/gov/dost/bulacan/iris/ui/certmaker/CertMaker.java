@@ -122,7 +122,7 @@ public class CertMaker extends PolarisFxController {
     /**
      * A public folder that will hold the generated certificates.
      */
-    public final static String DIR_CERTIFICATES = "certificates";
+    public final static String DIR_CERTIFICATES = Context.getDirectoryTemp() + File.separator + "certificates";
     /**
      * Certification file.
      */
@@ -198,7 +198,7 @@ public class CertMaker extends PolarisFxController {
             if (Desktop.isDesktopSupported()) {
                 if (Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
                     try {
-                        Desktop.getDesktop().open(new File("certificates"));
+                        Desktop.getDesktop().open(new File(DIR_CERTIFICATES));
                     } catch (Exception e) {
                         this.showErrorMessage("The folder is not existing or is empty. Try creating certificates first before opening.");
                     }
@@ -214,7 +214,7 @@ public class CertMaker extends PolarisFxController {
         });
     }
 
-    private final static String PROP_FILE = "certificatemaker.prop";
+    private final static String PROP_FILE = Context.getDirectoryTemp() + File.separator + "certificatemaker.prop";
 
     private void saveText() {
         /**
