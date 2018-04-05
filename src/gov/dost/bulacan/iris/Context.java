@@ -95,8 +95,13 @@ public class Context {
         return DIR_TEMPLATE + File.separator + "setup_print_blank.pdf";
     }
 
+    /**
+     * Temporary directory for printed setup inside temp folder.
+     *
+     * @return
+     */
     public static String getDirectoryTempSetupPrints() {
-        return DIR_TEMP + File.separator + "setup_prints";
+        return getDirectoryTemp() + File.separator + "setup_prints";
     }
 
     public static String getRaidPrefix() {

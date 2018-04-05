@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.ui;
 
 import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.ui.certmaker.CertMaker;
 import gov.dost.bulacan.iris.ui.directory.DirHome;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
@@ -46,7 +47,7 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  */
 public class Home extends IrisForm {
 
-      @FXML
+    @FXML
     private HBox hbox_header;
 
     @FXML
@@ -114,9 +115,14 @@ public class Home extends IrisForm {
             this.changeRoot(new SharedHome().load());
             value.consume();
         });
-        
+
         this.menu_scholar.setOnMouseClicked(value -> {
             this.changeRoot(new ScholarshipHome().load());
+            value.consume();
+        });
+
+        this.menu_gmp.setOnMouseClicked(value -> {
+            this.changeRoot(new CertMaker().load());
             value.consume();
         });
 
