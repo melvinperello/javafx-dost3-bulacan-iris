@@ -31,10 +31,9 @@ package gov.dost.bulacan.iris.ui.scholarship;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.models.ScholarInformationModel;
-import gov.dost.bulacan.iris.models.TrainingModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
-import gov.dost.bulacan.iris.ui.training.TrainingHome;
 import java.sql.SQLException;
 import java.util.Arrays;
 import javafx.fxml.FXML;
@@ -48,73 +47,79 @@ import javafx.scene.layout.HBox;
  * @author s500
  */
 public class ScholarEdit extends IrisForm {
-
+    
     @FXML
     private HBox hbox_header;
-
+    
     @FXML
     private JFXButton btn_back;
-
+    
     @FXML
     private Label lbl_modify_header;
-
+    
     @FXML
     private Label lbl_modify_time;
-
+    
     @FXML
     private JFXButton btn_save;
-
+    
     @FXML
     private Label lbl_scholar_id;
-
+    
     @FXML
     private TextField txt_student_number;
-
+    
     @FXML
     private TextField txt_last_name;
-
+    
     @FXML
     private TextField txt_ext_name;
-
+    
     @FXML
     private TextField txt_first_name;
-
+    
     @FXML
     private TextField txt_middle_name;
-
+    
     @FXML
     private ComboBox<String> cmb_gender;
-
+    
     @FXML
     private TextField txt_course;
-
+    
     @FXML
     private ComboBox<Integer> cmb_year;
-
+    
     @FXML
     private TextField txt_section;
-
+    
     @FXML
     private TextField txt_university;
-
+    
     @FXML
     private TextField txt_mobile_no;
-
+    
     @FXML
     private TextField txt_tel_no;
-
+    
+    @FXML
+    private ComboBox<ScholarInformationModel.ScholarType> cmb_scholarship;
+    
+    @FXML
+    private ComboBox<ScholarInformationModel.ScholarType.Merit> cmb_type;
+    
     @FXML
     private TextField txt_email;
-
+    
     public ScholarEdit(ScholarInformationModel model) {
         this.scholarModel = model;
         this.addingMode = (model == null);
-
+        
     }
-
+    
     private final ScholarInformationModel scholarModel;
     private final boolean addingMode;
-
+    
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
@@ -124,20 +129,27 @@ public class ScholarEdit extends IrisForm {
         //----------------------------------------------------------------------
         this.cmb_gender.getItems().setAll(Arrays.asList(ScholarInformationModel.Gender.LIST));
         this.cmb_year.getItems().setAll(Arrays.asList(ScholarInformationModel.YearLevel.LIST));
+        this.cmb_scholarship.getItems().setAll(Arrays.asList(ScholarInformationModel.ScholarType.LIST));
+        this.cmb_type.getItems().setAll(Arrays
+                .asList(ScholarInformationModel.ScholarType.Merit.LIST));
+        
         this.cmb_gender.getSelectionModel().selectFirst();
         this.cmb_year.getSelectionModel().selectFirst();
+        this.cmb_scholarship.getSelectionModel().selectFirst();
+        this.cmb_type.getSelectionModel().selectFirst();
         //
         if (this.addingMode) {
             this.lbl_scholar_id.setText(Context.createLocalKey());
         } else {
             // nothing to initialize on editing mode.
+            this.preloadData();
         }
-
+        
         this.btn_back.setOnMouseClicked(value -> {
             this.changeRoot(new ScholarshipHome().load());
             value.consume();
         });
-
+        
         this.btn_save.setOnMouseClicked(value -> {
             if (this.addingMode) {
                 if (this.insert()) {
@@ -150,6 +162,60 @@ public class ScholarEdit extends IrisForm {
             }
         });
     }
+    
+    private void preloadData() {
+        this.lbl_scholar_id.setText(this.scholarModel.getScholarId());
+        this.txt_student_number.setText(this.scholarModel.getStudentNumber());
+        this.txt_last_name.setText(this.scholarModel.getLastName());
+        this.txt_ext_name.setText(this.scholarModel.getExtName());
+        this.txt_first_name.setText(this.scholarModel.getFirstName());
+        this.txt_middle_name.setText(this.scholarModel.getMiddleName());
+
+        // capital classification combo
+        String gender = this.scholarModel.getGender();
+        for (Object item : this.cmb_gender.getItems()) {
+            String activity = item.toString();
+            if (activity.equalsIgnoreCase(gender)) {
+                this.cmb_gender.getSelectionModel().select(activity);
+                break;
+            }
+        }
+        //
+        Integer scholarType = this.scholarModel.getScholarType();
+        for (Object item : this.cmb_scholarship.getItems()) {
+            ScholarInformationModel.ScholarType scholarObject = (ScholarInformationModel.ScholarType) item;
+            if (scholarObject.getValue().intValue() == scholarType.intValue()) {
+                this.cmb_scholarship.getSelectionModel().select((ScholarInformationModel.ScholarType) item);
+                break;
+            }
+        }
+        //
+        Integer meritType = this.scholarModel.getMeritType();
+        for (Object item : this.cmb_type.getItems()) {
+            ScholarInformationModel.ScholarType.Merit scholarObject = (ScholarInformationModel.ScholarType.Merit) item;
+            if (scholarObject.getValue().intValue() == meritType.intValue()) {
+                this.cmb_type.getSelectionModel().select((ScholarInformationModel.ScholarType.Merit) item);
+                break;
+            }
+        }
+        //
+        this.txt_course.setText(this.scholarModel.getCourse());
+        //
+        Integer yearLevel = this.scholarModel.getYear();
+        for (Integer item : this.cmb_year.getItems()) {
+            Integer scholarObject = item;
+            if (scholarObject.intValue() == yearLevel.intValue()) {
+                this.cmb_year.getSelectionModel().select(item);
+                break;
+            }
+        }
+        //
+        this.txt_section.setText(this.scholarModel.getSection());
+        this.txt_university.setText(this.scholarModel.getUniversity());
+        this.txt_mobile_no.setText(this.scholarModel.getMobileNo());
+        this.txt_tel_no.setText(this.scholarModel.getTelNo());
+        this.txt_email.setText(this.scholarModel.getMail());
+    }
 
     //--------------------------------------------------------------------------
     // Form Values.
@@ -160,6 +226,8 @@ public class ScholarEdit extends IrisForm {
     private String frmFirstName;
     private String frmMiddleName;
     private String frmGender;
+    private Integer frmScholarship;
+    private Integer frmScholarMerit;
     private String frmCourse;
     private Integer frmYearLevel;
     private String frmSection;
@@ -167,7 +235,7 @@ public class ScholarEdit extends IrisForm {
     private String frmMobileNo;
     private String frmTelNo;
     private String frmEmail;
-
+    
     private void submit() {
         this.frmStudentNumber = Context.filterInputControl(txt_student_number);
         this.frmLastName = Context.filterInputControl(txt_last_name);
@@ -175,6 +243,10 @@ public class ScholarEdit extends IrisForm {
         this.frmFirstName = Context.filterInputControl(txt_first_name);
         this.frmMiddleName = Context.filterInputControl(txt_middle_name);
         this.frmGender = this.cmb_gender.getSelectionModel().getSelectedItem();
+        //
+        this.frmScholarship = this.cmb_scholarship.getSelectionModel().getSelectedItem().getValue();
+        this.frmScholarMerit = this.cmb_type.getSelectionModel().getSelectedItem().getValue();
+        //
         this.frmCourse = Context.filterInputControl(txt_course);
         this.frmYearLevel = this.cmb_year.getSelectionModel().getSelectedItem();
         this.frmSection = Context.filterInputControl(txt_section);
@@ -191,12 +263,12 @@ public class ScholarEdit extends IrisForm {
      */
     private boolean insert() {
         this.submit();
-
+        
         if (this.frmStudentNumber.isEmpty()) {
             this.showWarningMessage(null, "Please enter the student number");
             return false;
         }
-
+        
         ScholarInformationModel model = new ScholarInformationModel();
         model.setScholarId(this.lbl_scholar_id.getText());
         model.setStudentNumber(frmStudentNumber);
@@ -205,6 +277,8 @@ public class ScholarEdit extends IrisForm {
         model.setFirstName(frmFirstName);
         model.setMiddleName(frmMiddleName);
         model.setGender(frmGender);
+        model.setScholarType(frmScholarship);
+        model.setMeritType(frmScholarMerit);
         model.setCourse(frmCourse);
         model.setYear(frmYearLevel);
         model.setSection(frmSection);
@@ -212,7 +286,7 @@ public class ScholarEdit extends IrisForm {
         model.setMobileNo(frmMobileNo);
         model.setTelNo(frmTelNo);
         model.setMail(frmEmail);
-
+        
         boolean inserted = false;
         try {
             inserted = ScholarInformationModel.insert(model);
@@ -225,7 +299,7 @@ public class ScholarEdit extends IrisForm {
             this.showExceptionMessage(ex, null, "Failed to insert to the database");
         }
         return inserted;
-
+        
     }
 
     /**
@@ -235,12 +309,12 @@ public class ScholarEdit extends IrisForm {
      */
     private boolean update() {
         this.submit();
-
+        
         if (this.frmStudentNumber.isEmpty()) {
             this.showWarningMessage(null, "Please enter the student number");
             return false;
         }
-
+        
         ScholarInformationModel model = this.scholarModel;
 //        model.setStudentNumber(frmStudentNumber);
         model.setLastName(frmLastName);
@@ -248,6 +322,8 @@ public class ScholarEdit extends IrisForm {
         model.setFirstName(frmFirstName);
         model.setMiddleName(frmMiddleName);
         model.setGender(frmGender);
+        model.setScholarType(frmScholarship);
+        model.setMeritType(frmScholarMerit);
         model.setCourse(frmCourse);
         model.setYear(frmYearLevel);
         model.setSection(frmSection);
@@ -255,7 +331,7 @@ public class ScholarEdit extends IrisForm {
         model.setMobileNo(frmMobileNo);
         model.setTelNo(frmTelNo);
         model.setMail(frmEmail);
-
+        
         boolean updated = false;
         try {
             updated = ScholarInformationModel.update(model);
@@ -269,5 +345,5 @@ public class ScholarEdit extends IrisForm {
         }
         return updated;
     }
-
+    
 }

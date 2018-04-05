@@ -78,6 +78,8 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     public final static String MIDDLE_NAME = "middle_name";
     public final static String EXT_NAME = "ext_name";
     public final static String GENDER = "gender";
+    public final static String SCHOLAR_TYPE = "scholar_type";
+    public final static String MERIT_TYPE = "merit_type";
     public final static String COURSE = "course";
     public final static String YEAR = "year_level";
     public final static String SECTION = "section";
@@ -110,6 +112,12 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
 
     @Column(GENDER)
     private String gender;
+
+    @Column(SCHOLAR_TYPE)
+    private Integer scholarType;
+
+    @Column(MERIT_TYPE)
+    private Integer meritType;
 
     @Column(COURSE)
     private String course;
@@ -191,6 +199,92 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
             }
         }
 
+    }
+
+    /**
+     * Scholarship Types.
+     */
+    public final static class ScholarType {
+
+        private final String name;
+        private final Integer value;
+
+        public ScholarType(String name, Integer code) {
+            this.name = name;
+            this.value = code;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+
+        //----------------------------------------------------------------------
+        public final static ScholarType JLSS = new ScholarType("RA 10612 Junior Level Science Scholarship", 2);
+        public final static ScholarType UNDERGRAD = new ScholarType("RA 7687 Undergraduate Scholarship", 1);
+        //----------------------------------------------------------------------
+
+        public final static ScholarType[] LIST = new ScholarType[]{UNDERGRAD, JLSS};
+
+        public static ScholarType toObject(Integer val) {
+            for (ScholarType scholarType : LIST) {
+                if (scholarType.getValue().intValue() == val.intValue()) {
+                    return scholarType;
+                }
+            }
+            throw new UnknownModelValueException();
+        }
+
+        /**
+         * 3rd Degree Inner class from parent.
+         */
+        public final static class Merit {
+
+            private final String name;
+            private final Integer value;
+
+            public String getName() {
+                return name;
+            }
+
+            public Integer getValue() {
+                return value;
+            }
+
+            public Merit(String name, Integer value) {
+                this.name = name;
+                this.value = value;
+            }
+
+            @Override
+            public String toString() {
+                return this.name;
+            }
+
+            //------------------------------------------------------------------
+            public final static Merit MERIT = new Merit("MERIT", 2);
+            public final static Merit NON_MERIT = new Merit("NON-MERIT", 1);
+            //------------------------------------------------------------------
+
+            public final static Merit[] LIST = new Merit[]{NON_MERIT, MERIT};
+
+            public static Merit toObject(Integer val) {
+                for (Merit meritType : LIST) {
+                    if (meritType.getValue().intValue() == val.intValue()) {
+                        return meritType;
+                    }
+                }
+                throw new UnknownModelValueException();
+            }
+        }
     }
 
     //==========================================================================
@@ -284,6 +378,14 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         return gender;
     }
 
+    public Integer getScholarType() {
+        return scholarType;
+    }
+
+    public Integer getMeritType() {
+        return meritType;
+    }
+
     public String getCourse() {
         return course;
     }
@@ -341,6 +443,14 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public void setScholarType(Integer scholarType) {
+        this.scholarType = scholarType;
+    }
+
+    public void setMeritType(Integer meritType) {
+        this.meritType = meritType;
     }
 
     public void setCourse(String course) {

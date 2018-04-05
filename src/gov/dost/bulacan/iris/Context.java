@@ -53,7 +53,7 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  */
 public class Context {
 
-    private final static String HOST = "127.0.0.1";
+    private final static String HOST = "192.168.1.254";
 
     //==========================================================================
     // Configuration Values
