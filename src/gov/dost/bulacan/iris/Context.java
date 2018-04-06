@@ -53,7 +53,7 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  */
 public class Context {
 
-    private final static String HOST = "192.168.1.254";
+    private final static String HOST = "127.0.0.1";
 
     //==========================================================================
     // Configuration Values
@@ -272,7 +272,7 @@ public class Context {
         this.connectionFactory.setDatabaseName("iris_bulacan_dost3");
         this.connectionFactory.setHost(HOST);
         this.connectionFactory.setPort("3306");
-        this.connectionFactory.setUsername("dost3bulacan");
+        this.connectionFactory.setUsername("iris_db");
         this.connectionFactory.setPassword("123456");
         this.connectionFactory.start();
     }

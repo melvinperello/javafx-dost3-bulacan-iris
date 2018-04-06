@@ -29,16 +29,12 @@
 package gov.dost.bulacan.iris.ui.scholarship;
 
 import com.jfoenix.controls.JFXButton;
-import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
-import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.models.ScholarInformationModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javafx.beans.property.SimpleStringProperty;
