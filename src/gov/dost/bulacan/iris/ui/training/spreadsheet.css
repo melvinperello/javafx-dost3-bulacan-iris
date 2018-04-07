@@ -1,0 +1,30 @@
+.row-header{
+    -fx-padding: 0 0 0 10;
+    -fx-background-color: #35BA9B;
+    -fx-text-fill: white;
+    -fx-pref-height: 30px;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.row-overall{
+    -fx-padding: 0 0 0 10;
+    -fx-background-color: #4A88DA;
+    -fx-text-fill: white;
+    -fx-pref-height: 30px;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.col-titles{
+    -fx-padding: 0 0 0 20;
+    -fx-pref-height: 20px;
+    -fx-font-size: 13px;
+}
+
+.col-value{
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-pref-height: 20px;
+    -fx-font-size: 15px;
+}

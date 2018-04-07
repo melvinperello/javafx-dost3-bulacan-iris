@@ -30,6 +30,8 @@ package gov.dost.bulacan.iris.ui.training;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.IrisForm;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -42,6 +44,7 @@ import org.controlsfx.control.spreadsheet.SpreadsheetCell;
 import org.controlsfx.control.spreadsheet.SpreadsheetCellType;
 import org.controlsfx.control.spreadsheet.SpreadsheetColumn;
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
+import org.json.JSONObject;
 
 /**
  *
@@ -69,6 +72,23 @@ public class TrainingEncode extends IrisForm {
 
     public TrainingEncode() {
         //
+        this.cellTitles = new ArrayList<>();
+        cellTitles.add("TECHNOLOGY/INFORMATION PRESENTED");
+        cellTitles.add(A_1);
+        cellTitles.add(A_2);
+        cellTitles.add(A_3);
+        cellTitles.add(A_4);
+        cellTitles.add(A_5);
+        cellTitles.add("RESOURCE SPEKAER");
+        cellTitles.add(B_1);
+        cellTitles.add(B_2);
+        cellTitles.add(B_3);
+        cellTitles.add(B_4);
+        cellTitles.add("LOGISTIC SUPPORT");
+        cellTitles.add(C_1);
+        cellTitles.add(C_2);
+        cellTitles.add(C_3);
+        cellTitles.add("OVERALL RATING");
     }
     private final static String A_1 = "1. The choice of technologies topics presented";
     private final static String A_2 = "2. Potential application of the technologies/topics presented to my work / business";
@@ -85,93 +105,39 @@ public class TrainingEncode extends IrisForm {
     private final static String C_2 = "2. Adequacy of Training Materials and Kits Provided";
     private final static String C_3 = "3. Provision of Assistance to Participants";
 
+    private final static int HEAD_1 = 0;
+    private final static int HEAD_2 = 6;
+    private final static int HEAD_3 = 11;
+    private final static int HEAD_OVER = 15;
+    /**
+     * Titles of spreadsheet.
+     */
+    private final ArrayList<String> cellTitles;
+    /**
+     *
+     */
+    private SpreadsheetView spreadSheetView;
+
     @Override
     protected void setup() {
-        // row count
-        int rowCount = 15;
-        // column count
-        int columnCount = 2;
-        // Create Grid Base.
-        GridBase grid = new GridBase(rowCount, columnCount);
-
-        // row list
-        ObservableList<ObservableList<SpreadsheetCell>> rows = FXCollections.observableArrayList();
-        // iterate row
-        for (int row = 0; row < grid.getRowCount(); ++row) {
-            // column list
-            final ObservableList<SpreadsheetCell> list = FXCollections.observableArrayList();
-
-            for (int column = 0; column < grid.getColumnCount(); ++column) {
-                // add column
-                String text = "";
-                SpreadsheetCell cell = SpreadsheetCellType.STRING.createCell(row, column, 1, 1, text);
-
-                if (column == colTitle && row == 0) {
-                    text = A_1;
-                } else if (column == colTitle && row == 1) {
-                    text = A_2;
-                } else if (column == colTitle && row == 2) {
-                    text = A_3;
-                } else if (column == colTitle && row == 3) {
-                    text = A_4;
-                } else if (column == colTitle && row == 4) {
-                    text = A_5;
-                } else if (column == colTitle && row == 5) {
-                    text = "TECHNOLOGY INFORMATION PRESENTED";
-                } else if (column == colTitle && row == 6) {
-                    text = B_1;
-                } else if (column == colTitle && row == 7) {
-                    text = B_2;
-                } else if (column == colTitle && row == 8) {
-                    text = B_3;
-                } else if (column == colTitle && row == 9) {
-                    text = B_4;
-                } else if (column == colTitle && row == 10) {
-                    text = "RESOURCE SPEKAER";
-                } else if (column == colTitle && row == 11) {
-                    text = C_1;
-                } else if (column == colTitle && row == 12) {
-                    text = C_2;
-                } else if (column == colTitle && row == 13) {
-                    text = C_3;
-                } else if (column == colTitle && row == 14) {
-                    text = C_3;
-                } else if (column == colTitle && row == 15) {
-                    text = "OVERALL RATING OF THE ACTIVITY";
-                }
-                cell.setItem(new String(text));
-                if (column == 0) {
-
-                    cell.setEditable(false);
-                    cell.setWrapText(true);
-
-                }
-                list.add(cell);
-            }
-
-            rows.add(list);
-        }
-        // add row
-        grid.setRows(rows);
-
         // attach grid base to spreadsheet
-        SpreadsheetView spv = new SpreadsheetView(grid);
-        SpreadsheetColumn columnTitle = spv.getColumns().get(0);
-        columnTitle.setFixed(true);
-        columnTitle.setMinWidth(700.0);
-        columnTitle.setPrefWidth(700.0);
-        columnTitle.setMaxWidth(700.0);
-//        columnTitle.setResizable(false);
-        SpreadsheetColumn columnValue = spv.getColumns().get(1);
-        columnValue.setFixed(true);
-        columnValue.setMinWidth(200.0);
-        columnValue.setPrefWidth(200.0);
-        columnValue.setMaxWidth(200.0);
-
-        VBox.setVgrow(spv, Priority.ALWAYS);
-        this.vbox_ss_container.getChildren().add(spv);
+        this.spreadSheetView = new SpreadsheetView(this.fillGrid());
+        // style spreadsheet.
+        this.applySpreadsheetStyling(this.spreadSheetView);
+        // maximize sheet to parent.
+        VBox.setVgrow(this.spreadSheetView, Priority.ALWAYS);
+        // attach spreadsheet to parent
+        this.vbox_ss_container.getChildren().add(this.spreadSheetView);
+        //
+        this.btn_save.setOnMouseClicked(value -> {
+            this.submitTrainingValues();
+            value.consume();
+        });
     }
 
+    //--------------------------------------------------------------------------
+    // Control FX Spreadsheet View.
+    //--------------------------------------------------------------------------
     /**
      * Creates the framework of the spreadsheet. this segment focuses on the
      * creation and value of the cell only, no editing of width or any other
@@ -179,7 +145,187 @@ public class TrainingEncode extends IrisForm {
      *
      * @return
      */
-    private GridBase createGridFramework() {
+    private GridBase createGridFramework(int rowCount, int colCount) {
+        GridBase grid = new GridBase(rowCount, colCount);
+        return grid;
+    }
+
+    /**
+     * How do you want the spreadsheet to appear.
+     */
+    private GridBase fillGrid() {
+        //----------------------------------------------------------------------
+        // since this spreadsheet has a static count declare first the vaues
+        final int rowCount = 16;
+        final int columnCount = 2;
+        //----------------------------------------------------------------------
+        // Create Grid Base.
+        GridBase grid = this.createGridFramework(rowCount, columnCount);
+        /**
+         * Contains all the rows.
+         */
+        ObservableList< ObservableList< SpreadsheetCell>> rows = FXCollections.observableArrayList();
+        /**
+         * Iterate over rows.
+         */
+        for (int row = 0; row < grid.getRowCount(); row++) {
+            /**
+             * Create single row.
+             */
+            final ObservableList<SpreadsheetCell> singleRow = FXCollections.observableArrayList();
+            /**
+             * Fill single row with cells.
+             */
+            for (int column = 0; column < grid.getColumnCount(); column++) {
+                singleRow.add(this.fillCellValues(row, column));
+            }
+            /**
+             * Add single row to rows.
+             */
+            rows.add(singleRow);
+        }
+        /**
+         * Add all rows to grid.
+         */
+        grid.setRows(rows);
+
+        return grid;
+    }
+
+    private SpreadsheetCell createStringCell(int row, int col, int rowSpan, int colSpan) {
+        return SpreadsheetCellType.STRING.createCell(row, col, rowSpan, colSpan, "");
+    }
+
+    private void applySpreadsheetStyling(SpreadsheetView spv) {
+        SpreadsheetColumn columnTitle = spv.getColumns().get(0);
+        columnTitle.setFixed(true); // fix not movable
+        columnTitle.setPrefWidth(700.0);
+        columnTitle.setResizable(false);
+        //
+        SpreadsheetColumn columnValue = spv.getColumns().get(1);
+        columnValue.setFixed(true);
+        columnValue.setPrefWidth(200.0);
+        columnValue.setResizable(false);
+
+        //----------------------------------------------------------------------
+        // Styling
+        //----------------------------------------------------------------------
+        // Apply Stylesheet
+        // the stylesheet must be in the same package as this class.
+        spv.getStylesheets().add(this.getClass().getResource("spreadsheet.css").toExternalForm());
+        //----------------------------------------------------------------------
+        // Since Spreadsheet view is composed of observeable list and only
+        // the SpreadSheetCell is a child of Control
+        // styling will be applied individually in every row in every column
+        // for every cel
+        //----------------------------------------------------------------------
+        // apply style to heeaders.
+        spv.getGrid().getRows().get(HEAD_1).get(0).getStyleClass().add("row-header");
+        spv.getGrid().getRows().get(HEAD_1).get(1).getStyleClass().add("row-header");
+
+        spv.getGrid().getRows().get(HEAD_2).get(0).getStyleClass().add("row-header");
+        spv.getGrid().getRows().get(HEAD_2).get(1).getStyleClass().add("row-header");
+
+        spv.getGrid().getRows().get(HEAD_3).get(0).getStyleClass().add("row-header");
+        spv.getGrid().getRows().get(HEAD_3).get(1).getStyleClass().add("row-header");
+
+        spv.getGrid().getRows().get(HEAD_OVER).get(0).getStyleClass().add("row-overall");
+        spv.getGrid().getRows().get(HEAD_OVER).get(1).getStyleClass().add("row-overall");
+        //----------------------------------------------------------------------
+        // style titles
+        for (int row = 0; row < spv.getGrid().getRowCount(); row++) {
+            if (row == HEAD_1 || row == HEAD_2 || row == HEAD_3) {
+                continue; //skip;
+            }
+            if (HEAD_OVER == row) {
+                spv.getGrid().getRows().get(row).get(1).getStyleClass().add("col-value");
+                continue;
+            }
+            // title
+            spv.getGrid().getRows().get(row).get(0).getStyleClass().add("col-titles");
+            // value
+            spv.getGrid().getRows().get(row).get(1).getStyleClass().add("col-value");
+
+        }
+
+        /**
+         * Do not show row header numbers in the left side.
+         */
+        spv.setShowRowHeader(false);
+
+        spv.getGrid().getColumnHeaders().addAll("Criteria", "Rating");
+    }
+
+    /**
+     * Retrieve cell item in a specific row and column.
+     *
+     * @param row
+     * @param col
+     * @return
+     */
+    private String getCellValue(int row, int col) {
+        ObservableList<SpreadsheetCell> rowList = this.spreadSheetView.getGrid().getRows().get(row);
+
+        SpreadsheetCell cell = rowList.get(col);
+        if (cell == null) {
+            return "";
+        }
+
+        if (cell.getItem() == null) {
+            return "";
+        }
+
+        return cell.getItem().toString();
+    }
+
+    //--------------------------------------------------------------------------
+    // END Control FX Spreadsheet View.
+    //--------------------------------------------------------------------------
+    /**
+     * How do you fill each cell ?
+     *
+     * @param currentRow
+     * @param currentCol
+     * @return
+     */
+    private SpreadsheetCell fillCellValues(int currentRow, int currentCol) {
+        // add column
+        String text = "";
+        SpreadsheetCell cell = this.createStringCell(currentRow, currentCol, 1, 1);
+
+        cell.setItem(text);
+        if (currentCol == 0) {
+
+            text = this.cellTitles.get(currentRow);
+            cell.setItem(text);
+            cell.setEditable(false);
+            cell.setWrapText(true);
+
+        }
+
+        if (currentCol == 1) {
+            if (currentRow == HEAD_1 || currentRow == HEAD_2 || currentRow == HEAD_3) {
+                cell.setEditable(false);
+            }
+        }
+
+        return cell;
+    }
+
+    private void submitTrainingValues() {
+        HashMap<String, String> values = new HashMap<>();
+        for (int x = 1; x <= 5; x++) {
+            values.put(Integer.toString(x), this.getCellValue(x, 1));
+        }
+        for (int x = 7; x <= 10; x++) {
+            values.put(Integer.toString(x), this.getCellValue(x, 1));
+        }
+        for (int x = 12; x <= 15; x++) {
+            values.put(Integer.toString(x), this.getCellValue(x, 1));
+        }
+        
+        JSONObject json = new JSONObject(values);
+        System.out.println(json.toString());
 
     }
 
