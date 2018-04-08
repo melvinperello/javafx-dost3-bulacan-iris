@@ -29,13 +29,19 @@
 package gov.dost.bulacan.iris.ui.training;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.models.TrainingDataModel;
+import gov.dost.bulacan.iris.models.TrainingModel;
+import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -68,28 +74,21 @@ public class TrainingEncode extends IrisForm {
     private JFXButton btn_save;
 
     @FXML
+    private Label lbl_entry_id;
+
+    @FXML
+    private TextField txt_entry_no;
+
+    @FXML
+    private TextField txt_name;
+
+    @FXML
+    private TextArea txt_comment;
+
+    @FXML
     private VBox vbox_ss_container;
 
-    public TrainingEncode() {
-        //
-        this.cellTitles = new ArrayList<>();
-        cellTitles.add("TECHNOLOGY/INFORMATION PRESENTED");
-        cellTitles.add(A_1);
-        cellTitles.add(A_2);
-        cellTitles.add(A_3);
-        cellTitles.add(A_4);
-        cellTitles.add(A_5);
-        cellTitles.add("RESOURCE SPEKAER");
-        cellTitles.add(B_1);
-        cellTitles.add(B_2);
-        cellTitles.add(B_3);
-        cellTitles.add(B_4);
-        cellTitles.add("LOGISTIC SUPPORT");
-        cellTitles.add(C_1);
-        cellTitles.add(C_2);
-        cellTitles.add(C_3);
-        cellTitles.add("OVERALL RATING");
-    }
+    //
     private final static String A_1 = "1. The choice of technologies topics presented";
     private final static String A_2 = "2. Potential application of the technologies/topics presented to my work / business";
     private final static String A_3 = "3. The additional knowledge gained from the technologies presented";
@@ -109,17 +108,49 @@ public class TrainingEncode extends IrisForm {
     private final static int HEAD_2 = 6;
     private final static int HEAD_3 = 11;
     private final static int HEAD_OVER = 15;
-    /**
-     * Titles of spreadsheet.
-     */
+
+    //
+    private void loadListData() {
+        cellTitles.add("TECHNOLOGY/INFORMATION PRESENTED");
+        cellTitles.add(A_1);
+        cellTitles.add(A_2);
+        cellTitles.add(A_3);
+        cellTitles.add(A_4);
+        cellTitles.add(A_5);
+        cellTitles.add("RESOURCE SPEKAER");
+        cellTitles.add(B_1);
+        cellTitles.add(B_2);
+        cellTitles.add(B_3);
+        cellTitles.add(B_4);
+        cellTitles.add("LOGISTIC SUPPORT");
+        cellTitles.add(C_1);
+        cellTitles.add(C_2);
+        cellTitles.add(C_3);
+        cellTitles.add("OVERALL RATING");
+    }
+
+    public TrainingEncode(TrainingModel trainingModel, TrainingDataModel dataModel) {
+        //
+        this.cellTitles = new ArrayList<>();
+        this.loadListData();
+        this.trainingModel = trainingModel;
+        this.dataModel = dataModel;
+
+        this.addingMode = (dataModel == null);
+    }
+
+    //
     private final ArrayList<String> cellTitles;
-    /**
-     *
-     */
     private SpreadsheetView spreadSheetView;
+    //
+    private final TrainingModel trainingModel;
+    private final TrainingDataModel dataModel;
+    private final boolean addingMode;
 
     @Override
     protected void setup() {
+        ProjectHeader.attach(this.hbox_header);
+
         // attach grid base to spreadsheet
         this.spreadSheetView = new SpreadsheetView(this.fillGrid());
         // style spreadsheet.
@@ -131,6 +162,11 @@ public class TrainingEncode extends IrisForm {
         //
         this.btn_save.setOnMouseClicked(value -> {
             this.submitTrainingValues();
+            value.consume();
+        });
+
+        this.btn_back.setOnMouseClicked(value -> {
+            this.changeRoot(new TrainingDataHome(trainingModel).load());
             value.consume();
         });
     }
@@ -312,7 +348,12 @@ public class TrainingEncode extends IrisForm {
         return cell;
     }
 
-    private void submitTrainingValues() {
+    /**
+     * Gets the value from the excel sheet.
+     *
+     * @return
+     */
+    private String submitTrainingValues() {
         HashMap<String, String> values = new HashMap<>();
         for (int x = 1; x <= 5; x++) {
             values.put(Integer.toString(x), this.getCellValue(x, 1));
@@ -323,10 +364,53 @@ public class TrainingEncode extends IrisForm {
         for (int x = 12; x <= 15; x++) {
             values.put(Integer.toString(x), this.getCellValue(x, 1));
         }
-        
-        JSONObject json = new JSONObject(values);
-        System.out.println(json.toString());
+        boolean flagEmpty = false;
+        boolean flagInvalid = false;
+        for (String value : values.values()) {
+            if (!value.isEmpty()) {
+                try {
+                    Integer val = new Integer(value);
+                    if (val.intValue() < 1 || val.intValue() > 5) {
+                        flagInvalid = true;
+                    }
+                } catch (NumberFormatException e) {
+                    flagInvalid = true;
+                }
+            }
 
+            if (value.isEmpty()) {
+                flagEmpty = true;
+            }
+
+        }
+
+        if (flagInvalid) {
+            this.showWaitWarningMessage(null, "An invalid values was found please use only ( 1 - 5 ).");
+            return null;
+        }
+
+        if (flagEmpty) {
+            int res = this.showConfirmationMessage(null, "There are empty fields. Are you sure you want to encode ?");
+            if (res != 1) {
+                return null;
+            }
+        }
+
+        JSONObject json = new JSONObject(values);
+        return json.toString();
+    }
+
+    //----------------------------------
+    private String frmEntryNo;
+    private String frmName;
+    private String frmComment;
+    private String frmRating;
+
+    private void submit() {
+        this.frmEntryNo = Context.filterInputControl(txt_entry_no);
+        this.frmName = Context.filterInputControl(txt_name);
+        this.frmComment = Context.filterInputControl(txt_comment);
+        this.frmRating = this.submitTrainingValues();
     }
 
 }

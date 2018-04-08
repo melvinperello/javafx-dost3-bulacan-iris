@@ -4,6 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -36,7 +38,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <Label fx:id="lbl_modify_header" maxWidth="1.7976931348623157E308" text="Add New Training">
+                  <Label fx:id="lbl_modify_header" maxWidth="1.7976931348623157E308" text="Evaluation Information">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
@@ -72,6 +74,81 @@
             <Insets left="10.0" />
          </padding>
       </HBox>
-      <VBox fx:id="vbox_ss_container" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+      <HBox VBox.vgrow="ALWAYS">
+         <children>
+            <VBox maxWidth="620.0" prefHeight="620.0" prefWidth="400.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="Contact Information">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefWidth="630.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Entry ID">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_entry_id" text="STC300003192018104322" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefWidth="630.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Entry No.">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txt_entry_no" prefHeight="25.0" prefWidth="265.0" promptText="No" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefWidth="630.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Name">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txt_name" prefHeight="25.0" prefWidth="265.0" promptText="Participant Name" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefWidth="630.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Comment">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextArea fx:id="txt_comment" prefHeight="200.0" prefWidth="200.0" wrapText="true" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </VBox>
+            <VBox fx:id="vbox_ss_container" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
    </children>
 </VBox>

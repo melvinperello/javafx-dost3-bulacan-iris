@@ -51,7 +51,7 @@ public class IRIS extends Application {
      * @param primaryStage
      */
     private void show(Stage primaryStage) {
-        primaryStage.setScene(new Scene(new TrainingEncode().load()));
+        primaryStage.setScene(new Scene(new Home().load()));
 //        primaryStage.setScene(new Scene(new RaidUpload().load()));
         primaryStage.getIcons().add(new Image(Context.app().getResourceStream("drawable/dost_logo.png")));
         primaryStage.setTitle("PSTC-Bulacan/DOST3 Information Retrieval Integrated System ( I.R.I.S. )");

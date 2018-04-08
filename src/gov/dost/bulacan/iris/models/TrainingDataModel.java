@@ -45,7 +45,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(TrainingDataModel.TABLE)
-public class TrainingDataModel extends PolarisRecord implements TableAuditor{
+public class TrainingDataModel extends PolarisRecord implements TableAuditor {
 
     //==========================================================================
     // Afterschool Creatives Polaris Record Content Standardization
@@ -76,14 +76,8 @@ public class TrainingDataModel extends PolarisRecord implements TableAuditor{
     public final static String TRAINING_CODE = "fk_training_code";
     /* #03 */
     public final static String ENTRY_NO = "entry_no";
-    /* #04 */
-    public final static String A_GROUP = "a_group";
-    /* #05 */
-    public final static String B_GROUP = "b_group";
-    /* #06 */
-    public final static String C_GROUP = "c_group";
     /* #07 */
-    public final static String OVERALL_RATING = "overall_rating";
+    public final static String RATING = "rating";
     /* #08 */
     public final static String COMMENT = "comment";
     /* #09 */
@@ -102,17 +96,8 @@ public class TrainingDataModel extends PolarisRecord implements TableAuditor{
     @Column(ENTRY_NO)
     private String entryNo;
 
-    @Column(A_GROUP)
-    private String aGroup;
-
-    @Column(B_GROUP)
-    private String bGroup;
-
-    @Column(C_GROUP)
-    private String cGroup;
-
-    @Column(OVERALL_RATING)
-    private String overallRating;
+    @Column(RATING)
+    private String rating;
 
     @Column(COMMENT)
     private String comment;
@@ -125,10 +110,7 @@ public class TrainingDataModel extends PolarisRecord implements TableAuditor{
     //==========================================================================
     public TrainingDataModel() {
         this.entryNo = "";
-        this.aGroup = "";
-        this.bGroup = "";
-        this.cGroup = "";
-        this.overallRating = "";
+        this.rating = "";
         this.comment = "";
         this.name = "";
     }
@@ -142,7 +124,7 @@ public class TrainingDataModel extends PolarisRecord implements TableAuditor{
     //==========================================================================
     // 04-B. Static Class Methods
     //==========================================================================
-    public static <T> List<T> listAllActive() throws SQLException {
+    public static <T> List<T> listAllActive(TrainingModel parent) throws SQLException {
         // Build Query
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")
@@ -151,7 +133,9 @@ public class TrainingDataModel extends PolarisRecord implements TableAuditor{
                 .addStatement(TABLE)
                 .addStatement("WHERE")
                 .addStatement(DELETED_AT)
-                .addStatement("IS NULL");
+                .addStatement("IS NULL")
+                .addStatement("AND")
+                .addStatementWithParameter(TRAINING_CODE + " = ?", parent.getTrainingCode());
         // Execute Query
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new TrainingDataModel().findMany(con, querySample);
@@ -210,20 +194,8 @@ public class TrainingDataModel extends PolarisRecord implements TableAuditor{
         return entryNo;
     }
 
-    public String getaGroup() {
-        return aGroup;
-    }
-
-    public String getbGroup() {
-        return bGroup;
-    }
-
-    public String getcGroup() {
-        return cGroup;
-    }
-
-    public String getOverallRating() {
-        return overallRating;
+    public String getRating() {
+        return rating;
     }
 
     public String getComment() {
@@ -249,20 +221,8 @@ public class TrainingDataModel extends PolarisRecord implements TableAuditor{
         this.entryNo = entryNo;
     }
 
-    public void setaGroup(String aGroup) {
-        this.aGroup = aGroup;
-    }
-
-    public void setbGroup(String bGroup) {
-        this.bGroup = bGroup;
-    }
-
-    public void setcGroup(String cGroup) {
-        this.cGroup = cGroup;
-    }
-
-    public void setOverallRating(String overallRating) {
-        this.overallRating = overallRating;
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public void setComment(String comment) {
