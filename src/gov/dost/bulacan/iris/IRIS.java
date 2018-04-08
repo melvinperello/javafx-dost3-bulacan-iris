@@ -93,17 +93,6 @@ public class IRIS extends Application {
     public static void main(String[] args) {
         Context.app().setAuditUser("JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000");
         Application.launch(args);
-//        HostFinder finder = new HostFinder();
-//        finder.setHostName("dost-3-pc");
-//        try {
-//            finder.find();
-//        } catch (Exception e) {
-//        }
-//
-//        finder.getIpv4List().forEach(action -> {
-//            String addr = action.getInetAddress().getHostAddress();
-//            System.out.println(addr);
-//        });
     }
 
     public static void onCloseConfirmation(Stage owner) {

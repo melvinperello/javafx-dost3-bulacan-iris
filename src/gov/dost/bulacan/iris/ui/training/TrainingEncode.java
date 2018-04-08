@@ -34,6 +34,7 @@ import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.TrainingDataModel;
 import gov.dost.bulacan.iris.models.TrainingModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.collections.FXCollections;
@@ -50,6 +51,7 @@ import org.controlsfx.control.spreadsheet.SpreadsheetCell;
 import org.controlsfx.control.spreadsheet.SpreadsheetCellType;
 import org.controlsfx.control.spreadsheet.SpreadsheetColumn;
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -88,7 +90,9 @@ public class TrainingEncode extends IrisForm {
     @FXML
     private VBox vbox_ss_container;
 
-    //
+    //--------------------------------------------------------------------------
+    // STATICS
+    //--------------------------------------------------------------------------
     private final static String A_1 = "1. The choice of technologies topics presented";
     private final static String A_2 = "2. Potential application of the technologies/topics presented to my work / business";
     private final static String A_3 = "3. The additional knowledge gained from the technologies presented";
@@ -109,7 +113,9 @@ public class TrainingEncode extends IrisForm {
     private final static int HEAD_3 = 11;
     private final static int HEAD_OVER = 15;
 
-    //
+    /**
+     * Load data to the list.
+     */
     private void loadListData() {
         cellTitles.add("TECHNOLOGY/INFORMATION PRESENTED");
         cellTitles.add(A_1);
@@ -129,6 +135,12 @@ public class TrainingEncode extends IrisForm {
         cellTitles.add("OVERALL RATING");
     }
 
+    /**
+     * Default constructor.
+     *
+     * @param trainingModel
+     * @param dataModel
+     */
     public TrainingEncode(TrainingModel trainingModel, TrainingDataModel dataModel) {
         //
         this.cellTitles = new ArrayList<>();
@@ -150,7 +162,9 @@ public class TrainingEncode extends IrisForm {
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
-
+        //======================================================================
+        // Create Spreadsheet
+        //======================================================================
         // attach grid base to spreadsheet
         this.spreadSheetView = new SpreadsheetView(this.fillGrid());
         // style spreadsheet.
@@ -159,9 +173,27 @@ public class TrainingEncode extends IrisForm {
         VBox.setVgrow(this.spreadSheetView, Priority.ALWAYS);
         // attach spreadsheet to parent
         this.vbox_ss_container.getChildren().add(this.spreadSheetView);
-        //
+        //----------------------------------------------------------------------
+        if (this.addingMode) {
+            this.lbl_modify_time.setVisible(false);
+            this.lbl_entry_id.setText(Context.createLocalKey());
+            this.lbl_modify_header.setText("Add Evaluation Data");
+        } else {
+            this.preloadData();
+            this.lbl_modify_time.setVisible(true);
+            this.lbl_modify_header.setText("Edit Evaluation Data");
+        }
+        //----------------------------------------------------------------------
         this.btn_save.setOnMouseClicked(value -> {
-            this.submitTrainingValues();
+            if (this.addingMode) {
+                if (this.insert()) {
+                    this.changeRoot(new TrainingDataHome(trainingModel).load());
+                }
+            } else {
+                if (this.update()) {
+                    this.changeRoot(new TrainingDataHome(trainingModel).load());
+                }
+            }
             value.consume();
         });
 
@@ -411,6 +443,100 @@ public class TrainingEncode extends IrisForm {
         this.frmName = Context.filterInputControl(txt_name);
         this.frmComment = Context.filterInputControl(txt_comment);
         this.frmRating = this.submitTrainingValues();
+    }
+
+    private boolean insert() {
+
+        if (this.txt_entry_no.getText().isEmpty()) {
+            this.showWaitWarningMessage(null, "Entry No. is required.");
+            return false;
+        }
+
+        this.submit();
+
+        if (this.frmRating == null) {
+            // message in submit
+            return false;
+        }
+
+        TrainingDataModel model = new TrainingDataModel();
+        model.setDataCode(this.lbl_entry_id.getText()); // pk
+        model.setTrainingCode(this.trainingModel.getTrainingCode()); // fk
+        model.setEntryNo(this.frmEntryNo);
+        model.setName(this.frmName);
+        model.setComment(this.frmComment);
+        model.setRating(this.frmRating);
+
+        boolean inserted = false;
+        try {
+            inserted = TrainingDataModel.insert(model);
+            if (inserted) {
+                this.showInformationMessage(null, "Successfully added to the database.");
+            } else {
+                this.showWarningMessage(null, "Cannot be added to the database at the moment. Please try again later.");
+            }
+        } catch (SQLException ex) {
+            this.showExceptionMessage(ex, null, "Failed to insert to the database");
+        }
+        return inserted;
+    }
+
+    private boolean update() {
+
+        if (this.txt_entry_no.getText().isEmpty()) {
+            this.showWaitWarningMessage(null, "Entry No. is required.");
+            return false;
+        }
+
+        this.submit();
+
+        if (this.frmRating == null) {
+            // message in submit
+            return false;
+        }
+
+        TrainingDataModel model = this.dataModel;
+//        model.setDataCode(this.lbl_entry_id.getText()); // pk
+//        model.setTrainingCode(this.trainingModel.getTrainingCode()); // fk
+        model.setEntryNo(this.frmEntryNo);
+        model.setName(this.frmName);
+        model.setComment(this.frmComment);
+        model.setRating(this.frmRating);
+
+        boolean updated = false;
+        try {
+            updated = TrainingDataModel.update(model);
+            if (updated) {
+                this.showInformationMessage(null, "Successfully updated the database.");
+            } else {
+                this.showWarningMessage(null, "Cannot be updated at the moment. Please try again later.");
+            }
+        } catch (SQLException ex) {
+            this.showExceptionMessage(ex, null, "Failed to update the database");
+        }
+        return updated;
+    }
+
+    private void preloadData() {
+        this.lbl_entry_id.setText(this.dataModel.getDataCode());
+        this.txt_entry_no.setText(this.dataModel.getEntryNo());
+        this.txt_name.setText(this.dataModel.getName());
+        this.txt_comment.setText(this.dataModel.getComment());
+
+        JSONObject json = new JSONObject(this.dataModel.getRating());
+
+        for (int x = 1; x <= 15; x++) {
+            if (x == 6 || x == 11) {
+                continue;
+            }
+            try {
+                String rate = json.getString(Integer.toString(x));
+                this.spreadSheetView.getGrid().getRows().get(x).get(1).setItem(rate);
+            } catch (JSONException e) {
+                // do nothing.
+            }
+        }
+
     }
 
 }

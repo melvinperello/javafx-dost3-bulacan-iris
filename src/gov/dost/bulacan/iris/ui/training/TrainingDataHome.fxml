@@ -174,7 +174,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="btn_reload" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Reload">
+                        <JFXButton fx:id="btn_reload" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Generate">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

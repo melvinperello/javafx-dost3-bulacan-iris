@@ -465,7 +465,7 @@ public class ProjectDetailsEdit extends IrisForm {
             this.showWarningMessage(null, "You have entered an invalid actual cost.");
             return false;
         }
-        project.setActualCost(approved_fund);
+        project.setActualCost(actual_cost);
         //----------------------------------------------------------------------
         project.setFactoryStreet(frmStreetAddress);
         project.setFactoryBrgy(frmBrgy);

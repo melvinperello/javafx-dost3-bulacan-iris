@@ -313,6 +313,10 @@ public class Context {
         return new DecimalFormat("#,##0.00");
     }
 
+    public DecimalFormat getDecimal2Format() {
+        return new DecimalFormat("0.00");
+    }
+
     /**
      * SAMPLE: 04-20-1997
      *
