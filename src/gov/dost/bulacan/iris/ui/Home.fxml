@@ -173,7 +173,7 @@
                                     <Font name="System Bold" size="22.0" />
                                  </font>
                               </Label>
-                              <Label text="Add, View, Edit, or Delete records for Small Enterprise Technology Upgrade Projects and Grants-In-Aid Projects" wrapText="true" />
+                              <Label text="Manage records of S &amp; T Scholars, keep on track with the contact information and the documents that have been submitted." wrapText="true" />
                            </children>
                            <padding>
                               <Insets left="20.0" />
@@ -201,7 +201,7 @@
                                     <Font name="System Bold" size="22.0" />
                                  </font>
                               </Label>
-                              <Label text="Add, View, Edit, or Delete records for Small Enterprise Technology Upgrade Projects and Grants-In-Aid Projects" wrapText="true" />
+                              <Label text="Create GMP Certificates with ease using automated excel integration which allows multiple certificate creation at the same time." wrapText="true" />
                            </children>
                            <padding>
                               <Insets left="20.0" />

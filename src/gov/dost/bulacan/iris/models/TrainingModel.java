@@ -121,12 +121,52 @@ public class TrainingModel extends PolarisRecord implements TableAuditor {
             // open connection
             con = Context.app().db().createConnectionManager();
             //------------------------------------------------------------------
+            // start transaction
+            con.transactionStart();
+            //------------------------------------------------------------------
             model.auditDelete();
             // execute query.
-            return model.updateFull(con);
+            boolean parentUpdated = model.update(con);
+            //------------------------------------------------------------------
+            // if project record update failed rollback and return false.
+            if (!parentUpdated) {
+                con.transactionRollBack();
+                return false;
+            }
+            //------------------------------------------------------------------
+            // Delete Related Contacts.
+            //------------------------------------------------------------------
+            // proceed to update related contacts deleted-at flag.
+            SimpleQuery querySample = new SimpleQuery();
+            querySample.addStatement("UPDATE")
+                    .addStatement(TrainingDataModel.TABLE)
+                    .addStatement("SET")
+                    .addStatementWithParameter(TrainingDataModel.DELETED_AT + " = ?", Context.app().getServerDate())
+                    .addStatement(",")
+                    .addStatementWithParameter(TrainingDataModel.DELETED_BY + " = ?", Context.app().getAuditUser())
+                    .addStatement("WHERE")
+                    .addStatement(TrainingDataModel.DELETED_AT)
+                    .addStatement("IS NULL")
+                    .addStatement("AND")
+                    .addStatementWithParameter(TrainingDataModel.TRAINING_CODE + " = ?", model.getTrainingCode());
+            //------------------------------------------------------------------
+            try {
+                // execute update to contacts.
+                con.update(querySample);
+            } catch (SQLException e) {
+                // if something happened wrong
+                con.transactionRollBack();
+                return false;
+            }
+            //------------------------------------------------------------------
+            //  End Delete Contact Coverage
+            //------------------------------------------------------------------
+            // if nothing happened wrong
+            con.transactionCommit();
+            return true;
         } finally {
             if (con != null) {
-                con.close();
+                con.close(); // auto roll back
             }
         }
     }

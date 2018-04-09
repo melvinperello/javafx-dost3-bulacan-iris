@@ -60,6 +60,7 @@ public class ProjectModel extends PolarisRecord implements TableAuditor {
         this.projectStatus = null;
         this.projectType = "";
         this.companyOwner = "";
+        this.history = "";
         this.ownerPosition = "";
         this.ownerAddress = "";
         //
@@ -106,6 +107,7 @@ public class ProjectModel extends PolarisRecord implements TableAuditor {
     public final static String COMPANY_NAME = "company_name";
     // ADDED INFORMATION 02/22/2018
     public final static String COMPANY_OWNER = "company_owner";
+    public final static String HISTORY = "history";
     public final static String OWNER_POSITION = "owner_position";
     public final static String OWNER_ADDRESS = "owner_address";
     //
@@ -178,6 +180,8 @@ public class ProjectModel extends PolarisRecord implements TableAuditor {
     // Added info
     @Column(COMPANY_OWNER)
     private String companyOwner;
+    @Column(HISTORY)
+    private String history;
     @Column(OWNER_POSITION)
     private String ownerPosition;
     @Column(OWNER_ADDRESS)
@@ -728,6 +732,14 @@ public class ProjectModel extends PolarisRecord implements TableAuditor {
 
     public String getCompanyOwner() {
         return companyOwner;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
+
+    public String getHistory() {
+        return history;
     }
 
     public String getOwnerPosition() {
