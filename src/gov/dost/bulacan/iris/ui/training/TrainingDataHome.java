@@ -337,6 +337,9 @@ public class TrainingDataHome extends IrisForm {
 
     }
 
+    /**
+     * Static class to compute summary.
+     */
     public final static class Calculator {
 
         private final HashMap<String, ArrayList<String>> contents;
@@ -345,6 +348,12 @@ public class TrainingDataHome extends IrisForm {
             this.contents = new HashMap<>();
         }
 
+        /**
+         * Enter Values.
+         *
+         * @param key
+         * @param value
+         */
         public void feed(String key, String value) {
             ArrayList<String> valList = this.contents.getOrDefault(key, null);
             if (valList == null) {
@@ -360,6 +369,11 @@ public class TrainingDataHome extends IrisForm {
 
         }
 
+        /**
+         * View Result.
+         *
+         * @return
+         */
         public String view() {
             StringBuilder result = new StringBuilder("");
             result.append("\n\nTECHNOLOGY/ INFORMATION PRESENTED\n");

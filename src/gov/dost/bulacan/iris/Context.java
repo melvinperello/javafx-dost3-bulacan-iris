@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -42,9 +43,11 @@ import java.util.Date;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextInputControl;
+import javax.swing.JOptionPane;
+import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientFactory;
-import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientManager;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
+import org.afterschoolcreatives.polaris.java.util.PolarisProperties;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
 
 /**
@@ -52,8 +55,6 @@ import org.afterschoolcreatives.polaris.java.util.StringTools;
  * @author Jhon Melvin
  */
 public class Context {
-
-    private final static String HOST = "127.0.0.1";
 
     //==========================================================================
     // Configuration Values
@@ -248,10 +249,9 @@ public class Context {
         return auditUser;
     }
 
-    public void setAuditUser(String auditUser) {
-        this.auditUser = auditUser;
-    }
-
+//    public void setAuditUser(String auditUser) {
+//        this.auditUser = auditUser;
+//    }
     //--------------------------------------------------------------------------
     // Connection Management
     //--------------------------------------------------------------------------
@@ -259,8 +259,79 @@ public class Context {
     private ApacheFTPClientFactory ftpClientFactory;
 
     private Context() {
+        this.loadSettings();
+        //----------------------------------------------------------------------
         this.createConnectionFactory();
         this.createFtpConnectionFactory();
+
+    }
+
+    //--------------------------------------------------------------------------
+    private String host;
+    private String databaseName;
+    private String databasePort;
+    private String databaseUser;
+    private String databasePass;
+    //--------------------------------------------------------------------------
+    private String ftpUser;
+    private String ftpPass;
+    private String ftpPort;
+    //--------------------------------------------------------------------------
+    private String terminalUser;
+    //--------------------------------------------------------------------------
+
+    private void loadSettings() {
+        PolarisProperties prop = new PolarisProperties();
+        try {
+            File propFile = new File("config.prop");
+            if (!propFile.exists()) {
+                //this.createDefaultSettings();
+            }
+            prop.read(propFile);
+            this.host = prop.get("host");
+            this.databaseName = prop.get("databaseName");
+            this.databasePort = prop.get("databasePort");
+            this.databaseUser = prop.get("databaseUser");
+            this.databasePass = prop.get("databasePass");
+            //
+            this.ftpUser = prop.get("ftpUser");
+            this.ftpPass = prop.get("ftpPass");
+            this.ftpPort = prop.get("ftpPort");
+            //
+            this.terminalUser = prop.get("terminalUser");
+            //
+            this.auditUser = this.terminalUser;
+
+        } catch (IOException e) {
+            // ignore
+            JOptionPane.showMessageDialog(null, "Failed to load configuration file. Please check config.prop![" + e.getMessage() + "]", "Configuration Error", JOptionPane.ERROR_MESSAGE);
+            this.createDefaultSettings();
+            System.exit(-1);
+
+        }
+    }
+
+    private void createDefaultSettings() {
+        PolarisProperties prop = new PolarisProperties();
+        prop.setProperty("host", "127.0.0.1");
+        prop.setProperty("databaseName", "iris_bulacan_dost3");
+        prop.setProperty("databasePort", "3306");
+        prop.setProperty("databaseUser", "iris_db");
+        prop.setProperty("databasePass", "123456");
+        //
+        prop.setProperty("ftpUser", "iris_ftp");
+        prop.setProperty("ftpPass", "123456");
+        prop.setProperty("ftpPort", "21");
+        //
+        prop.setProperty("terminalUser", "IRIS3000/SYS");
+
+        try {
+            prop.write(new File("config.prop"));
+        } catch (IOException e) {
+            // ignore
+            JOptionPane.showMessageDialog(null, "Failed to write configuration file. Please check config.prop![" + e.getMessage() + "]", "Configuration Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
+        }
     }
 
     /**
@@ -269,20 +340,27 @@ public class Context {
     private void createConnectionFactory() {
         this.connectionFactory = new HikariConnectionPool();
         this.connectionFactory.setConnectionDriver(ConnectionFactory.Driver.MariaDB);
-        this.connectionFactory.setDatabaseName("iris_bulacan_dost3");
-        this.connectionFactory.setHost(HOST);
-        this.connectionFactory.setPort("3306");
-        this.connectionFactory.setUsername("iris_db");
-        this.connectionFactory.setPassword("123456");
+        this.connectionFactory.setDatabaseName(this.databaseName);
+        this.connectionFactory.setHost(this.host);
+        this.connectionFactory.setPort(this.databasePort);
+        this.connectionFactory.setUsername(this.databaseUser);
+        this.connectionFactory.setPassword(this.databasePass);
         this.connectionFactory.start();
     }
 
     private void createFtpConnectionFactory() {
         ApacheFTPClientFactory ftp = new ApacheFTPClientFactory();
-        ftp.setServer(HOST);
-        ftp.setUsername("iris_ftp");
-        ftp.setPassword("123456");
-        ftp.setPort(21);
+        ftp.setServer(this.host);
+        ftp.setUsername(this.ftpUser);
+        ftp.setPassword(this.ftpPass);
+        int port = 21;
+        try {
+            port = Integer.parseInt(this.ftpPort);
+        } catch (NumberFormatException e) {
+            port = 21;
+        }
+
+        ftp.setPort(port);
         this.ftpClientFactory = ftp;
     }
 

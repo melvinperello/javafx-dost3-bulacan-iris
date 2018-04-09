@@ -91,7 +91,7 @@ public class IRIS extends Application {
      * @param args
      */
     public static void main(String[] args) {
-        Context.app().setAuditUser("JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000");
+//        Context.app().setAuditUser("JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000");
         Application.launch(args);
     }
 
