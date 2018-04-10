@@ -178,6 +178,22 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </HBox>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Background">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_history" text="Sample Description" wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
                      </children>
                   </VBox>
                   <VBox style="-fx-border-color: black;">

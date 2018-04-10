@@ -62,6 +62,9 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 public class ProjectDetailsEdit extends IrisForm {
 
     @FXML
+    private TextArea txt_history;
+
+    @FXML
     private HBox hbox_header;
 
     @FXML
@@ -308,6 +311,7 @@ public class ProjectDetailsEdit extends IrisForm {
     private String frmProducts;
     private String frmMarket;
     private String frmStreetAddress;
+    private String frmHistory;
     private String frmBrgy;
     private String frmCityZip;
     private String frmLandMark;
@@ -353,6 +357,7 @@ public class ProjectDetailsEdit extends IrisForm {
         this.frmProducts = filterInput(txt_products);
         this.frmMarket = filterInput(txt_market);
         this.frmStreetAddress = filterInput(txt_street_address);
+        this.frmHistory = filterInput(txt_history);
         this.frmBrgy = filterInput(txt_brgy);
         // save zip code for town
         ProjectModel.TownValueModel town = (ProjectModel.TownValueModel) this.cmb_city.getValue();
@@ -422,6 +427,7 @@ public class ProjectDetailsEdit extends IrisForm {
         project.setCompanyOwner(frmOwner);
         project.setOwnerPosition(frmPosition);
         project.setOwnerAddress(frmOwnerAddress);
+        project.setHistory(frmHistory);
         project.setEndorsedDate(frmDateEndorsed);
 //        project.setEndorsedAttachment(null); // upon creation then add
         project.setApprovedDate(frmDateApproved);
@@ -516,6 +522,7 @@ public class ProjectDetailsEdit extends IrisForm {
         this.txt_owner.setText(this.receiveModel.getCompanyOwner());
         this.txt_owner_position.setText(this.receiveModel.getOwnerPosition());
         this.txt_owner_address.setText(this.receiveModel.getOwnerAddress());
+        this.txt_history.setText(this.receiveModel.getHistory());
 
         /**
          * Pre-load the selected combo box. SHIT! just been fooled by auto
@@ -656,6 +663,7 @@ public class ProjectDetailsEdit extends IrisForm {
         project.setCompanyOwner(frmOwner);
         project.setOwnerPosition(frmPosition);
         project.setOwnerAddress(frmOwnerAddress);
+        project.setHistory(frmHistory);
         project.setEndorsedDate(frmDateEndorsed);
 //        project.setEndorsedAttachment(null); // upon creation then add
         project.setApprovedDate(frmDateApproved);
