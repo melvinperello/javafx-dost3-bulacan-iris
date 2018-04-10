@@ -30,7 +30,6 @@ package gov.dost.bulacan.iris;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -44,7 +43,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextInputControl;
 import javax.swing.JOptionPane;
-import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientFactory;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 import org.afterschoolcreatives.polaris.java.util.PolarisProperties;
@@ -423,7 +421,7 @@ public class Context {
     }
 
     /**
-     * SAMPLE: 06101997_162517 (24 HR FORMAT)
+     * SAMPLE: 06101997_162517 (24 HR FORMAT) COMMONLY FOR FILES.
      *
      * @return
      */

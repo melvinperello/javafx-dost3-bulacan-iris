@@ -35,6 +35,11 @@ import gov.dost.bulacan.iris.RaidContext;
 import gov.dost.bulacan.iris.models.RaidModel;
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.NonReadableChannelException;
+import java.nio.channels.NonWritableChannelException;
+import java.util.Date;
+import java.util.Locale;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -101,10 +106,17 @@ public class RaidDownload extends IrisForm {
 
     @Override
     protected void setup() {
-        this.btn_open.setDisable(true);
-        this.btn_download.setDisable(true);
+        //----------------------------------------------------------------------
+        this.defaultState();
+        //----------------------------------------------------------------------
 
         this.btn_cancel.setOnMouseClicked(value -> {
+            if (this.downloadThread != null) {
+                if (this.downloadThread.isRunning()) {
+                    this.downloadThread.cancel();
+                    this.showWaitWarningMessage("Download Cancelled", "File download was cancelled by the user.");
+                }
+            }
             this.getStage().close();
             value.consume();
         });
@@ -115,7 +127,7 @@ public class RaidDownload extends IrisForm {
         });
 
         this.btn_open.setOnMouseClicked(value -> {
-            System.out.println("open");
+            this.checkFileIntegrity();
             value.consume();
         });
 
@@ -124,6 +136,16 @@ public class RaidDownload extends IrisForm {
         //----------------------------------------------------------------------
         this.checkFileInRaid();
         //----------------------------------------------------------------------
+    }
+
+    private void defaultState() {
+        this.lbl_filename.setText("No File Selected");
+        this.lbl_file_size.setText("0.00 MB ( 0 bytes )");
+        this.lbl_file_sig.setText("");
+        this.pb_progress.setProgress(0.00);
+        this.lbl_progress.setText("0 % ( 0 bytes / 0 bytes )");
+        this.btn_open.setDisable(true);
+        this.btn_download.setDisable(true);
     }
 
     private void preloadData() {
@@ -138,29 +160,168 @@ public class RaidDownload extends IrisForm {
 
     private void checkFileInRaid() {
         if (FileTool.checkFoldersQuietly("raid/bin")) {
-            String fileName = this.raidModel.getName();
+            final String fileName = this.raidModel.getName();
             File raidFile = new File("raid/bin/" + fileName);
             if (raidFile.exists()) {
                 // copy to temp
                 this.btn_download.setDisable(true);
                 this.btn_open.setDisable(false);
-                this.lbl_raid_id.setText(this.lbl_raid_id.getText() + " - Local Copy Verified (Ready)");
+                this.lbl_raid_id.setText(this.raidModel.getId() + " - Local Copy Verified (Ready)");
+                this.pb_progress.setProgress(1.00);
+                this.lbl_progress.setText("100% Download (COMPLETE)");
             } else {
                 // download file
                 this.btn_download.setDisable(false);
                 this.btn_open.setDisable(true);
-                this.lbl_raid_id.setText(this.lbl_raid_id.getText() + " - No Local Copy (Download)");
+                this.lbl_raid_id.setText(this.raidModel.getId() + " - No Local Copy (Download)");
             }
+        } else {
+            // NO DIR EXCEPTION
+            this.showWaitErrorMessage("Write Exception", "The system encountered an error while writing on the disk.");
+            this.getStage().close();
         }
     }
 
     /**
+     * Check file Integrity if this was success it will call openTempFile.
+     *
+     * @see RaidDownload#openTempFile(java.io.File)
+     */
+    private void checkFileIntegrity() {
+        //----------------------------------------------------------------------
+        // disable buttons when starting hash thread.
+        this.btn_cancel.setDisable(true);
+        this.btn_download.setDisable(true);
+        this.btn_open.setDisable(true);
+        //----------------------------------------------------------------------
+        final String fileName = this.raidModel.getName();
+        File file = new File("raid/bin/" + fileName);
+        //----------------------------------------------------------------------
+        HashThread hashThread = new HashThread();
+        hashThread.setDaemon(true);
+        hashThread.setLocalFile(file);
+        Runnable onComplete = () -> {
+            if (!hashThread.isSuccess()) {
+                // If Failed to hash.
+                Platform.runLater(() -> {
+                    this.showWaitErrorMessage("Ooops! Something went wrong.", "File not verified please try again.");
+                    this.getStage().close();
+                });
+            } else {
+                final String localHash = hashThread.getFileHashValue();
+                final String remoteHash = this.raidModel.getHash().toUpperCase(Locale.ENGLISH);
+
+                if (localHash.equalsIgnoreCase(remoteHash)) {
+                    // CREATE TEMP FILE BEFORE RUN
+                    //----------------------------------------------------------
+                    this.openTempFile(file);
+                    //----------------------------------------------------------
+                } else {
+                    // hash fail delete file
+                    try {
+                        file.delete();
+                    } catch (Exception e) {
+                        // ignore
+                    }
+                    Platform.runLater(() -> {
+                        this.showWaitErrorMessage("Integrity Error", "File may be corrupted or compromised by a virus.");
+                        this.getStage().close();
+                    });
+                }
+
+            }
+
+        };
+        hashThread.setOnCompletion(onComplete);
+        hashThread.start();
+        //------------------------------------------------------------
+    }
+
+    /**
+     * WARNING: THIS METHOD IS RUNNING ON THE HASH THREAD.
+     *
+     * @param file
+     */
+    private void openTempFile(File file) {
+        if (FileTool.checkFoldersQuietly(Context.getDirectoryTemp())) {
+            final String tempFile = this.raidModel.getDisplayName()
+                    + "_" + Context.app().getDateFormatTimeStamp().format(new Date())
+                    + "." + this.raidModel.getExtenstion();
+            final File tempBinFile = new File(Context.getDirectoryTemp() + "/" + tempFile);
+            boolean copied = false;
+            try {
+                copied = FileTool.copy(file, tempBinFile);
+            } catch (IOException | IllegalArgumentException | NonReadableChannelException | NonWritableChannelException e) {
+                // ignore
+            }
+            //------------------------------------------------------------------
+            if (copied) {
+                // 
+                if (Context.desktopOpenQuietly(tempBinFile)) {
+                    Platform.runLater(() -> {
+                        this.showWaitInformationMessage("Openning File", "Please wait while the operating system loads the file.");
+                        this.getStage().close();
+                    });
+                } else {
+                    this.showWaitErrorMessage("Cannot Open", "The operating system was unable to open the file.");
+                    this.getStage().close();
+                }
+            } else {
+                Platform.runLater(() -> {
+                    this.showWaitErrorMessage("Temp File Error", "The system has encountered an error while trying to create a temporary file.");
+                    this.getStage().close();
+                });
+            }
+            //------------------------------------------------------------------
+        } else {
+            // DIR EXCEPTION
+            Platform.runLater(() -> {
+                this.showWaitErrorMessage("Write Exception", "The system encountered an error while writing on the disk.");
+                this.getStage().close();
+            });
+
+        }
+    }
+
+    private DownloadThread downloadThread;
+
+    /**
+     *
      * Download file to RAID Array.
      */
     private void downloadFile() {
-        DownloadThread dl = new DownloadThread();
-        dl.setRaidModel(this.raidModel);
-        dl.start();
+        this.downloadThread = new DownloadThread();
+        this.downloadThread.setRaidModel(this.raidModel);
+        //----------------------------------------------------------------------
+        /**
+         * Update UI Frames.
+         */
+        this.downloadThread.setOnUpdate((text, percent) -> {
+            Platform.runLater(() -> {
+                this.lbl_progress.setText(String.valueOf(text));
+                this.pb_progress.setProgress(percent);
+            });
+        });
+        //----------------------------------------------------------------------
+        /**
+         * When encountered and error.
+         */
+        this.downloadThread.setOnException(() -> {
+            Platform.runLater(() -> {
+                this.showWaitErrorMessage("Ooops! Something went wrong.", "File download has encountered a problem. Please try again later.");
+                this.getStage().close();
+            });
+        });
+        //----------------------------------------------------------------------
+        this.downloadThread.setOnComplete(() -> {
+            Platform.runLater(() -> {
+                this.btn_download.setDisable(true);
+                this.btn_open.setDisable(false);
+                this.showWaitInformationMessage("Downloaded Successfully.", "The file is now ready to be open.");
+            });
+        });
+        //----------------------------------------------------------------------
+        this.downloadThread.start();
     }
 
     /**
@@ -172,7 +333,18 @@ public class RaidDownload extends IrisForm {
         private ApacheFTPClientManager ftpConnection; // connection
         private OnUpdate onUpdate; // on update
         private Runnable onException; // when exception
+        private Runnable onComplete;
         private volatile boolean runningFlag;
+        private volatile boolean cancelFlag; //no-op
+
+        /**
+         * Check if running.
+         *
+         * @return
+         */
+        public boolean isRunning() {
+            return runningFlag;
+        }
 
         /**
          * Set Raid Model.
@@ -181,6 +353,33 @@ public class RaidDownload extends IrisForm {
          */
         public void setRaidModel(RaidModel raidModel) {
             this.raidModel = raidModel;
+        }
+
+        /**
+         * Updates.
+         *
+         * @param onUpdate
+         */
+        public void setOnUpdate(OnUpdate onUpdate) {
+            this.onUpdate = onUpdate;
+        }
+
+        /**
+         * Failed to complete and with exceptions.
+         *
+         * @param onException
+         */
+        public void setOnException(Runnable onException) {
+            this.onException = onException;
+        }
+
+        /**
+         * When download thread is completed with success.
+         *
+         * @param onComplete
+         */
+        public void setOnComplete(Runnable onComplete) {
+            this.onComplete = onComplete;
         }
 
         /**
@@ -198,6 +397,7 @@ public class RaidDownload extends IrisForm {
             //------------------------------------------------------------------
             // flag
             this.runningFlag = true;
+            this.cancelFlag = false;
             //------------------------------------------------------------------
             final String fileName = this.raidModel.getName();
             final double transSize = this.raidModel.getSize().doubleValue();
@@ -225,14 +425,34 @@ public class RaidDownload extends IrisForm {
                     }
                 }); // end listener
                 //--------------------------------------------------------------
-                this.ftpConnection.downloadStream("bin/" + fileName, "raid/bin/" + fileName);
+                boolean downloaded = this.ftpConnection.downloadStream("bin/" + fileName, "raid/bin/" + fileName);
+
+                if (this.cancelFlag) {
+                    return; // cancel
+                }
+
+                if (downloaded) {
+                    if (this.onComplete != null) {
+                        this.onComplete.run();
+                    }
+                } else {
+                    if (this.onException != null) {
+                        this.onException.run();
+                    }
+                }
             } catch (IOException e) {
+                //--------------------------------------------------------------
+                if (this.cancelFlag) {
+                    return; // cancel
+                }
                 //--------------------------------------------------------------
                 // call exception routine
                 if (this.onException != null) {
                     this.onException.run();
                 }
                 //--------------------------------------------------------------
+            } catch (NullPointerException e) {
+                // IGNORE
             } finally {
                 //--------------------------------------------------------------
                 // FTP Connection Clean Up.
@@ -268,6 +488,9 @@ public class RaidDownload extends IrisForm {
                     //----------------------------------------------------------
                 }
             }
+            //------------------------------------------------------------------
+            this.cancelFlag = true;
+            //------------------------------------------------------------------
         }
 
     }

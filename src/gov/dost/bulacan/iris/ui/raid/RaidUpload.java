@@ -35,9 +35,7 @@ import gov.dost.bulacan.iris.RaidContext;
 import gov.dost.bulacan.iris.models.RaidModel;
 import java.io.File;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.Locale;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -220,7 +218,7 @@ public class RaidUpload extends IrisForm {
         Runnable onComplete = () -> {
 
             Platform.runLater(() -> {
-                if (!hashThread.isResult()) {
+                if (!hashThread.isSuccess()) {
                     // If Failed to hash.
                     this.fileMeta = null;
                     this.defaultState();
@@ -230,14 +228,14 @@ public class RaidUpload extends IrisForm {
                     String progressLabel = "0 % ( 0 bytes / " + prettySize + " bytes )";
                     this.lbl_filename.setText(fileName);
                     this.lbl_file_size.setText(fileSizeString);
-                    this.lbl_file_sig.setText(hashThread.getHashResult() + " ( SHA1 )");
+                    this.lbl_file_sig.setText(hashThread.getFileHashValue() + " ( SHA1 )");
                     this.lbl_progress.setText(progressLabel);
                     this.btn_cancel.setDisable(false);
                     this.btn_select.setDisable(false);
                     // set common file meta.
                     Meta meta = new Meta();
                     meta.setFile(file);
-                    meta.setFileHash(hashThread.getHashResult());
+                    meta.setFileHash(hashThread.getFileHashValue());
                     meta.setFileSize(finalizeSize);
                     meta.setFileName(fileName);
                     this.fileMeta = meta;
@@ -589,64 +587,5 @@ public class RaidUpload extends IrisForm {
         }
 
     } // end of upload thread
-
-    /**
-     * Worker thread for hashing the file to avoid freezing.
-     */
-    public static class HashThread extends Thread {
-
-        //----------------------------------------------------------------------
-        /**
-         * Local File to hash.
-         */
-        private File localFile;
-        /**
-         * When Completed.
-         */
-        private Runnable onCompletion;
-
-        public void setLocalFile(File localFile) {
-            this.localFile = localFile;
-        }
-
-        public void setOnCompletion(Runnable onCompletion) {
-            this.onCompletion = onCompletion;
-        }
-
-        //----------------------------------------------------------------------
-        /**
-         * Hash Result.
-         */
-        private String hashResult;
-        /**
-         * Is This thread successfully run.
-         */
-        private boolean result;
-
-        public String getHashResult() {
-            return hashResult;
-        }
-
-        public boolean isResult() {
-            return result;
-        }
-
-        @Override
-        public void run() {
-            this.result = false;
-            this.hashResult = "";
-            try {
-                this.hashResult = RaidContext.getFileHash(this.localFile);
-                this.hashResult = this.hashResult.toUpperCase(Locale.ENGLISH);
-                this.result = true;
-            } catch (IOException | NoSuchAlgorithmException ex) {
-                this.hashResult = null;
-            }
-            if (onCompletion != null) {
-                this.onCompletion.run();
-            }
-        }
-
-    }
 
 }
