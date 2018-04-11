@@ -32,11 +32,6 @@
                         <Font name="System Bold" size="22.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_modify_time" text="Last Updated 02/02/2018 by melvin">
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                  </Label>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">

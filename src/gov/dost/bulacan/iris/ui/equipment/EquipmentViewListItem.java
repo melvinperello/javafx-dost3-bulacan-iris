@@ -80,7 +80,7 @@ public class EquipmentViewListItem extends PolarisFxController implements Listab
             //
             String date = "No Specified Date";
             if (qouteModel.getQoutationDate() != null) {
-                date = Context.app().getDateFormatNamed().format(qouteModel.getQoutationDate());
+                date = Context.getDateFormatNamed().format(qouteModel.getQoutationDate());
             }
             //
             this.lbl_date.setText(date);

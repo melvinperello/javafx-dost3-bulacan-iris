@@ -358,7 +358,7 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     public String auditToString() {
         if (this.getCreatedAt() != null) {
             return "Entry Created by [ " + this.getCreatedBy() + " ] "
-                    + " at " + Context.app().getDateFormat12().format(this.getCreatedAt());
+                    + " at " + Context.getDateFormat12().format(this.getCreatedAt());
         } else {
             return "No Audit History";
         }

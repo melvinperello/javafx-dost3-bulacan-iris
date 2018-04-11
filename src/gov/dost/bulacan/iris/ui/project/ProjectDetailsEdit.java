@@ -71,9 +71,6 @@ public class ProjectDetailsEdit extends IrisForm {
     private Label lbl_modify_header;
 
     @FXML
-    private Label lbl_modify_time;
-
-    @FXML
     private JFXButton btn_save_project;
 
     @FXML
@@ -206,7 +203,6 @@ public class ProjectDetailsEdit extends IrisForm {
         if (this.willAddNew) {
             this.lbl_project_code.setText(this.generatedNewProjectKey());
             this.lbl_modify_header.setText("Create New Project");
-            this.lbl_modify_time.setVisible(false);
         } else {
             this.preloadData();
         }

@@ -190,7 +190,7 @@ public class TrainingHome extends IrisForm {
             Date date = model.getDateStart();
             String dateString = "";
             if (date != null) {
-                dateString = Context.app().getDateFormatNamed().format(date);
+                dateString = Context.getDateFormatNamed().format(date);
             }
             return new SimpleStringProperty(dateString);
         });

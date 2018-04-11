@@ -87,12 +87,24 @@ public interface TableAuditor {
     public default String auditToString() {
         if (this.getUpdatedAt() == null) {
             if (this.getCreatedAt() != null) {
-                return Context.app().getDateFormat12().format(this.getCreatedAt()) + " by " + this.getCreatedBy();
+                return Context.getDateFormat12().format(this.getCreatedAt()) + " by " + this.getCreatedBy();
             } else {
                 return "No Audit History";
             }
         } else {
-            return Context.app().getDateFormat12().format(this.getUpdatedAt()) + " by " + this.getUpdatedBy();
+            return Context.getDateFormat12().format(this.getUpdatedAt()) + " by " + this.getUpdatedBy();
+        }
+    }
+
+    public default String auditDetailedToString() {
+        if (this.getUpdatedAt() == null) {
+            if (this.getCreatedAt() != null) {
+                return "CREATED AT " + Context.getDateFormat12().format(this.getCreatedAt()) + " by " + this.getCreatedBy();
+            } else {
+                return "No Audit History";
+            }
+        } else {
+            return "UPDATED AT " + Context.getDateFormat12().format(this.getUpdatedAt()) + " by " + this.getUpdatedBy();
         }
     }
 }

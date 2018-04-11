@@ -32,9 +32,7 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ContactInformationModel;
-import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
-import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
 import java.sql.SQLException;
 import java.util.Arrays;
 import javafx.fxml.FXML;
@@ -48,57 +46,57 @@ import javafx.scene.layout.HBox;
  * @author Jhon Melvin
  */
 public class DirEdit extends IrisForm {
-
+    
     @FXML
     private HBox hbox_header;
-
+    
     @FXML
     private JFXButton btn_back;
-
+    
     @FXML
     private Label lbl_modify_header;
-
+    
     @FXML
     private Label lbl_modify_time;
-
+    
     @FXML
     private JFXButton btn_save_qoutation;
-
+    
     @FXML
     private Label lbll_dir_id;
-
+    
     @FXML
     private TextField txt_org;
-
+    
     @FXML
     private ComboBox<String> cmb_org_type;
-
+    
     @FXML
     private TextField txt_department;
-
+    
     @FXML
     private TextField txt_contact;
-
+    
     @FXML
     private TextField txt_tel;
-
+    
     @FXML
     private TextField txt_fax;
-
+    
     @FXML
     private TextField txt_mobile;
-
+    
     @FXML
     private TextField txt_email;
-
+    
     public DirEdit(ContactInformationModel model) {
         this.model = model;
         this.addingMode = (model == null);
-
+        
     }
     private final ContactInformationModel model;
     private final boolean addingMode;
-
+    
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
@@ -108,16 +106,19 @@ public class DirEdit extends IrisForm {
         //----------------------------------------------------------------------
         if (addingMode) {
             this.lbll_dir_id.setText(Context.createLocalKey());
+            this.lbl_modify_time.setVisible(false);
         } else {
             this.preloadData();
+            this.lbl_modify_time.setVisible(true);
+            this.lbl_modify_time.setText(this.model.auditDetailedToString());
         }
-
+        
         this.btn_back.setOnMouseClicked(value -> {
             DirHome fx = new DirHome();
             this.changeRoot(fx.load());
             value.consume();
         });
-
+        
         this.btn_save_qoutation.setOnMouseClicked(value -> {
             if (this.addingMode) {
                 if (this.insert()) {
@@ -131,7 +132,7 @@ public class DirEdit extends IrisForm {
             value.consume();
         });
     }
-
+    
     private void preloadData() {
         this.lbll_dir_id.setText(this.model.getContactId());
         this.txt_org.setText(this.model.getOrganization());
@@ -161,7 +162,7 @@ public class DirEdit extends IrisForm {
     private String frmFax;
     private String frmMobile;
     private String frmEmail;
-
+    
     private void submit() {
         this.frmOrg = Context.filterInputControl(this.txt_org);
         this.frmType = this.cmb_org_type.getSelectionModel().getSelectedItem();
@@ -172,15 +173,15 @@ public class DirEdit extends IrisForm {
         this.frmMobile = Context.filterInputControl(this.txt_mobile);
         this.frmEmail = Context.filterInputControl(this.txt_email);
     }
-
+    
     private boolean insert() {
         this.submit();
-
+        
         if (this.frmOrg.isEmpty()) {
             this.showWarningMessage(null, "Please enter the equipment name.");
             return false;
         }
-
+        
         ContactInformationModel model = new ContactInformationModel();
         model.setContactId(this.lbll_dir_id.getText());
         model.setOrganization(frmOrg);
@@ -191,7 +192,7 @@ public class DirEdit extends IrisForm {
         model.setFaxNo(frmFax);
         model.setMobileNo(frmMobile);
         model.setEmail(frmEmail);
-
+        
         boolean inserted = false;
         try {
             inserted = ContactInformationModel.insert(model);
@@ -204,17 +205,17 @@ public class DirEdit extends IrisForm {
             this.showExceptionMessage(ex, null, "Failed to insert New Contact Information.");
         }
         return inserted;
-
+        
     }
-
+    
     private boolean update() {
         this.submit();
-
+        
         if (this.frmOrg.isEmpty()) {
             this.showWarningMessage(null, "Please enter the equipment name.");
             return false;
         }
-
+        
         ContactInformationModel model = this.model;
 //        model.setContactId(this.lbll_dir_id.getText());
         model.setOrganization(frmOrg);
@@ -225,7 +226,7 @@ public class DirEdit extends IrisForm {
         model.setFaxNo(frmFax);
         model.setMobileNo(frmMobile);
         model.setEmail(frmEmail);
-
+        
         boolean updated = false;
         try {
             updated = ContactInformationModel.update(model);
@@ -239,5 +240,5 @@ public class DirEdit extends IrisForm {
         }
         return updated;
     }
-
+    
 }

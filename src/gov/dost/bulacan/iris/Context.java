@@ -42,7 +42,6 @@ import java.util.Date;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextInputControl;
-import javax.swing.JOptionPane;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientFactory;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 import org.afterschoolcreatives.polaris.java.util.PolarisProperties;
@@ -58,54 +57,16 @@ public class Context {
     // Configuration Values
     //==========================================================================
     // Project Constants.
-    private final static int VERSION_CODE = 0;
-    private final static String VERSION_NAME = "v.1.0 Prototype";
-    private final static String PROJECT_CODE_PREFIX = "BUL3000";
-    private final static String RAID_CODE_PREFIX = "RAID3000";
+    public final static int VERSION_CODE = 0;
+    public final static String VERSION_NAME = "1.0.1-testsys";
+    public final static String PREFIX_PROVINCE_CODE = "BUL3000";
+    public final static String PREFIX_RAID_CODE = "RAID3000";
     // directory consta
-    private final static String DIR_TEMPLATE = "template";
-    private final static String DIR_TEMP = "temp";
-    //
-
-    //==========================================================================
-    // Static Accessors
-    //==========================================================================
-    public static int getVersionCode() {
-        return Context.VERSION_CODE;
-    }
-
-    public static String getVersionName() {
-        return Context.VERSION_NAME;
-    }
-
-    public static String getProvinceCodePrefix() {
-        return PROJECT_CODE_PREFIX;
-    }
-
-    public static String getDirectoryTemplate() {
-        return DIR_TEMPLATE;
-    }
-
-    public static String getDirectoryTemp() {
-        return DIR_TEMP;
-    }
-
-    public static String getTemplateSetupPrint() {
-        return DIR_TEMPLATE + File.separator + "setup_print_blank.pdf";
-    }
-
-    /**
-     * Temporary directory for printed setup inside temp folder.
-     *
-     * @return
-     */
-    public static String getDirectoryTempSetupPrints() {
-        return getDirectoryTemp() + File.separator + "setup_prints";
-    }
-
-    public static String getRaidPrefix() {
-        return RAID_CODE_PREFIX;
-    }
+    public final static String DIR_TEMPLATE = "template";
+    public final static String DIR_TEMP = "temp";
+    public final static String DIR_TEMP_SETUP_PRINTS = DIR_TEMP + File.separator + "setup_prints";
+    // FILE
+    public final static String FILE_TEMPLATE_SETUP_PRINT = DIR_TEMPLATE + File.separator + "setup_print_blank.pdf";
 
     //==========================================================================
     // Static Methods
@@ -116,7 +77,7 @@ public class Context {
          */
         Calendar dateKey = Calendar.getInstance();
         String generatedKey
-                = Context.getProvinceCodePrefix() // BUL3000
+                = Context.PREFIX_PROVINCE_CODE // BUL3000
                 + String.valueOf(dateKey.get(Calendar.YEAR)) // 2018
                 + "-" // -
                 + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());
@@ -145,7 +106,7 @@ public class Context {
 
     public final static void applyDateToPicker(DatePicker picker, Date dateEndorsed) {
         if (dateEndorsed != null) {
-            SimpleDateFormat format = Context.app().getDateFormat();
+            SimpleDateFormat format = Context.getDateFormat();
             LocalDate setDate = LocalDate.parse(format.format(dateEndorsed), DateTimeFormatter.ofPattern(format.toPattern()));
             picker.setValue(setDate);
         }
@@ -174,6 +135,66 @@ public class Context {
         }
     }
 
+    //==========================================================================
+    // Format Control
+    //==========================================================================
+    /**
+     * Get Project Money Format.
+     *
+     * @return
+     */
+    public static DecimalFormat getMoneyFormat() {
+        return new DecimalFormat("#,##0.00");
+    }
+
+    public static DecimalFormat getDecimal2Format() {
+        return new DecimalFormat("0.00");
+    }
+
+    /**
+     * SAMPLE: 04-20-1997
+     *
+     * @return
+     */
+    public static SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("MM-dd-yyyy");
+    }
+
+    /**
+     * Get Date Format. Sample: March 08, 2018
+     *
+     * @return
+     */
+    public static SimpleDateFormat getDateFormatNamed() {
+        return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy");
+    }
+
+    /**
+     * SAMPLE: MAY 26, 2018 - 04:25:17 AM (12 HR)
+     *
+     * @return
+     */
+    public static SimpleDateFormat getDateFormat12() {
+        return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy - hh:mm:ss a");
+    }
+
+    /**
+     * SAMPLE: 06101997_162517 (24 HR FORMAT) COMMONLY FOR FILES.
+     *
+     * @return
+     */
+    public static SimpleDateFormat getDateFormatTimeStamp() {
+        return new SimpleDateFormat("MMddyyyy_HHmmss");
+    }
+
+    //--------------------------------------------------------------------------
+    // Resource Management
+    //--------------------------------------------------------------------------
+    public static InputStream getResourceStream(String name) {
+        return Context.class.getClass().getResourceAsStream("/storage/" + name);
+    }
+
+    //--------------------------------------------------------------------------
     /**
      * Launches the native Operating System default application to open a given
      * file.
@@ -198,9 +219,12 @@ public class Context {
         return false;
     }
 
-    //==========================================================================
-    // DOUBLE CHECK Singleton Synchronization
-    //==========================================================================
+    //**************************************************************************
+    // INSTANCE CONTROL.
+    //**************************************************************************
+    //
+    // Manage IRIS Context Instance.
+    //
     /**
      * Instance Holder.
      */
@@ -214,6 +238,7 @@ public class Context {
      */
     @Override
     protected Object clone() throws CloneNotSupportedException {
+        super.clone();
         throw new CloneNotSupportedException("Not Allowed!");
     }
 
@@ -238,30 +263,56 @@ public class Context {
     //==========================================================================
     // Non-Static Methods (Instance Scope)
     //==========================================================================
-    //--------------------------------------------------------------------------
-    // Runtime
-    //--------------------------------------------------------------------------
     private String auditUser;
 
     public String getAuditUser() {
         return auditUser;
     }
 
-//    public void setAuditUser(String auditUser) {
-//        this.auditUser = auditUser;
-//    }
     //--------------------------------------------------------------------------
     // Connection Management
+    //--------------------------------------------------------------------------
+    private Context() {
+        this.started = false;
+    }
+
+    private boolean started;
+
+    /**
+     * Starts this application context.
+     */
+    public void start() throws Exception {
+        if (!this.started) {
+            // notify using Java Swing
+            this.loadSettings();
+            //----------------------------------------------------------------------
+            this.createConnectionFactory();
+            //----------------------------------------------------------------------
+            this.createFtpConnectionFactory();
+            //----------------------------------------------------------------------
+        }
+        this.started = true;
+
+    }
+
     //--------------------------------------------------------------------------
     private HikariConnectionPool connectionFactory;
     private ApacheFTPClientFactory ftpClientFactory;
 
-    private Context() {
-        this.loadSettings();
-        //----------------------------------------------------------------------
-        this.createConnectionFactory();
-        this.createFtpConnectionFactory();
+    public HikariConnectionPool db() {
+        return this.connectionFactory;
+    }
 
+    public ApacheFTPClientFactory ftp() {
+        return this.ftpClientFactory;
+    }
+
+    public void shutdown() {
+        this.connectionFactory.close();
+        this.connectionFactory = null;
+        this.ftpClientFactory = null;
+        //
+        Context.instance = null;
     }
 
     //--------------------------------------------------------------------------
@@ -278,7 +329,10 @@ public class Context {
     private String terminalUser;
     //--------------------------------------------------------------------------
 
-    private void loadSettings() {
+    /**
+     * Load Settings from configuration.
+     */
+    private void loadSettings() throws IOException {
         PolarisProperties prop = new PolarisProperties();
         try {
             File propFile = new File("config.prop");
@@ -302,14 +356,18 @@ public class Context {
 
         } catch (IOException e) {
             // ignore
-            JOptionPane.showMessageDialog(null, "Failed to load configuration file. Please check config.prop![" + e.getMessage() + "]", "Configuration Error", JOptionPane.ERROR_MESSAGE);
             this.createDefaultSettings();
-            System.exit(-1);
-
+            throw e;
         }
     }
 
-    private void createDefaultSettings() {
+    /**
+     * Call this only when prop file is missing.
+     *
+     * @see Context#loadSettings()
+     * @throws IOException
+     */
+    private void createDefaultSettings() throws IOException {
         PolarisProperties prop = new PolarisProperties();
         prop.setProperty("host", "127.0.0.1");
         prop.setProperty("databaseName", "iris_bulacan_dost3");
@@ -323,19 +381,15 @@ public class Context {
         //
         prop.setProperty("terminalUser", "IRIS3000/SYS");
 
-        try {
-            prop.write(new File("config.prop"));
-        } catch (IOException e) {
-            // ignore
-            JOptionPane.showMessageDialog(null, "Failed to write configuration file. Please check config.prop![" + e.getMessage() + "]", "Configuration Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(-1);
-        }
+        prop.write(new File("config.prop"));
+
     }
 
     /**
      * Creates The Connection Factory.
      */
     private void createConnectionFactory() {
+
         this.connectionFactory = new HikariConnectionPool();
         this.connectionFactory.setConnectionDriver(ConnectionFactory.Driver.MariaDB);
         this.connectionFactory.setDatabaseName(this.databaseName);
@@ -343,7 +397,9 @@ public class Context {
         this.connectionFactory.setPort(this.databasePort);
         this.connectionFactory.setUsername(this.databaseUser);
         this.connectionFactory.setPassword(this.databasePass);
+
         this.connectionFactory.start();
+
     }
 
     private void createFtpConnectionFactory() {
@@ -360,73 +416,6 @@ public class Context {
 
         ftp.setPort(port);
         this.ftpClientFactory = ftp;
-    }
-
-    public HikariConnectionPool db() {
-        return this.connectionFactory;
-    }
-
-    public ApacheFTPClientFactory ftp() {
-        return this.ftpClientFactory;
-    }
-
-    //--------------------------------------------------------------------------
-    // Resource Management
-    //--------------------------------------------------------------------------
-    public InputStream getResourceStream(String name) {
-        return this.getClass().getResourceAsStream("/storage/" + name);
-    }
-
-    //==========================================================================
-    // Format Control
-    //==========================================================================
-    /**
-     * Get Project Money Format.
-     *
-     * @return
-     */
-    public DecimalFormat getMoneyFormat() {
-        return new DecimalFormat("#,##0.00");
-    }
-
-    public DecimalFormat getDecimal2Format() {
-        return new DecimalFormat("0.00");
-    }
-
-    /**
-     * SAMPLE: 04-20-1997
-     *
-     * @return
-     */
-    public SimpleDateFormat getDateFormat() {
-        return new SimpleDateFormat("MM-dd-yyyy");
-    }
-
-    /**
-     * Get Date Format. Sample: March 08, 2018
-     *
-     * @return
-     */
-    public SimpleDateFormat getDateFormatNamed() {
-        return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy");
-    }
-
-    /**
-     * SAMPLE: MAY 26, 2018 - 04:25:17 AM (12 HR)
-     *
-     * @return
-     */
-    public SimpleDateFormat getDateFormat12() {
-        return new SimpleDateFormat("MMMMMMMMMMMMMMMMMMMM dd, yyyy - hh:mm:ss a");
-    }
-
-    /**
-     * SAMPLE: 06101997_162517 (24 HR FORMAT) COMMONLY FOR FILES.
-     *
-     * @return
-     */
-    public SimpleDateFormat getDateFormatTimeStamp() {
-        return new SimpleDateFormat("MMddyyyy_HHmmss");
     }
 
     /**

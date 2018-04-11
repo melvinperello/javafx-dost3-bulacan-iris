@@ -78,7 +78,7 @@ public class DocumentItem extends PolarisFxController implements PolarisCustomLi
         //----------------------------------------------------------------------
         final String prettyName = FileExtensions.recognizeFile(f_ext);
         final String f_icon = FileExtensions.getDisplayIcon(prettyName);
-        this.img_icon.setImage(new Image(Context.app()
+        this.img_icon.setImage(new Image(Context
                 .getResourceStream("drawable/file_extensions/" + f_icon)));
         //----------------------------------------------------------------------
         String descriptiveText = "";

@@ -185,11 +185,11 @@ public class TrainingDataHome extends IrisForm {
         this.lbl_venue.setText(this.trainingModel.getVenue());
         String dateFrom = "N/A";
         if (this.trainingModel.getDateStart() != null) {
-            dateFrom = Context.app().getDateFormatNamed().format(this.trainingModel.getDateStart());
+            dateFrom = Context.getDateFormatNamed().format(this.trainingModel.getDateStart());
         }
         String dateEnd = "N/A";
         if (this.trainingModel.getDateEnd() != null) {
-            dateEnd = Context.app().getDateFormatNamed().format(this.trainingModel.getDateEnd());
+            dateEnd = Context.getDateFormatNamed().format(this.trainingModel.getDateEnd());
         }
         this.lbl_date.setText(dateFrom + " - " + dateEnd);
 
@@ -284,12 +284,12 @@ public class TrainingDataHome extends IrisForm {
         String respondents = this.lbl_respondents.getText();
         String dateFrom = "";
         if (this.trainingModel.getDateStart() != null) {
-            dateFrom = Context.app().getDateFormatNamed().format(this.trainingModel.getDateStart());
+            dateFrom = Context.getDateFormatNamed().format(this.trainingModel.getDateStart());
         }
 
         String dateEnd = "";
         if (this.trainingModel.getDateEnd() != null) {
-            dateEnd = Context.app().getDateFormatNamed().format(this.trainingModel.getDateEnd());
+            dateEnd = Context.getDateFormatNamed().format(this.trainingModel.getDateEnd());
         }
 
         String date = "";
@@ -438,7 +438,7 @@ public class TrainingDataHome extends IrisForm {
             String r5 = _5 + "\t" + percentMe(_5, totalResponse) + "%";
             String rn = na + "\t" + percentMe(na, totalResponse) + "%";
 
-            String row = r5 + "\t" + r4 + "\t" + r3 + "\t" + r2 + "\t" + r1 + "\t" + rn + "\t" + totalResponse + "\t" + Context.app().getDecimal2Format().format(totalP);
+            String row = r5 + "\t" + r4 + "\t" + r3 + "\t" + r2 + "\t" + r1 + "\t" + rn + "\t" + totalResponse + "\t" + Context.getDecimal2Format().format(totalP);
 
             return row;
 

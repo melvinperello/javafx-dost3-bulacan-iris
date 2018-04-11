@@ -118,11 +118,11 @@ public class CertMaker extends PolarisFxController {
     /**
      * A public folder that must contain all the PDF Templates.
      */
-    public final static String DIR_TEMPLATE = Context.getDirectoryTemplate();
+    public final static String DIR_TEMPLATE = Context.DIR_TEMPLATE;
     /**
      * A public folder that will hold the generated certificates.
      */
-    public final static String DIR_CERTIFICATES = Context.getDirectoryTemp() + File.separator + "certificates";
+    public final static String DIR_CERTIFICATES = Context.DIR_TEMP + File.separator + "certificates";
     /**
      * Certification file.
      */
@@ -214,7 +214,7 @@ public class CertMaker extends PolarisFxController {
         });
     }
 
-    private final static String PROP_FILE = Context.getDirectoryTemp() + File.separator + "certificatemaker.prop";
+    private final static String PROP_FILE = Context.DIR_TEMP + File.separator + "certificatemaker.prop";
 
     private void saveText() {
         /**

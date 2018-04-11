@@ -28,6 +28,7 @@
  */
 package gov.dost.bulacan.iris.ui;
 
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.ui.certmaker.CertMaker;
 import gov.dost.bulacan.iris.ui.directory.DirHome;
@@ -38,6 +39,7 @@ import gov.dost.bulacan.iris.ui.shared.SharedHome;
 import gov.dost.bulacan.iris.ui.training.TrainingHome;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 
@@ -46,6 +48,12 @@ import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
  * @author Jhon Melvin
  */
 public class Home extends IrisForm {
+
+    @FXML
+    private Label lbl_sys_user;
+
+    @FXML
+    private Label lbl_sys_version;
 
     @FXML
     private HBox hbox_header;
@@ -77,6 +85,10 @@ public class Home extends IrisForm {
     @Override
     protected void setup() {
         ProjectHeader.attach(hbox_header);
+        //
+        this.lbl_sys_user.setText(Context.app().getAuditUser());
+        this.lbl_sys_version.setText("System Version: " + Context.VERSION_NAME);
+        //
         /**
          * Open Projects.
          */
@@ -123,6 +135,11 @@ public class Home extends IrisForm {
 
         this.menu_gmp.setOnMouseClicked(value -> {
             this.changeRoot(new CertMaker().load());
+            value.consume();
+        });
+
+        this.menu_about.setOnMouseClicked(value -> {
+            this.showInformationMessage("Under Construction", "About page is currently under construction please visit www.facebook.com/afterschoolcreatives for more info.");
             value.consume();
         });
 

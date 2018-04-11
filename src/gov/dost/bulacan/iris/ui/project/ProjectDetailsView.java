@@ -56,6 +56,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.util.StringTools;
@@ -236,6 +237,7 @@ public class ProjectDetailsView extends IrisForm {
         this.preloadData();
         this.createContactListTable();
         this.populateContactTable();
+        this.lbl_header_last_edit.setText(this.projectModel.auditDetailedToString());
         //----------------------------------------------------------------------
         // Buttons.
         //----------------------------------------------------------------------
@@ -323,13 +325,16 @@ public class ProjectDetailsView extends IrisForm {
     
     private void showEditContacts(ProjectContactModel model) {
         Stage contactStage = new Stage();
-        contactStage.initOwner(this.getStage());
+        
         contactStage.setMinHeight(280.0);
         contactStage.setMinWidth(450.0);
         contactStage.setResizable(false);
         contactStage.setTitle("Project Contacts");
         ProjectContactEdit contact = new ProjectContactEdit(model, this.projectModel);
         contactStage.setScene(new Scene(contact.load()));
+        contactStage.initOwner(this.getStage());
+        contactStage.initModality(Modality.WINDOW_MODAL);
+        contactStage.getIcons().setAll(this.getStage().getIcons());
         contactStage.showAndWait();
     }
     
@@ -397,35 +402,35 @@ public class ProjectDetailsView extends IrisForm {
         printable.setDistrict(Context.integerToRomanNumber(town.getDistrict()));
         //
         if (this.projectModel.getEndorsedDate() != null) {
-            printable.setDateEndorsed(Context.app().getDateFormatNamed().format(this.projectModel.getEndorsedDate()));
+            printable.setDateEndorsed(Context.getDateFormatNamed().format(this.projectModel.getEndorsedDate()));
         }
         if (this.projectModel.getApprovedDate() != null) {
-            printable.setDateEndorsed(Context.app().getDateFormatNamed().format(this.projectModel.getApprovedDate()));
+            printable.setDateEndorsed(Context.getDateFormatNamed().format(this.projectModel.getApprovedDate()));
         }
         
-        printable.setApprovedCost("P " + Context.app().getMoneyFormat().format(this.projectModel.getApprovedFunding()));
+        printable.setApprovedCost("P " + Context.getMoneyFormat().format(this.projectModel.getApprovedFunding()));
         
         if (this.projectModel.getMoaDate() != null) {
-            printable.setDateEndorsed(Context.app().getDateFormatNamed().format(this.projectModel.getMoaDate()));
+            printable.setDateEndorsed(Context.getDateFormatNamed().format(this.projectModel.getMoaDate()));
         }
         String durFrom = "No Data";
         String durTo = "No Data";
         if (this.projectModel.getDurationFrom() != null) {
-            durFrom = Context.app().getDateFormatNamed().format(this.projectModel.getDurationFrom());
+            durFrom = Context.getDateFormatNamed().format(this.projectModel.getDurationFrom());
         }
         
         if (this.projectModel.getDurationTo() != null) {
-            durTo = Context.app().getDateFormatNamed().format(this.projectModel.getDurationTo());
+            durTo = Context.getDateFormatNamed().format(this.projectModel.getDurationTo());
         }
         
         String durDate = durFrom + " - " + durTo;
         printable.setDuration(durDate);
         
         printable.setPrintInfo("Date Printed: "
-                + Context.app().getDateFormat12().format(new Date())
+                + Context.getDateFormat12().format(new Date())
                 + " / PSTC-Bulacan");
         
-        printable.setActualCost("Actual Cost:  P " + Context.app().getMoneyFormat().format(this.projectModel.getActualCost()));
+        printable.setActualCost("Actual Cost:  P " + Context.getMoneyFormat().format(this.projectModel.getActualCost()));
         
         try {
             printable.printDetails();
@@ -515,7 +520,7 @@ public class ProjectDetailsView extends IrisForm {
         if (endorsedDate == null) {
             this.lbl_date_endorsed.setText("");
         } else {
-            this.lbl_date_endorsed.setText(Context.app().getDateFormat().format(endorsedDate));
+            this.lbl_date_endorsed.setText(Context.getDateFormat().format(endorsedDate));
         }
         //----------------------------------------------------------------------
         /**
@@ -525,14 +530,14 @@ public class ProjectDetailsView extends IrisForm {
         if (approvedDate == null) {
             this.lbl_date_approve.setText("");
         } else {
-            this.lbl_date_approve.setText(Context.app().getDateFormat().format(approvedDate));
+            this.lbl_date_approve.setText(Context.getDateFormat().format(approvedDate));
         }
         //----------------------------------------------------------------------
         /**
          * approved funding.
          */
         String approvedCost = "P ";
-        approvedCost += (Context.app().getMoneyFormat().format(this.projectModel.getApprovedFunding()));
+        approvedCost += (Context.getMoneyFormat().format(this.projectModel.getApprovedFunding()));
         this.lbl_approved_cost.setText(approvedCost);
         /**
          * Moa Date.
@@ -541,7 +546,7 @@ public class ProjectDetailsView extends IrisForm {
         if (moaDate == null) {
             this.lbl_date_moa.setText("");
         } else {
-            this.lbl_date_moa.setText(Context.app().getDateFormat().format(moaDate));
+            this.lbl_date_moa.setText(Context.getDateFormat().format(moaDate));
         }
         //----------------------------------------------------------------------
         /**
@@ -549,11 +554,11 @@ public class ProjectDetailsView extends IrisForm {
          */
         String from = "N.D.";
         if (this.projectModel.getDurationFrom() != null) {
-            from = Context.app().getDateFormat().format(this.projectModel.getDurationFrom());
+            from = Context.getDateFormat().format(this.projectModel.getDurationFrom());
         }
         String to = "N.D.";
         if (this.projectModel.getDurationTo() != null) {
-            to = Context.app().getDateFormat().format(this.projectModel.getDurationTo());
+            to = Context.getDateFormat().format(this.projectModel.getDurationTo());
         }
         String duration = from + " - " + to;
         this.lbl_project_duration.setText(duration);
@@ -561,7 +566,7 @@ public class ProjectDetailsView extends IrisForm {
          * actual funding.
          */
         String actualCost = "P ";
-        actualCost += (Context.app().getMoneyFormat().format(this.projectModel.getActualCost()));
+        actualCost += (Context.getMoneyFormat().format(this.projectModel.getActualCost()));
         this.lbl_actual_cost.setText(actualCost);
         
     }
@@ -852,20 +857,20 @@ public class ProjectDetailsView extends IrisForm {
             /**
              * Attempt to check the template directory.
              */
-            if (!FileTool.checkFoldersQuietly(Context.getDirectoryTemp())) {
+            if (!FileTool.checkFoldersQuietly(Context.DIR_TEMP)) {
                 throw new FileNotFoundException("Template directory cannot be created.");
             }
             /**
              * Attempt to check the certificates directory.
              */
-            if (!FileTool.checkFoldersQuietly(Context.getDirectoryTempSetupPrints())) {
+            if (!FileTool.checkFoldersQuietly(Context.DIR_TEMP_SETUP_PRINTS)) {
                 throw new FileNotFoundException("Temp directory cannot be created.");
             }
             /**
              * Template File Path.
              */
             
-            File templateFile = new File(Context.getTemplateSetupPrint());
+            File templateFile = new File(Context.FILE_TEMPLATE_SETUP_PRINT);
 
             /**
              * Check if the template file is not existing.
@@ -885,7 +890,7 @@ public class ProjectDetailsView extends IrisForm {
                 reader = new PdfReader(templateFile.getAbsolutePath());
                 
                 String infoNamePdf = "temp_info_"
-                        + Context.app().getDateFormatTimeStamp().format(
+                        + Context.getDateFormatTimeStamp().format(
                                 Context.app().getLocalDate()
                         )
                         + ".pdf";
@@ -893,7 +898,7 @@ public class ProjectDetailsView extends IrisForm {
                  * Output file.
                  */
                 File stampedCertificatePdf = new File(
-                        Context.getDirectoryTempSetupPrints()
+                        Context.DIR_TEMP_SETUP_PRINTS
                         + File.separator
                         + infoNamePdf);
                 

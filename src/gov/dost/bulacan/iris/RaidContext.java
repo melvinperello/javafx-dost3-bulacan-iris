@@ -54,7 +54,7 @@ public class RaidContext {
          */
         Calendar dateKey = Calendar.getInstance();
         String generatedKey
-                = Context.getRaidPrefix()// BUL3000
+                = Context.PREFIX_RAID_CODE// BUL3000
                 + String.valueOf(dateKey.get(Calendar.YEAR)) // 2018
                 + "_" // -
                 + new SimpleDateFormat("MMddHHmmss").format(dateKey.getTime());

@@ -31,7 +31,6 @@ package gov.dost.bulacan.iris;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionFactory;
 
@@ -62,7 +61,6 @@ public class HikariConnectionPool extends ConnectionFactory {
         config.setMaximumPoolSize(10);
         config.setPoolName("iris-connection");
         this.dataSource = new HikariDataSource(config);
-        //
         this.started = true;
     }
 

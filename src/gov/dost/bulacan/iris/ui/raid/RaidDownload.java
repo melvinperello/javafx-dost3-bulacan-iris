@@ -99,8 +99,13 @@ public class RaidDownload extends IrisForm {
         raidStage.initModality(Modality.APPLICATION_MODAL);
         raidStage.setTitle(RaidContext.RAID_INFO);
         raidStage.getIcons()
-                .add(new Image(Context.app()
+                .add(new Image(Context
                         .getResourceStream("drawable/raid/icon_128.png")));
+        raidStage.setOnCloseRequest(value -> {
+            raid.cancelEvent();
+            raidStage.close();
+            value.consume();
+        });
         return raidStage;
     }
 
@@ -111,13 +116,7 @@ public class RaidDownload extends IrisForm {
         //----------------------------------------------------------------------
 
         this.btn_cancel.setOnMouseClicked(value -> {
-            if (this.downloadThread != null) {
-                if (this.downloadThread.isRunning()) {
-                    this.downloadThread.cancel();
-                    this.showWaitWarningMessage("Download Cancelled", "File download was cancelled by the user.");
-                }
-            }
-            this.getStage().close();
+            this.cancelEvent();
             value.consume();
         });
 
@@ -136,6 +135,16 @@ public class RaidDownload extends IrisForm {
         //----------------------------------------------------------------------
         this.checkFileInRaid();
         //----------------------------------------------------------------------
+    }
+
+    private void cancelEvent() {
+        if (this.downloadThread != null) {
+            if (this.downloadThread.isRunning()) {
+                this.downloadThread.cancel();
+                this.showWaitWarningMessage("Download Cancelled", "File download was cancelled by the user.");
+            }
+        }
+        this.getStage().close();
     }
 
     private void defaultState() {
@@ -243,11 +252,11 @@ public class RaidDownload extends IrisForm {
      * @param file
      */
     private void openTempFile(File file) {
-        if (FileTool.checkFoldersQuietly(Context.getDirectoryTemp())) {
+        if (FileTool.checkFoldersQuietly(Context.DIR_TEMP)) {
             final String tempFile = this.raidModel.getDisplayName()
-                    + "_" + Context.app().getDateFormatTimeStamp().format(new Date())
+                    + "_" + Context.getDateFormatTimeStamp().format(new Date())
                     + "." + this.raidModel.getExtenstion();
-            final File tempBinFile = new File(Context.getDirectoryTemp() + "/" + tempFile);
+            final File tempBinFile = new File(Context.DIR_TEMP + "/" + tempFile);
             boolean copied = false;
             try {
                 copied = FileTool.copy(file, tempBinFile);
@@ -317,10 +326,15 @@ public class RaidDownload extends IrisForm {
             Platform.runLater(() -> {
                 this.btn_download.setDisable(true);
                 this.btn_open.setDisable(false);
-                this.showWaitInformationMessage("Downloaded Successfully.", "The file is now ready to be open.");
+                this.lbl_raid_id.setText(this.raidModel.getId() + " - Local Copy Detected (Ready)");
+                int c = this.showConfirmationMessage("Downloaded Successfully.", "The file is now ready to be open, Open it now ?");
+                if (c == 1) {
+                    this.checkFileIntegrity();
+                }
             });
         });
         //----------------------------------------------------------------------
+        this.btn_download.setDisable(true);
         this.downloadThread.start();
     }
 
@@ -477,8 +491,10 @@ public class RaidDownload extends IrisForm {
         public void cancel() {
             if (this.runningFlag) {
                 try {
-                    this.ftpConnection.abort();
-                    this.ftpConnection.close();
+                    if (this.ftpConnection != null) {
+                        this.ftpConnection.abort();
+                        this.ftpConnection.close();
+                    }
                     this.ftpConnection = null;
                 } catch (IOException e) {
                     // ignore

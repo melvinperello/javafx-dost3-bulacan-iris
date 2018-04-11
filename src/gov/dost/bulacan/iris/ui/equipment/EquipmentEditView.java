@@ -137,7 +137,10 @@ public class EquipmentEditView extends IrisForm {
             this.lbl_supplier_category.setText("Unknown Sector");
             this.btn_attachment.setDisable(true);
             this.btn_supplier.setDisable(true);
+            this.lbl_modify_time.setVisible(false);
         } else {
+            this.lbl_modify_time.setVisible(true);
+            lbl_modify_time.setText(this.equipModel.auditDetailedToString());
             this.btn_save_qoutation.setText(BTN_EDIT_TEXT);
             this.lbl_code.setText(this.equipModel.getQouteCode());
             // preload data
@@ -169,6 +172,7 @@ public class EquipmentEditView extends IrisForm {
                         //
                         this.disableComponents(true);
                     }
+                    lbl_modify_time.setText(this.equipModel.auditDetailedToString());
                 }
             }
             value.consume();
@@ -247,7 +251,7 @@ public class EquipmentEditView extends IrisForm {
 
     private void setDateToPicker(DatePicker picker, Date dateEndorsed) {
         if (dateEndorsed != null) {
-            SimpleDateFormat format = Context.app().getDateFormat();
+            SimpleDateFormat format = Context.getDateFormat();
             LocalDate setDate = LocalDate.parse(format.format(dateEndorsed), DateTimeFormatter.ofPattern(format.toPattern()));
             picker.setValue(setDate);
         }

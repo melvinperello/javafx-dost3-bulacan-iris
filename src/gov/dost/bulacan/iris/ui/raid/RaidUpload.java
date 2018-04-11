@@ -92,7 +92,7 @@ public class RaidUpload extends IrisForm {
         raidStage.initModality(Modality.APPLICATION_MODAL);
         raidStage.setTitle(RaidContext.RAID_INFO);
         raidStage.getIcons()
-                .add(new Image(Context.app()
+                .add(new Image(Context
                         .getResourceStream("drawable/raid/icon_128.png")));
         raid.setOnRaidRecorded(raidRecorded);
         raidStage.setOnCloseRequest(value -> {
@@ -555,11 +555,13 @@ public class RaidUpload extends IrisForm {
             if (this.started) {
                 this.cancelFlag = true;
                 try {
-                    this.ftpConnection.abort();
+                    if (this.ftpConnection != null) {
+                        this.ftpConnection.abort();
+                        this.ftpConnection.closeQuietly();
+                    }
                 } catch (IOException e) {
                     // ignore
                 }
-                this.ftpConnection.closeQuietly();
                 this.ftpConnection = null;
                 //--------------------------------------------------------------
                 this.started = false;

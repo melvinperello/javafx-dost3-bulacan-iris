@@ -50,7 +50,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
  *
@@ -93,6 +92,7 @@ public class ProjectView extends IrisForm {
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
         Home.addEventBackToHome(this.btn_back_to_home, this);
+
         /**
          * Populate and create the table.
          */
@@ -217,7 +217,7 @@ public class ProjectView extends IrisForm {
             ProjectModel project = (ProjectModel) value.getValue();
             String cost = "";
             if (project.getActualCost() != null) {
-                cost = "P " + Context.app().getMoneyFormat().format(project.getActualCost());
+                cost = "P " + Context.getMoneyFormat().format(project.getActualCost());
             }
             return new SimpleStringProperty(cost);
         });

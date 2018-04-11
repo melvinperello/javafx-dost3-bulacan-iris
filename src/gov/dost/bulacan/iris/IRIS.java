@@ -29,7 +29,7 @@
 package gov.dost.bulacan.iris;
 
 import gov.dost.bulacan.iris.ui.Home;
-import gov.dost.bulacan.iris.ui.training.TrainingEncode;
+import gov.dost.bulacan.iris.ui.Splash;
 import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -37,6 +37,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
@@ -51,9 +52,93 @@ public class IRIS extends Application {
      * @param primaryStage
      */
     private void show(Stage primaryStage) {
+        final Thread initThread = new Thread(() -> {
+            //------------------------------------------------------------------
+            // show splash
+            Platform.runLater(() -> {
+                this.showSplash();
+            });
+            //------------------------------------------------------------------
+            // wait 1 second
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            //------------------------------------------------------------------
+            // start context
+            try {
+                Context.app().start();
+                //--------------------------------------------------------------
+                // close splash show main
+                Platform.runLater(() -> {
+                    this.closeSplash();
+                    this.showMain(primaryStage);
+                });
+            } catch (Exception e) {
+                
+                Platform.runLater(() -> {
+                    try {
+                        PolarisDialog.exceptionDialog(e)
+                                .setHeaderText("Start Up Error !")
+                                .setContentText(e.getMessage())
+                                .setTitle("Initialization Error")
+                                .showAndWait();
+                    } finally {
+                        System.exit(-1);
+                    }
+                    
+                });
+                
+            }
+
+            //------------------------------------------------------------------
+            Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+                final Exception ex = new Exception("Uncaught Exception", e);
+                Platform.runLater(() -> {
+                    PolarisDialog.exceptionDialog(ex)
+                            .setHeaderText("Fatal Exception")
+                            .setContentText(e.getMessage())
+                            .setTitle("System Error")
+                            .showAndWait();
+                    System.exit(-2);
+                });
+            });
+            //------------------------------------------------------------------
+        });
+        initThread.start();
+    }
+
+    //--------------------------------------------------------------------------
+    private Stage splashStage;
+    
+    private void showSplash() {
+        this.splashStage = new Stage(StageStyle.UNDECORATED);
+        splashStage.setWidth(250.0);
+        splashStage.setHeight(250.0);
+        splashStage.setResizable(false);
+        splashStage.setScene(new Scene(new Splash().load()));
+        // cannot be this is calling Context and disrupts normal start up
+        splashStage.getIcons().add(new Image(Context.getResourceStream("drawable/dost_logo.png")));
+        splashStage.centerOnScreen();
+        this.splashStage.show();
+    }
+    
+    private void closeSplash() {
+        if (this.splashStage != null) {
+            this.splashStage.close();
+        }
+    }
+    //--------------------------------------------------------------------------
+
+    /**
+     * Show Main Application with primary stage.
+     *
+     * @param primaryStage
+     */
+    private void showMain(Stage primaryStage) {
         primaryStage.setScene(new Scene(new Home().load()));
-//        primaryStage.setScene(new Scene(new RaidUpload().load()));
-        primaryStage.getIcons().add(new Image(Context.app().getResourceStream("drawable/dost_logo.png")));
+        primaryStage.getIcons().add(new Image(Context.getResourceStream("drawable/dost_logo.png")));
         primaryStage.setTitle("PSTC-Bulacan/DOST3 Information Retrieval Integrated System ( I.R.I.S. )");
         primaryStage.setMinHeight(700.0);
         primaryStage.setMinWidth(1300.0);
@@ -81,6 +166,9 @@ public class IRIS extends Application {
             /**
              * Catch Start Up Exception.
              */
+            System.err.println("-------------------------------");
+            System.err.println("| MAIN CALL START             |");
+            System.err.println("-------------------------------");
             e.printStackTrace();
         }
     }
@@ -91,10 +179,10 @@ public class IRIS extends Application {
      * @param args
      */
     public static void main(String[] args) {
-//        Context.app().setAuditUser("JHON MELVIN NIETO PERELLO/IRIS-SYS-BUL3000");
+        
         Application.launch(args);
     }
-
+    
     public static void onCloseConfirmation(Stage owner) {
         Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
                 .setTitle("Exit")
@@ -103,9 +191,11 @@ public class IRIS extends Application {
                 .setContentText("Are you sure you want to close the application ?")
                 .showAndWait();
         if (res.get().getText().equals("OK")) {
-            Context.app().db().close();
+            if (Context.app() != null) {
+                Context.app().shutdown();
+            }
             Platform.exit(); // exit java fx
         }
     }
-
+    
 }

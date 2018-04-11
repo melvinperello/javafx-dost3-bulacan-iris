@@ -275,5 +275,28 @@
             </VBox>
          </children>
       </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #0D4E86;">
+         <children>
+            <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lbl_sys_user" text="User" textFill="WHITE" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT">
+               <children>
+                  <Label fx:id="lbl_sys_version" text="System Version 1.0.0 Prototype" textFill="WHITE" />
+               </children>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </HBox>
    </children>
 </VBox>
