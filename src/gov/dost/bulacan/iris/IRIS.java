@@ -36,6 +36,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
@@ -114,6 +115,7 @@ public class IRIS extends Application {
     
     private void showSplash() {
         this.splashStage = new Stage(StageStyle.UNDECORATED);
+        splashStage.initModality(Modality.APPLICATION_MODAL);
         splashStage.setWidth(250.0);
         splashStage.setHeight(250.0);
         splashStage.setResizable(false);
@@ -121,7 +123,7 @@ public class IRIS extends Application {
         // cannot be this is calling Context and disrupts normal start up
         splashStage.getIcons().add(new Image(Context.getResourceStream("drawable/dost_logo.png")));
         splashStage.centerOnScreen();
-        this.splashStage.show();
+        this.splashStage.showAndWait();
     }
     
     private void closeSplash() {

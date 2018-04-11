@@ -101,7 +101,7 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
     @Column(STATUS)
     private String status;
     @Column(QOUTATION_ATTACHMENT)
-    private Integer qoutationAttachment;
+    private String qoutationAttachment;
     //
     @Column(KEYWORD)
     private String keyword;
@@ -339,7 +339,7 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
         return status;
     }
 
-    public Integer getQoutationAttachment() {
+    public String getQoutationAttachment() {
         return qoutationAttachment;
     }
 
@@ -379,7 +379,7 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
         this.status = status;
     }
 
-    public void setQoutationAttachment(Integer qoutationAttachment) {
+    public void setQoutationAttachment(String qoutationAttachment) {
         this.qoutationAttachment = qoutationAttachment;
     }
 

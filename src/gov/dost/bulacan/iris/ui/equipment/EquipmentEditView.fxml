@@ -309,7 +309,7 @@
                               <Image url="@../../../../../../storage/drawable/price_tag_64.png" />
                            </image>
                         </ImageView>
-                        <VBox prefHeight="50.0" prefWidth="189.0">
+                        <VBox prefHeight="50.0" prefWidth="200.0">
                            <children>
                               <Label text="Qoutation Attachment">
                                  <font>
@@ -319,11 +319,20 @@
                                     <Insets bottom="3.0" />
                                  </padding>
                               </Label>
-                              <Button fx:id="btn_attachment" mnemonicParsing="false" text="View Qoutation">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <JFXButton fx:id="btn_upload" prefWidth="100.0" style="-fx-background-color: #46CEAC; -fx-border-color: black;" text="Upload" textFill="WHITE">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btn_download" prefWidth="100.0" style="-fx-background-color: #4FC0E8; -fx-border-color: black;" text="Download" textFill="WHITE">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets left="10.0" />

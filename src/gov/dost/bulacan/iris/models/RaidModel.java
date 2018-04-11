@@ -160,6 +160,12 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
         }
     }
 
+    public static boolean locate(RaidModel model, String raidId) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            return model.find(con, raidId);
+        }
+    }
+
     public static boolean remove(RaidModel model) throws SQLException {
         ConnectionManager con = null;
         try {

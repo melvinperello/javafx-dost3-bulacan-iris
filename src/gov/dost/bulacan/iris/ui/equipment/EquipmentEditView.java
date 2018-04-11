@@ -33,8 +33,11 @@ import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
+import gov.dost.bulacan.iris.models.RaidModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.equipment.supplier.SupplierHome;
+import gov.dost.bulacan.iris.ui.raid.RaidDownload;
+import gov.dost.bulacan.iris.ui.raid.RaidUpload;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -95,9 +98,6 @@ public class EquipmentEditView extends IrisForm {
     private TextArea txt_searchkeys;
 
     @FXML
-    private Button btn_attachment;
-
-    @FXML
     private Button btn_supplier;
 
     @FXML
@@ -105,6 +105,12 @@ public class EquipmentEditView extends IrisForm {
 
     @FXML
     private Label lbl_supplier_category;
+
+    @FXML
+    private JFXButton btn_upload;
+
+    @FXML
+    private JFXButton btn_download;
 
     public EquipmentEditView(EquipmentQoutationModel model) {
         this.setDialogMessageTitle("Equipment Qoutation");
@@ -135,10 +141,12 @@ public class EquipmentEditView extends IrisForm {
             //
             this.lbl_supplier.setText("Unknown Supplier");
             this.lbl_supplier_category.setText("Unknown Sector");
-            this.btn_attachment.setDisable(true);
+            this.btn_upload.setDisable(true);
+            this.btn_download.setDisable(true);
             this.btn_supplier.setDisable(true);
             this.lbl_modify_time.setVisible(false);
         } else {
+            //
             this.lbl_modify_time.setVisible(true);
             lbl_modify_time.setText(this.equipModel.auditDetailedToString());
             this.btn_save_qoutation.setText(BTN_EDIT_TEXT);
@@ -199,8 +207,36 @@ public class EquipmentEditView extends IrisForm {
             this.changeRoot(supHome.load());
             value.consume();
         });
-
         //----------------------------------------------------------------------
+        //
+        this.btn_download.setOnMouseClicked(value -> {
+            if (this.equipModel.getQoutationAttachment() == null) {
+                this.showWarningMessage(null, "No attachment found for this equipment.");
+                return;
+            }
+
+            RaidModel raid = new RaidModel();
+
+            try {
+                if (RaidModel.locate(raid, this.equipModel.getQoutationAttachment())) {
+                    RaidDownload.callRaidUpload(raid);
+                } else {
+                    this.showWarningMessage(null, "Failed to retrieve attachment in the database.");
+                }
+            } catch (SQLException e) {
+                this.showExceptionMessage(e, null, "Cannot retrieve attachment.");
+            }
+
+            value.consume();
+        });
+
+        this.btn_upload.setOnMouseClicked(value -> {
+            RaidUpload.callRaidUpload((raidModel) -> {
+                
+                return false;
+            });
+            value.consume();
+        });
     }
 
     private EquipmentSupplierModel currentSupplierModel;
@@ -271,6 +307,8 @@ public class EquipmentEditView extends IrisForm {
         this.cmb_status.setDisable(disable);
         this.date_qoutation.setDisable(disable);
         this.btn_supplier.setDisable(editable);
+        this.btn_download.setDisable(editable);
+        this.btn_upload.setDisable(editable);
     }
     //--------------------------------------------------------------------------
     private String frmEquipName;
