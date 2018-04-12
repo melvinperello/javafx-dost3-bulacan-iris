@@ -32,9 +32,10 @@ import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.RaidModel;
-import gov.dost.bulacan.iris.models.SharedDocumentModel;
+import gov.dost.bulacan.iris.models.SystemFileModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
+import gov.dost.bulacan.iris.ui.project.ProjectDetailsView;
 import gov.dost.bulacan.iris.ui.raid.RaidDownload;
 import gov.dost.bulacan.iris.ui.raid.RaidUpload;
 import java.sql.SQLException;
@@ -51,13 +52,14 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
+import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAdapter;
 
 /**
  *
  * @author Jhon Melvin
  */
-public class SharedHome extends IrisForm {
+public class ViewSystemFiles extends IrisForm {
 
     @FXML
     private HBox hbox_header;
@@ -81,19 +83,30 @@ public class SharedHome extends IrisForm {
     private JFXButton btn_refresh;
 
     @FXML
-    private ListView<DocumentItem> list_files;
+    private ListView<FileItem> list_files;
 
-    public SharedHome() {
+    public ViewSystemFiles(PolarisFxController callerController) {
         this.setDialogMessageTitle("Shared Documents");
         this.observeableListItems = FXCollections.observableArrayList();
+        this.callerController = callerController;
+
+        if (callerController instanceof Home) {
+            System.out.println("FROM HOME");
+        } else if (callerController instanceof ProjectDetailsView) {
+            System.out.println("FROM PROJECt");
+        }
     }
 
-    private final ObservableList<DocumentItem> observeableListItems;
+    private final ObservableList<FileItem> observeableListItems;
+    private final PolarisFxController callerController;
 
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
-        Home.addEventBackToHome(this.btn_back_to_home, this);
+//        Home.addEventBackToHome(this.btn_back_to_home, this);
+        this.btn_back_to_home.setOnMouseClicked(value -> {
+            this.changeRoot(this.callerController.getRootPane());
+        });
         //
 
         this.populateList();
@@ -126,20 +139,20 @@ public class SharedHome extends IrisForm {
         });
 
         this.btn_remove.setOnMouseClicked(value -> {
-            DocumentItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
+            FileItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
             if (selectedItem == null) {
                 this.showWarningMessage(null, "Please select file to remove.");
                 return;
             }
 
-            SharedDocumentModel model = selectedItem.getDocumentModel();
+            SystemFileModel model = selectedItem.getDocumentModel();
             //------------------------------------------------------------------
             // Remove Code
             //------------------------------------------------------------------
             int res = this.showConfirmationMessage(null, "Are you sure you want to remove this file? This operation is ireversible.");
             if (res == 1) {
                 try {
-                    boolean deleted = SharedDocumentModel.remove(model);
+                    boolean deleted = SystemFileModel.remove(model);
                     if (deleted) {
                         this.showInformationMessage(null, "File successfully removed.");
                         // refresh table
@@ -162,13 +175,13 @@ public class SharedHome extends IrisForm {
      * OPEN raid dialog download.
      */
     private void downloadFile() {
-        DocumentItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
+        FileItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
             this.showWarningMessage(null, "Please select file to view.");
             return;
         }
 
-        SharedDocumentModel model = selectedItem.getDocumentModel();
+        SystemFileModel model = selectedItem.getDocumentModel();
         RaidModel raid = model.getLinkedModel();
         //------------------------------------------------------------------
         RaidDownload.call(raid).showAndWait();
@@ -176,11 +189,13 @@ public class SharedHome extends IrisForm {
 
     private void renameFile() {
         // double click primary
-        DocumentItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
+        FileItem selectedItem = this.list_files.getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
+            this.showWarningMessage(null, "Please select file to rename.");
             return;
         }
-        SharedDocumentModel model = selectedItem.getDocumentModel();
+
+        SystemFileModel model = selectedItem.getDocumentModel();
 
         TextInputDialog dialog = new TextInputDialog(model.getDocName());
         dialog.initOwner(this.getStage());
@@ -205,7 +220,7 @@ public class SharedHome extends IrisForm {
             try {
 
                 model.setDocName(name);
-                if (SharedDocumentModel.update(model)) {
+                if (SystemFileModel.update(model)) {
                     // success
                     this.populateList();
                     this.showWaitInformationMessage(null, "Shared File Successfully Renamed !");
@@ -226,9 +241,11 @@ public class SharedHome extends IrisForm {
     private void populateList() {
 
         //----------------------------------------------------------------------
-        List<SharedDocumentModel> listItems = null;
+        List<SystemFileModel> listItems = null;
         try {
-            listItems = SharedDocumentModel.listActiveFilesWithRaid();
+
+            listItems = SystemFileModel.listActiveSharedDocuments();
+
         } catch (SQLException e) {
             this.showExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Equipment Records !");
         }
@@ -242,8 +259,8 @@ public class SharedHome extends IrisForm {
         /**
          * Populate observable list.
          */
-        for (SharedDocumentModel equip : listItems) {
-            DocumentItem listItem = new DocumentItem();
+        for (SystemFileModel equip : listItems) {
+            FileItem listItem = new FileItem();
             listItem.setDocumentModel(equip);
             listItem.load();
             this.observeableListItems.add(listItem);
@@ -256,11 +273,11 @@ public class SharedHome extends IrisForm {
         // Add Search Predicate
         //----------------------------------------------------------------------
         // 01. wrap the observeable list inside the filter list.
-        FilteredList<DocumentItem> filteredResult = new FilteredList<>(this.observeableListItems, predicate -> true);
+        FilteredList<FileItem> filteredResult = new FilteredList<>(this.observeableListItems, predicate -> true);
 
         // 02. bind the filter to a text source and add filters
         this.txt_search.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            filteredResult.setPredicate((DocumentItem listItem) -> {
+            filteredResult.setPredicate((FileItem listItem) -> {
 
                 // If filter text is empty, display all persons.
                 if (newValue == null || newValue.isEmpty()) {
@@ -292,12 +309,12 @@ public class SharedHome extends IrisForm {
      * @return
      */
     private boolean insert(RaidModel model) {
-        SharedDocumentModel docs = new SharedDocumentModel();
+        SystemFileModel docs = new SystemFileModel();
         docs.setDocId(Context.createLocalKey());
         docs.setLinkedModel(model);
 
         try {
-            return SharedDocumentModel.insert(docs);
+            return SystemFileModel.insertSharedFile(docs);
         } catch (SQLException e) {
             return false;
         }

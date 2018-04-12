@@ -31,7 +31,7 @@ package gov.dost.bulacan.iris.ui.shared;
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.FileExtensions;
 import gov.dost.bulacan.iris.RaidContext;
-import gov.dost.bulacan.iris.models.SharedDocumentModel;
+import gov.dost.bulacan.iris.models.SystemFileModel;
 import java.util.Locale;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -45,7 +45,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisCustomListAd
  *
  * @author Jhon Melvin
  */
-public class DocumentItem extends PolarisFxController implements PolarisCustomListAdapter.Listable {
+public class FileItem extends PolarisFxController implements PolarisCustomListAdapter.Listable {
 
     @FXML
     private ImageView img_icon;
@@ -56,17 +56,17 @@ public class DocumentItem extends PolarisFxController implements PolarisCustomLi
     @FXML
     private Label lbl_description;
 
-    public DocumentItem() {
+    public FileItem() {
         this.documentModel = null;
     }
 
-    private SharedDocumentModel documentModel;
+    private SystemFileModel documentModel;
 
-    public SharedDocumentModel getDocumentModel() {
+    public SystemFileModel getDocumentModel() {
         return documentModel;
     }
 
-    public void setDocumentModel(SharedDocumentModel documentModel) {
+    public void setDocumentModel(SystemFileModel documentModel) {
         this.documentModel = documentModel;
     }
 

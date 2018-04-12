@@ -34,7 +34,7 @@ import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
 import gov.dost.bulacan.iris.models.RaidModel;
-import gov.dost.bulacan.iris.models.SharedDocumentModel;
+import gov.dost.bulacan.iris.models.SystemFileModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.equipment.supplier.SupplierHome;
 import gov.dost.bulacan.iris.ui.raid.RaidDownload;

@@ -35,7 +35,7 @@ import gov.dost.bulacan.iris.ui.directory.DirHome;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
 import gov.dost.bulacan.iris.ui.project.ProjectView;
 import gov.dost.bulacan.iris.ui.scholarship.ScholarshipHome;
-import gov.dost.bulacan.iris.ui.shared.SharedHome;
+import gov.dost.bulacan.iris.ui.shared.ViewSystemFiles;
 import gov.dost.bulacan.iris.ui.training.TrainingHome;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -128,7 +128,7 @@ public class Home extends IrisForm {
          * Open Equipments.
          */
         this.menu_documents.setOnMouseClicked(value -> {
-            this.changeRoot(new SharedHome().load());
+            this.changeRoot(new ViewSystemFiles(this).load());
             value.consume();
         });
 

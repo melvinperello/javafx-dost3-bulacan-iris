@@ -39,6 +39,7 @@ import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.project.contact.ProjectContactEdit;
+import gov.dost.bulacan.iris.ui.shared.ViewSystemFiles;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -67,67 +68,70 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  * @author Jhon Melvin
  */
 public class ProjectDetailsView extends IrisForm {
-    
+
+    @FXML
+    private JFXButton btn_view_master_file;
+
     @FXML
     private Label lbl_history;
-    
+
     @FXML
     private HBox hbox_header;
-    
+
     @FXML
     private Label lbl_cooperator_header;
-    
+
     @FXML
     private Label lbl_header_last_edit;
-    
+
     @FXML
     private JFXButton btn_print;
-    
+
     @FXML
     private JFXButton btn_edit_project;
-    
+
     @FXML
     private JFXButton btn_back;
-    
+
     @FXML
     private Label lbl_cooperator;
-    
+
     @FXML
     private Label lbl_factory_address;
-    
+
     @FXML
     private Label lbl_owner_name;
-    
+
     @FXML
     private Label lbl_owner_position;
-    
+
     @FXML
     private Label lbl_owner_address;
-    
+
     @FXML
     private Label lbl_business_sector;
-    
+
     @FXML
     private Label lbl_year_established;
-    
+
     @FXML
     private Label lbl_capital_class;
-    
+
     @FXML
     private Label lbl_employment_class;
-    
+
     @FXML
     private Label lbl_ownership;
-    
+
     @FXML
     private Label lbl_products;
-    
+
     @FXML
     private Label lbl_market;
-    
+
     @FXML
     private Label lbl_registration;
-    
+
     @FXML
     private Label lbl_landmark;
 
@@ -138,49 +142,49 @@ public class ProjectDetailsView extends IrisForm {
 //    private Label lbl_click_maps;
     @FXML
     private Label lbl_click_website;
-    
+
     @FXML
     private TableView<ProjectContactModel> tbl_contact_person;
-    
+
     @FXML
     private Label lbl_project_code;
-    
+
     @FXML
     private Label lbl_spin_no;
-    
+
     @FXML
     private Label lbl_project_type;
-    
+
     @FXML
     private Label lbl_project_name;
-    
+
     @FXML
     private Label lbl_district;
-    
+
     @FXML
     private Label lbl_date_endorsed;
-    
+
     @FXML
     private Label lbl_date_approve;
-    
+
     @FXML
     private Label lbl_approved_cost;
-    
+
     @FXML
     private Label lbl_date_moa;
-    
+
     @FXML
     private Label lbl_project_duration;
-    
+
     @FXML
     private Label lbl_actual_cost;
-    
+
     @FXML
     private JFXButton btn_add_contact;
-    
+
     @FXML
     private JFXButton btn_edit_contact;
-    
+
     @FXML
     private JFXButton btn_delete_contact;
 
@@ -229,7 +233,7 @@ public class ProjectDetailsView extends IrisForm {
         }
         return true;
     }
-    
+
     @Override
     protected void setup() {
         ProjectHeader.attach(hbox_header);
@@ -241,16 +245,21 @@ public class ProjectDetailsView extends IrisForm {
         //----------------------------------------------------------------------
         // Buttons.
         //----------------------------------------------------------------------
+        this.btn_view_master_file.setOnMouseClicked(value -> {
+            this.changeRoot(new ViewSystemFiles(this).load());
+            value.consume();
+        });
+
         this.btn_back.setOnMouseClicked(value -> {
             this.changeRoot(new ProjectView().load());
             value.consume();
         });
-        
+
         this.btn_edit_project.setOnMouseClicked(value -> {
             this.changeRoot(new ProjectDetailsEdit(this, this.projectModel).load());
             value.consume();
         });
-        
+
         this.btn_print.setOnMouseClicked(value -> {
             this.printProjectInfoReport();
             value.consume();
@@ -284,7 +293,7 @@ public class ProjectDetailsView extends IrisForm {
                 this.showWarningMessage(null, "Please highlight a contact to delete.");
                 return;
             }
-            
+
             if (this.showConfirmationMessage(null, "Are you sure you want to delete this contact information.") == 1) {
                 try {
                     boolean deleted = ProjectContactModel.delete(contact);
@@ -300,7 +309,7 @@ public class ProjectDetailsView extends IrisForm {
                     this.showExceptionMessage(ex, null, "Failed to delete contact.");
                 }
             }
-            
+
             value.consume();
         });
         //----------------------------------------------------------------------
@@ -320,12 +329,12 @@ public class ProjectDetailsView extends IrisForm {
             this.showWarningMessage(null, "This feature is not yet supported.");
             value.consume();
         });
-        
+
     }
-    
+
     private void showEditContacts(ProjectContactModel model) {
         Stage contactStage = new Stage();
-        
+
         contactStage.setMinHeight(280.0);
         contactStage.setMinWidth(450.0);
         contactStage.setResizable(false);
@@ -337,7 +346,7 @@ public class ProjectDetailsView extends IrisForm {
         contactStage.getIcons().setAll(this.getStage().getIcons());
         contactStage.showAndWait();
     }
-    
+
     private void printProjectInfoReport() {
         PrintDetails printable = new PrintDetails();
         //
@@ -407,9 +416,9 @@ public class ProjectDetailsView extends IrisForm {
         if (this.projectModel.getApprovedDate() != null) {
             printable.setDateEndorsed(Context.getDateFormatNamed().format(this.projectModel.getApprovedDate()));
         }
-        
+
         printable.setApprovedCost("P " + Context.getMoneyFormat().format(this.projectModel.getApprovedFunding()));
-        
+
         if (this.projectModel.getMoaDate() != null) {
             printable.setDateEndorsed(Context.getDateFormatNamed().format(this.projectModel.getMoaDate()));
         }
@@ -418,20 +427,20 @@ public class ProjectDetailsView extends IrisForm {
         if (this.projectModel.getDurationFrom() != null) {
             durFrom = Context.getDateFormatNamed().format(this.projectModel.getDurationFrom());
         }
-        
+
         if (this.projectModel.getDurationTo() != null) {
             durTo = Context.getDateFormatNamed().format(this.projectModel.getDurationTo());
         }
-        
+
         String durDate = durFrom + " - " + durTo;
         printable.setDuration(durDate);
-        
+
         printable.setPrintInfo("Date Printed: "
                 + Context.getDateFormat12().format(new Date())
                 + " / PSTC-Bulacan");
-        
+
         printable.setActualCost("Actual Cost:  P " + Context.getMoneyFormat().format(this.projectModel.getActualCost()));
-        
+
         try {
             printable.printDetails();
         } catch (IOException | DocumentException ex) {
@@ -445,7 +454,7 @@ public class ProjectDetailsView extends IrisForm {
     public void preloadData() {
         String city = this.projectModel.getFactoryCity();
         ProjectModel.TownValueModel town = ProjectModel.TownValueModel.getTown(city);
-        
+
         this.lbl_cooperator_header.setText(this.projectModel.getCompanyName());
         this.lbl_cooperator.setText(this.projectModel.getCompanyName());
         /**
@@ -458,10 +467,10 @@ public class ProjectDetailsView extends IrisForm {
                 + town.getName()
                 + " "
                 + town.getZip();
-        
+
         factoryAddress = StringTools.clearExtraSpaces(factoryAddress);
         this.lbl_factory_address.setText(factoryAddress);
-        
+
         this.lbl_history.setText(this.projectModel.getHistory());
         //----------------------------------------------------------------------
         //
@@ -568,7 +577,7 @@ public class ProjectDetailsView extends IrisForm {
         String actualCost = "P ";
         actualCost += (Context.getMoneyFormat().format(this.projectModel.getActualCost()));
         this.lbl_actual_cost.setText(actualCost);
-        
+
     }
 
     /**
@@ -624,7 +633,7 @@ public class ProjectDetailsView extends IrisForm {
      * Static Inner Class For Printing.
      */
     public static class PrintDetails {
-        
+
         private String cooperator;
         private String location;
         //
@@ -654,7 +663,7 @@ public class ProjectDetailsView extends IrisForm {
         private String duration; // Word Date
         private String actualCost; // BOLD
         private String printInfo;
-        
+
         private PrintDetails() {
             cooperator = "";
             location = "";
@@ -686,107 +695,107 @@ public class ProjectDetailsView extends IrisForm {
             actualCost = ""; // BOLD
             printInfo = "";
         }
-        
+
         public void setCooperator(String cooperator) {
             this.cooperator = cooperator;
         }
-        
+
         public void setLocation(String location) {
             this.location = location;
         }
-        
+
         public void setName(String name) {
             this.name = name;
         }
-        
+
         public void setPosition(String position) {
             this.position = position;
         }
-        
+
         public void setAddress(String address) {
             this.address = address;
         }
-        
+
         public void setSector(String sector) {
             this.sector = sector;
         }
-        
+
         public void setYearEstablished(String yearEstablished) {
             this.yearEstablished = yearEstablished;
         }
-        
+
         public void setClassification(String classification) {
             this.classification = classification;
         }
-        
+
         public void setOwnership(String ownership) {
             this.ownership = ownership;
         }
-        
+
         public void setProducts(String products) {
             this.products = products;
         }
-        
+
         public void setMarket(String market) {
             this.market = market;
         }
-        
+
         public void setRegistrationDetails(String registrationDetails) {
             this.registrationDetails = registrationDetails;
         }
-        
+
         public void setLandmark(String landmark) {
             this.landmark = landmark;
         }
-        
+
         public void setWebsite(String website) {
             this.website = website;
         }
-        
+
         public void setContactInformation(String contactInformation) {
             this.contactInformation = contactInformation;
         }
-        
+
         public void setProjectCode(String projectCode) {
             this.projectCode = projectCode;
         }
-        
+
         public void setSpinNo(String spinNo) {
             this.spinNo = spinNo;
         }
-        
+
         public void setProjectType(String projectType) {
             this.projectType = projectType;
         }
-        
+
         public void setDistrict(String district) {
             this.district = district;
         }
-        
+
         public void setDateEndorsed(String dateEndorsed) {
             this.dateEndorsed = dateEndorsed;
         }
-        
+
         public void setDateApproved(String dateApproved) {
             this.dateApproved = dateApproved;
         }
-        
+
         public void setApprovedCost(String approvedCost) {
             this.approvedCost = approvedCost;
         }
-        
+
         public void setMoaSigned(String moaSigned) {
             this.moaSigned = moaSigned;
         }
-        
+
         public void setDuration(String duration) {
             this.duration = duration;
         }
-        
+
         public void setActualCost(String actualCost) {
             this.actualCost = actualCost;
         }
-        
+
         public void setPrintInfo(String printInfo) {
             this.printInfo = printInfo;
         }
@@ -869,7 +878,7 @@ public class ProjectDetailsView extends IrisForm {
             /**
              * Template File Path.
              */
-            
+
             File templateFile = new File(Context.FILE_TEMPLATE_SETUP_PRINT);
 
             /**
@@ -888,7 +897,7 @@ public class ProjectDetailsView extends IrisForm {
                  * Read the template.
                  */
                 reader = new PdfReader(templateFile.getAbsolutePath());
-                
+
                 String infoNamePdf = "temp_info_"
                         + Context.getDateFormatTimeStamp().format(
                                 Context.app().getLocalDate()
@@ -901,7 +910,7 @@ public class ProjectDetailsView extends IrisForm {
                         Context.DIR_TEMP_SETUP_PRINTS
                         + File.separator
                         + infoNamePdf);
-                
+
                 stamper = new PdfStamper(reader, new FileOutputStream(stampedCertificatePdf));
                 AcroFields form = stamper.getAcroFields();
                 form.setField("txt_cooperator", cooperatorInfo);
@@ -926,7 +935,7 @@ public class ProjectDetailsView extends IrisForm {
                 } catch (DocumentException | IOException e) {
                     // ignore close
                 }
-                
+
                 try {
                     if (reader != null) {
                         reader.close();
@@ -942,6 +951,6 @@ public class ProjectDetailsView extends IrisForm {
              */
             return true;
         }
-        
+
     } // end of print details class
 }

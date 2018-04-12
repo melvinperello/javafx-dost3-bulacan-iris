@@ -34,6 +34,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
+import org.afterschoolcreatives.polaris.java.sql.builder.QueryBuilder;
 import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
@@ -44,8 +45,8 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  *
  * @author Jhon Melvin
  */
-@Table(SharedDocumentModel.TABLE)
-public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
+@Table(SystemFileModel.TABLE)
+public class SystemFileModel extends PolarisRecord implements TableAuditor {
 
     //==========================================================================
     // Afterschool Creatives Polaris Record Content Standardization
@@ -69,10 +70,12 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
     //==========================================================================
     // 01. Table Columns
     //==========================================================================
-    public final static String TABLE = "shared_documents";
+    public final static String TABLE = "system_file";
     public final static String DOC_ID = "doc_id";
     public final static String FK_RAID_ID = "fk_raid_id";
     public final static String DOC_NAME = "doc_name";
+    public final static String FILE_CLUSTER = "file_cluster";
+    public final static String FILE_REFERENCE = "file_reference";
 
     //==========================================================================
     // 02. Model Fields
@@ -87,39 +90,72 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
     @Column(DOC_NAME)
     private String docName;
 
+    @Column(FILE_CLUSTER)
+    private Integer fileCluster;
+
+    @Column(FILE_REFERENCE)
+    private String fileReference;
+
     //==========================================================================
     // 03. Constructor (Initialize Default Values)
     //==========================================================================
-    public SharedDocumentModel() {
+    public SystemFileModel() {
         this.docId = null;
         this.raidId = null;
         this.docName = null;
+        this.fileCluster = FileCluster.SHARED_FILE;
+        this.fileReference = "";
     }
 
     //==========================================================================
     // 04-A. Static Inner Classes
     //==========================================================================
+    public final static class FileCluster {
+
+        public final static Integer SHARED_FILE = 1;
+        public final static Integer PROJECT_ATTACHMENT = 2;
+    }
+
     // N/A
     //==========================================================================
     // 04-B. Static Class Methods
     //==========================================================================
-    public static <T> List<T> listActiveFilesWithRaid() throws SQLException {
+    public static <T> List<T> listActiveSharedDocuments() throws SQLException {
         // Build Query
-        SimpleQuery querySample = new SimpleQuery();
-        querySample.addStatement("SELECT")
+        SimpleQuery systemFileQuery = new SimpleQuery();
+        systemFileQuery.addStatement("SELECT")
                 .addStatement("*")
                 .addStatement("FROM")
                 .addStatement(TABLE)
                 .addStatement("WHERE")
                 .addStatement(DELETED_AT)
                 .addStatement("IS NULL")
+                //
+                .addStatementWithParameter("AND (" + FILE_CLUSTER + " = ? AND " + FILE_REFERENCE + " = ? )", FileCluster.SHARED_FILE, "")
+                //
                 .addStatement("ORDER BY")
                 .addStatement(CREATED_AT)
                 .addStatement("DESC");
+
+        return listSystemFiles(systemFileQuery);
+    }
+    
+    
+
+    /**
+     * Master Query.
+     *
+     * @param <T>
+     * @param systemFileQuery
+     * @return
+     * @throws SQLException
+     */
+    private static <T> List<T> listSystemFiles(QueryBuilder systemFileQuery) throws SQLException {
+
         // Execute Query
         List<T> files = null;
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
-            files = new SharedDocumentModel().findMany(con, querySample);
+            files = new SystemFileModel().findMany(con, systemFileQuery);
             //------------------------------------------------------------------
             // If empty //
             if (files.isEmpty()) {
@@ -140,7 +176,7 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
             //------------------------------------------------------------------
             // Iterate to the equipment to get IN parmeters of SUPPLIER CODE of EQUIPMENT QOUTATUION
             for (int ctr = 0; ctr < files.size(); ctr++) {
-                SharedDocumentModel model = (SharedDocumentModel) files.get(ctr);
+                SystemFileModel model = (SystemFileModel) files.get(ctr);
                 String code = model.getRaidId();
                 whereInQuery.addStatementWithParameter("?", code);
 
@@ -162,7 +198,7 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
             // Compare SUPPLIER CODE to attach Model to EQUIP QOUTATION MODEL.
             for (T file : files) {
                 // type case
-                SharedDocumentModel shareModel = (SharedDocumentModel) file;
+                SystemFileModel shareModel = (SystemFileModel) file;
                 // if no assigned supplier code skip this.
                 if (shareModel.getRaidId() == null) {
                     continue;
@@ -178,10 +214,30 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
             //------------------------------------------------------------------
             //==================================================================
             return files;
-        } // end try
+        } // end try // end try // end try // end try
     }
 
-    public static boolean insert(SharedDocumentModel model) throws SQLException {
+    /**
+     * Insert new Shared File.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
+    public static boolean insertSharedFile(SystemFileModel model) throws SQLException {
+        model.setFileCluster(FileCluster.SHARED_FILE);
+        model.setFileReference(""); // blank for shared
+        return insert(model);
+    }
+
+    /**
+     * Master INSERT Method.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
+    private static boolean insert(SystemFileModel model) throws SQLException {
         ConnectionManager con = null;
         try {
             //------------------------------------------------------------------
@@ -218,14 +274,14 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
         }
     }
 
-    public static boolean update(SharedDocumentModel model) throws SQLException {
+    public static boolean update(SystemFileModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             model.auditUpdate();
             return model.updateFull(con);
         }
     }
 
-    public static boolean remove(SharedDocumentModel model) throws SQLException {
+    public static boolean remove(SystemFileModel model) throws SQLException {
         ConnectionManager con = null;
         try {
             // delete this shared docs entry
@@ -284,6 +340,14 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
         return docName;
     }
 
+    public Integer getFileCluster() {
+        return fileCluster;
+    }
+
+    public String getFileReference() {
+        return fileReference;
+    }
+
     //==========================================================================
     // 05-B. Setters
     //==========================================================================
@@ -297,6 +361,14 @@ public class SharedDocumentModel extends PolarisRecord implements TableAuditor {
 
     public void setDocName(String docName) {
         this.docName = docName;
+    }
+
+    public void setFileCluster(Integer fileCluster) {
+        this.fileCluster = fileCluster;
+    }
+
+    public void setFileReference(String fileReference) {
+        this.fileReference = fileReference;
     }
 
     //==========================================================================
