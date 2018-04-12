@@ -84,28 +84,28 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     @PrimaryKey
     @Column(ID)
     private String id;
-
+    
     @Column(FILE_DISPLAY_NAME)
     private String displayName;
-
+    
     @Column(FILE_PATH)
     private String path;
-
+    
     @Column(FILE_NAME)
     private String name;
-
+    
     @Column(FILE_EXT)
     private String extenstion;
-
+    
     @Column(FILE_SIZE)
     private Long size;
-
+    
     @Column(FILE_HASH)
     private String hash;
-
+    
     @Column(REF_STATE)
     private Integer referenceState;
-
+    
     @Column(REF_DESCRIPTION)
     private String referenceDescription;
 
@@ -142,7 +142,7 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
          * reference.
          */
         public final static int LINKED = 1;
-
+        
     }
 
     //==========================================================================
@@ -153,19 +153,19 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
             return model.insert(con);
         }
     }
-
+    
     public static boolean update(RaidModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.updateFull(con);
         }
     }
-
+    
     public static boolean locate(RaidModel model, String raidId) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return model.find(con, raidId);
         }
     }
-
+    
     public static boolean remove(RaidModel model) throws SQLException {
         ConnectionManager con = null;
         try {
@@ -173,7 +173,9 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
             // open connection
             con = Context.app().db().createConnectionManager();
             //------------------------------------------------------------------
+            model.setReferenceState(RaidModel.ReferenceState.DELETED);
             model.auditDelete();
+            //------------------------------------------------------------------
             // execute query.
             return model.updateFull(con);
         } finally {
@@ -193,35 +195,35 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     public String getId() {
         return id;
     }
-
+    
     public String getDisplayName() {
         return displayName;
     }
-
+    
     public String getPath() {
         return path;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public String getExtenstion() {
         return extenstion;
     }
-
+    
     public Long getSize() {
         return size;
     }
-
+    
     public String getHash() {
         return hash;
     }
-
+    
     public Integer getReferenceState() {
         return referenceState;
     }
-
+    
     public String getReferenceDescription() {
         return referenceDescription;
     }
@@ -232,35 +234,35 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     public void setId(String id) {
         this.id = id;
     }
-
+    
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-
+    
     public void setPath(String path) {
         this.path = path;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public void setExtenstion(String extenstion) {
         this.extenstion = extenstion;
     }
-
+    
     public void setSize(Long size) {
         this.size = size;
     }
-
+    
     public void setHash(String hash) {
         this.hash = hash;
     }
-
+    
     public void setReferenceState(Integer referenceState) {
         this.referenceState = referenceState;
     }
-
+    
     public void setReferenceDescription(String referenceDescription) {
         this.referenceDescription = referenceDescription;
     }
@@ -279,13 +281,13 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     //--------------------------------------------------------------------------
     @Column(CREATED_BY)
     private String createdBy;
-
+    
     @Column(CREATED_AT)
     private java.util.Date createdAt;
-
+    
     @Column(DELETED_BY)
     private String deletedBy;
-
+    
     @Column(DELETED_AT)
     private java.util.Date deletedAt;
 
@@ -296,29 +298,29 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     public String getCreatedBy() {
         return (this.createdBy == null) ? "" : this.createdBy;
     }
-
+    
     @Override
     public java.util.Date getCreatedAt() {
         return (this.createdAt == null) ? null : new Date(this.createdAt.getTime());
     }
-
+    
     @Override
     public String getUpdatedBy() {
 //        return (this.updatedBy == null) ? "" : this.updatedBy;
         throw new UnsupportedOperationException("NO UPDATE");
     }
-
+    
     @Override
     public java.util.Date getUpdatedAt() {
 //        return (this.updatedAt == null) ? null : new Date(this.updatedAt.getTime());
         throw new UnsupportedOperationException("NO UPDATE");
     }
-
+    
     @Override
     public String getDeletedBy() {
         return (this.deletedBy == null) ? "" : this.deletedBy;
     }
-
+    
     @Override
     public java.util.Date getDeletedAt() {
         return (this.deletedAt == null) ? null : new Date(this.deletedAt.getTime());
@@ -331,29 +333,29 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     public void setCreatedBy(String createdBy) {
         this.createdBy = (createdBy == null) ? "" : createdBy;
     }
-
+    
     @Override
     public void setCreatedAt(java.util.Date createdAt) {
         this.createdAt = (createdAt == null) ? null : new Date(createdAt.getTime());
     }
-
+    
     @Override
     public void setUpdatedBy(String updatedBy) {
 //        this.updatedBy = (updatedBy == null) ? "" : updatedBy;
         throw new UnsupportedOperationException("NO UPDATE");
     }
-
+    
     @Override
     public void setUpdatedAt(java.util.Date updatedAt) {
 //        this.updatedAt = (updatedAt == null) ? null : new Date(updatedAt.getTime());
         throw new UnsupportedOperationException("NO UPDATE");
     }
-
+    
     @Override
     public void setDeletedBy(String deletedBy) {
         this.deletedBy = (deletedBy == null) ? "" : deletedBy;
     }
-
+    
     @Override
     public void setDeletedAt(java.util.Date deletedAt) {
         this.deletedAt = (deletedAt == null) ? null : new Date(deletedAt.getTime());
@@ -369,10 +371,10 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
             return "No Audit History";
         }
     }
-
+    
     @Override
     public void auditUpdate() {
         throw new UnsupportedOperationException("NO UPDATE");
     }
-
+    
 }

@@ -95,6 +95,7 @@ public class IRIS extends Application {
 
             //------------------------------------------------------------------
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+                e.printStackTrace();
                 final Exception ex = new Exception("Uncaught Exception", e);
                 Platform.runLater(() -> {
                     PolarisDialog.exceptionDialog(ex)
@@ -121,7 +122,7 @@ public class IRIS extends Application {
         splashStage.setResizable(false);
         splashStage.setScene(new Scene(new Splash().load()));
         // cannot be this is calling Context and disrupts normal start up
-        splashStage.getIcons().add(new Image(Context.getResourceStream("drawable/dost_logo.png")));
+        splashStage.getIcons().add(new Image(Context.getResourceStream("drawable/iris_dost_logo.png")));
         splashStage.centerOnScreen();
         this.splashStage.showAndWait();
     }
@@ -140,7 +141,7 @@ public class IRIS extends Application {
      */
     private void showMain(Stage primaryStage) {
         primaryStage.setScene(new Scene(new Home().load()));
-        primaryStage.getIcons().add(new Image(Context.getResourceStream("drawable/dost_logo.png")));
+        primaryStage.getIcons().add(new Image(Context.getResourceStream("drawable/iris_dost_logo.png")));
         primaryStage.setTitle("PSTC-Bulacan/DOST3 Information Retrieval Integrated System ( I.R.I.S. )");
         primaryStage.setMinHeight(700.0);
         primaryStage.setMinWidth(1300.0);

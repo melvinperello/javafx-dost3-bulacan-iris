@@ -56,6 +56,9 @@ public class Home extends IrisForm {
     private Label lbl_sys_version;
 
     @FXML
+    private Label lbl_sys_host;
+
+    @FXML
     private HBox hbox_header;
 
     @FXML
@@ -87,7 +90,8 @@ public class Home extends IrisForm {
         ProjectHeader.attach(hbox_header);
         //
         this.lbl_sys_user.setText(Context.app().getAuditUser());
-        this.lbl_sys_version.setText("System Version: " + Context.VERSION_NAME);
+        this.lbl_sys_host.setText("IRIS Connected @ " + Context.app().getHost());
+        this.lbl_sys_version.setText("System Version " + Context.VERSION_NAME);
         //
         /**
          * Open Projects.

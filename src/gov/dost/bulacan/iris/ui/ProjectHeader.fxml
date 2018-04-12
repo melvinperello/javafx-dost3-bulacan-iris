@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="800.0" prefHeight="80.0" prefWidth="800.0" style="-fx-background-color: #0D4E86;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <padding>
       <Insets left="1.0" />
@@ -16,7 +15,7 @@
    <children>
       <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../storage/drawable/dost_logo.png" />
+            <Image url="@../../../../../storage/drawable/iris_dost_logo.png" />
          </image>
       </ImageView>
       <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">

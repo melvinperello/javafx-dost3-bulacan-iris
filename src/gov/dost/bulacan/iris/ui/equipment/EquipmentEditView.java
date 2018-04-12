@@ -34,6 +34,7 @@ import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
 import gov.dost.bulacan.iris.models.RaidModel;
+import gov.dost.bulacan.iris.models.SharedDocumentModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.equipment.supplier.SupplierHome;
 import gov.dost.bulacan.iris.ui.raid.RaidDownload;
@@ -210,35 +211,77 @@ public class EquipmentEditView extends IrisForm {
         //----------------------------------------------------------------------
         //
         this.btn_download.setOnMouseClicked(value -> {
-            if (this.equipModel.getQoutationAttachment() == null) {
-                this.showWarningMessage(null, "No attachment found for this equipment.");
-                return;
-            }
-
-            RaidModel raid = new RaidModel();
-
-            try {
-                if (RaidModel.locate(raid, this.equipModel.getQoutationAttachment())) {
-                    RaidDownload.callRaidUpload(raid);
-                } else {
-                    this.showWarningMessage(null, "Failed to retrieve attachment in the database.");
-                }
-            } catch (SQLException e) {
-                this.showExceptionMessage(e, null, "Cannot retrieve attachment.");
-            }
-
+            this.downloadQoutation();
             value.consume();
         });
 
         this.btn_upload.setOnMouseClicked(value -> {
-            RaidUpload.callRaidUpload((raidModel) -> {
-                
-                return false;
-            });
+            this.uploadQoutation();
             value.consume();
         });
     }
 
+    //--------------------------------------------------------------------------
+    private void uploadQoutation() {
+
+        if (this.equipModel.getQoutationAttachment() != null) {
+            int overwrite = this.showConfirmationMessage("Overwrite ?", "Do you want to overwrite the existing attachment for this equipment.");
+            // iverwrite
+            if (overwrite == 1) {
+                RaidModel raid = new RaidModel();
+                try {
+                    if (RaidModel.locate(raid, this.equipModel.getQoutationAttachment())) {
+                        if (RaidModel.remove(raid)) {
+                            // deleted at marked ok.
+                        } else {
+                            this.showWaitWarningMessage(null, "Failed to overwrite the file in the database.");
+                            return;
+                        }
+                    } else {
+                        // not found ok.
+                    }
+                } catch (SQLException e) {
+                    this.showExceptionMessage(e, null, "An error has occured during overwriting.");
+                    return;
+                }
+            } else {
+                return; // cancel overwrite
+            }
+        }
+
+        System.out.println("CALL RAID UPLOAD");
+
+        RaidUpload.call((raidModel) -> {
+            try {
+                return EquipmentQoutationModel.updateAttachment(equipModel, raidModel);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }).showAndWait();
+
+    }
+
+    private void downloadQoutation() {
+        if (this.equipModel.getQoutationAttachment() == null) {
+            this.showWarningMessage(null, "No attachment found for this equipment.");
+            return;
+        }
+        //----------------------------------------------------------------------
+        RaidModel raid = new RaidModel();
+
+        try {
+            if (RaidModel.locate(raid, this.equipModel.getQoutationAttachment())) {
+                RaidDownload.call(raid).showAndWait();
+            } else {
+                this.showWarningMessage(null, "Failed to retrieve attachment in the database.");
+            }
+        } catch (SQLException e) {
+            this.showExceptionMessage(e, null, "Cannot retrieve attachment.");
+        }
+    }
+
+    //--------------------------------------------------------------------------
     private EquipmentSupplierModel currentSupplierModel;
 
     private void loadSupplierInformation() {
@@ -350,7 +393,7 @@ public class EquipmentEditView extends IrisForm {
         model.setSpecifications(frmEquipSpecs);
         model.setRemarks(frmRemarks);
         model.setStatus(frmEquipStatus);
-        model.setQoutationAttachment(null);
+//        model.setQoutationAttachment(null);
         model.setKeyword(frmSearchKeys);
 
         boolean updated = false;
@@ -382,7 +425,7 @@ public class EquipmentEditView extends IrisForm {
         model.setSpecifications(frmEquipSpecs);
         model.setRemarks(frmRemarks);
         model.setStatus(frmEquipStatus);
-        model.setQoutationAttachment(null);
+//        model.setQoutationAttachment(null);
         model.setKeyword(frmSearchKeys);
         //----------------------------------------------------------------------
         boolean inserted = false;

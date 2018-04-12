@@ -82,7 +82,7 @@ public class RaidUpload extends IrisForm {
     }
 
     //--------------------------------------------------------------------------
-    public static Stage callRaidUpload(OnRaidRecorded raidRecorded) {
+    public static Stage call(OnRaidRecorded raidRecorded) {
         RaidUpload raid = new RaidUpload();
         Stage raidStage = new Stage();
         raidStage.setScene(new Scene(raid.load()));

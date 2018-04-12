@@ -46,7 +46,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(EquipmentQoutationModel.TABLE)
-public class EquipmentQoutationModel extends PolarisRecord implements TableAuditor{
+public class EquipmentQoutationModel extends PolarisRecord implements TableAuditor {
 
     public final static String TABLE = "equipment_qoutation";
     public final static String QOUTE_CODE = "qoute_code";
@@ -263,6 +263,40 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             model.auditUpdate();
             return model.updateFull(con);
+        }
+    }
+
+    public static boolean updateAttachment(EquipmentQoutationModel model, RaidModel raid) throws SQLException {
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            raid.setReferenceState(RaidModel.ReferenceState.LINKED);
+            raid.setReferenceDescription("EQUIPMENT ATTACHMENT");
+            raid.auditCreate();
+            //------------------------------------------------------------------
+            // link document to raid
+            model.setQoutationAttachment(raid.getId());
+            model.auditUpdate();
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            //------------------------------------------------------------------
+            // begin transaction
+            con.transactionStart();
+
+            if (raid.updateFull(con)) {
+                if (model.update(con)) {
+                    con.transactionCommit();
+                    return true;
+                }
+            }
+
+            con.transactionRollBack();
+            return false;
+        } finally {
+            if (con != null) {
+                con.close(); // auto rollback
+            }
         }
     }
 

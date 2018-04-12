@@ -89,7 +89,7 @@ public class RaidDownload extends IrisForm {
 
     private final RaidModel raidModel;
 
-    public static Stage callRaidUpload(RaidModel raidModel) {
+    public static Stage call(RaidModel raidModel) {
         RaidDownload raid = new RaidDownload(raidModel);
         Stage raidStage = new Stage();
         raidStage.setScene(new Scene(raid.load()));

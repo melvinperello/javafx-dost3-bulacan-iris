@@ -330,6 +330,15 @@ public class Context {
     //--------------------------------------------------------------------------
 
     /**
+     * Host Server.
+     *
+     * @return
+     */
+    public String getHost() {
+        return host;
+    }
+
+    /**
      * Load Settings from configuration.
      */
     private void loadSettings() throws IOException {
