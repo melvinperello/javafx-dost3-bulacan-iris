@@ -163,40 +163,39 @@ public class ContactInformationModel extends PolarisRecord implements TableAudit
     // GETTERS
     //--------------------------------------------------------------------------
     public String getContactId() {
-
-        return ModelAccess.textAccess(sqlFrom);
+        return contactId;
     }
 
     public String getOrganization() {
-        return ModelAccess.textAccess(organization);
+        return organization;
     }
 
     public String getOrgType() {
-        return ModelAccess.textAccess(orgType);
+        return orgType;
     }
 
     public String getOfficeName() {
-        return ModelAccess.textAccess(officeName);
+        return officeName;
     }
 
     public String getContactPerson() {
-        return ModelAccess.textAccess(contactPerson);
+        return contactPerson;
     }
 
     public String getTelNo() {
-        return ModelAccess.textAccess(telNo);
+        return telNo;
     }
 
     public String getFaxNo() {
-        return ModelAccess.textAccess(faxNo);
+        return faxNo;
     }
 
     public String getMobileNo() {
-        return ModelAccess.textAccess(mobileNo);
+        return mobileNo;
     }
 
     public String getEmail() {
-        return ModelAccess.textAccess(email);
+        return email;
     }
 
     //--------------------------------------------------------------------------

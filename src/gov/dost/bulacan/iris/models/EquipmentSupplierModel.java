@@ -316,27 +316,27 @@ public class EquipmentSupplierModel extends PolarisRecord implements TableAudito
     // Getter
     //--------------------------------------------------------------------------
     public String getSupplierCode() {
-        return ModelAccess.textAccess(supplierCode);
+        return supplierCode;
     }
 
     public String getSupplierName() {
-        return ModelAccess.textAccess(supplierName);
+        return supplierName;
     }
 
     public String getMobileNo() {
-        return ModelAccess.textAccess(mobileNo);
+        return mobileNo;
     }
 
     public String getTelNo() {
-        return ModelAccess.textAccess(telNo);
+        return telNo;
     }
 
     public String getFaxNo() {
-        return ModelAccess.textAccess(faxNo);
+        return faxNo;
     }
 
     public String getWebsiteAddress() {
-        return ModelAccess.textAccess(websiteAddress);
+        return websiteAddress;
     }
 
     public Integer getSector() {
@@ -344,15 +344,15 @@ public class EquipmentSupplierModel extends PolarisRecord implements TableAudito
     }
 
     public String getDostAccredited() {
-        return ModelAccess.textAccess(dostAccredited);
+        return dostAccredited;
     }
 
     public String getSupplierAddress() {
-        return ModelAccess.textAccess(supplierAddress);
+        return supplierAddress;
     }
 
     public String getSupplierEmail() {
-        return ModelAccess.textAccess(supplierEmail);
+        return supplierEmail;
     }
 
     //--------------------------------------------------------------------------

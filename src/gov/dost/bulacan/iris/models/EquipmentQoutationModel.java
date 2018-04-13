@@ -343,18 +343,15 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
     // GETTERS AND SETTERS
     //--------------------------------------------------------------------------
     public String getQouteCode() {
-        return ModelAccess.textAccess(qouteCode);
+        return qouteCode;
     }
 
     public String getSupplierCode() {
-        return ModelAccess.textAccess(supplierCode);
+        return supplierCode;
     }
 
-//    public String getProjectCode() {
-//        return projectCode;
-//    }
     public String getEquipmentName() {
-        return ModelAccess.textAccess(equipmentName);
+        return equipmentName;
     }
 
     public Date getQoutationDate() {
@@ -362,26 +359,23 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
     }
 
     public String getSpecifications() {
-        return ModelAccess.textAccess(specifications);
+        return specifications;
     }
 
-//    public String getFeedBack() {
-//        return feedBack;
-//    }
     public String getRemarks() {
-        return ModelAccess.textAccess(remarks);
+        return remarks;
     }
 
     public String getStatus() {
-        return ModelAccess.textAccess(status);
+        return status;
     }
 
     public String getQoutationAttachment() {
-        return ModelAccess.textAccess(this.qoutationAttachment);
+        return qoutationAttachment;
     }
 
     public String getKeyword() {
-        return ModelAccess.textAccess(this.keyword);
+        return keyword;
     }
 
     //--------------------------------------------------------------------------

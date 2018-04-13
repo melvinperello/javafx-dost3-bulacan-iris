@@ -34,8 +34,15 @@ package gov.dost.bulacan.iris.models.ext;
  */
 public class ModelAccess {
 
+    /**
+     * Do not use to fields that are required to have null values like Foreign
+     * Keys and Primary Keys.
+     *
+     * @param textFromDb
+     * @return
+     */
     public static String textAccess(String textFromDb) {
-        if (textFromDb != null) {
+        if (textFromDb == null) {
             return "";
         }
         return textFromDb;
