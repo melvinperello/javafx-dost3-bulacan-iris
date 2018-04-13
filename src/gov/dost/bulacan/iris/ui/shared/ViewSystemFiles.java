@@ -91,14 +91,21 @@ public class ViewSystemFiles extends IrisForm {
         this.callerController = callerController;
 
         if (callerController instanceof Home) {
-            System.out.println("FROM HOME");
+            this.viewMode = Mode.SHARED;
         } else if (callerController instanceof ProjectDetailsView) {
-            System.out.println("FROM PROJECt");
+            this.viewMode = Mode.PROJECT;
+        } else {
+            throw new RuntimeException("Unexpected Value");
         }
+    }
+
+    private enum Mode {
+        SHARED, PROJECT
     }
 
     private final ObservableList<FileItem> observeableListItems;
     private final PolarisFxController callerController;
+    private final Mode viewMode;
 
     @Override
     protected void setup() {
@@ -243,8 +250,12 @@ public class ViewSystemFiles extends IrisForm {
         //----------------------------------------------------------------------
         List<SystemFileModel> listItems = null;
         try {
-
-            listItems = SystemFileModel.listActiveSharedDocuments();
+            if (this.viewMode == Mode.SHARED) {
+                listItems = SystemFileModel.listActiveSharedDocuments();
+            } else if (this.viewMode == Mode.PROJECT) {
+                ProjectDetailsView fx = (ProjectDetailsView) this.callerController;
+                listItems = SystemFileModel.listActiveProjectAttachments(fx.getProjectModel());
+            }
 
         } catch (SQLException e) {
             this.showExceptionMessage(e, "Cannot Retrieve Data !", "Cannot Retrieve Equipment Records !");
@@ -314,7 +325,15 @@ public class ViewSystemFiles extends IrisForm {
         docs.setLinkedModel(model);
 
         try {
-            return SystemFileModel.insertSharedFile(docs);
+            switch (this.viewMode) {
+                case SHARED:
+                    return SystemFileModel.insertSharedFile(docs);
+                case PROJECT:
+                    ProjectDetailsView fx = (ProjectDetailsView) this.callerController;
+                    return SystemFileModel.insertProjectFile(docs, fx.getProjectModel());
+                default:
+                    throw new RuntimeException("Unexpected Viewing Mode");
+            }
         } catch (SQLException e) {
             return false;
         }

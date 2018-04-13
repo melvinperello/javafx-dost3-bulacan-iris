@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.models.ext.ModelAccess;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import gov.dost.bulacan.iris.models.ext.UnknownModelValueException;
 import java.sql.SQLException;
@@ -46,7 +47,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(EquipmentSupplierModel.TABLE)
-public class EquipmentSupplierModel extends PolarisRecord implements TableAuditor{
+public class EquipmentSupplierModel extends PolarisRecord implements TableAuditor {
 
     public final static String TABLE = "equipment_supplier";
     public final static String SUPPLIER_CODE = "supplier_code";
@@ -315,27 +316,27 @@ public class EquipmentSupplierModel extends PolarisRecord implements TableAudito
     // Getter
     //--------------------------------------------------------------------------
     public String getSupplierCode() {
-        return supplierCode;
+        return ModelAccess.textAccess(supplierCode);
     }
 
     public String getSupplierName() {
-        return supplierName;
+        return ModelAccess.textAccess(supplierName);
     }
 
     public String getMobileNo() {
-        return mobileNo;
+        return ModelAccess.textAccess(mobileNo);
     }
 
     public String getTelNo() {
-        return telNo;
+        return ModelAccess.textAccess(telNo);
     }
 
     public String getFaxNo() {
-        return faxNo;
+        return ModelAccess.textAccess(faxNo);
     }
 
     public String getWebsiteAddress() {
-        return websiteAddress;
+        return ModelAccess.textAccess(websiteAddress);
     }
 
     public Integer getSector() {
@@ -343,15 +344,15 @@ public class EquipmentSupplierModel extends PolarisRecord implements TableAudito
     }
 
     public String getDostAccredited() {
-        return dostAccredited;
+        return ModelAccess.textAccess(dostAccredited);
     }
 
     public String getSupplierAddress() {
-        return supplierAddress;
+        return ModelAccess.textAccess(supplierAddress);
     }
 
     public String getSupplierEmail() {
-        return supplierEmail;
+        return ModelAccess.textAccess(supplierEmail);
     }
 
     //--------------------------------------------------------------------------

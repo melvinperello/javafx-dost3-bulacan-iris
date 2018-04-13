@@ -34,10 +34,10 @@ package gov.dost.bulacan.iris.models.ext;
  */
 public class ModelAccess {
 
-    public static String stringValue(String attribute) {
-        if (attribute == null) {
+    public static String textAccess(String textFromDb) {
+        if (textFromDb != null) {
             return "";
         }
-        return attribute;
+        return textFromDb;
     }
 }

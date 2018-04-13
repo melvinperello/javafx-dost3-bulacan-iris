@@ -332,6 +332,10 @@ public class ProjectDetailsView extends IrisForm {
 
     }
 
+    public ProjectModel getProjectModel() {
+        return projectModel;
+    }
+
     private void showEditContacts(ProjectContactModel model) {
         Stage contactStage = new Stage();
 

@@ -139,8 +139,26 @@ public class SystemFileModel extends PolarisRecord implements TableAuditor {
 
         return listSystemFiles(systemFileQuery);
     }
-    
-    
+
+    public static <T> List<T> listActiveProjectAttachments(ProjectModel model) throws SQLException {
+        // Build Query
+        SimpleQuery systemFileQuery = new SimpleQuery();
+        systemFileQuery.addStatement("SELECT")
+                .addStatement("*")
+                .addStatement("FROM")
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL")
+                //
+                .addStatementWithParameter("AND (" + FILE_CLUSTER + " = ? AND " + FILE_REFERENCE + " = ? )", FileCluster.PROJECT_ATTACHMENT, model.getProjectCode())
+                //
+                .addStatement("ORDER BY")
+                .addStatement(CREATED_AT)
+                .addStatement("DESC");
+
+        return listSystemFiles(systemFileQuery);
+    }
 
     /**
      * Master Query.
@@ -225,8 +243,16 @@ public class SystemFileModel extends PolarisRecord implements TableAuditor {
      * @throws SQLException
      */
     public static boolean insertSharedFile(SystemFileModel model) throws SQLException {
+        model.getLinkedModel().setReferenceDescription("SHARED DOCUMENTS");
         model.setFileCluster(FileCluster.SHARED_FILE);
         model.setFileReference(""); // blank for shared
+        return insert(model);
+    }
+
+    public static boolean insertProjectFile(SystemFileModel model, ProjectModel projectModel) throws SQLException {
+        model.getLinkedModel().setReferenceDescription("PROJECT ATTACHMENT");
+        model.setFileCluster(FileCluster.PROJECT_ATTACHMENT);
+        model.setFileReference(projectModel.getProjectCode()); // blank for shared
         return insert(model);
     }
 
@@ -244,7 +270,7 @@ public class SystemFileModel extends PolarisRecord implements TableAuditor {
             // establish raid reference
             RaidModel raid = model.getLinkedModel();
             raid.setReferenceState(RaidModel.ReferenceState.LINKED);
-            raid.setReferenceDescription("SHARED DOCUMENTS");
+//            raid.setReferenceDescription("SHARED DOCUMENTS");
             raid.auditCreate();
             //------------------------------------------------------------------
             // link document to raid

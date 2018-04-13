@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.models.ext.ModelAccess;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import java.sql.SQLException;
 import java.util.Date;
@@ -162,39 +163,40 @@ public class ContactInformationModel extends PolarisRecord implements TableAudit
     // GETTERS
     //--------------------------------------------------------------------------
     public String getContactId() {
-        return contactId;
+
+        return ModelAccess.textAccess(sqlFrom);
     }
 
     public String getOrganization() {
-        return organization;
+        return ModelAccess.textAccess(organization);
     }
 
     public String getOrgType() {
-        return orgType;
+        return ModelAccess.textAccess(orgType);
     }
 
     public String getOfficeName() {
-        return officeName;
+        return ModelAccess.textAccess(officeName);
     }
 
     public String getContactPerson() {
-        return contactPerson;
+        return ModelAccess.textAccess(contactPerson);
     }
 
     public String getTelNo() {
-        return telNo;
+        return ModelAccess.textAccess(telNo);
     }
 
     public String getFaxNo() {
-        return faxNo;
+        return ModelAccess.textAccess(faxNo);
     }
 
     public String getMobileNo() {
-        return mobileNo;
+        return ModelAccess.textAccess(mobileNo);
     }
 
     public String getEmail() {
-        return email;
+        return ModelAccess.textAccess(email);
     }
 
     //--------------------------------------------------------------------------
