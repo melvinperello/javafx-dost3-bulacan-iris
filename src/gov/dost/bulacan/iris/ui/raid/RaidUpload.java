@@ -320,7 +320,7 @@ public class RaidUpload extends IrisForm {
                 });
             } else {
                 Platform.runLater(() -> {
-                    this.showWaitInformationMessage("Upload Failed !", "There was a problem while trying to complete the upload.");
+                    this.showWaitErrorMessage("Upload Failed !", "There was a problem while trying to complete the upload.");
                     this.getStage().close();
                 });
             }

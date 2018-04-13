@@ -77,7 +77,7 @@ public class IRIS extends Application {
                     this.showMain(primaryStage);
                 });
             } catch (Exception e) {
-                
+
                 Platform.runLater(() -> {
                     try {
                         PolarisDialog.exceptionDialog(e)
@@ -88,9 +88,9 @@ public class IRIS extends Application {
                     } finally {
                         System.exit(-1);
                     }
-                    
+
                 });
-                
+
             }
 
             //------------------------------------------------------------------
@@ -100,7 +100,7 @@ public class IRIS extends Application {
                 Platform.runLater(() -> {
                     PolarisDialog.exceptionDialog(ex)
                             .setHeaderText("Fatal Exception")
-                            .setContentText(e.getMessage())
+                            .setContentText("There was an unknown error that has been encountered by the system.")
                             .setTitle("System Error")
                             .showAndWait();
                     System.exit(-2);
@@ -113,7 +113,7 @@ public class IRIS extends Application {
 
     //--------------------------------------------------------------------------
     private Stage splashStage;
-    
+
     private void showSplash() {
         this.splashStage = new Stage(StageStyle.UNDECORATED);
         splashStage.initModality(Modality.APPLICATION_MODAL);
@@ -126,7 +126,7 @@ public class IRIS extends Application {
         splashStage.centerOnScreen();
         this.splashStage.showAndWait();
     }
-    
+
     private void closeSplash() {
         if (this.splashStage != null) {
             this.splashStage.close();
@@ -182,10 +182,10 @@ public class IRIS extends Application {
      * @param args
      */
     public static void main(String[] args) {
-        
+
         Application.launch(args);
     }
-    
+
     public static void onCloseConfirmation(Stage owner) {
         Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
                 .setTitle("Exit")
@@ -200,5 +200,5 @@ public class IRIS extends Application {
             Platform.exit(); // exit java fx
         }
     }
-    
+
 }

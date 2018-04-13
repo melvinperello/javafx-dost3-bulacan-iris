@@ -285,9 +285,12 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
             con.transactionStart();
 
             if (raid.updateFull(con)) {
-                if (model.update(con)) {
+                // good here
+                if (model.updateFull(con)) {
                     con.transactionCommit();
                     return true;
+                } else {
+                    System.out.println("FAILED");
                 }
             }
 

@@ -249,8 +249,6 @@ public class EquipmentEditView extends IrisForm {
             }
         }
 
-        System.out.println("CALL RAID UPLOAD");
-
         RaidUpload.call((raidModel) -> {
             try {
                 return EquipmentQoutationModel.updateAttachment(equipModel, raidModel);
