@@ -422,10 +422,11 @@ public class TrainingEncode extends IrisForm {
         }
 
         if (flagEmpty) {
-            int res = this.showConfirmationMessage(null, "There are empty fields. Are you sure you want to encode ?");
-            if (res != 1) {
+//                        this.showWaitWarningMessage(null, "There are empty fields. Please complete your encoding.");
+            if (this.showConfirmationMessage(null, "There are empty fields. Are you sure you want to encode ?") == 0) {
                 return null;
             }
+
         }
 
         JSONObject json = new JSONObject(values);

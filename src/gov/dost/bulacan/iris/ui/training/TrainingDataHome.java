@@ -309,9 +309,11 @@ public class TrainingDataHome extends IrisForm {
         textSummary.append(date);
         textSummary.append("\n\nNumber of Respondents: ");
         textSummary.append(respondents);
+        //----------------------------------------------------------------------
         Calculator compute = new Calculator();
-        //
+        //----------------------------------------------------------------------
         StringBuilder comments = new StringBuilder("\n\nComments\n");
+        //----------------------------------------------------------------------
         for (TrainingDataModel trainingDataModel : tableData) {
             JSONObject json = new JSONObject(trainingDataModel.getRating());
 
@@ -319,14 +321,19 @@ public class TrainingDataHome extends IrisForm {
                 if (x == 6 || x == 11) {
                     continue;
                 }
+                //--------------------------------------------------------------
                 String key = String.valueOf(x);
                 String value = json.getString(key);
+                //--------------------------------------------------------------
                 compute.feed(key, value);
+                //--------------------------------------------------------------
             }
 
+            //------------------------------------------------------------------
             comments.append(trainingDataModel.getComment());
             comments.append("\n");
         }
+        //----------------------------------------------------------------------
 
         textSummary.append(compute.view());
         textSummary.append(comments.toString());
@@ -402,6 +409,13 @@ public class TrainingDataHome extends IrisForm {
         }
 
         public String calculate(ArrayList<String> list) {
+            if (list == null) {
+                return "No Results";
+            }
+            if (list.isEmpty()) {
+                return "No Results";
+            }
+
             int _1 = 0;
             int _2 = 0;
             int _3 = 0;
@@ -430,7 +444,9 @@ public class TrainingDataHome extends IrisForm {
             int totalResponse = list.size();
             int totalSum = (_1 * 1) + (_2 * 2) + (_3 * 3) + (_4 * 4) + (_5 * 5);
             double totalP = ((double) totalSum) / ((double) computableTotal);
-
+            if (computableTotal == 0) {
+                totalP = 0;
+            }
             String r1 = _1 + "\t" + percentMe(_1, totalResponse) + "%";
             String r2 = _2 + "\t" + percentMe(_2, totalResponse) + "%";
             String r3 = _3 + "\t" + percentMe(_3, totalResponse) + "%";
