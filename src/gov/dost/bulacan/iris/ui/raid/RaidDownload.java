@@ -35,6 +35,7 @@ import gov.dost.bulacan.iris.RaidContext;
 import gov.dost.bulacan.iris.models.RaidModel;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.NonReadableChannelException;
 import java.nio.channels.NonWritableChannelException;
 import java.util.Date;
@@ -49,6 +50,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientManager;
+import org.apache.commons.net.ftp.FTPFile;
 
 /**
  *
@@ -317,6 +319,13 @@ public class RaidDownload extends IrisForm {
          */
         this.downloadThread.setOnException(() -> {
             Platform.runLater(() -> {
+                if (this.downloadThread.getCaughtException() != null) {
+                    if (this.downloadThread.getCaughtException().getMessage().equalsIgnoreCase("FILE_NOT_EXIST")) {
+                        this.showWaitErrorMessage("Ooops! Missing File !", "The file that you are requesting is not existing in the server, this may be caused by hardware system failures. You may want to consider to delete this entry permanently.");
+                        this.getStage().close();
+                        return;
+                    }
+                }
                 this.showWaitErrorMessage("Ooops! Something went wrong.", "File download has encountered a problem. Please try again later.");
                 this.getStage().close();
             });
@@ -350,6 +359,11 @@ public class RaidDownload extends IrisForm {
         private Runnable onComplete;
         private volatile boolean runningFlag;
         private volatile boolean cancelFlag; //no-op
+        private Exception caughtException;
+
+        public Exception getCaughtException() {
+            return caughtException;
+        }
 
         /**
          * Check if running.
@@ -439,6 +453,12 @@ public class RaidDownload extends IrisForm {
                     }
                 }); // end listener
                 //--------------------------------------------------------------
+                //
+                FTPFile[] listFile = this.ftpConnection.getFtpClient().listFiles("bin/" + fileName);
+                if (listFile.length == 0) {
+                    throw new IOException("FILE_NOT_EXIST");
+                }
+                //
                 boolean downloaded = this.ftpConnection.downloadStream("bin/" + fileName, "raid/bin/" + fileName);
 
                 if (this.cancelFlag) {
@@ -459,6 +479,7 @@ public class RaidDownload extends IrisForm {
                 if (this.cancelFlag) {
                     return; // cancel
                 }
+                this.caughtException = e;
                 //--------------------------------------------------------------
                 // call exception routine
                 if (this.onException != null) {
