@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="TOP_RIGHT" maxHeight="-Infinity" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #E94C3D;">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="Built with ❤ for DOST3/Bulacan" textFill="WHITE">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="-8.0" top="-10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="The project uses Icons from www.flaticon.com and uses the following technologies/libraries" textFill="#ebeaea">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label text="iText | Apache POI / Commons / Net | Guava | Hikari | jFoenix | ControlsFX | sl4j | MariaDB | FileZilla | JSON" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
+            <ImageView fitHeight="177.0" fitWidth="554.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../storage/drawable/about/letter_head.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox prefHeight="600.0" prefWidth="365.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../storage/drawable/iris_dost_logo.png" />
+                                 </image>
+                              </ImageView>
+                              <Label contentDisplay="TOP" text="IRIS" textFill="#5d5353">
+                                 <font>
+                                    <Font name="System Bold" size="43.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="30.0" top="30.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="600.0" prefWidth="365.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER">
+                     <padding>
+                        <Insets bottom="30.0" top="30.0" />
+                     </padding>
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../storage/drawable/raid/icon_128.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="-6.0" top="-15.0" />
+                                 </VBox.margin>
+                              </ImageView>
+                              <Label contentDisplay="TOP" text="RAID" textFill="#5d5353">
+                                 <font>
+                                    <Font name="System Bold" size="43.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets left="-20.0" top="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="600.0" prefWidth="365.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER">
+                     <padding>
+                        <Insets bottom="30.0" top="30.0" />
+                     </padding>
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../storage/drawable/about/author.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="-6.0" top="-15.0" />
+                                 </VBox.margin>
+                              </ImageView>
+                              <Label contentDisplay="TOP" text="DEV" textFill="#5d5353">
+                                 <font>
+                                    <Font name="System Bold" size="43.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

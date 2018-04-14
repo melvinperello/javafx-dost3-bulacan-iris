@@ -280,6 +280,7 @@ public class Context {
 
     /**
      * Starts this application context.
+     * @throws java.lang.Exception
      */
     public void start() throws Exception {
         if (!this.started) {

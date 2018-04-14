@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris.ui;
 
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.ui.about.About;
 import gov.dost.bulacan.iris.ui.certmaker.CertMaker;
 import gov.dost.bulacan.iris.ui.directory.DirHome;
 import gov.dost.bulacan.iris.ui.equipment.EquipmentView;
@@ -100,7 +101,6 @@ public class Home extends IrisForm {
             ProjectView projectView = new ProjectView();
             this.changeRoot(projectView.load());
             value.consume();
-            throw new RuntimeException("BOOM!");
         });
         /**
          * Open Equipments.
@@ -144,10 +144,11 @@ public class Home extends IrisForm {
         });
 
         this.menu_about.setOnMouseClicked(value -> {
-            this.showInformationMessage("Under Construction", "About page is currently under construction please visit www.facebook.com/afterschoolcreatives for more info.");
+//            this.showInformationMessage("Under Construction", "About page is currently under construction please visit www.facebook.com/afterschoolcreatives for more info.");
+            this.changeRoot(new About().load());
             value.consume();
         });
-        
+
     }
 
     /**
@@ -158,7 +159,7 @@ public class Home extends IrisForm {
      */
     public static void addEventBackToHome(Node button, PolarisFxController controller) {
         button.setOnMouseClicked(value -> {
-            invokeEventBackToHome(controller);      
+            invokeEventBackToHome(controller);
             value.consume();
         });
     }

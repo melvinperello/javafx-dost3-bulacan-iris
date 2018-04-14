@@ -176,6 +176,9 @@ public abstract class IrisForm extends PolarisFxController {
                 .setOwner(null)
                 .setTitle("Fatal Exception")
                 .showAndWait();
+        //----------------------------------------------------------------------
+        IRIS.telemetry(e, this.getStage());
+        //----------------------------------------------------------------------
     }
 
     //--------------------------------------------------------------------------

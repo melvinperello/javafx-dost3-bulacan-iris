@@ -87,7 +87,9 @@ public class IRIS extends Application {
                     this.showMain(primaryStage);
                 });
             } catch (Exception e) {
-
+                //--------------------------------------------------------------
+                IRIS.telemetry(e, null); // no scr telemetry
+                //--------------------------------------------------------------
                 Platform.runLater(() -> {
                     try {
                         PolarisDialog.exceptionDialog(e)
@@ -123,6 +125,13 @@ public class IRIS extends Application {
         initThread.start();
     }
 
+    /**
+     * As much as possible create a single method that will call exception
+     * message so that the telemetry can be easily integrated.
+     *
+     * @param ex
+     * @param stage
+     */
     public static void telemetry(Exception ex, Stage stage) {
         final SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss_aa");
         final SimpleDateFormat prettyFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
@@ -140,7 +149,7 @@ public class IRIS extends Application {
                 String err_log = sw.toString();
                 //------------------------------------------------------
                 PolarisText text = new PolarisText();
-                text.writeln("Polaris Systems Telemetry version 1.0");
+                text.writeln("Afterschool Creatives Telemetry version 1.0");
                 text.writeln("Date Captured: " + prettyFormat.format(logDate));
                 text.writeln("Operating System: " + System.getProperty("os.name", "No Data"));
                 text.writeln("OS Version: " + System.getProperty("os.version", "No Data"));
