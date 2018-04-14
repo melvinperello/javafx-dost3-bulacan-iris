@@ -100,6 +100,7 @@ public class Home extends IrisForm {
             ProjectView projectView = new ProjectView();
             this.changeRoot(projectView.load());
             value.consume();
+            throw new RuntimeException("BOOM!");
         });
         /**
          * Open Equipments.
@@ -146,7 +147,7 @@ public class Home extends IrisForm {
             this.showInformationMessage("Under Construction", "About page is currently under construction please visit www.facebook.com/afterschoolcreatives for more info.");
             value.consume();
         });
-
+        
     }
 
     /**
@@ -157,7 +158,7 @@ public class Home extends IrisForm {
      */
     public static void addEventBackToHome(Node button, PolarisFxController controller) {
         button.setOnMouseClicked(value -> {
-            invokeEventBackToHome(controller);
+            invokeEventBackToHome(controller);      
             value.consume();
         });
     }

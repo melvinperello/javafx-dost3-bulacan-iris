@@ -30,15 +30,25 @@ package gov.dost.bulacan.iris;
 
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.Splash;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.imageio.ImageIO;
+import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
@@ -95,8 +105,10 @@ public class IRIS extends Application {
 
             //------------------------------------------------------------------
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-                e.printStackTrace();
                 final Exception ex = new Exception("Uncaught Exception", e);
+                ex.printStackTrace();
+                IRIS.telemetry(ex, primaryStage);
+                //--------------------------------------------------------------
                 Platform.runLater(() -> {
                     PolarisDialog.exceptionDialog(ex)
                             .setHeaderText("Fatal Exception")
@@ -109,6 +121,58 @@ public class IRIS extends Application {
             //------------------------------------------------------------------
         });
         initThread.start();
+    }
+
+    public static void telemetry(Exception ex, Stage stage) {
+        final SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss_aa");
+        final SimpleDateFormat prettyFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
+        final Date logDate = new Date();
+        final String logText = df.format(logDate);
+
+        //----------------------------------------------------------------------
+        if (FileTool.checkFoldersQuietly("telemetry")) {
+            //------------------------------------------------------------------
+            // WRITE LOG FILE
+            try {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                ex.printStackTrace(pw);
+                String err_log = sw.toString();
+                //------------------------------------------------------
+                PolarisText text = new PolarisText();
+                text.writeln("Polaris Systems Telemetry version 1.0");
+                text.writeln("Date Captured: " + prettyFormat.format(logDate));
+                text.writeln("Operating System: " + System.getProperty("os.name", "No Data"));
+                text.writeln("OS Version: " + System.getProperty("os.version", "No Data"));
+                text.writeln("Architecture: " + System.getProperty("os.arch", "No Data"));
+                text.writeln("");
+                text.writeln("Exception Stack Trace Details:");
+                text.writeln("");
+                text.write(err_log);
+                text.save(new File("telemetry/EXCEPTION" + logText + ".txt"));
+            } catch (Exception logEx) {
+                // ignore
+            }
+            //------------------------------------------------------------------
+            // WRITE SCREENSHOT
+            File screenshot = new File("telemetry/EXCEPTION" + logText + ".png");
+            if (stage == null) {
+                return;
+            }
+            //------------------------------------------------------------------
+            if (stage.getScene() != null) {
+                Scene scene = stage.getScene();
+                WritableImage writableImage
+                        = new WritableImage((int) scene.getWidth(), (int) scene.getHeight());
+                scene.snapshot(writableImage);
+                try {
+                    ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", screenshot);
+                } catch (Exception iox) {
+                    // ignore
+                }
+            }
+            //------------------------------------------------------------------
+        }
     }
 
     //--------------------------------------------------------------------------
@@ -181,8 +245,7 @@ public class IRIS extends Application {
      *
      * @param args
      */
-    public static void main(String[] args) {
-
+    public static void main(String... args) {
         Application.launch(args);
     }
 
