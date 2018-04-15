@@ -192,7 +192,7 @@
                                     <Insets bottom="-6.0" top="-5.0" />
                                  </VBox.margin>
                               </ImageView>
-                              <Label contentDisplay="TOP" text="MELVIN" textFill="#5d5353">
+                              <Label contentDisplay="TOP" text="AUTHOR" textFill="#5d5353">
                                  <font>
                                     <Font name="System Bold" size="43.0" />
                                  </font>
