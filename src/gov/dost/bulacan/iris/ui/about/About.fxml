@@ -50,7 +50,50 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <VBox prefHeight="600.0" prefWidth="365.0" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="600.0" prefWidth="365.0">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../storage/drawable/about/mit.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets top="23.0" />
+                                 </VBox.margin>
+                              </ImageView>
+                              <Label contentDisplay="TOP" text="LICENSE" textFill="#5d5353">
+                                 <font>
+                                    <Font name="System Bold" size="43.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" top="30.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label text="     THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." textAlignment="JUSTIFY" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="15.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="600.0" prefWidth="365.0" style="-fx-border-width: 0 1 0 0;" HBox.hgrow="ALWAYS">
                <children>
                   <HBox alignment="CENTER">
                      <children>
@@ -73,7 +116,15 @@
                         </VBox>
                      </children>
                      <padding>
-                        <Insets bottom="30.0" top="30.0" />
+                        <Insets bottom="10.0" top="30.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label text="INFORMATION RETRIEVAL INTEGRATED SYSTEM (IRIS)" textAlignment="JUSTIFY" wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="15.0" />
                      </padding>
                   </HBox>
                </children>
@@ -82,7 +133,7 @@
                <children>
                   <HBox alignment="CENTER">
                      <padding>
-                        <Insets bottom="30.0" top="30.0" />
+                        <Insets bottom="10.0" top="30.0" />
                      </padding>
                      <children>
                         <VBox alignment="CENTER">
@@ -92,7 +143,7 @@
                                     <Image url="@../../../../../../storage/drawable/raid/icon_128.png" />
                                  </image>
                                  <VBox.margin>
-                                    <Insets bottom="-6.0" top="-15.0" />
+                                    <Insets bottom="-6.0" top="-21.0" />
                                  </VBox.margin>
                               </ImageView>
                               <Label contentDisplay="TOP" text="RAID" textFill="#5d5353">
@@ -110,6 +161,18 @@
                         </VBox>
                      </children>
                   </HBox>
+                  <HBox>
+                     <children>
+                        <Label text="     REDUNDANT APPLICATION INFORMATION DISTRIBUTION (RAID) IS AN ALGORITHM DEVELOPED TO ENSURE THE SAFETY AND INTEGRITY OF FILES IN THE SYSTEM. THE ALGORITHM WAS DESIGNED TO UTILIZE ALL THE ACTIVE CLIENTS IN THE NETWORK ALLOWING LIVE COPY AND DISTRIBUTION OF THE SERVER FILES WHICH ALLOWS THE SYSTEM TO HAVE A FAULT TOLERANT BACKUP OF VITAL INFORMATION THAT ARE REDUNDANTLY STORED TO EACH CLIENT. THIS WILL ENSURE SAFETY OF THE DATA ACROSS THE NETWORK IN THE EVENT OF A SYSTEM FAILURE." textAlignment="JUSTIFY" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="15.0" />
+                     </padding>
+                  </HBox>
                </children>
             </VBox>
             <VBox prefHeight="600.0" prefWidth="365.0" HBox.hgrow="ALWAYS">
@@ -121,15 +184,15 @@
                      <children>
                         <VBox alignment="CENTER">
                            <children>
-                              <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../../../storage/drawable/about/author.png" />
                                  </image>
                                  <VBox.margin>
-                                    <Insets bottom="-6.0" top="-15.0" />
+                                    <Insets bottom="-6.0" top="-5.0" />
                                  </VBox.margin>
                               </ImageView>
-                              <Label contentDisplay="TOP" text="DEV" textFill="#5d5353">
+                              <Label contentDisplay="TOP" text="MELVIN" textFill="#5d5353">
                                  <font>
                                     <Font name="System Bold" size="43.0" />
                                  </font>
@@ -137,7 +200,7 @@
                                     <Insets />
                                  </VBox.margin>
                                  <padding>
-                                    <Insets top="10.0" />
+                                    <Insets top="15.0" />
                                  </padding>
                               </Label>
                            </children>

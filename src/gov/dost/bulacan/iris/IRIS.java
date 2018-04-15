@@ -44,6 +44,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -72,7 +73,7 @@ public class IRIS extends Application {
             //------------------------------------------------------------------
             // wait 1 second
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -190,13 +191,16 @@ public class IRIS extends Application {
     private void showSplash() {
         this.splashStage = new Stage(StageStyle.UNDECORATED);
         splashStage.initModality(Modality.APPLICATION_MODAL);
-        splashStage.setWidth(250.0);
-        splashStage.setHeight(250.0);
+        splashStage.setWidth(600.0);
+        splashStage.setHeight(600.0);
         splashStage.setResizable(false);
-        splashStage.setScene(new Scene(new Splash().load()));
+        Scene splashScene = new Scene(new Splash().load());
+        splashScene.setFill(Color.TRANSPARENT);
+        splashStage.setScene(splashScene);
         // cannot be this is calling Context and disrupts normal start up
         splashStage.getIcons().add(new Image(Context.getResourceStream("drawable/iris_dost_logo.png")));
         splashStage.centerOnScreen();
+        splashStage.initStyle(StageStyle.TRANSPARENT);
         this.splashStage.showAndWait();
     }
 
