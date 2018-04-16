@@ -35,7 +35,6 @@ import gov.dost.bulacan.iris.RaidContext;
 import gov.dost.bulacan.iris.models.RaidModel;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.channels.NonReadableChannelException;
 import java.nio.channels.NonWritableChannelException;
 import java.util.Date;
@@ -88,6 +87,10 @@ public class RaidDownload extends IrisForm {
     public RaidDownload(RaidModel raidModel) {
         this.raidModel = raidModel;
     }
+
+    public final static String DIR_RAID = "raid";
+    public final static String DIR_BIN = DIR_RAID + File.separator + "bin";
+    public final static String RMT_BIN = "bin"; // remote folder
 
     private final RaidModel raidModel;
 
@@ -170,9 +173,9 @@ public class RaidDownload extends IrisForm {
     }
 
     private void checkFileInRaid() {
-        if (FileTool.checkFoldersQuietly("raid/bin")) {
+        if (FileTool.checkFoldersQuietly(DIR_BIN)) {
             final String fileName = this.raidModel.getName();
-            File raidFile = new File("raid/bin/" + fileName);
+            File raidFile = new File(DIR_BIN + File.separator + fileName);
             if (raidFile.exists()) {
                 // copy to temp
                 this.btn_download.setDisable(true);
@@ -206,7 +209,7 @@ public class RaidDownload extends IrisForm {
         this.btn_open.setDisable(true);
         //----------------------------------------------------------------------
         final String fileName = this.raidModel.getName();
-        File file = new File("raid/bin/" + fileName);
+        File file = new File(DIR_BIN + File.separator + fileName);
         //----------------------------------------------------------------------
         HashThread hashThread = new HashThread();
         hashThread.setDaemon(true);
@@ -459,7 +462,7 @@ public class RaidDownload extends IrisForm {
                     throw new IOException("FILE_NOT_EXIST");
                 }
                 //
-                boolean downloaded = this.ftpConnection.downloadStream("bin/" + fileName, "raid/bin/" + fileName);
+                boolean downloaded = this.ftpConnection.downloadStream("bin/" + fileName, DIR_BIN + File.separator + fileName);
 
                 if (this.cancelFlag) {
                     return; // cancel

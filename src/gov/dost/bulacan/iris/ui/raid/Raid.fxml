@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="60.0" style="-fx-background-color: #E94C3D;">
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+         <children>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../storage/drawable/raid/raid_128.png" />
+               </image>
+            </ImageView>
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Redundant Application Information Distribution" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label text="File Download" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" VBox.vgrow="ALWAYS">
+         <children>
+            <HBox>
+               <children>
+                  <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="RAID ID">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_raid_id" text="RAID30002018_0403020203 - Local Copy Verified (Ready)" wrapText="true" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="File Name">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_filename" text="36172-CinemaMKV_The.Anthem.of.the.Heart.2017.BDrip.720p.1.2GB.SUBPIG.mkv_Sub_1521712166.mp4-480.mp436172-CinemaMKV_The.Anthem.of.the.Heart.2017.BDrip.720p.1.2GB.SUBPIG.mkv_Sub_1521712166.mp4-480.mp4" wrapText="true" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="File Size">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_file_size" text="32.0 MB (32,323 bytes)" wrapText="true" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="File Signature">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_file_sig" text="BC161C33B81298AC9E09C10744CA1EBD990032AA (SHA1)" wrapText="true" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <ProgressIndicator />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+      <VBox spacing="5.0">
+         <children>
+            <HBox>
+               <children>
+                  <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="Progress">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ProgressBar fx:id="pb_progress" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_progress" text="82 % ( 12321323 bytes / 1123123122232 bytes )" wrapText="true" />
+               </children>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="btn_open" graphicTextGap="10.0" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #3AADD9;" text="Open" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/raid/open_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_download" graphicTextGap="10.0" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #35BA9B;" text="Download" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/raid/down_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_cancel" graphicTextGap="10.0" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #E94C3D;" text="Cancel" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/raid/cancel_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</VBox>

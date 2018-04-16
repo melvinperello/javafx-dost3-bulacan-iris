@@ -28,10 +28,9 @@
  */
 package gov.dost.bulacan.iris;
 
-import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.Splash;
+import gov.dost.bulacan.iris.ui.raid.Raid;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
@@ -217,7 +216,7 @@ public class IRIS extends Application {
      * @param primaryStage
      */
     private void showMain(Stage primaryStage) {
-        primaryStage.setScene(new Scene(new Home().load()));
+        primaryStage.setScene(new Scene(new Raid().load()));
         primaryStage.getIcons().add(new Image(Context.getResourceStream("drawable/iris_dost_logo.png")));
         primaryStage.setTitle("PSTC-Bulacan/DOST3 Information Retrieval Integrated System ( I.R.I.S. )");
         primaryStage.setMinHeight(700.0);
