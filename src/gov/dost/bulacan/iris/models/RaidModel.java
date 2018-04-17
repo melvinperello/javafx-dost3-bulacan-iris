@@ -133,6 +133,11 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
     public static class ReferenceState {
 
         /**
+         * If the file was missing.
+         */
+        public final static int MISSING = -2;
+
+        /**
          * If the file was no longer reference and deleted.
          */
         public final static int DELETED = -1;
@@ -211,6 +216,25 @@ public class RaidModel extends PolarisRecord implements TableAuditor {
             con = Context.app().db().createConnectionManager();
             //------------------------------------------------------------------
             model.setReferenceState(RaidModel.ReferenceState.DELETED);
+            model.auditDelete();
+            //------------------------------------------------------------------
+            // execute query.
+            return model.updateFull(con);
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    public static boolean markAsMissing(RaidModel model) throws SQLException {
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            //------------------------------------------------------------------
+            model.setReferenceState(RaidModel.ReferenceState.MISSING);
             model.auditDelete();
             //------------------------------------------------------------------
             // execute query.

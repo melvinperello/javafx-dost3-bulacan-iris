@@ -28,6 +28,7 @@
  */
 package gov.dost.bulacan.iris;
 
+import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.Splash;
 import gov.dost.bulacan.iris.ui.raid.Raid;
 import java.io.File;
@@ -43,6 +44,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -84,7 +86,7 @@ public class IRIS extends Application {
                 // close splash show main
                 Platform.runLater(() -> {
                     this.closeSplash();
-                    this.showMain(primaryStage);
+                    this.showRaid(primaryStage);
                 });
             } catch (Exception e) {
                 //--------------------------------------------------------------
@@ -203,6 +205,33 @@ public class IRIS extends Application {
         this.splashStage.showAndWait();
     }
 
+    /**
+     * Calls after the splash screen. open the main stage after the raid check
+     * up.
+     *
+     * @param primaryStage
+     */
+    private void showRaid(Stage primaryStage) {
+        //----------------------------------------------------------------------
+        final Stage raidStage = new Stage();
+        final Raid raidFx = new Raid();
+        //----------------------------------------------------------------------
+        raidFx.setOnCompletion(() -> {
+            Platform.runLater(() -> {
+                this.showMain(primaryStage);
+                raidStage.close();
+            });
+        });
+        //----------------------------------------------------------------------
+        Pane root = raidFx.load();
+        //----------------------------------------------------------------------
+
+        raidStage.setScene(new Scene(root, 600.0, 146.0));
+        raidStage.setResizable(false);
+        raidStage.show();
+
+    }
+
     private void closeSplash() {
         if (this.splashStage != null) {
             this.splashStage.close();
@@ -216,7 +245,7 @@ public class IRIS extends Application {
      * @param primaryStage
      */
     private void showMain(Stage primaryStage) {
-        primaryStage.setScene(new Scene(new Raid().load()));
+        primaryStage.setScene(new Scene(new Home().load()));
         primaryStage.getIcons().add(new Image(Context.getResourceStream("drawable/iris_dost_logo.png")));
         primaryStage.setTitle("PSTC-Bulacan/DOST3 Information Retrieval Integrated System ( I.R.I.S. )");
         primaryStage.setMinHeight(700.0);
