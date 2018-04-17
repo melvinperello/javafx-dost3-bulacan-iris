@@ -30,7 +30,7 @@ package gov.dost.bulacan.iris.ui.raid;
 
 import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
-import gov.dost.bulacan.iris.MariaBackupRestore;
+import gov.dost.bulacan.iris.MariaDB;
 import gov.dost.bulacan.iris.RaidContext;
 import gov.dost.bulacan.iris.models.RaidModel;
 import java.io.File;
@@ -39,13 +39,10 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientManager;
 import org.apache.commons.net.ftp.FTPFile;
@@ -203,6 +200,16 @@ public class Raid extends IrisForm {
             // Clean-up here
             //
             // SQL Backup here.
+            try {
+                boolean res = MariaDB.backup("127.0.0.1",
+                        "iris_db",
+                        "1234567", "iris_bulacan_dost3", "D:/asd.sql");
+
+                System.out.println("SQL RESULT: " + res);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
         private void fetchRemoteFileArray() throws SQLException {
