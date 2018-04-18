@@ -32,14 +32,18 @@ import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.Splash;
 import gov.dost.bulacan.iris.ui.raid.Raid;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URISyntaxException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -47,7 +51,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -215,24 +218,9 @@ public class IRIS extends Application {
      * @param primaryStage
      */
     private void showRaid(Stage primaryStage) {
-        //----------------------------------------------------------------------
-        final Stage raidStage = new Stage();
-        final Raid raidFx = new Raid();
-        //----------------------------------------------------------------------
-        raidFx.setOnCompletion(() -> {
-            Platform.runLater(() -> {
-                this.showMain(primaryStage);
-                raidStage.close();
-            });
+        Raid.call(() -> {
+            this.showMain(primaryStage);
         });
-        //----------------------------------------------------------------------
-        Pane root = raidFx.load();
-        //----------------------------------------------------------------------
-
-        raidStage.setScene(new Scene(root, 600.0, 146.0));
-        raidStage.setResizable(false);
-        raidStage.show();
-
     }
 
     private void closeSplash() {

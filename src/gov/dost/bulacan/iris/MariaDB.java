@@ -51,7 +51,7 @@ public class MariaDB {
      * @return exit value
      * @throws java.io.IOException
      */
-    public static int run(String command, StringBuilder outStream) throws IOException {
+    public static int run(String command) throws IOException {
         // ResultString Holder 
         final StringBuilder stringFeed = new StringBuilder("");
         // Creates the process
@@ -77,8 +77,8 @@ public class MariaDB {
             }
         }
         //----------------------------------------------------------------------
-        // pass string feed to outstream
-        outStream = stringFeed;
+        // DO SOMETHING WITH STRINGFEED TO GET RESULT OF COMMAND.
+        //----------------------------------------------------------------------
         // return exit value
         return cmdProcess.exitValue();
     }
@@ -122,7 +122,7 @@ public class MariaDB {
 
         final String a = MariaDB.createMultipleCommands(commandArray);
         StringBuilder outputStream = null;
-        if (MariaDB.run(a, outputStream) == 0) {
+        if (MariaDB.run(a) == 0) {
             return true;
         }
 

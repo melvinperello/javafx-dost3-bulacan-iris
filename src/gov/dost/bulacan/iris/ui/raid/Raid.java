@@ -29,27 +29,41 @@
 package gov.dost.bulacan.iris.ui.raid;
 
 import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.IRIS;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.MariaDB;
 import gov.dost.bulacan.iris.RaidContext;
 import gov.dost.bulacan.iris.models.RaidModel;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientManager;
 import org.apache.commons.net.ftp.FTPFile;
 
 /**
  *
- * @author s500
+ * @author Jhon Melvin
  */
 public class Raid extends IrisForm {
 
@@ -65,12 +79,64 @@ public class Raid extends IrisForm {
         this.onCompletion = onCompletion;
     }
 
+    public static void call(Runnable showPrimary) {
+        //----------------------------------------------------------------------
+        final Stage raidStage = new Stage();
+        final Raid raidFx = new Raid();
+        //----------------------------------------------------------------------
+        raidFx.setOnCompletion(() -> {
+            Platform.runLater(() -> {
+                raidStage.close();
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException e) {
+//                    Thread.currentThread().interrupt();
+//                }
+                showPrimary.run();
+            });
+        });
+        //----------------------------------------------------------------------
+        Pane root = raidFx.load();
+        //----------------------------------------------------------------------
+
+        raidStage.setScene(new Scene(root, 600.0, 146.0));
+        raidStage.initModality(Modality.APPLICATION_MODAL);
+        raidStage.setTitle(RaidContext.RAID_INFO);
+        raidStage.getIcons()
+                .add(new Image(Context
+                        .getResourceStream("drawable/raid/icon_128.png")));
+        raidStage.setResizable(false);
+        raidStage.setOnCloseRequest(value -> {
+
+            value.consume();
+        });
+        raidStage.show();
+    }
+
     @Override
     protected void setup() {
         RaidManagerThread rmThread = new RaidManagerThread();
         rmThread.setLbl_current(lbl_current);
         rmThread.setPb_current(pb_current);
+
+        /**
+         * On Completion.
+         */
         rmThread.setOnCompletion(this.onCompletion);
+
+        /**
+         * Set On Error Exception.
+         */
+        rmThread.setOnError((message, ex) -> {
+            if (ex == null) {
+                this.showWaitErrorMessage("RAID Algorithm Error !", message);
+            } else {
+                IRIS.telemetry(ex, null);
+                this.showExceptionMessage(ex, "RAID Algorithm Error !", message);
+            }
+        });
+
+        rmThread.setName("RAID-THREAD");
         rmThread.start();
     }
 
@@ -83,10 +149,17 @@ public class Raid extends IrisForm {
     // 6. If Existing Check File Signature
     public final static class RaidManagerThread extends Thread {
 
-        @FXML
-        private ProgressBar pb_current;
+        /**
+         * Log This Thread.
+         *
+         * @param log
+         */
+        private void log(Object log) {
+            System.out.println(String.valueOf(log));
+        }
 
-        @FXML
+        //----------------------------------------------------------------------
+        private ProgressBar pb_current;
         private Label lbl_current;
 
         public void setPb_current(ProgressBar pb_current) {
@@ -96,61 +169,198 @@ public class Raid extends IrisForm {
         public void setLbl_current(Label lbl_current) {
             this.lbl_current = lbl_current;
         }
-
-        private static void log(Object log) {
-            System.out.println(String.valueOf(log));
-        }
+        //----------------------------------------------------------------------
 
         public RaidManagerThread() {
             this.remoteActiveFiles = null;
             this.localFiles = null;
             this.localFileFolders = null;
+            this.onError = null;
+            this.onCompletion = null;
         }
-
+        //----------------------------------------------------------------------
         private List<RaidModel> remoteActiveFiles;
         private List<File> localFiles;
         private List<File> localFileFolders;
-        //--------------------------------------------------------------------------
+        //----------------------------------------------------------------------
         private Runnable onCompletion;
 
         public void setOnCompletion(Runnable onCompletion) {
             this.onCompletion = onCompletion;
         }
 
+        //----------------------------------------------------------------------
+        @FunctionalInterface
+        public interface OnError {
+
+            void onError(String message, Exception ex);
+        }
+
+        private OnError onError;
+
+        public void setOnError(OnError onError) {
+            this.onError = onError;
+        }
+        //----------------------------------------------------------------------
+
+        /**
+         * This method is called on various exception routines in this raid
+         * manager.
+         *
+         * @param message
+         * @param ex
+         */
         private void showError(String message, Exception ex) {
+            if (this.onError != null) {
+                //--------------------------------------------------------------
+                Platform.runLater(() -> {
+                    /**
+                     * Run Error.
+                     */
+                    onError.onError(message, ex);
+                    /**
+                     * There is a showWait message called above after the OK
+                     * button is pressed main menu will be shown.
+                     *
+                     * THIS METHOD MUST BE ONLY CALLED ONCE. the RAID ALGORITHM
+                     * SHOULD BE CANCELED ONCE A PROCESS FAILED.
+                     */
+
+                    if (this.onCompletion != null) {
+                        // SHOW MAIN STAGE WHEN OK IS CLICKED
+                        this.onCompletion.run();
+                    }
+                });
+                //--------------------------------------------------------------
+            }
+
         }
 
         @Override
         public final void run() {
+            //------------------------------------------------------------------
             Platform.runLater(() -> {
                 this.lbl_current.setText("Automatic Backup Started . . .");
                 this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             });
-
-            log("Raid Manager: Started");
-            this.runRaidManager();
-            log("Raid Manager: Finished");
-
+            //------------------------------------------------------------------
+            // Run Manager
+            log("RAID Algorithm: Started at 04/18/2018 10:40AM");
+            if (!this.runRaidManager()) {
+                /**
+                 * When the RAID manager raises a false flag this means one of
+                 * the processes have failed. the below code will not be
+                 * executed.
+                 *
+                 *
+                 * NOTE: When processes raises a false flag this means the
+                 * showError method was called.
+                 */
+                return;
+            }
+            log("Raid Manager: Finished with no errors at 04/18/2018 10:40AM");
+            //------------------------------------------------------------------
             Platform.runLater(() -> {
                 this.lbl_current.setText("Automatic Backup Finished");
                 this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             });
-
+            //------------------------------------------------------------------
+            // Pause 1 Second.
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
-
+            //------------------------------------------------------------------
+            // Run on competion Routine.
             if (this.onCompletion != null) {
                 this.onCompletion.run();
             }
+        }
+
+        /**
+         * RAID ALGORITHM.
+         */
+        private boolean runRaidManager() {
+            //------------------------------------------------------------------
+            // Fetch Remote Files
+            //------------------------------------------------------------------
+            if (!this.processFetchRemoteFiles()) {
+                return false;
+            }
+            //------------------------------------------------------------------
+            // Fetch Local Files
+            //------------------------------------------------------------------
+            if (!this.processFetchLocalFiles()) {
+                return false;
+            }
+            //------------------------------------------------------------------
+            // Compare Files
+            //------------------------------------------------------------------
+            if (!this.processCompareFiles()) {
+                return false;
+            }
+            //------------------------------------------------------------------
+            // Clean Up Unindexed Files.
+            //------------------------------------------------------------------
+            this.processCleanLocal();
+            //------------------------------------------------------------------
+            // Clean Up Temp Files.
+            //------------------------------------------------------------------
+            this.processCleanTemp();
+            //------------------------------------------------------------------
+            // RUN SQL Backup
+            //------------------------------------------------------------------
+            if (!this.processDatabaseBackup()) {
+                return false;
+            }
+            return true;
+        }
+
+        private void processCleanTemp() {
+            log("Clean Up: Cleaning Local Temporary Files . . .");
+
+            Platform.runLater(() -> {
+                this.lbl_current.setText("Cleaning temporary local files . . .");
+                this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+            });
+
+            try {
+                File parentFile = new File(Context.DIR_TEMP);
+
+                if (!parentFile.exists()) {
+                    log("Clean Up: Local Temporary Files is empty . . .");
+                    return;
+                }
+
+                Files.walkFileTree(Paths.get(parentFile.toURI()), new SimpleFileVisitor<Path>() {
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                        Files.delete(file);
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                    @Override
+                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                        Files.delete(dir);
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                });
+            } catch (IOException e) {
+                // ignore
+                log("Clean Up: Failed to clean temporary files.");
+            }
+        }
+
+        private void processCheckRaidRecords() {
 
         }
 
-        private void runRaidManager() {
-            //----------------------------------------------------------------------
-            //
+        /**
+         * First Process in RAID Algorithm.
+         */
+        private boolean processFetchRemoteFiles() {
             Platform.runLater(() -> {
                 this.lbl_current.setText("Fetching Remote Files . . .");
                 this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
@@ -159,59 +369,151 @@ public class Raid extends IrisForm {
             try {
                 this.fetchRemoteFileArray();
             } catch (SQLException e) {
-                this.showError("Unable to fetch remote files", e);
-                return;
+                this.showError("There was an error while fetching the remote files.", e);
+                return false;
             }
-            //----------------------------------------------------------------------
+            //------------------------------------------------------------------
             log("Remote Files: " + this.remoteActiveFiles.size());
             log("Remote Files: Successfully Fetched");
-            //----------------------------------------------------------------------
-            //
+            return true;
+        }
+
+        /**
+         * Second Process in RAID Algorithm.
+         */
+        private boolean processFetchLocalFiles() {
             Platform.runLater(() -> {
                 this.lbl_current.setText("Fetching Local Files . . .");
                 this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             });
-            //
 
             log("Local Files: Fetching");
             try {
                 this.fetchLocalFileArray();
             } catch (SecurityException e) {
-                this.showError("Failed to fetch local files", e);
-                return;
+                this.showError("There was an error while fetching the local files.", e);
+                return false;
             }
             //----------------------------------------------------------------------
             log("Local Files: " + " File( " + this.localFiles.size() + " ) / Folders ( " + this.localFileFolders.size() + " )");
             log("Local Files: Successfully Fetched");
+            return true;
+        }
+
+        /**
+         * Third Process in RAID Algorithm.
+         */
+        private boolean processCompareFiles() {
             try {
-                //----------------------------------------------------------------------
                 if (FileTool.checkFolders("raid/bin")) {
                     this.executeCheck();
                 } else {
                     this.showError("Failed to create local directory.", null);
                     log("Local Files: Failed to create local directory.");
-                    return;
                 }
             } catch (IOException ex) {
-                this.showError("Failed to create local directory.", ex);
+                this.showError("There was an error while creating the local directory.", ex);
+                return false;
+            }
+            return true;
+        }
+
+        /**
+         * Fourth Process in RAID Algorithm.
+         */
+        private void processCleanLocal() {
+            Platform.runLater(() -> {
+                this.lbl_current.setText("Cleaning unindexed local files . . .");
+                this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+            });
+
+            log("Clean Up: Checking Local Trash Files");
+            if (this.localFiles == null) {
+                log("Clean Up: No Trash Files");
                 return;
             }
-            //------------------------------------------------------------------
-            // Clean-up here
-            //
-            // SQL Backup here.
-            try {
-                boolean res = MariaDB.backup("127.0.0.1",
-                        "iris_db",
-                        "1234567", "iris_bulacan_dost3", "D:/asd.sql");
 
-                System.out.println("SQL RESULT: " + res);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (this.localFiles.isEmpty()) {
+                log("Clean Up: No Trash Files");
+                return;
             }
+
+            log("Clean Up: " + this.localFiles.size() + " Trash Files Found");
+            log("Clean Up: Deleting Trash Files");
+
+            Iterator<File> localFileIterator = this.localFiles.iterator();
+            while (localFileIterator.hasNext()) {
+                File trashFile = localFileIterator.next();
+                try {
+                    // attempt to delete
+                    if (trashFile.delete()) {
+                        // remove from list
+                        localFileIterator.remove();
+                    }
+                } catch (Exception e) {
+                    log("Clean Up: Failed to clean " + trashFile.getName());
+                }
+
+            }
+            log("Clean Up: Local Files Cleaned -> " + this.localFiles.size() + " Trash Files Left");
 
         }
 
+        private boolean processDatabaseBackup() {
+            Platform.runLater(() -> {
+                this.lbl_current.setText("Backing up database . . .");
+                this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+            });
+
+            try {
+                log("SQL: Locating Jar");
+                final String jarPath = MariaDB.locateJar();
+                log("SQL: Jar Located -> " + jarPath);
+                final String sqlDir = jarPath + File.separator + "raid" + File.separator + "sql";
+                log("SQL: Checking SQL Directory -> " + sqlDir);
+                if (!FileTool.checkFoldersQuietly(sqlDir)) {
+                    log("SQL: Failed to create SQL Directory");
+                    this.showError("Failed to create SQL Backup Directory", null);
+                    return false; // skip backup
+                }
+                final String DB_NAME = Context.createLocalKey();
+                //--------------------------------------------------------------
+                final File mysql_exe = new File(jarPath + File.separator + "maria_bin/mysql.exe");
+                final File mysqldump_exe = new File(jarPath + File.separator + "maria_bin/mysqldump.exe");
+
+                if (!mysql_exe.exists()) {
+                    log("SQL: maria_bin/mysql.exe not existing");
+                    this.showError("Cannot execute database backup maria_bin/mysql.exe not existing", null);
+                    return false;
+                }
+
+                if (!mysqldump_exe.exists()) {
+                    log("SQL: maria_bin/mysqldump.exe not existing");
+                    this.showError("Cannot execute database backup maria_bin/mysqldump.exe not existing", null);
+                    return false;
+                }
+
+                boolean sqlBackupExecuted = MariaDB.backup(
+                        Context.app().getHost(),
+                        Context.app().getDatabaseUser(),
+                        Context.app().getDatabasePass(),
+                        Context.app().getDatabaseName(),
+                        sqlDir + File.separator + DB_NAME + ".sql"
+                );
+
+                if (!sqlBackupExecuted) {
+                    this.showError("Failed to execute database backup.", null);
+                    return false;
+                }
+            } catch (IOException | URISyntaxException e) {
+                this.showError("There was an error while backing up the database.", e);
+                return false;
+            }
+
+            return true;
+        }
+
+        //----------------------------------------------------------------------
         private void fetchRemoteFileArray() throws SQLException {
             this.remoteActiveFiles = RaidModel.listActiveRaidArray();
 

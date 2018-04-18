@@ -280,6 +280,7 @@ public class Context {
 
     /**
      * Starts this application context.
+     *
      * @throws java.lang.Exception
      */
     public void start() throws Exception {
@@ -329,6 +330,7 @@ public class Context {
     //--------------------------------------------------------------------------
     private String terminalUser;
     //--------------------------------------------------------------------------
+    private String raidInterval;
 
     /**
      * Host Server.
@@ -337,6 +339,27 @@ public class Context {
      */
     public String getHost() {
         return host;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public String getDatabaseUser() {
+        return databaseUser;
+    }
+
+    public String getDatabasePass() {
+        return databasePass;
+    }
+
+    /**
+     * Get RAID Execution Interval in HOURS. 0 Means Never.
+     *
+     * @return
+     */
+    public String getRaidInterval() {
+        return raidInterval;
     }
 
     /**
@@ -350,17 +373,19 @@ public class Context {
                 //this.createDefaultSettings();
             }
             prop.read(propFile);
-            this.host = prop.get("host");
-            this.databaseName = prop.get("databaseName");
-            this.databasePort = prop.get("databasePort");
-            this.databaseUser = prop.get("databaseUser");
-            this.databasePass = prop.get("databasePass");
+            this.host = prop.getProperty("host", null);
+            this.databaseName = prop.getProperty("databaseName", null);
+            this.databasePort = prop.getProperty("databasePort", null);
+            this.databaseUser = prop.getProperty("databaseUser", null);
+            this.databasePass = prop.getProperty("databasePass", null);
             //
-            this.ftpUser = prop.get("ftpUser");
-            this.ftpPass = prop.get("ftpPass");
-            this.ftpPort = prop.get("ftpPort");
+            this.ftpUser = prop.getProperty("ftpUser", null);
+            this.ftpPass = prop.getProperty("ftpPass", null);
+            this.ftpPort = prop.getProperty("ftpPort", null);
             //
-            this.terminalUser = prop.get("terminalUser");
+            this.terminalUser = prop.getProperty("terminalUser", null);
+            //
+            this.raidInterval = prop.getProperty("raidInterval", null);
             //
             this.auditUser = this.terminalUser;
 
@@ -390,6 +415,8 @@ public class Context {
         prop.setProperty("ftpPort", "21");
         //
         prop.setProperty("terminalUser", "IRIS3000/SYS");
+        //
+        prop.setProperty("raidInterval", "24");
 
         prop.write(new File("config.prop"));
 
