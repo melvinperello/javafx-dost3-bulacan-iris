@@ -114,6 +114,7 @@ public class SystemFileModel extends PolarisRecord implements TableAuditor {
 
         public final static Integer SHARED_FILE = 1;
         public final static Integer PROJECT_ATTACHMENT = 2;
+        public final static Integer EQUIPMENT_ATTACHMENT = 3;
     }
 
     // N/A
@@ -152,6 +153,26 @@ public class SystemFileModel extends PolarisRecord implements TableAuditor {
                 .addStatement("IS NULL")
                 //
                 .addStatementWithParameter("AND (" + FILE_CLUSTER + " = ? AND " + FILE_REFERENCE + " = ? )", FileCluster.PROJECT_ATTACHMENT, model.getProjectCode())
+                //
+                .addStatement("ORDER BY")
+                .addStatement(CREATED_AT)
+                .addStatement("DESC");
+
+        return listSystemFiles(systemFileQuery);
+    }
+
+    public static <T> List<T> listActiveEquipAttachments(EquipmentQoutationModel model) throws SQLException {
+        // Build Query
+        SimpleQuery systemFileQuery = new SimpleQuery();
+        systemFileQuery.addStatement("SELECT")
+                .addStatement("*")
+                .addStatement("FROM")
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL")
+                //
+                .addStatementWithParameter("AND (" + FILE_CLUSTER + " = ? AND " + FILE_REFERENCE + " = ? )", FileCluster.EQUIPMENT_ATTACHMENT, model.getQouteCode())
                 //
                 .addStatement("ORDER BY")
                 .addStatement(CREATED_AT)
@@ -253,6 +274,13 @@ public class SystemFileModel extends PolarisRecord implements TableAuditor {
         model.getLinkedModel().setReferenceDescription("PROJECT ATTACHMENT");
         model.setFileCluster(FileCluster.PROJECT_ATTACHMENT);
         model.setFileReference(projectModel.getProjectCode()); // blank for shared
+        return insert(model);
+    }
+
+    public static boolean insertEquipmentFile(SystemFileModel model, EquipmentQoutationModel equipmentModel) throws SQLException {
+        model.getLinkedModel().setReferenceDescription("EQUIPMENT ATTACHMENT");
+        model.setFileCluster(FileCluster.EQUIPMENT_ATTACHMENT);
+        model.setFileReference(equipmentModel.getQouteCode()); // blank for shared
         return insert(model);
     }
 

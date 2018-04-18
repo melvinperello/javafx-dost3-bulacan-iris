@@ -39,6 +39,7 @@ import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.equipment.supplier.SupplierHome;
 import gov.dost.bulacan.iris.ui.raid.RaidDownload;
 import gov.dost.bulacan.iris.ui.raid.RaidUpload;
+import gov.dost.bulacan.iris.ui.shared.ViewSystemFiles;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -108,11 +109,13 @@ public class EquipmentEditView extends IrisForm {
     private Label lbl_supplier_category;
 
     @FXML
-    private JFXButton btn_upload;
+    private JFXButton btn_attachment;
 
-    @FXML
-    private JFXButton btn_download;
-
+//    @FXML
+//    private JFXButton btn_upload;
+//
+//    @FXML
+//    private JFXButton btn_download;
     public EquipmentEditView(EquipmentQoutationModel model) {
         this.setDialogMessageTitle("Equipment Qoutation");
         this.equipModel = model;
@@ -125,6 +128,10 @@ public class EquipmentEditView extends IrisForm {
 
     private final EquipmentQoutationModel equipModel;
     private final boolean addingMode;
+
+    public EquipmentQoutationModel getEquipModel() {
+        return equipModel;
+    }
 
     private final static String BTN_EDIT_TEXT = "Edit";
     private final static String BTN_SAVE_TEXT = "Save";
@@ -142,8 +149,9 @@ public class EquipmentEditView extends IrisForm {
             //
             this.lbl_supplier.setText("Unknown Supplier");
             this.lbl_supplier_category.setText("Unknown Sector");
-            this.btn_upload.setDisable(true);
-            this.btn_download.setDisable(true);
+//            this.btn_upload.setDisable(true);
+//            this.btn_download.setDisable(true);
+            this.btn_attachment.setDisable(true);
             this.btn_supplier.setDisable(true);
             this.lbl_modify_time.setVisible(false);
         } else {
@@ -210,75 +218,78 @@ public class EquipmentEditView extends IrisForm {
         });
         //----------------------------------------------------------------------
         //
-        this.btn_download.setOnMouseClicked(value -> {
-            this.downloadQoutation();
-            value.consume();
-        });
+//        this.btn_download.setOnMouseClicked(value -> {
+//            this.downloadQoutation();
+//            value.consume();
+//        });
+//
+//        this.btn_upload.setOnMouseClicked(value -> {
+//            this.uploadQoutation();
+//            value.consume();
+//        });
 
-        this.btn_upload.setOnMouseClicked(value -> {
-            this.uploadQoutation();
+        this.btn_attachment.setOnMouseClicked(value -> {
+            this.changeRoot(new ViewSystemFiles(this).load());
             value.consume();
         });
     }
 
     //--------------------------------------------------------------------------
-    private void uploadQoutation() {
-
-        if (this.equipModel.getQoutationAttachment() != null) {
-            int overwrite = this.showConfirmationMessage("Overwrite ?", "Do you want to overwrite the existing attachment for this equipment.");
-            // iverwrite
-            if (overwrite == 1) {
-                RaidModel raid = new RaidModel();
-                try {
-                    if (RaidModel.locate(raid, this.equipModel.getQoutationAttachment())) {
-                        if (RaidModel.remove(raid)) {
-                            // deleted at marked ok.
-                        } else {
-                            this.showWaitWarningMessage(null, "Failed to overwrite the file in the database.");
-                            return;
-                        }
-                    } else {
-                        // not found ok.
-                    }
-                } catch (SQLException e) {
-                    this.showExceptionMessage(e, null, "An error has occured during overwriting.");
-                    return;
-                }
-            } else {
-                return; // cancel overwrite
-            }
-        }
-
-        RaidUpload.call((raidModel) -> {
-            try {
-                return EquipmentQoutationModel.updateAttachment(equipModel, raidModel);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }).showAndWait();
-
-    }
-
-    private void downloadQoutation() {
-        if (this.equipModel.getQoutationAttachment() == null) {
-            this.showWarningMessage(null, "No attachment found for this equipment.");
-            return;
-        }
-        //----------------------------------------------------------------------
-        RaidModel raid = new RaidModel();
-
-        try {
-            if (RaidModel.locate(raid, this.equipModel.getQoutationAttachment())) {
-                RaidDownload.call(raid).showAndWait();
-            } else {
-                this.showWarningMessage(null, "Failed to retrieve attachment in the database.");
-            }
-        } catch (SQLException e) {
-            this.showExceptionMessage(e, null, "Cannot retrieve attachment.");
-        }
-    }
-
+//    private void uploadQoutation() {
+//
+//        if (this.equipModel.getQoutationAttachment() != null) {
+//            int overwrite = this.showConfirmationMessage("Overwrite ?", "Do you want to overwrite the existing attachment for this equipment.");
+//            // iverwrite
+//            if (overwrite == 1) {
+//                RaidModel raid = new RaidModel();
+//                try {
+//                    if (RaidModel.locate(raid, this.equipModel.getQoutationAttachment())) {
+//                        if (RaidModel.remove(raid)) {
+//                            // deleted at marked ok.
+//                        } else {
+//                            this.showWaitWarningMessage(null, "Failed to overwrite the file in the database.");
+//                            return;
+//                        }
+//                    } else {
+//                        // not found ok.
+//                    }
+//                } catch (SQLException e) {
+//                    this.showExceptionMessage(e, null, "An error has occured during overwriting.");
+//                    return;
+//                }
+//            } else {
+//                return; // cancel overwrite
+//            }
+//        }
+//
+//        RaidUpload.call((raidModel) -> {
+//            try {
+//                return EquipmentQoutationModel.updateAttachment(equipModel, raidModel);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//                return false;
+//            }
+//        }).showAndWait();
+//
+//    }
+//    private void downloadQoutation() {
+//        if (this.equipModel.getQoutationAttachment() == null) {
+//            this.showWarningMessage(null, "No attachment found for this equipment.");
+//            return;
+//        }
+//        //----------------------------------------------------------------------
+//        RaidModel raid = new RaidModel();
+//
+//        try {
+//            if (RaidModel.locate(raid, this.equipModel.getQoutationAttachment())) {
+//                RaidDownload.call(raid).showAndWait();
+//            } else {
+//                this.showWarningMessage(null, "Failed to retrieve attachment in the database.");
+//            }
+//        } catch (SQLException e) {
+//            this.showExceptionMessage(e, null, "Cannot retrieve attachment.");
+//        }
+//    }
     //--------------------------------------------------------------------------
     private EquipmentSupplierModel currentSupplierModel;
 
@@ -348,8 +359,10 @@ public class EquipmentEditView extends IrisForm {
         this.cmb_status.setDisable(disable);
         this.date_qoutation.setDisable(disable);
         this.btn_supplier.setDisable(editable);
-        this.btn_download.setDisable(editable);
-        this.btn_upload.setDisable(editable);
+//        this.btn_download.setDisable(editable);
+//        this.btn_upload.setDisable(editable);
+        this.btn_attachment.setDisable(editable);
+
     }
     //--------------------------------------------------------------------------
     private String frmEquipName;

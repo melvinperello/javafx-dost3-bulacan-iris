@@ -29,7 +29,6 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
-import gov.dost.bulacan.iris.models.ext.ModelAccess;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import java.sql.SQLException;
 import java.util.Date;
@@ -60,7 +59,7 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
     public final static String REMARKS = "remarks";
     //
     public final static String STATUS = "status"; // purchased or canvassed
-    public final static String QOUTATION_ATTACHMENT = "file_qoute_attachment";
+//    public final static String QOUTATION_ATTACHMENT = "file_qoute_attachment";
     //
     public final static String KEYWORD = "search_keys"; // separated by comma(',').
 
@@ -100,8 +99,8 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
     //
     @Column(STATUS)
     private String status;
-    @Column(QOUTATION_ATTACHMENT)
-    private String qoutationAttachment;
+//    @Column(QOUTATION_ATTACHMENT)
+//    private String qoutationAttachment;
     //
     @Column(KEYWORD)
     private String keyword;
@@ -116,7 +115,7 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
 //        this.feedBack = "";
         this.remarks = "";
         this.status = "";
-        this.qoutationAttachment = null;
+//        this.qoutationAttachment = null;
         this.keyword = "";
         //
         this.qoutationDate = null;
@@ -266,42 +265,42 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
         }
     }
 
-    public static boolean updateAttachment(EquipmentQoutationModel model, RaidModel raid) throws SQLException {
-        ConnectionManager con = null;
-        try {
-            //------------------------------------------------------------------
-            raid.setReferenceState(RaidModel.ReferenceState.LINKED);
-            raid.setReferenceDescription("EQUIPMENT ATTACHMENT");
-            raid.auditCreate();
-            //------------------------------------------------------------------
-            // link document to raid
-            model.setQoutationAttachment(raid.getId());
-            model.auditUpdate();
-            //------------------------------------------------------------------
-            // open connection
-            con = Context.app().db().createConnectionManager();
-            //------------------------------------------------------------------
-            // begin transaction
-            con.transactionStart();
-
-            if (raid.updateFull(con)) {
-                // good here
-                if (model.updateFull(con)) {
-                    con.transactionCommit();
-                    return true;
-                } else {
-                    System.out.println("FAILED");
-                }
-            }
-
-            con.transactionRollBack();
-            return false;
-        } finally {
-            if (con != null) {
-                con.close(); // auto rollback
-            }
-        }
-    }
+//    public static boolean updateAttachment(EquipmentQoutationModel model, RaidModel raid) throws SQLException {
+//        ConnectionManager con = null;
+//        try {
+//            //------------------------------------------------------------------
+//            raid.setReferenceState(RaidModel.ReferenceState.LINKED);
+//            raid.setReferenceDescription("EQUIPMENT ATTACHMENT");
+//            raid.auditCreate();
+//            //------------------------------------------------------------------
+//            // link document to raid
+//            model.setQoutationAttachment(raid.getId());
+//            model.auditUpdate();
+//            //------------------------------------------------------------------
+//            // open connection
+//            con = Context.app().db().createConnectionManager();
+//            //------------------------------------------------------------------
+//            // begin transaction
+//            con.transactionStart();
+//
+//            if (raid.updateFull(con)) {
+//                // good here
+//                if (model.updateFull(con)) {
+//                    con.transactionCommit();
+//                    return true;
+//                } else {
+//                    System.out.println("FAILED");
+//                }
+//            }
+//
+//            con.transactionRollBack();
+//            return false;
+//        } finally {
+//            if (con != null) {
+//                con.close(); // auto rollback
+//            }
+//        }
+//    }
 
     /**
      * Remove this equipment.
@@ -370,9 +369,9 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
         return status;
     }
 
-    public String getQoutationAttachment() {
-        return qoutationAttachment;
-    }
+//    public String getQoutationAttachment() {
+//        return qoutationAttachment;
+//    }
 
     public String getKeyword() {
         return keyword;
@@ -410,9 +409,9 @@ public class EquipmentQoutationModel extends PolarisRecord implements TableAudit
         this.status = status;
     }
 
-    public void setQoutationAttachment(String qoutationAttachment) {
-        this.qoutationAttachment = qoutationAttachment;
-    }
+//    public void setQoutationAttachment(String qoutationAttachment) {
+//        this.qoutationAttachment = qoutationAttachment;
+//    }
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;

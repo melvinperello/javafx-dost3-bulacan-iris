@@ -35,6 +35,7 @@ import gov.dost.bulacan.iris.models.RaidModel;
 import gov.dost.bulacan.iris.models.SystemFileModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
+import gov.dost.bulacan.iris.ui.equipment.EquipmentEditView;
 import gov.dost.bulacan.iris.ui.project.ProjectDetailsView;
 import gov.dost.bulacan.iris.ui.raid.RaidDownload;
 import gov.dost.bulacan.iris.ui.raid.RaidUpload;
@@ -94,13 +95,15 @@ public class ViewSystemFiles extends IrisForm {
             this.viewMode = Mode.SHARED;
         } else if (callerController instanceof ProjectDetailsView) {
             this.viewMode = Mode.PROJECT;
+        } else if (callerController instanceof EquipmentEditView) {
+            this.viewMode = Mode.EQUIPMENT;
         } else {
             throw new RuntimeException("Unexpected Value");
         }
     }
 
     private enum Mode {
-        SHARED, PROJECT
+        SHARED, PROJECT, EQUIPMENT
     }
 
     private final ObservableList<FileItem> observeableListItems;
@@ -255,6 +258,9 @@ public class ViewSystemFiles extends IrisForm {
             } else if (this.viewMode == Mode.PROJECT) {
                 ProjectDetailsView fx = (ProjectDetailsView) this.callerController;
                 listItems = SystemFileModel.listActiveProjectAttachments(fx.getProjectModel());
+            } else if (this.viewMode == Mode.EQUIPMENT) {
+                EquipmentEditView fx = (EquipmentEditView) this.callerController;
+                listItems = SystemFileModel.listActiveEquipAttachments(fx.getEquipModel());
             }
 
         } catch (SQLException e) {
@@ -329,8 +335,11 @@ public class ViewSystemFiles extends IrisForm {
                 case SHARED:
                     return SystemFileModel.insertSharedFile(docs);
                 case PROJECT:
-                    ProjectDetailsView fx = (ProjectDetailsView) this.callerController;
-                    return SystemFileModel.insertProjectFile(docs, fx.getProjectModel());
+                    ProjectDetailsView fx_project = (ProjectDetailsView) this.callerController;
+                    return SystemFileModel.insertProjectFile(docs, fx_project.getProjectModel());
+                case EQUIPMENT:
+                    EquipmentEditView fx_equip = (EquipmentEditView) this.callerController;
+                    return SystemFileModel.insertEquipmentFile(docs, fx_equip.getEquipModel());
                 default:
                     throw new RuntimeException("Unexpected Viewing Mode");
             }
