@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox fx:id="hbox_header" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: black;">
          <padding>
@@ -147,7 +147,7 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <TextArea fx:id="txt_history" prefHeight="50.0" promptText="Brief history of the company" HBox.hgrow="ALWAYS" />
+                              <TextArea fx:id="txt_history" prefHeight="50.0" promptText="Brief history of the company" wrapText="true" HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
@@ -252,7 +252,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_registration" prefHeight="50.0" promptText="DIT/SEC or other registrations" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_registration" prefHeight="50.0" promptText="DIT/SEC or other registrations" wrapText="true" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -287,7 +287,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_products" prefHeight="50.0" promptText="Major Product Line" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_products" prefHeight="50.0" promptText="Major Product Line" wrapText="true" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -300,7 +300,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_market" prefHeight="50.0" promptText="Current Existing Market" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_market" prefHeight="50.0" promptText="Current Existing Market" wrapText="true" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -313,7 +313,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_street_address" prefHeight="50.0" promptText="Street Address / Common Address" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_street_address" prefHeight="50.0" promptText="Street Address / Common Address" wrapText="true" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -352,7 +352,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_landmark" prefHeight="50.0" promptText="Common Landmarks" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_landmark" prefHeight="50.0" promptText="Common Landmarks" wrapText="true" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -458,7 +458,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="txt_project_name" prefHeight="50.0" promptText="Enter Project Name" HBox.hgrow="ALWAYS" />
+                        <TextArea fx:id="txt_project_name" prefHeight="50.0" promptText="Enter Project Name" wrapText="true" HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />

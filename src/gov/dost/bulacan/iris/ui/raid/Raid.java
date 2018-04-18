@@ -32,6 +32,7 @@ import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IRIS;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.MariaDB;
+import gov.dost.bulacan.iris.PolarisText;
 import gov.dost.bulacan.iris.RaidContext;
 import gov.dost.bulacan.iris.models.RaidModel;
 import java.io.File;
@@ -45,9 +46,14 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -59,6 +65,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientManager;
+import org.afterschoolcreatives.polaris.java.util.PolarisProperties;
 import org.apache.commons.net.ftp.FTPFile;
 
 /**
@@ -120,9 +127,31 @@ public class Raid extends IrisForm {
         rmThread.setPb_current(pb_current);
 
         /**
-         * On Completion.
+         * On Completion. setter value.
          */
-        rmThread.setOnCompletion(this.onCompletion);
+        rmThread.setOnCompletion(() -> {
+            //------------------------------------------------------------------
+            // LOGGING
+            try {
+                final String logName = "RAID_LOG_ " + new SimpleDateFormat("yyyyMMdd_hhmmssa").format(new Date());
+                if (FileTool.checkFolders(Context.DIR_LOGS)) {
+                    PolarisText text = new PolarisText();
+                    text.setAppendMode(false);
+                    // not null
+                    if (rmThread.getLogBuilder() != null) {
+                        // not empty
+                        if (!rmThread.getLogBuilder().toString().isEmpty()) {
+                            text.write(rmThread.getLogBuilder().toString());
+                            text.save(new File(Context.DIR_LOGS + File.separator + logName + ".txt"));
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                // ignore log error
+            }
+            //------------------------------------------------------------------
+            this.onCompletion.run();
+        });
 
         /**
          * Set On Error Exception.
@@ -131,12 +160,17 @@ public class Raid extends IrisForm {
             if (ex == null) {
                 this.showWaitErrorMessage("RAID Algorithm Error !", message);
             } else {
+                /**
+                 * TELEMETRY.
+                 */
                 IRIS.telemetry(ex, null);
                 this.showExceptionMessage(ex, "RAID Algorithm Error !", message);
             }
         });
 
         rmThread.setName("RAID-THREAD");
+
+
         rmThread.start();
     }
 
@@ -156,6 +190,16 @@ public class Raid extends IrisForm {
          */
         private void log(Object log) {
             System.out.println(String.valueOf(log));
+            if (this.logBuilder != null) {
+                this.logBuilder.append(String.valueOf(log));
+                this.logBuilder.append("\n");
+            }
+        }
+
+        private StringBuilder logBuilder;
+
+        public StringBuilder getLogBuilder() {
+            return logBuilder;
         }
 
         //----------------------------------------------------------------------
@@ -233,11 +277,12 @@ public class Raid extends IrisForm {
                 });
                 //--------------------------------------------------------------
             }
-
+            log("\n\nRAID Algorithm: Ended up with an error at " + Context.getDateFormat12().format(new Date()));
         }
 
         @Override
         public final void run() {
+            this.logBuilder = new StringBuilder("");
             //------------------------------------------------------------------
             Platform.runLater(() -> {
                 this.lbl_current.setText("Automatic Backup Started . . .");
@@ -245,7 +290,7 @@ public class Raid extends IrisForm {
             });
             //------------------------------------------------------------------
             // Run Manager
-            log("RAID Algorithm: Started at 04/18/2018 10:40AM");
+            log("RAID Algorithm: Started at " + Context.getDateFormat12().format(new Date()) + "\n");
             if (!this.runRaidManager()) {
                 /**
                  * When the RAID manager raises a false flag this means one of
@@ -258,7 +303,7 @@ public class Raid extends IrisForm {
                  */
                 return;
             }
-            log("Raid Manager: Finished with no errors at 04/18/2018 10:40AM");
+            log("\n\nRaid Manager: Finished with no errors at " + Context.getDateFormat12().format(new Date()));
             //------------------------------------------------------------------
             Platform.runLater(() -> {
                 this.lbl_current.setText("Automatic Backup Finished");
@@ -351,10 +396,6 @@ public class Raid extends IrisForm {
                 // ignore
                 log("Clean Up: Failed to clean temporary files.");
             }
-        }
-
-        private void processCheckRaidRecords() {
-
         }
 
         /**
@@ -549,6 +590,9 @@ public class Raid extends IrisForm {
             //------------------------------------------------------------------
         }
 
+        /**
+         * Silent on exception with FTP connection.
+         */
         private void executeCheck() {
             for (RaidModel remoteFile : this.remoteActiveFiles) {
                 log("Processing Remote File: " + remoteFile.getId());

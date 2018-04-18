@@ -61,7 +61,8 @@ public class Context {
     public final static String VERSION_NAME = "1.0.1-testsys";
     public final static String PREFIX_PROVINCE_CODE = "BUL3000";
     public final static String PREFIX_RAID_CODE = "RAID3000";
-    // directory consta
+    // directory constants
+    public final static String DIR_LOGS = "logs";
     public final static String DIR_TEMPLATE = "template";
     public final static String DIR_TEMP = "temp";
     public final static String DIR_TEMP_SETUP_PRINTS = DIR_TEMP + File.separator + "setup_prints";
@@ -330,7 +331,6 @@ public class Context {
     //--------------------------------------------------------------------------
     private String terminalUser;
     //--------------------------------------------------------------------------
-    private String raidInterval;
 
     /**
      * Host Server.
@@ -351,15 +351,6 @@ public class Context {
 
     public String getDatabasePass() {
         return databasePass;
-    }
-
-    /**
-     * Get RAID Execution Interval in HOURS. 0 Means Never.
-     *
-     * @return
-     */
-    public String getRaidInterval() {
-        return raidInterval;
     }
 
     /**
@@ -385,7 +376,6 @@ public class Context {
             //
             this.terminalUser = prop.getProperty("terminalUser", null);
             //
-            this.raidInterval = prop.getProperty("raidInterval", null);
             //
             this.auditUser = this.terminalUser;
 
@@ -416,8 +406,6 @@ public class Context {
         //
         prop.setProperty("terminalUser", "IRIS3000/SYS");
         //
-        prop.setProperty("raidInterval", "24");
-
         prop.write(new File("config.prop"));
 
     }

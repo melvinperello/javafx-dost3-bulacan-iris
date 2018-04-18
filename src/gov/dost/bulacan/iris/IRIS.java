@@ -32,11 +32,13 @@ import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.Splash;
 import gov.dost.bulacan.iris.ui.raid.Raid;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -50,6 +52,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
+import org.afterschoolcreatives.polaris.java.util.PolarisProperties;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
@@ -204,6 +207,102 @@ public class IRIS extends Application {
         this.splashStage.showAndWait();
     }
 
+    private boolean checkIfRaiding() {
+        final String defaultMinuteInterval = "15"; // 15 minutes
+
+        final PolarisProperties configProp = new PolarisProperties();
+        final Date nowDate = new Date();
+        final File configFile = new File("config.prop");
+        final String raidLastKey = "raidLast";
+        final String raidIntervalKey = "raidIntervalMinutes";
+
+        String raidInterval = null;
+        String raidLast = null;
+
+        try {
+            configProp.read(configFile);
+            raidInterval = configProp.getProperty(raidIntervalKey, null);
+            raidLast = configProp.getProperty(raidLastKey, null);
+            //------------------------------------------------------------------
+
+            if (raidInterval != null) {
+                try {
+                    long val = Long.parseLong(raidInterval);
+                    if (val < 0) {
+                        throw new NumberFormatException("Negative");
+                    }
+                } catch (NumberFormatException e) {
+                    configProp.put(raidIntervalKey, defaultMinuteInterval);
+                    System.out.println("Scheduler: interval = INVALID");
+                }
+            } else {
+                System.out.println("Scheduler: interval = NULL");
+                configProp.put(raidIntervalKey, defaultMinuteInterval);
+            }
+            //------------------------------------------------------------------
+            if (raidLast != null) {
+                try {
+                    long val = Long.parseLong(raidLast);
+                    if (val < 0) {
+                        throw new NumberFormatException("Negative");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Scheduler: lastRaid = INVALID");
+                    configProp.put(raidLastKey, String.valueOf(new Date().getTime()));
+
+                }
+            } else {
+                System.out.println("Scheduler: lastRaid = NULL");
+                configProp.put(raidLastKey, String.valueOf(new Date().getTime()));
+            }
+
+            configProp.write(configFile);
+
+        } catch (IOException e) {
+            // Unable to read DON't Run Raid..
+            System.out.println("Scheduler: Skipping ... cannot read properties");
+            return false;
+        }
+
+        //----------------------------------------------------------------------
+        try {
+            configProp.read(configFile);
+            raidInterval = configProp.getProperty(raidIntervalKey, null);
+            raidLast = configProp.getProperty(raidLastKey, null);
+        } catch (IOException e) {
+            System.out.println("Scheduler: Skipping ... cannot recheck properties");
+            return false;
+        }
+
+        //----------------------------------------------------------------------
+        long raidIntevalLong = Long.parseLong(raidInterval);
+        long raidLastLong = Long.parseLong(raidLast);
+
+        if (raidIntevalLong == 0) {
+            System.out.println("Scheduler: 0 Interval Skip key Found");
+            return false;
+        }
+        //----------------------------------------------------------------------
+        long dateNowLong = nowDate.getTime();
+        long elapseTime = dateNowLong - raidLastLong;
+        long elapseTimeInSeconds = TimeUnit.MILLISECONDS.toSeconds(elapseTime);
+        System.out.println(elapseTimeInSeconds + " -- " + (raidIntevalLong * 60));
+        if (elapseTimeInSeconds > (raidIntevalLong * 60)) {
+            try {
+                configProp.put(raidLastKey, String.valueOf(dateNowLong));
+                configProp.write(configFile);
+            } catch (IOException e) {
+                // ignore write error
+            }
+            System.out.println("Scheduler: Running ... interval exceeded");
+            return true;
+        }
+
+        System.out.println("Scheduler: Skipping ... not exceeding interval");
+
+        return false;
+    }
+
     /**
      * Calls after the splash screen. open the main stage after the raid check
      * up.
@@ -211,9 +310,13 @@ public class IRIS extends Application {
      * @param primaryStage
      */
     private void showRaid(Stage primaryStage) {
-        Raid.call(() -> {
+        if (checkIfRaiding()) {
+            Raid.call(() -> {
+                this.showMain(primaryStage);
+            });
+        } else {
             this.showMain(primaryStage);
-        });
+        }
     }
 
     private void closeSplash() {
