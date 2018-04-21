@@ -1,4 +1,4 @@
-#Wed Apr 18 15:58:38 CST 2018
+#Sat Apr 21 15:26:23 SGT 2018
 terminalUser=IRIS3000/SYS
 ftpPass=123456
 databasePass=123456
@@ -9,4 +9,4 @@ databasePort=3306
 ftpUser=iris_ftp
 databaseUser=iris_db
 host=127.0.0.1
-raidLast=1524038199121
+raidLast=1524295340967

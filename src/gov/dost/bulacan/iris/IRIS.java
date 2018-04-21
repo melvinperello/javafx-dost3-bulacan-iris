@@ -54,12 +54,16 @@ import javax.imageio.ImageIO;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.util.PolarisProperties;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Jhon Melvin
  */
 public class IRIS extends Application {
+
+    private static final Logger logger = LoggerFactory.getLogger(IRIS.class);
 
     /**
      * Actual Start Method.
@@ -112,7 +116,7 @@ public class IRIS extends Application {
             //------------------------------------------------------------------
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
                 final Exception ex = new Exception("Uncaught Exception", e);
-                ex.printStackTrace();
+                logger.error("Uncaught Exception", e);
                 IRIS.telemetry(ex, primaryStage);
                 //--------------------------------------------------------------
                 Platform.runLater(() -> {
@@ -233,10 +237,10 @@ public class IRIS extends Application {
                     }
                 } catch (NumberFormatException e) {
                     configProp.put(raidIntervalKey, defaultMinuteInterval);
-                    System.out.println("Scheduler: interval = INVALID");
+                    logger.warn("Scheduler: interval = INVALID");
                 }
             } else {
-                System.out.println("Scheduler: interval = NULL");
+                logger.warn("Scheduler: interval = NULL");
                 configProp.put(raidIntervalKey, defaultMinuteInterval);
             }
             //------------------------------------------------------------------
@@ -247,12 +251,12 @@ public class IRIS extends Application {
                         throw new NumberFormatException("Negative");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Scheduler: lastRaid = INVALID");
+                    logger.warn("Scheduler: lastRaid = INVALID");
                     configProp.put(raidLastKey, String.valueOf(new Date().getTime()));
 
                 }
             } else {
-                System.out.println("Scheduler: lastRaid = NULL");
+                logger.warn("Scheduler: lastRaid = NULL");
                 configProp.put(raidLastKey, String.valueOf(new Date().getTime()));
             }
 
@@ -260,7 +264,7 @@ public class IRIS extends Application {
 
         } catch (IOException e) {
             // Unable to read DON't Run Raid..
-            System.out.println("Scheduler: Skipping ... cannot read properties");
+            logger.error("Scheduler: Skipping ... cannot read properties", e);
             return false;
         }
 
@@ -270,7 +274,7 @@ public class IRIS extends Application {
             raidInterval = configProp.getProperty(raidIntervalKey, null);
             raidLast = configProp.getProperty(raidLastKey, null);
         } catch (IOException e) {
-            System.out.println("Scheduler: Skipping ... cannot recheck properties");
+            logger.error("Scheduler: Skipping ... cannot recheck properties", e);
             return false;
         }
 
@@ -279,14 +283,14 @@ public class IRIS extends Application {
         long raidLastLong = Long.parseLong(raidLast);
 
         if (raidIntevalLong == 0) {
-            System.out.println("Scheduler: 0 Interval Skip key Found");
+            logger.debug("Scheduler: 0 Interval Skip key Found");
             return false;
         }
         //----------------------------------------------------------------------
         long dateNowLong = nowDate.getTime();
         long elapseTime = dateNowLong - raidLastLong;
         long elapseTimeInSeconds = TimeUnit.MILLISECONDS.toSeconds(elapseTime);
-        System.out.println(elapseTimeInSeconds + " -- " + (raidIntevalLong * 60));
+        logger.debug("Current Elapse Time: {} sec / RAID Interval Required {} sec", elapseTimeInSeconds, (raidIntevalLong * 60));
         if (elapseTimeInSeconds > (raidIntevalLong * 60)) {
             try {
                 configProp.put(raidLastKey, String.valueOf(dateNowLong));
@@ -294,11 +298,11 @@ public class IRIS extends Application {
             } catch (IOException e) {
                 // ignore write error
             }
-            System.out.println("Scheduler: Running ... interval exceeded");
+            logger.debug("Scheduler: Running ... interval exceeded");
             return true;
         }
 
-        System.out.println("Scheduler: Skipping ... not exceeding interval");
+        logger.debug("Scheduler: Skipping ... not exceeding interval");
 
         return false;
     }
