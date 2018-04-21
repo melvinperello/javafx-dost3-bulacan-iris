@@ -454,7 +454,7 @@ public class EquipmentEditView extends IrisForm {
     }
 
     private String filterInput(TextInputControl textField) {
-        return StringTools.clearExtraSpaces(textField.getText().trim());
+        return Context.filterInputControl(textField);
     }
 
 }

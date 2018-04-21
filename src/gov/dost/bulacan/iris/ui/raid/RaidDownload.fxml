@@ -154,6 +154,21 @@
                         <Insets />
                      </HBox.margin>
                   </JFXButton>
+                  <JFXButton fx:id="btn_copy" graphicTextGap="10.0" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #FBD277;" text="Copy" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../storage/drawable/raid/copy_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
                   <JFXButton fx:id="btn_download" graphicTextGap="10.0" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #35BA9B;" text="Download" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">

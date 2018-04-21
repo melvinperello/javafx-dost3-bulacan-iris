@@ -39,23 +39,34 @@ import java.nio.channels.NonReadableChannelException;
 import java.nio.channels.NonWritableChannelException;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.afterschoolcreatives.polaris.java.io.FileTool;
 import org.afterschoolcreatives.polaris.java.net.ip.ApacheFTPClientManager;
+import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 import org.apache.commons.net.ftp.FTPFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Jhon Melvin
  */
 public class RaidDownload extends IrisForm {
+
+    private static Logger logger = LoggerFactory.getLogger(RaidDownload.class);
 
     @FXML
     private Label lbl_raid_id;
@@ -83,6 +94,9 @@ public class RaidDownload extends IrisForm {
 
     @FXML
     private JFXButton btn_cancel;
+
+    @FXML
+    private JFXButton btn_copy;
 
     public RaidDownload(RaidModel raidModel) {
         this.raidModel = raidModel;
@@ -131,7 +145,18 @@ public class RaidDownload extends IrisForm {
         });
 
         this.btn_open.setOnMouseClicked(value -> {
-            this.checkFileIntegrity();
+            this.checkFileIntegrity((file) -> {
+                this.openTempFile(file);
+            });
+            value.consume();
+        });
+
+        this.btn_copy.setOnMouseClicked(value -> {
+            this.checkFileIntegrity((file) -> {
+                Platform.runLater(() -> {
+                    this.copyTempFile(file);
+                });
+            });
             value.consume();
         });
 
@@ -196,12 +221,18 @@ public class RaidDownload extends IrisForm {
         }
     }
 
+    @FunctionalInterface
+    public interface DoAfterFile {
+
+        void doAfter(File file);
+    }
+
     /**
      * Check file Integrity if this was success it will call openTempFile.
      *
      * @see RaidDownload#openTempFile(java.io.File)
      */
-    private void checkFileIntegrity() {
+    private void checkFileIntegrity(DoAfterFile doAfter) {
         //----------------------------------------------------------------------
         // disable buttons when starting hash thread.
         this.btn_cancel.setDisable(true);
@@ -210,6 +241,14 @@ public class RaidDownload extends IrisForm {
         //----------------------------------------------------------------------
         final String fileName = this.raidModel.getName();
         File file = new File(DIR_BIN + File.separator + fileName);
+
+        if (!file.exists()) {
+            Platform.runLater(() -> {
+                this.showWaitErrorMessage("No Local Copy Found !", "Please download the file first.");
+                this.getStage().close();
+            });
+            return;
+        }
         //----------------------------------------------------------------------
         HashThread hashThread = new HashThread();
         hashThread.setDaemon(true);
@@ -228,7 +267,7 @@ public class RaidDownload extends IrisForm {
                 if (localHash.equalsIgnoreCase(remoteHash)) {
                     // CREATE TEMP FILE BEFORE RUN
                     //----------------------------------------------------------
-                    this.openTempFile(file);
+                    doAfter.doAfter(file);
                     //----------------------------------------------------------
                 } else {
                     // hash fail delete file
@@ -249,6 +288,44 @@ public class RaidDownload extends IrisForm {
         hashThread.setOnCompletion(onComplete);
         hashThread.start();
         //------------------------------------------------------------
+    }
+
+    /**
+     * This is WRAPPED UNDER FX THREAD
+     *
+     * @param file
+     */
+    private void copyTempFile(File file) {
+        logger.debug("Copy Temp File Executing  . . .");
+        DirectoryChooser fileChooser = new DirectoryChooser();
+        fileChooser.setTitle("Select Folder to Save This File !");
+        File fileCopy = fileChooser.showDialog(this.getStage());
+        if (fileCopy == null) {
+            this.getStage().close();
+            logger.debug("Copy Cancelled");
+            return;
+        }
+
+        final String tempFileName = this.raidModel.getDisplayName()
+                + "_" + Context.getDateFormatTimeStamp().format(new Date())
+                + "." + this.raidModel.getExtenstion();
+
+        boolean copied = false;
+        try {
+            copied = FileTool.copy(file, new File(fileCopy + File.separator + tempFileName));
+        } catch (IOException | IllegalArgumentException | NonReadableChannelException | NonWritableChannelException e) {
+            // ignore
+            logger.error("Copy File Error", e);
+        }
+        logger.debug("Copy File Result: {}", copied);
+
+        if (copied) {
+            this.showWaitInformationMessage("File Copied Successfully", "File successfully saved to your selected directory.");
+            this.getStage().close();
+        } else {
+            this.showWaitErrorMessage("Copy Error !", "There was a problem while trying to create a copy of this file");
+            this.getStage().close();
+        }
     }
 
     /**
@@ -341,7 +418,9 @@ public class RaidDownload extends IrisForm {
                 this.lbl_raid_id.setText(this.raidModel.getId() + " - Local Copy Detected (Ready)");
                 int c = this.showConfirmationMessage("Downloaded Successfully.", "The file is now ready to be open, Open it now ?");
                 if (c == 1) {
-                    this.checkFileIntegrity();
+                    this.checkFileIntegrity((file) -> {
+                        this.openTempFile(file);
+                    });
                 }
             });
         });

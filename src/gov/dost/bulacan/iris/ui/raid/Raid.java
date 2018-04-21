@@ -188,7 +188,7 @@ public class Raid extends IrisForm {
          * @param log
          */
         private void log(Object log) {
-            logger.info(String.valueOf(log));
+            logger.debug(String.valueOf(log));
 //            System.out.println(String.valueOf(log));
             if (this.logBuilder != null) {
                 this.logBuilder.append(String.valueOf(log));
