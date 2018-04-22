@@ -121,7 +121,11 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <Label text="INFORMATION RETRIEVAL INTEGRATED SYSTEM (IRIS)" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label text="INFORMATION RETRIEVAL INTEGRATED SYSTEM (IRIS) IS A DOCUMENT RETRIEVAL AND INFORMATION SYSTEM FOR THE DEPARTMENT OF SCIENCE AND TECHNOLOGY PROVINCIAL SCIENCE TECHNOLOGY CENTER OF BULACAN. IT AIMS TO PROVIDE EASY RETRIEVAL OF THE DOCUMENTS FREQUENTLY USED IN THE ORGANIZATION'S OPERATION BY PROVIDING A DATABASE OF DIGITALIZED COPY OF THE DOCUMENTS, IT IS ALSO INTEGRATED WITH AN INFORMATION SYSTEM THAT ALLOWS THE ORGANIZATION TO STORE TEXTUAL INFORMATION." textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Italic" size="13.0" />
+                           </font>
+                        </Label>
                      </children>
                      <padding>
                         <Insets left="15.0" right="15.0" />
@@ -179,7 +183,7 @@
                <children>
                   <HBox alignment="CENTER">
                      <padding>
-                        <Insets bottom="30.0" top="30.0" />
+                        <Insets bottom="10.0" top="30.0" />
                      </padding>
                      <children>
                         <VBox alignment="CENTER">
@@ -206,6 +210,18 @@
                            </children>
                         </VBox>
                      </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label text="JHON MELVIN NIETO PERELLO IS A BS INFORMATION TECHNOLOGY STUDENT AND FOUNDER OF AFTERSCHOOL CREATIVES ORGANIZATION WHICH AIMS TO INFORM, EDUCATE, AND PROMOTE THE USAGE OF OPEN-SOURCE PLATFORMS FOR STUDENTS, RESEARCHERS AND GENERAL USERS IN THE PHILIPPINES" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Italic" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="15.0" />
+                     </padding>
                   </HBox>
                </children>
             </VBox>

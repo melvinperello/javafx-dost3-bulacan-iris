@@ -71,21 +71,21 @@ import org.slf4j.LoggerFactory;
  * @author Jhon Melvin
  */
 public class Raid extends IrisForm {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(Raid.class);
-    
+
     @FXML
     private ProgressBar pb_current;
-    
+
     @FXML
     private Label lbl_current;
-    
+
     private Runnable onCompletion;
-    
+
     public void setOnCompletion(Runnable onCompletion) {
         this.onCompletion = onCompletion;
     }
-    
+
     public static void call(Runnable showPrimary) {
         //----------------------------------------------------------------------
         final Stage raidStage = new Stage();
@@ -114,12 +114,12 @@ public class Raid extends IrisForm {
                         .getResourceStream("drawable/raid/icon_128.png")));
         raidStage.setResizable(false);
         raidStage.setOnCloseRequest(value -> {
-            
+
             value.consume();
         });
         raidStage.show();
     }
-    
+
     @Override
     protected void setup() {
         RaidManagerThread rmThread = new RaidManagerThread();
@@ -167,9 +167,9 @@ public class Raid extends IrisForm {
                 this.showExceptionMessage(ex, "RAID Algorithm Error !", message);
             }
         });
-        
+
         rmThread.setName("RAID-THREAD");
-        
+
         rmThread.start();
     }
 
@@ -195,9 +195,9 @@ public class Raid extends IrisForm {
                 this.logBuilder.append("\n");
             }
         }
-        
+
         private StringBuilder logBuilder;
-        
+
         public StringBuilder getLogBuilder() {
             return logBuilder;
         }
@@ -205,11 +205,11 @@ public class Raid extends IrisForm {
         //----------------------------------------------------------------------
         private ProgressBar pb_current;
         private Label lbl_current;
-        
+
         public void setPb_current(ProgressBar pb_current) {
             this.pb_current = pb_current;
         }
-        
+
         public void setLbl_current(Label lbl_current) {
             this.lbl_current = lbl_current;
         }
@@ -228,7 +228,7 @@ public class Raid extends IrisForm {
         private List<File> localFileFolders;
         //----------------------------------------------------------------------
         private Runnable onCompletion;
-        
+
         public void setOnCompletion(Runnable onCompletion) {
             this.onCompletion = onCompletion;
         }
@@ -236,12 +236,12 @@ public class Raid extends IrisForm {
         //----------------------------------------------------------------------
         @FunctionalInterface
         public interface OnError {
-            
+
             void onError(String message, Exception ex);
         }
-        
+
         private OnError onError;
-        
+
         public void setOnError(OnError onError) {
             this.onError = onError;
         }
@@ -269,7 +269,7 @@ public class Raid extends IrisForm {
                      * THIS METHOD MUST BE ONLY CALLED ONCE. the RAID ALGORITHM
                      * SHOULD BE CANCELED ONCE A PROCESS FAILED.
                      */
-                    
+
                     if (this.onCompletion != null) {
                         // SHOW MAIN STAGE WHEN OK IS CLICKED
                         this.onCompletion.run();
@@ -280,7 +280,7 @@ public class Raid extends IrisForm {
             logger.error("RAID Algorithm ended up with an error", ex);
 //            log("\n\nRAID Algorithm: Ended up with an error at " + Context.getDateFormat12().format(new Date()));
         }
-        
+
         @Override
         public final void run() {
             this.logBuilder = new StringBuilder("");
@@ -362,37 +362,42 @@ public class Raid extends IrisForm {
             }
             return true;
         }
-        
+
         private void processCleanTemp() {
             log("Clean Up: Cleaning Local Temporary Files . . .");
-            
+
             Platform.runLater(() -> {
                 this.lbl_current.setText("Cleaning temporary local files . . .");
                 this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             });
-            
+
             try {
                 File parentFile = new File(Context.DIR_TEMP);
-                
+
                 if (!parentFile.exists()) {
                     log("Clean Up: Local Temporary Files is empty . . .");
                     return;
                 }
-                
-                Files.walkFileTree(Paths.get(parentFile.toURI()), new SimpleFileVisitor<Path>() {
-                    @Override
-                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                        Files.delete(file);
-                        return FileVisitResult.CONTINUE;
-                    }
-                    
-                    @Override
-                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                        Files.delete(dir);
-                        return FileVisitResult.CONTINUE;
-                    }
-                    
-                });
+
+                /**
+                 * Delete Temp.
+                 */
+                FileTool.deleteFile(Context.DIR_TEMP);
+
+//                Files.walkFileTree(Paths.get(parentFile.toURI()), new SimpleFileVisitor<Path>() {
+//                    @Override
+//                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+//                        Files.delete(file);
+//                        return FileVisitResult.CONTINUE;
+//                    }
+//                    
+//                    @Override
+//                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+//                        Files.delete(dir);
+//                        return FileVisitResult.CONTINUE;
+//                    }
+//                    
+//            });
             } catch (IOException e) {
                 // ignore
                 log("Clean Up: Failed to clean temporary files.");
@@ -428,7 +433,7 @@ public class Raid extends IrisForm {
                 this.lbl_current.setText("Fetching Local Files . . .");
                 this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             });
-            
+
             log("Local Files: Fetching");
             try {
                 this.fetchLocalFileArray();
@@ -468,21 +473,21 @@ public class Raid extends IrisForm {
                 this.lbl_current.setText("Cleaning unindexed local files . . .");
                 this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             });
-            
+
             log("Clean Up: Checking Local Trash Files");
             if (this.localFiles == null) {
                 log("Clean Up: No Trash Files");
                 return;
             }
-            
+
             if (this.localFiles.isEmpty()) {
                 log("Clean Up: No Trash Files");
                 return;
             }
-            
+
             log("Clean Up: " + this.localFiles.size() + " Trash Files Found");
             log("Clean Up: Deleting Trash Files");
-            
+
             Iterator<File> localFileIterator = this.localFiles.iterator();
             while (localFileIterator.hasNext()) {
                 File trashFile = localFileIterator.next();
@@ -495,18 +500,18 @@ public class Raid extends IrisForm {
                 } catch (Exception e) {
                     log("Clean Up: Failed to clean " + trashFile.getName());
                 }
-                
+
             }
             log("Clean Up: Local Files Cleaned -> " + this.localFiles.size() + " Trash Files Left");
-            
+
         }
-        
+
         private boolean processDatabaseBackup() {
             Platform.runLater(() -> {
                 this.lbl_current.setText("Backing up database . . .");
                 this.pb_current.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
             });
-            
+
             try {
                 log("SQL: Locating Jar");
                 final String jarPath = MariaDB.locateJar();
@@ -522,19 +527,19 @@ public class Raid extends IrisForm {
                 //--------------------------------------------------------------
                 final File mysql_exe = new File(jarPath + File.separator + "maria_bin/mysql.exe");
                 final File mysqldump_exe = new File(jarPath + File.separator + "maria_bin/mysqldump.exe");
-                
+
                 if (!mysql_exe.exists()) {
                     log("SQL: maria_bin/mysql.exe not existing");
                     this.showError("Cannot execute database backup maria_bin/mysql.exe not existing", null);
                     return false;
                 }
-                
+
                 if (!mysqldump_exe.exists()) {
                     log("SQL: maria_bin/mysqldump.exe not existing");
                     this.showError("Cannot execute database backup maria_bin/mysqldump.exe not existing", null);
                     return false;
                 }
-                
+
                 boolean sqlBackupExecuted = MariaDB.backup(
                         Context.app().getHost(),
                         Context.app().getDatabaseUser(),
@@ -542,7 +547,7 @@ public class Raid extends IrisForm {
                         Context.app().getDatabaseName(),
                         sqlDir + File.separator + DB_NAME + ".sql"
                 );
-                
+
                 if (!sqlBackupExecuted) {
                     this.showError("Failed to execute database backup.", null);
                     return false;
@@ -551,31 +556,31 @@ public class Raid extends IrisForm {
                 this.showError("There was an error while backing up the database.", e);
                 return false;
             }
-            
+
             return true;
         }
 
         //----------------------------------------------------------------------
         private void fetchRemoteFileArray() throws SQLException {
             this.remoteActiveFiles = RaidModel.listActiveRaidArray();
-            
+
             if (this.remoteActiveFiles == null) {
                 this.remoteActiveFiles = new ArrayList<>(0);
             }
-            
+
         }
-        
+
         private void fetchLocalFileArray() throws SecurityException {
             this.localFiles = new ArrayList<>();
             this.localFileFolders = new ArrayList<>();
             //
             final File folder = new File("raid/bin");
             final File[] listOfFiles = folder.listFiles();
-            
+
             if (listOfFiles == null) {
                 return;
             }
-            
+
             if (listOfFiles.length == 0) {
                 return;
             }
@@ -657,7 +662,7 @@ public class Raid extends IrisForm {
                         continue;
                     }
                 }
-                
+
             } // end remote comparison loop
 
         }
@@ -731,7 +736,7 @@ public class Raid extends IrisForm {
                 // ignore this exception
             }
         }
-        
+
     } // end raid manager.
 
 } // end class

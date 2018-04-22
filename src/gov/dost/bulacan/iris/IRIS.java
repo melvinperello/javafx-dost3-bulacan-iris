@@ -30,6 +30,7 @@ package gov.dost.bulacan.iris;
 
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.Splash;
+import gov.dost.bulacan.iris.ui.SplashScreen;
 import gov.dost.bulacan.iris.ui.raid.Raid;
 import java.io.File;
 import java.io.IOException;
@@ -80,7 +81,7 @@ public class IRIS extends Application {
             //------------------------------------------------------------------
             // wait 1 second
             try {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -198,12 +199,12 @@ public class IRIS extends Application {
     private void showSplash() {
         this.splashStage = new Stage(StageStyle.UNDECORATED);
         splashStage.initModality(Modality.APPLICATION_MODAL);
-        splashStage.setWidth(600.0);
-        splashStage.setHeight(600.0);
-        splashStage.setResizable(false);
-        Scene splashScene = new Scene(new Splash().load());
+        Scene splashScene = new Scene(new SplashScreen().load());
         splashScene.setFill(Color.TRANSPARENT);
         splashStage.setScene(splashScene);
+//        splashStage.setWidth(600.0);
+//        splashStage.setHeight(600.0);
+        splashStage.setResizable(false);
         // cannot be this is calling Context and disrupts normal start up
         splashStage.getIcons().add(new Image(Context.getResourceStream("drawable/iris_dost_logo.png")));
         splashStage.centerOnScreen();
