@@ -86,6 +86,10 @@ public class Home extends IrisForm {
     @FXML
     private HBox menu_about;
 
+    public Home() {
+        this.setDialogMessageTitle("IRIS Home");
+    }
+
     @Override
     protected void setup() {
         ProjectHeader.attach(hbox_header);

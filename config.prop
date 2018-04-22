@@ -1,12 +1,12 @@
-#Sun Apr 22 02:41:55 SGT 2018
+#Sun Apr 22 11:03:36 SGT 2018
 terminalUser=IRIS3000/SYS
 ftpPass=123456
 databasePass=123456
-raidIntervalMinutes=15
+raidIntervalMinutes=480
 databaseName=iris_bulacan_dost3
 ftpPort=21
 databasePort=3306
 ftpUser=iris_ftp
-host=127.0.0.1
 databaseUser=iris_db
-raidLast=1524335373709
+host=127.0.0.1
+raidLast=1524366070069

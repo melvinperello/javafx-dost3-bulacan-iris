@@ -212,7 +212,7 @@ public class IRIS extends Application {
     }
 
     private boolean checkIfRaiding() {
-        final String defaultMinuteInterval = "15"; // 15 minutes
+        final String defaultMinuteInterval = Context.RAID_DEFAULT_INTERVAL; // 15 minutes
 
         final PolarisProperties configProp = new PolarisProperties();
         final Date nowDate = new Date();

@@ -66,6 +66,7 @@ public class Context {
     public final static String VERSION_NAME = "1.0.2-prototype-system";
     public final static String PREFIX_PROVINCE_CODE = "BUL3000";
     public final static String PREFIX_RAID_CODE = "RAID3000";
+    public final static String RAID_DEFAULT_INTERVAL = "480"; //480 mins 8HRS
     // directory constants
     public final static String DIR_LOGS = "logs";
     public final static String DIR_TEMPLATE = "template";

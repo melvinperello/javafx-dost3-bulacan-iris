@@ -31,7 +31,7 @@ package gov.dost.bulacan.iris;
 import java.util.Optional;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import org.afterschoolcreatives.polaris.javafx.fxml.PolarisFxController;
+import org.afterschoolcreatives.polaris.javafx.fxml.PolarisForm;
 import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
 
 /**
@@ -39,21 +39,7 @@ import org.afterschoolcreatives.polaris.javafx.scene.control.PolarisDialog;
  *
  * @author Jhon Melvin
  */
-public abstract class IrisForm extends PolarisFxController {
-
-    //--------------------------------------------------------------------------
-    // Message box features added for Iris Form.
-    //--------------------------------------------------------------------------
-    private String dialogMessageTitle = "Message";
-
-    /**
-     * Sets the global window title of messages.
-     *
-     * @param dialogMessageTitle
-     */
-    public final void setDialogMessageTitle(String dialogMessageTitle) {
-        this.dialogMessageTitle = dialogMessageTitle;
-    }
+public abstract class IrisForm extends PolarisForm {
 
     /**
      * Show warning message with header text.
@@ -65,36 +51,21 @@ public abstract class IrisForm extends PolarisFxController {
         if (header == null) {
             header = "Warning";
         }
-        PolarisDialog.create(PolarisDialog.Type.WARNING)
-                .setTitle(dialogMessageTitle)
-                .setHeaderText(header)
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .show();
+        this.messageWarning(header, message).show();
     }
 
     public void showWaitWarningMessage(String header, String message) {
         if (header == null) {
             header = "Warning";
         }
-        PolarisDialog.create(PolarisDialog.Type.WARNING)
-                .setTitle(dialogMessageTitle)
-                .setHeaderText(header)
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
+        this.messageWarning(header, message).showAndWait();
     }
 
     public void showInformationMessage(String header, String message) {
         if (header == null) {
             header = "Information";
         }
-        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
-                .setTitle(dialogMessageTitle)
-                .setHeaderText(header)
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .show();
+        this.messageInfo(header, message).show();
     }
 
     /**
@@ -107,36 +78,21 @@ public abstract class IrisForm extends PolarisFxController {
         if (header == null) {
             header = "Information";
         }
-        PolarisDialog.create(PolarisDialog.Type.INFORMATION)
-                .setTitle(dialogMessageTitle)
-                .setHeaderText(header)
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
+        this.messageInfo(header, message).showAndWait();
     }
 
     public void showErrorMessage(String header, String message) {
         if (header == null) {
             header = "Error";
         }
-        PolarisDialog.create(PolarisDialog.Type.ERROR)
-                .setTitle(dialogMessageTitle)
-                .setHeaderText(header)
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .show();
+        this.messageError(header, message).show();
     }
 
     public void showWaitErrorMessage(String header, String message) {
         if (header == null) {
             header = "Error";
         }
-        PolarisDialog.create(PolarisDialog.Type.ERROR)
-                .setTitle(dialogMessageTitle)
-                .setHeaderText(header)
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .showAndWait();
+        this.messageError(header, message).showAndWait();
     }
 
     /**
@@ -152,13 +108,7 @@ public abstract class IrisForm extends PolarisFxController {
         }
         ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
         ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Optional<ButtonType> res = PolarisDialog.create(PolarisDialog.Type.CONFIRMATION)
-                .setTitle(dialogMessageTitle)
-                .setHeaderText(header)
-                .setContentText(message)
-                .setOwner(this.getStage())
-                .setButtons(yesButton, cancelButton)
-                .showAndWait();
+        Optional<ButtonType> res = this.messageConfirm(header, message, yesButton, cancelButton);
         if (res.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
             return 1;
         }
@@ -170,12 +120,7 @@ public abstract class IrisForm extends PolarisFxController {
         if (header == null) {
             header = "System Error Encountered !";
         }
-        PolarisDialog.exceptionDialog(e)
-                .setContentText(message)
-                .setHeaderText(header)
-                .setOwner(null)
-                .setTitle("Fatal Exception")
-                .showAndWait();
+        this.messageException(e, header, message).showAndWait();
         //----------------------------------------------------------------------
         IRIS.telemetry(e, this.getStage());
         //----------------------------------------------------------------------
