@@ -45,7 +45,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(ScholarTransmittalModel.TABLE)
-public class ScholarTransmittalModel extends PolarisRecord implements TableAuditor{
+public class ScholarTransmittalModel extends PolarisRecord implements TableAuditor {
 
     //==========================================================================
     // Afterschool Creatives Polaris Record Content Standardization
@@ -115,6 +115,17 @@ public class ScholarTransmittalModel extends PolarisRecord implements TableAudit
         // Execute Query
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new ScholarTransmittalModel().findMany(con, querySample);
+        }
+    }
+
+    public static ScholarTransmittalModel findById(String id) throws SQLException {
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            ScholarTransmittalModel filler = new ScholarTransmittalModel();
+            if (filler.find(con, id)) {
+                return filler;
+            } else {
+                return null;
+            }
         }
     }
 

@@ -215,9 +215,11 @@ public class ScholarInformation extends IrisForm {
         this.btn_view.setOnMouseClicked(value -> {
             ScholarSubmissionModel model = this.tbl_documents.getSelectionModel().getSelectedItem();
             if (model == null) {
-                this.showWarningMessage(null, "Please select a document to edit.");
+                this.showWarningMessage(null, "Please select a document to view.");
                 return;
             }
+
+            this.showTransmitInfo(model);
 
         });
 
@@ -274,6 +276,20 @@ public class ScholarInformation extends IrisForm {
         contactStage.setTitle("Submit Documents");
         ScholarSubmit submit = new ScholarSubmit(submitModel, this.scholarModel);
         contactStage.setScene(new Scene(submit.load()));
+        contactStage.initOwner(this.getStage());
+        contactStage.initModality(Modality.WINDOW_MODAL);
+        contactStage.getIcons().setAll(this.getStage().getIcons());
+        contactStage.showAndWait();
+    }
+
+    private void showTransmitInfo(ScholarSubmissionModel submitModel) {
+        Stage contactStage = new Stage();
+        contactStage.setMinHeight(280.0);
+        contactStage.setMinWidth(450.0);
+        contactStage.setResizable(false);
+        contactStage.setTitle("Transmittal Info");
+        TransmitInfo fx = new TransmitInfo(submitModel);
+        contactStage.setScene(new Scene(fx.load()));
         contactStage.initOwner(this.getStage());
         contactStage.initModality(Modality.WINDOW_MODAL);
         contactStage.getIcons().setAll(this.getStage().getIcons());

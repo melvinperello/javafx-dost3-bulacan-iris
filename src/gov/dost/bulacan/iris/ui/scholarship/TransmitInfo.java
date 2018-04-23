@@ -30,6 +30,10 @@ package gov.dost.bulacan.iris.ui.scholarship;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.IrisForm;
+import gov.dost.bulacan.iris.models.ScholarSubmissionModel;
+import gov.dost.bulacan.iris.models.ScholarTransmittalModel;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
@@ -38,25 +42,64 @@ import javafx.scene.control.TextArea;
  * @author DOST-3
  */
 public class TransmitInfo extends IrisForm {
-
+    
     @FXML
     private TextArea txt_documents;
-
+    
     @FXML
     private TextArea txt_remarks;
-
+    
     @FXML
     private TextArea txt_info;
-
+    
     @FXML
-    private JFXButton btn_undo;
-
-    @FXML
-    private JFXButton btn_cancel;
-
+    private JFXButton btn_ok;
+    
+    public TransmitInfo(ScholarSubmissionModel submitModel) {
+        this.submitModel = submitModel;
+        if (this.submitModel.getFkTransmittalId() == null) {
+            this.transmitModel = null;
+        } else {
+            ScholarTransmittalModel transmitModel;
+            try {
+                transmitModel = ScholarTransmittalModel.findById(this.submitModel.getFkTransmittalId());
+            } catch (SQLException e) {
+                transmitModel = null;
+            }
+            this.transmitModel = transmitModel;
+        }
+    }
+    
+    private final ScholarSubmissionModel submitModel;
+    private final ScholarTransmittalModel transmitModel;
+    
     @Override
     protected void setup() {
-
+        this.btn_ok.setOnMouseClicked(value -> {
+            this.getStage().close();
+            value.consume();
+        });
+        
+        if (this.transmitModel == null) {
+            this.txt_info.setText("Not Transmitted");
+        } else {
+            StringBuilder builder = new StringBuilder("");
+            builder.append("Transmittal ID: ");
+            builder.append(this.transmitModel.getTransId());
+            builder.append("\n");
+            builder.append("Transmitted by: ");
+            builder.append(this.transmitModel.getTransBy());
+            builder.append(" @ ");
+            SimpleDateFormat df = new SimpleDateFormat("MMMMMMMMMMMMMMMM dd, yyyy");
+            builder.append(df.format(this.transmitModel.getTransDate()));
+        }
+        
+        this.txt_documents.setText(this.submitModel.getDocumentsSubmitted());
+        this.txt_remarks.setText(this.submitModel.getRemarks());
+        
+        this.txt_documents.setEditable(false);
+        this.txt_info.setEditable(false);
+        this.txt_remarks.setEditable(false);
     }
-
+    
 }
