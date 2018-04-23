@@ -45,7 +45,7 @@ import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Table;
  * @author Jhon Melvin
  */
 @Table(ScholarSubmissionModel.TABLE)
-public class ScholarSubmissionModel extends PolarisRecord implements TableAuditor{
+public class ScholarSubmissionModel extends PolarisRecord implements TableAuditor {
 
     //==========================================================================
     // Afterschool Creatives Polaris Record Content Standardization
@@ -113,7 +113,7 @@ public class ScholarSubmissionModel extends PolarisRecord implements TableAudito
     //==========================================================================
     // 04-B. Static Class Methods
     //==========================================================================
-    public static <T> List<T> listAllActive() throws SQLException {
+    public static <T> List<T> listAllActive(ScholarInformationModel model) throws SQLException {
         // Build Query
         SimpleQuery querySample = new SimpleQuery();
         querySample.addStatement("SELECT")
@@ -122,16 +122,18 @@ public class ScholarSubmissionModel extends PolarisRecord implements TableAudito
                 .addStatement(TABLE)
                 .addStatement("WHERE")
                 .addStatement(DELETED_AT)
-                .addStatement("IS NULL");
+                .addStatement("IS NULL")
+                .addStatementWithParameter("AND " + FK_SCHOLAR_ID + " = ?", model.getScholarId());
         // Execute Query
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new ScholarSubmissionModel().findMany(con, querySample);
         }
     }
 
-    public static boolean insert(ScholarSubmissionModel model) throws SQLException {
+    public static boolean insert(ScholarSubmissionModel model, ScholarInformationModel fkModel) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             model.auditCreate();
+            model.setFkScholarId(fkModel.getScholarId());
             return model.insert(con);
         }
     }

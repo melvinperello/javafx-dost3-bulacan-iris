@@ -95,7 +95,7 @@ public class Home extends IrisForm {
         ProjectHeader.attach(hbox_header);
         //
         this.lbl_sys_user.setText(Context.app().getAuditUser());
-        this.lbl_sys_host.setText("IRIS Connected @ " + Context.app().getHost());
+        this.lbl_sys_host.setText("IRIS Connection @ " + Context.app().getHost() + " ( " + Context.app().getDatabasePort() + " ) - " + Context.app().getDatabaseUser());
         this.lbl_sys_version.setText("System Version " + Context.VERSION_NAME);
         //
         /**

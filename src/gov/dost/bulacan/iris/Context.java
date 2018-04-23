@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
  * @author Jhon Melvin
  */
 public class Context {
-    
+
     private final static Logger logger = LoggerFactory.getLogger(Context.class);
 
     //==========================================================================
@@ -114,7 +114,7 @@ public class Context {
         }
         return StringTools.clearExtraSpaces(textField.getText().trim());
     }
-    
+
     public final static void applyDateToPicker(DatePicker picker, Date dateEndorsed) {
         if (dateEndorsed != null) {
             SimpleDateFormat format = Context.getDateFormat();
@@ -157,7 +157,7 @@ public class Context {
     public static DecimalFormat getMoneyFormat() {
         return new DecimalFormat("#,##0.00");
     }
-    
+
     public static DecimalFormat getDecimal2Format() {
         return new DecimalFormat("0.00");
     }
@@ -275,7 +275,7 @@ public class Context {
     // Non-Static Methods (Instance Scope)
     //==========================================================================
     private String auditUser;
-    
+
     public String getAuditUser() {
         return auditUser;
     }
@@ -286,7 +286,7 @@ public class Context {
     private Context() {
         this.started = false;
     }
-    
+
     private boolean started;
 
     /**
@@ -305,21 +305,21 @@ public class Context {
             //----------------------------------------------------------------------
         }
         this.started = true;
-        
+
     }
 
     //--------------------------------------------------------------------------
     private HikariConnectionPool connectionFactory;
     private ApacheFTPClientFactory ftpClientFactory;
-    
+
     public HikariConnectionPool db() {
         return this.connectionFactory;
     }
-    
+
     public ApacheFTPClientFactory ftp() {
         return this.ftpClientFactory;
     }
-    
+
     public void shutdown() {
         this.connectionFactory.close();
         this.connectionFactory = null;
@@ -350,15 +350,19 @@ public class Context {
     public String getHost() {
         return host;
     }
-    
+
+    public String getDatabasePort() {
+        return databasePort;
+    }
+
     public String getDatabaseName() {
         return databaseName;
     }
-    
+
     public String getDatabaseUser() {
         return databaseUser;
     }
-    
+
     public String getDatabasePass() {
         return databasePass;
     }
@@ -388,7 +392,7 @@ public class Context {
             //
             //
             this.auditUser = this.terminalUser;
-            
+
         } catch (IOException e) {
             // ignore
             this.createDefaultSettings();
@@ -417,14 +421,14 @@ public class Context {
         prop.setProperty("terminalUser", "IRIS3000/SYS");
         //
         prop.write(new File("config.prop"));
-        
+
     }
 
     /**
      * Creates The Connection Factory.
      */
     private void createConnectionFactory() {
-        
+
         this.connectionFactory = new HikariConnectionPool();
         this.connectionFactory.setConnectionDriver(ConnectionFactory.Driver.MariaDB);
         this.connectionFactory.setDatabaseName(this.databaseName);
@@ -432,11 +436,11 @@ public class Context {
         this.connectionFactory.setPort(this.databasePort);
         this.connectionFactory.setUsername(this.databaseUser);
         this.connectionFactory.setPassword(this.databasePass);
-        
+
         this.connectionFactory.start();
-        
+
     }
-    
+
     private void createFtpConnectionFactory() {
         ApacheFTPClientFactory ftp = new ApacheFTPClientFactory();
         ftp.setServer(this.host);
@@ -448,7 +452,7 @@ public class Context {
         } catch (NumberFormatException e) {
             port = 21;
         }
-        
+
         ftp.setPort(port);
         this.ftpClientFactory = ftp;
     }
@@ -470,5 +474,5 @@ public class Context {
     public Date getLocalDate() {
         return new Date();
     }
-    
+
 }

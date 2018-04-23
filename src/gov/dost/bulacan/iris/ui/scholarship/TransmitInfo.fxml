@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="0.0">
+         <children>
+            <Label text="Transmittal Info">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
+      <VBox spacing="10.0">
+         <children>
+            <HBox>
+               <children>
+                  <Label prefWidth="100.0" text="Documents Submitted" wrapText="true" />
+                  <TextArea fx:id="txt_documents" prefHeight="200.0" prefWidth="200.0" promptText="Documents Submitted" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label prefWidth="100.0" text="Remarks" />
+                  <TextArea fx:id="txt_remarks" prefHeight="200.0" prefWidth="200.0" promptText="Remarks" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label prefWidth="100.0" text="Information" />
+                  <TextArea fx:id="txt_info" prefHeight="200.0" prefWidth="200.0" promptText="Remarks" text="Transmittal ID: RAID30002018_0423122205&#10;Jermy Lugtu @ April 23, 2018" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btn_undo" maxWidth="1.7976931348623157E308" style="-fx-border-style: dashed; -fx-background-color: #D94452;" text="Undo Transmittal" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_cancel" maxWidth="1.7976931348623157E308" style="-fx-border-style: dashed;" text="Cancel" HBox.hgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+               <VBox.margin>
+                  <Insets left="100.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</VBox>

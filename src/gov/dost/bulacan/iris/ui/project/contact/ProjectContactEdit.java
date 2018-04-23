@@ -137,7 +137,7 @@ public class ProjectContactEdit extends IrisForm {
      * @return
      */
     private String filterInput(TextInputControl textField) {
-        return StringTools.clearExtraSpaces(textField.getText().trim());
+        return Context.filterInputControl(textField);
     }
 
     //--------------------------------------------------------------------------

@@ -56,33 +56,36 @@ import org.slf4j.LoggerFactory;
  * @author s500
  */
 public class ScholarshipHome extends IrisForm {
-    
+
     private static Logger logger = LoggerFactory.getLogger(ScholarshipHome.class);
-    
+
     @FXML
     private HBox hbox_header;
-    
+
     @FXML
     private JFXButton btn_back_to_home;
-    
+
     @FXML
     private TextField txt_search;
-    
+
     @FXML
     private JFXButton btn_view;
-    
+
     @FXML
     private JFXButton btn_add;
-    
+
     @FXML
     private JFXButton btn_edit;
-    
+
     @FXML
     private JFXButton btn_remove;
-    
+
+    @FXML
+    private JFXButton btn_transmit;
+
     @FXML
     private TableView<ScholarInformationModel> tbl_scholars;
-    
+
     public ScholarshipHome() {
         this.tableData = FXCollections.observableArrayList();
         this.setDialogMessageTitle("Scholarship");
@@ -92,7 +95,7 @@ public class ScholarshipHome extends IrisForm {
      * Contains the data of the table.
      */
     private final ObservableList<ScholarInformationModel> tableData;
-    
+
     @Override
     protected void setup() {
         logger.debug("Controller Initialized");
@@ -105,6 +108,17 @@ public class ScholarshipHome extends IrisForm {
         this.createTable();
         this.populateTable();
         //
+        this.btn_view.setOnMouseClicked(value -> {
+            ScholarInformationModel model = this.tbl_scholars.getSelectionModel().getSelectedItem();
+            if (model == null) {
+                this.showWarningMessage(null, "Please highlight an entry to edit.");
+                return;
+            }
+
+            this.changeRoot(new ScholarInformation(model).load());
+            value.consume();
+        });
+        //
         this.btn_add.setOnMouseClicked(value -> {
             this.changeRoot(new ScholarEdit(null).load());
             value.consume();
@@ -116,11 +130,11 @@ public class ScholarshipHome extends IrisForm {
                 this.showWarningMessage(null, "Please highlight an entry to edit.");
                 return;
             }
-            
+
             this.changeRoot(new ScholarEdit(model).load());
             value.consume();
         });
-        
+
         this.btn_remove.setOnMouseClicked(value -> {
             ScholarInformationModel model = this.tbl_scholars.getSelectionModel().getSelectedItem();
             if (model == null) {
@@ -148,8 +162,13 @@ public class ScholarshipHome extends IrisForm {
             //------------------------------------------------------------------
             value.consume();
         });
+
+        this.btn_transmit.setOnMouseClicked(value -> {
+            System.out.println("TRANSMIT");
+            value.consume();
+        });
     }
-    
+
     private void createTable() {
         TableColumn<ScholarInformationModel, String> studentNumber = new TableColumn<>("Student Number");
         studentNumber.setPrefWidth(120.0);
@@ -164,13 +183,13 @@ public class ScholarshipHome extends IrisForm {
         type.setCellValueFactory(value -> {
             SimpleStringProperty valThrow = new SimpleStringProperty("");
             ScholarInformationModel cell = (ScholarInformationModel) value.getValue();
-            
+
             Integer meritType = cell.getMeritType();
             Integer scholarType = cell.getScholarType();
             String meritString = ScholarInformationModel.ScholarType.Merit.toObject(meritType).getName();
             String scholarString = ScholarInformationModel.ScholarType.toObject(scholarType).getName();
             valThrow.set("( " + meritString + " )" + "  " + scholarString);
-            
+
             return valThrow;
         });
         //----------------------------------------------------------------------
@@ -185,7 +204,7 @@ public class ScholarshipHome extends IrisForm {
         TableColumn<ScholarInformationModel, String> mobile = new TableColumn<>("Mobile");
         mobile.setPrefWidth(150.0);
         mobile.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getMobileNo()));
-        
+
         this.tbl_scholars.getColumns().setAll(studentNumber, nameCol, type, yearLevel, course, mobile);
 
         //----------------------------------------------------------------------
@@ -202,7 +221,7 @@ public class ScholarshipHome extends IrisForm {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                
+
                 String filterString = newValue.toLowerCase();
 
                 /**
@@ -218,7 +237,7 @@ public class ScholarshipHome extends IrisForm {
                 if (model.getFullName().toLowerCase().contains(newValue)) {
                     return true;
                 }
-                
+
                 return false; // no match.
             });
         });
@@ -247,5 +266,5 @@ public class ScholarshipHome extends IrisForm {
         }
         this.tableData.addAll(inquiries);
     }
-    
+
 }

@@ -47,79 +47,79 @@ import javafx.scene.layout.HBox;
  * @author s500
  */
 public class ScholarEdit extends IrisForm {
-    
+
     @FXML
     private HBox hbox_header;
-    
+
     @FXML
     private JFXButton btn_back;
-    
+
     @FXML
     private Label lbl_modify_header;
-    
+
     @FXML
     private Label lbl_modify_time;
-    
+
     @FXML
     private JFXButton btn_save;
-    
+
     @FXML
     private Label lbl_scholar_id;
-    
+
     @FXML
     private TextField txt_student_number;
-    
+
     @FXML
     private TextField txt_last_name;
-    
+
     @FXML
     private TextField txt_ext_name;
-    
+
     @FXML
     private TextField txt_first_name;
-    
+
     @FXML
     private TextField txt_middle_name;
-    
+
     @FXML
     private ComboBox<String> cmb_gender;
-    
+
     @FXML
     private TextField txt_course;
-    
+
     @FXML
     private ComboBox<Integer> cmb_year;
-    
+
     @FXML
     private TextField txt_section;
-    
+
     @FXML
     private TextField txt_university;
-    
+
     @FXML
     private TextField txt_mobile_no;
-    
+
     @FXML
     private TextField txt_tel_no;
-    
+
     @FXML
     private ComboBox<ScholarInformationModel.ScholarType> cmb_scholarship;
-    
+
     @FXML
     private ComboBox<ScholarInformationModel.ScholarType.Merit> cmb_type;
-    
+
     @FXML
     private TextField txt_email;
-    
+
     public ScholarEdit(ScholarInformationModel model) {
         this.scholarModel = model;
         this.addingMode = (model == null);
-        
+
     }
-    
+
     private final ScholarInformationModel scholarModel;
     private final boolean addingMode;
-    
+
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
@@ -132,7 +132,7 @@ public class ScholarEdit extends IrisForm {
         this.cmb_scholarship.getItems().setAll(Arrays.asList(ScholarInformationModel.ScholarType.LIST));
         this.cmb_type.getItems().setAll(Arrays
                 .asList(ScholarInformationModel.ScholarType.Merit.LIST));
-        
+
         this.cmb_gender.getSelectionModel().selectFirst();
         this.cmb_year.getSelectionModel().selectFirst();
         this.cmb_scholarship.getSelectionModel().selectFirst();
@@ -144,12 +144,12 @@ public class ScholarEdit extends IrisForm {
             // nothing to initialize on editing mode.
             this.preloadData();
         }
-        
+
         this.btn_back.setOnMouseClicked(value -> {
             this.changeRoot(new ScholarshipHome().load());
             value.consume();
         });
-        
+
         this.btn_save.setOnMouseClicked(value -> {
             if (this.addingMode) {
                 if (this.insert()) {
@@ -162,7 +162,7 @@ public class ScholarEdit extends IrisForm {
             }
         });
     }
-    
+
     private void preloadData() {
         this.lbl_scholar_id.setText(this.scholarModel.getScholarId());
         this.txt_student_number.setText(this.scholarModel.getStudentNumber());
@@ -235,7 +235,7 @@ public class ScholarEdit extends IrisForm {
     private String frmMobileNo;
     private String frmTelNo;
     private String frmEmail;
-    
+
     private void submit() {
         this.frmStudentNumber = Context.filterInputControl(txt_student_number);
         this.frmLastName = Context.filterInputControl(txt_last_name);
@@ -263,12 +263,22 @@ public class ScholarEdit extends IrisForm {
      */
     private boolean insert() {
         this.submit();
-        
+
         if (this.frmStudentNumber.isEmpty()) {
             this.showWarningMessage(null, "Please enter the student number");
             return false;
         }
-        
+
+        if (this.frmLastName.isEmpty()) {
+            this.showWarningMessage(null, "Please enter Last Name");
+            return false;
+        }
+
+        if (this.frmFirstName.isEmpty()) {
+            this.showWarningMessage(null, "Please enter First Name");
+            return false;
+        }
+
         ScholarInformationModel model = new ScholarInformationModel();
         model.setScholarId(this.lbl_scholar_id.getText());
         model.setStudentNumber(frmStudentNumber);
@@ -286,7 +296,7 @@ public class ScholarEdit extends IrisForm {
         model.setMobileNo(frmMobileNo);
         model.setTelNo(frmTelNo);
         model.setMail(frmEmail);
-        
+
         boolean inserted = false;
         try {
             inserted = ScholarInformationModel.insert(model);
@@ -299,7 +309,7 @@ public class ScholarEdit extends IrisForm {
             this.showExceptionMessage(ex, null, "Failed to insert to the database");
         }
         return inserted;
-        
+
     }
 
     /**
@@ -309,12 +319,22 @@ public class ScholarEdit extends IrisForm {
      */
     private boolean update() {
         this.submit();
-        
+
         if (this.frmStudentNumber.isEmpty()) {
             this.showWarningMessage(null, "Please enter the student number");
             return false;
         }
-        
+
+        if (this.frmLastName.isEmpty()) {
+            this.showWarningMessage(null, "Please enter Last Name");
+            return false;
+        }
+
+        if (this.frmFirstName.isEmpty()) {
+            this.showWarningMessage(null, "Please enter First Name");
+            return false;
+        }
+
         ScholarInformationModel model = this.scholarModel;
 //        model.setStudentNumber(frmStudentNumber);
         model.setLastName(frmLastName);
@@ -331,7 +351,7 @@ public class ScholarEdit extends IrisForm {
         model.setMobileNo(frmMobileNo);
         model.setTelNo(frmTelNo);
         model.setMail(frmEmail);
-        
+
         boolean updated = false;
         try {
             updated = ScholarInformationModel.update(model);
@@ -345,5 +365,5 @@ public class ScholarEdit extends IrisForm {
         }
         return updated;
     }
-    
+
 }

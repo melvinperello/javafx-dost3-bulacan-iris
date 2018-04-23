@@ -47,6 +47,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -343,7 +345,11 @@ public class IRIS extends Application {
         primaryStage.setMinHeight(700.0);
         primaryStage.setMinWidth(1300.0);
         //
-
+        primaryStage.addEventFilter(KeyEvent.KEY_RELEASED, (event) -> {
+            if (event.getCode().equals(KeyCode.F11)) {
+                primaryStage.setFullScreen(!primaryStage.isFullScreen());
+            }
+        });
         // on close
         primaryStage.setOnCloseRequest(close -> {
             IRIS.onCloseConfirmation(primaryStage);
