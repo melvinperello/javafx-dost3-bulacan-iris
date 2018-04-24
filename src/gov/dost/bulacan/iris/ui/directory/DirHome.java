@@ -33,10 +33,13 @@ import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ContactInformationModel;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.ProjectModel;
+import gov.dost.bulacan.iris.models.ScholarSubmissionModel;
 import gov.dost.bulacan.iris.ui.Home;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -150,7 +153,7 @@ public class DirHome extends IrisForm {
     private void createTable() {
         //----------------------------------------------------------------------
         TableColumn<ContactInformationModel, String> orgCol = new TableColumn<>("Organization");
-        orgCol.setPrefWidth(100.0);
+        orgCol.setPrefWidth(280.0);
         orgCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getOrganization()));
         //----------------------------------------------------------------------
         TableColumn<ContactInformationModel, String> orgTypeCol = new TableColumn<>("Type");
@@ -181,8 +184,29 @@ public class DirHome extends IrisForm {
         mailCol.setPrefWidth(100.0);
         mailCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getEmail()));
 
+        TableColumn<ContactInformationModel, String> lastUpdate = new TableColumn<>("Last Update");
+        lastUpdate.setPrefWidth(140.0);
+        lastUpdate.setCellValueFactory(value -> {
+            ContactInformationModel model = value.getValue();
+            Date updatedDate = model.getUpdatedAt();
+            Date createdDate = model.getCreatedAt();
+            Date displayDate = (updatedDate == null) ? createdDate : updatedDate;
+            String dateString = new SimpleDateFormat("MM-dd-yyyy hh:mm a").format(displayDate);
+            return new SimpleStringProperty(dateString);
+        });
+
+        TableColumn<ContactInformationModel, String> lastUpdateBy = new TableColumn<>("User");
+        lastUpdateBy.setPrefWidth(140.0);
+        lastUpdateBy.setCellValueFactory(value -> {
+            ContactInformationModel model = value.getValue();
+            String updatedDate = model.getUpdatedBy();
+            String createdDate = model.getCreatedBy();
+            String displayDate = (updatedDate.isEmpty()) ? createdDate : updatedDate;
+            return new SimpleStringProperty(displayDate);
+        });
+
         this.tbl_contacts.getColumns().setAll(orgCol, orgTypeCol, officeNameCol,
-                contactPerCol, telCol, mobCol, faxCol, mailCol
+                contactPerCol, telCol, mobCol, faxCol, mailCol, lastUpdate, lastUpdateBy
         );
 
         //----------------------------------------------------------------------
