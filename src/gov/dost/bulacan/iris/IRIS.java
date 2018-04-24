@@ -66,6 +66,8 @@ import org.slf4j.LoggerFactory;
  */
 public class IRIS extends Application {
 
+    private final static long SPLASH_DELAY = 2000;
+
     private static final Logger logger = LoggerFactory.getLogger(IRIS.class);
 
     /**
@@ -83,7 +85,7 @@ public class IRIS extends Application {
             //------------------------------------------------------------------
             // wait 1 second
             try {
-                Thread.sleep(3000);
+                Thread.sleep(SPLASH_DELAY);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }

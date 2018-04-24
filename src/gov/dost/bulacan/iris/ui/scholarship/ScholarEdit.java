@@ -149,9 +149,12 @@ public class ScholarEdit extends IrisForm {
         //
         if (this.addingMode) {
             this.lbl_scholar_id.setText(Context.createLocalKey());
+            this.lbl_modify_time.setVisible(false);
         } else {
             // nothing to initialize on editing mode.
             this.preloadData();
+            this.lbl_modify_time.setVisible(true);
+            lbl_modify_time.setText(this.scholarModel.auditDetailedToString());
         }
 
         this.btn_back.setOnMouseClicked(value -> {

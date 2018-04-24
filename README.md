@@ -14,6 +14,13 @@ This project is based on Java FX and will utilize the following technologies
 6. guava 24.1
 7. Hikari 2.7.8
 8. JFoenix Material
+9. JSON Library
+10. Guava
+11. Apache POI
+12. Hikari Connection Pool
+13. Controls FX
+14. SLF4J -> LOG4J
+
 
 Since the project is file intensive it will be integrated with an experimental algorithm that will assure that the files are copied in each active terminal in the local network of the organization.
 

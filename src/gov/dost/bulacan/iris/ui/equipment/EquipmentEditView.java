@@ -33,12 +33,8 @@ import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.EquipmentQoutationModel;
 import gov.dost.bulacan.iris.models.EquipmentSupplierModel;
-import gov.dost.bulacan.iris.models.RaidModel;
-import gov.dost.bulacan.iris.models.SystemFileModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.equipment.supplier.SupplierHome;
-import gov.dost.bulacan.iris.ui.raid.RaidDownload;
-import gov.dost.bulacan.iris.ui.raid.RaidUpload;
 import gov.dost.bulacan.iris.ui.shared.ViewSystemFiles;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -55,7 +51,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
-import org.afterschoolcreatives.polaris.java.util.StringTools;
 
 /**
  *

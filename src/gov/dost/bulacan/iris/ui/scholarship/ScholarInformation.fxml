@@ -44,6 +44,11 @@
                         <Font name="System Bold" size="22.0" />
                      </font>
                   </Label>
+                  <Label fx:id="lbl_modify_time" text="Last Updated 02/02/2018 by melvin">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -276,7 +281,7 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txt_address" prefHeight="25.0" prefWidth="265.0" promptText="E-Mail" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="txt_address" prefHeight="25.0" prefWidth="265.0" promptText="Address" HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
@@ -289,7 +294,7 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txt_city" prefHeight="25.0" prefWidth="265.0" promptText="E-Mail" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="txt_city" prefHeight="25.0" prefWidth="265.0" promptText="City / Municipality" HBox.hgrow="ALWAYS" />
                               <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Province">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
@@ -298,7 +303,7 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="txt_province" prefHeight="25.0" prefWidth="265.0" promptText="E-Mail" />
+                              <TextField fx:id="txt_province" prefHeight="25.0" prefWidth="265.0" promptText="Province" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />

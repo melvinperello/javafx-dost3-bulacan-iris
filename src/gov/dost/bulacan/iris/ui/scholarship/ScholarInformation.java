@@ -67,6 +67,9 @@ public class ScholarInformation extends IrisForm {
     private Label lbl_modify_header;
 
     @FXML
+    private Label lbl_modify_time;
+
+    @FXML
     private Label lbl_scholar_id;
 
     @FXML
@@ -229,6 +232,9 @@ public class ScholarInformation extends IrisForm {
             this.showTransmitInfo(model);
 
         });
+
+        this.lbl_modify_time.setVisible(true);
+        lbl_modify_time.setText(this.scholarModel.auditDetailedToString());
 
         this.preloadData();
         //
