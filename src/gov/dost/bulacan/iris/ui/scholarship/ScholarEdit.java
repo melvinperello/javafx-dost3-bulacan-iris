@@ -111,6 +111,15 @@ public class ScholarEdit extends IrisForm {
     @FXML
     private TextField txt_email;
 
+    @FXML
+    private TextField txt_address;
+
+    @FXML
+    private TextField txt_city;
+
+    @FXML
+    private TextField txt_province;
+
     public ScholarEdit(ScholarInformationModel model) {
         this.scholarModel = model;
         this.addingMode = (model == null);
@@ -215,6 +224,11 @@ public class ScholarEdit extends IrisForm {
         this.txt_mobile_no.setText(this.scholarModel.getMobileNo());
         this.txt_tel_no.setText(this.scholarModel.getTelNo());
         this.txt_email.setText(this.scholarModel.getMail());
+        //
+
+        this.txt_address.setText(this.scholarModel.getStudentAddress());
+        this.txt_city.setText(this.scholarModel.getStudentCityMunicipality());
+        this.txt_province.setText(this.scholarModel.getStudentProvince());
     }
 
     //--------------------------------------------------------------------------
@@ -235,6 +249,9 @@ public class ScholarEdit extends IrisForm {
     private String frmMobileNo;
     private String frmTelNo;
     private String frmEmail;
+    private String frmAddress;
+    private String frmCity;
+    private String frmProvince;
 
     private void submit() {
         this.frmStudentNumber = Context.filterInputControl(txt_student_number);
@@ -254,6 +271,10 @@ public class ScholarEdit extends IrisForm {
         this.frmMobileNo = Context.filterInputControl(txt_mobile_no);
         this.frmTelNo = Context.filterInputControl(txt_tel_no);
         this.frmEmail = Context.filterInputControl(txt_email);
+        //
+        this.frmAddress = Context.filterInputControl(txt_address);
+        this.frmCity = Context.filterInputControl(txt_city);
+        this.frmProvince = Context.filterInputControl(txt_province);
     }
 
     /**
@@ -296,6 +317,9 @@ public class ScholarEdit extends IrisForm {
         model.setMobileNo(frmMobileNo);
         model.setTelNo(frmTelNo);
         model.setMail(frmEmail);
+        model.setStudentAddress(frmAddress);
+        model.setStudentCityMunicipality(frmCity);
+        model.setStudentProvince(frmProvince);
 
         boolean inserted = false;
         try {
@@ -351,6 +375,9 @@ public class ScholarEdit extends IrisForm {
         model.setMobileNo(frmMobileNo);
         model.setTelNo(frmTelNo);
         model.setMail(frmEmail);
+        model.setStudentAddress(frmAddress);
+        model.setStudentCityMunicipality(frmCity);
+        model.setStudentProvince(frmProvince);
 
         boolean updated = false;
         try {

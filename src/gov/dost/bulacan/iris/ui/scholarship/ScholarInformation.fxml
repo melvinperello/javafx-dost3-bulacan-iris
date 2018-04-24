@@ -171,13 +171,13 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lbl_scholarship" text="SCHP:ARSHIP" />
-                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="Type">
+                              <Label fx:id="lbl_scholarship" minWidth="110.0" text="SCHP:ARSHIP" />
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Type">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                                  <padding>
-                                    <Insets left="20.0" />
+                                    <Insets left="10.0" />
                                  </padding>
                               </Label>
                               <Label fx:id="lbl_scholar_type" text="TYPE" />
@@ -186,40 +186,32 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </HBox>
-                        <HBox prefWidth="630.0">
+                        <HBox alignment="CENTER_LEFT" prefWidth="630.0">
                            <children>
-                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Course">
+                              <Label minWidth="150.0" text="Course">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txt_course" prefHeight="25.0" prefWidth="265.0" promptText="Course" HBox.hgrow="ALWAYS" />
-                           </children>
-                           <padding>
-                              <Insets bottom="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox prefWidth="630.0">
-                           <children>
-                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Year">
+                              <TextField fx:id="txt_course" minWidth="100.0" promptText="Course" HBox.hgrow="ALWAYS" />
+                              <Label minWidth="50.0" text="Year">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
                               </Label>
-                              <Label fx:id="lbl_year" text="YEAR" />
-                           </children>
-                           <padding>
-                              <Insets bottom="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox prefWidth="630.0">
-                           <children>
-                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Section">
+                              <Label fx:id="lbl_year" minWidth="80.0" text="YEAR" />
+                              <Label minWidth="100.0" text="Section">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
                               </Label>
-                              <TextField fx:id="txt_section" prefHeight="25.0" prefWidth="265.0" promptText="Section" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="txt_section" minWidth="100.0" promptText="Section" HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
@@ -272,6 +264,41 @@
                                  </font>
                               </Label>
                               <TextField fx:id="txt_email" prefHeight="25.0" prefWidth="265.0" promptText="E-Mail" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox prefWidth="630.0">
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Address">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txt_address" prefHeight="25.0" prefWidth="265.0" promptText="E-Mail" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox prefWidth="630.0">
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="City/Municipality">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txt_city" prefHeight="25.0" prefWidth="265.0" promptText="E-Mail" HBox.hgrow="ALWAYS" />
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Province">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="txt_province" prefHeight="25.0" prefWidth="265.0" promptText="E-Mail" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />

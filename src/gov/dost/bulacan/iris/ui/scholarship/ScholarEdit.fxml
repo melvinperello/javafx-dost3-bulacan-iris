@@ -220,17 +220,13 @@
                            </font>
                         </Label>
                         <ComboBox fx:id="cmb_year" prefWidth="150.0" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox prefWidth="630.0">
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Section">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="Section">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
                         </Label>
                         <TextField fx:id="txt_section" prefHeight="25.0" prefWidth="265.0" promptText="Section" HBox.hgrow="ALWAYS" />
                      </children>
@@ -259,20 +255,21 @@
                            </font>
                         </Label>
                         <TextField fx:id="txt_mobile_no" prefHeight="25.0" prefWidth="265.0" promptText="Mobile No." HBox.hgrow="ALWAYS" />
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Telephone No.">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="txt_tel_no" prefHeight="25.0" prefWidth="265.0" promptText="Telephone No." HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
                   </HBox>
                   <HBox prefWidth="630.0">
-                     <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Telephone No.">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txt_tel_no" prefHeight="25.0" prefWidth="265.0" promptText="Telephone No." HBox.hgrow="ALWAYS" />
-                     </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
@@ -285,6 +282,41 @@
                            </font>
                         </Label>
                         <TextField fx:id="txt_email" prefHeight="25.0" prefWidth="265.0" promptText="E-Mail" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefWidth="630.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="Address">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txt_address" prefHeight="25.0" prefWidth="265.0" promptText="Address" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefWidth="630.0">
+                     <children>
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" text="City/Municipality">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txt_city" prefHeight="25.0" prefWidth="265.0" promptText="City / Municipality" HBox.hgrow="ALWAYS" />
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" text="Province">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="txt_province" prefHeight="25.0" prefWidth="265.0" promptText="Province" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />

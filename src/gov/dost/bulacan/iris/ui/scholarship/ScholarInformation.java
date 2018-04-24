@@ -30,11 +30,9 @@ package gov.dost.bulacan.iris.ui.scholarship;
 
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.IrisForm;
-import gov.dost.bulacan.iris.models.ProjectContactModel;
 import gov.dost.bulacan.iris.models.ScholarInformationModel;
 import gov.dost.bulacan.iris.models.ScholarSubmissionModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
-import gov.dost.bulacan.iris.ui.project.contact.ProjectContactEdit;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -130,6 +128,15 @@ public class ScholarInformation extends IrisForm {
 
     @FXML
     private TableView<ScholarSubmissionModel> tbl_documents;
+
+    @FXML
+    private TextField txt_address;
+
+    @FXML
+    private TextField txt_city;
+
+    @FXML
+    private TextField txt_province;
 
     public ScholarInformation(ScholarInformationModel scholarModel) {
         this.setDialogMessageTitle("Scholarship Documents");
@@ -253,6 +260,10 @@ public class ScholarInformation extends IrisForm {
         this.txt_mobile_no.setText(this.scholarModel.getMobileNo());
         this.txt_tel_no.setText(this.scholarModel.getTelNo());
         this.txt_email.setText(this.scholarModel.getMail());
+        //
+        this.txt_address.setText(this.scholarModel.getStudentAddress());
+        this.txt_city.setText(this.scholarModel.getStudentCityMunicipality());
+        this.txt_province.setText(this.scholarModel.getStudentProvince());
 
         //
         this.txt_student_number.setEditable(false);
@@ -266,6 +277,10 @@ public class ScholarInformation extends IrisForm {
         this.txt_mobile_no.setEditable(false);
         this.txt_tel_no.setEditable(false);
         this.txt_email.setEditable(false);
+
+        this.txt_address.setEditable(false);
+        this.txt_city.setEditable(false);
+        this.txt_province.setEditable(false);
     }
 
     private void showDocumentForm(ScholarSubmissionModel submitModel) {

@@ -87,6 +87,9 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     public final static String MOBILE_NO = "mobile_no";
     public final static String TEL_NO = "tel_no";
     public final static String E_MAIL = "e_mail";
+    public final static String STUDENT_ADDRESS = "student_address";
+    public final static String STUDENT_CITY_MUNICIPALITY = "student_city_municipality";
+    public final static String STUDENT_PROVINCE = "student_province";
 
     //==========================================================================
     // 02. Model Fields
@@ -140,6 +143,15 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     @Column(E_MAIL)
     private String mail;
 
+    @Column(STUDENT_ADDRESS)
+    private String studentAddress;
+
+    @Column(STUDENT_CITY_MUNICIPALITY)
+    private String studentCityMunicipality;
+
+    @Column(STUDENT_PROVINCE)
+    private String studentProvince;
+
     //==========================================================================
     // 03. Constructor (Initialize Default Values)
     //==========================================================================
@@ -157,6 +169,9 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         this.mobileNo = "";
         this.telNo = "";
         this.mail = "";
+        this.studentAddress = "";
+        this.studentCityMunicipality = "";
+        this.studentProvince = "";
     }
 
     //==========================================================================
@@ -414,6 +429,18 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
         return mail;
     }
 
+    public String getStudentAddress() {
+        return studentAddress;
+    }
+
+    public String getStudentCityMunicipality() {
+        return studentCityMunicipality;
+    }
+
+    public String getStudentProvince() {
+        return studentProvince;
+    }
+
     //==========================================================================
     // 05-B. Setters
     //==========================================================================
@@ -479,6 +506,18 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public void setStudentAddress(String studentAddress) {
+        this.studentAddress = studentAddress;
+    }
+
+    public void setStudentCityMunicipality(String studentCityMunicipality) {
+        this.studentCityMunicipality = studentCityMunicipality;
+    }
+
+    public void setStudentProvince(String studentProvince) {
+        this.studentProvince = studentProvince;
     }
 
     //==========================================================================
