@@ -36,37 +36,42 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <Label text="Search Transmittal">
+                  <Label text="Transmittal Documents">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font></Label>
                   <TextField fx:id="txt_search" prefHeight="25.0" prefWidth="347.0" promptText="Search Something . . ." />
-                  <JFXButton fx:id="btn_view" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="View">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../../storage/drawable/view_64.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <JFXButton fx:id="btn_transmit" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Check">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../../storage/drawable/check_list_64.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
                </children>
             </HBox>
+            <Label fx:id="lbl_entry_count" text="112 Entries in this Transmittal">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="btn_record" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Record">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../storage/drawable/record_64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btn_export" graphicTextGap="10.0" prefWidth="120.0" style="-fx-border-style: dashed;" text="Export">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../storage/drawable/excel_64.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
          </children>
          <padding>
             <Insets left="10.0" />
@@ -74,7 +79,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <TableView fx:id="tbl_transmit" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <TableView fx:id="tbl_transmittal" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
               <columns>
                 <TableColumn prefWidth="75.0" text="Year" />
                   <TableColumn prefWidth="100.0" text="Type" />

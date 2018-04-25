@@ -31,8 +31,13 @@ package gov.dost.bulacan.iris.ui.scholarship.transmit;
 import com.jfoenix.controls.JFXButton;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ScholarInformationModel;
+import gov.dost.bulacan.iris.models.ScholarSubmissionModel;
+import gov.dost.bulacan.iris.models.ScholarTransmittalModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.scholarship.ScholarshipHome;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -104,6 +109,19 @@ public class TransmittalHome extends IrisForm {
          */
         this.btn_transmit.setOnMouseClicked(value -> {
 
+            try {
+                List<ScholarSubmissionModel> list = ScholarSubmissionModel.listAllUnsubmittedWithScholar();
+                if (list.isEmpty()) {
+                    this.showWarningMessage(null, "There are no transmittals.");
+                    return;
+                }
+                //--------------------------------------------------------------
+                TransmitCandidate cFx = new TransmitCandidate(list, true);
+                this.changeRoot(cFx.load());
+            } catch (SQLException e) {
+                this.showExceptionMessage(e, null, "Failed to check transmittal records.");
+            }
+
             value.consume();
         });
 
@@ -121,7 +139,7 @@ public class TransmittalHome extends IrisForm {
 
         TableColumn<TransmitData, String> entryCol = new TableColumn<>("No. of Entries");
         entryCol.setPrefWidth(300.0);
-        entryCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getCareOf()));
+        entryCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getNumberOfDocuments()));
 
         this.tbl_transmit.getColumns().setAll(dateCol, nameCol, entryCol);
 
@@ -161,6 +179,21 @@ public class TransmittalHome extends IrisForm {
 
         // 5. Add sorted (and filtered) data to the table.
         this.tbl_transmit.setItems(sortedData);
+    }
+
+    /**
+     * Populate table with contents. for refresh also of date.
+     */
+    public void populateTable() {
+//        this.tableData.clear();
+//        //----------------------------------------------------------------------
+//        List<ScholarTransmittalModel> inquiries = new ArrayList<>();
+//        try {
+//            inquiries = ScholarTransmittalModel.listAllActive();
+//        } catch (SQLException ex) {
+//            this.showExceptionMessage(ex, null, "Failed to load data.");
+//        }
+//        this.tableData.addAll(inquiries);
     }
 
     public final static class TransmitData {

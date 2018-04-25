@@ -32,6 +32,7 @@ import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
@@ -106,6 +107,16 @@ public class ScholarSubmissionModel extends PolarisRecord implements TableAudito
 
     }
 
+    private ScholarInformationModel scholarInformationModel;
+
+    public ScholarInformationModel getScholarInformationModel() {
+        return scholarInformationModel;
+    }
+
+    public void setScholarInformationModel(ScholarInformationModel scholarInformationModel) {
+        this.scholarInformationModel = scholarInformationModel;
+    }
+
     //==========================================================================
     // 04-A. Static Inner Classes
     //==========================================================================
@@ -127,6 +138,92 @@ public class ScholarSubmissionModel extends PolarisRecord implements TableAudito
         // Execute Query
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new ScholarSubmissionModel().findMany(con, querySample);
+        }
+    }
+
+    public static <T> List<T> listAllUnsubmittedWithScholar() throws SQLException {
+        // Build Query
+        SimpleQuery querySample = new SimpleQuery();
+        querySample.addStatement("SELECT")
+                .addStatement("*")
+                .addStatement("FROM")
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL")
+                .addStatement("AND")
+                .addStatement(FK_TRANSMITTAL_ID + " IS NULL");
+
+        // container
+        List<T> submissionModelList = null;
+        // Execute Query
+        try (ConnectionManager con = Context.app().db().createConnectionManager()) {
+            // load first query
+            submissionModelList = new ScholarSubmissionModel().findMany(con, querySample);
+            //------------------------------------------------------------------
+            // If empty //
+            if (submissionModelList.isEmpty()) {
+                return submissionModelList;
+            }
+            //------------------------------------------------------------------
+            // Where In Query to get the Full Scholar Model
+            SimpleQuery whereInQuery = new SimpleQuery();
+            whereInQuery.addStatement("SELECT")
+                    .addStatement("*")
+                    .addStatement("FROM")
+                    .addStatement(ScholarInformationModel.TABLE)
+                    .addStatement("WHERE")
+                    .addStatement(ScholarInformationModel.SCHOLAR_ID)
+                    .addStatement("IN (");
+            // Query Preamble End.
+            //------------------------------------------------------------------
+            // Iterate to the equipment to get IN parmeters of SUPPLIER CODE of EQUIPMENT QOUTATUION
+            for (int ctr = 0; ctr < submissionModelList.size(); ctr++) {
+                ScholarSubmissionModel model = (ScholarSubmissionModel) submissionModelList.get(ctr);
+                String code = model.getFkScholarId();
+                whereInQuery.addStatementWithParameter("?", code);
+
+                // attach comma if not last
+                if (ctr < (submissionModelList.size() - 1)) {
+                    whereInQuery.addStatement(",");
+                }
+
+            }
+            whereInQuery.addStatement(")"); // Close Query Preamble
+            //------------------------------------------------------------------
+            List<ScholarInformationModel> scholarInformationList = new ScholarInformationModel().findMany(con, whereInQuery);
+            //------------------------------------------------------------------
+            if (scholarInformationList.isEmpty()) {
+                return submissionModelList;
+            }
+            //------------------------------------------------------------------
+            // Compare SUPPLIER CODE to attach Model to EQUIP QOUTATION MODEL.
+            Iterator<T> scholarSubmitIterator = submissionModelList.iterator();
+
+//            for (T equip : submissionModelList) {
+            while (scholarSubmitIterator.hasNext()) {
+                // type case
+                ScholarSubmissionModel equipModel = (ScholarSubmissionModel) scholarSubmitIterator.next();
+                // if no assigned supplier code skip this.
+                if (equipModel.getFkScholarId() == null) {
+                    continue;
+                }
+                //--------------------------------------------------------------
+                for (ScholarInformationModel scholar : scholarInformationList) {
+                    if (equipModel.getFkScholarId().equalsIgnoreCase(scholar.getScholarId())) {
+                        //------------------------------------------------------
+                        if (scholar.getDeletedAt() != null) {
+                            scholarSubmitIterator.remove();
+                            break;
+                        }
+                        //------------------------------------------------------
+                        equipModel.setScholarInformationModel(scholar);
+                        break;
+                    }
+                }
+            }
+
+            return submissionModelList;
         }
     }
 
