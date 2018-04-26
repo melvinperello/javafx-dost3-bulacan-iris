@@ -36,6 +36,7 @@ import gov.dost.bulacan.iris.models.ScholarTransmittalModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import gov.dost.bulacan.iris.ui.scholarship.ScholarshipHome;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
@@ -72,7 +73,7 @@ public class TransmittalHome extends IrisForm {
     private JFXButton btn_transmit;
 
     @FXML
-    private TableView<TransmitData> tbl_transmit;
+    private TableView<ScholarTransmittalModel> tbl_transmit;
 
     public TransmittalHome() {
         this.setDialogMessageTitle("Transmittal");
@@ -82,7 +83,7 @@ public class TransmittalHome extends IrisForm {
     /**
      * Contains the data of the table.
      */
-    private final ObservableList<TransmitData> tableData;
+    private final ObservableList<ScholarTransmittalModel> tableData;
 
     @Override
     protected void setup() {
@@ -100,7 +101,24 @@ public class TransmittalHome extends IrisForm {
          * View transmitted documents.
          */
         this.btn_view.setOnMouseClicked(value -> {
-
+            ScholarTransmittalModel model = this.tbl_transmit.getSelectionModel().getSelectedItem();
+            if (model == null) {
+                this.showWarningMessage(null, "Please select a transmittal to view.");
+                return;
+            }
+            //------------------------------------------------------------------
+            try {
+                List<ScholarSubmissionModel> list = ScholarSubmissionModel.listAllDocumentFrom(model);
+                if (list.isEmpty()) {
+                    this.showWarningMessage(null, "There are no transmittals.");
+                    return;
+                }
+                //--------------------------------------------------------------
+                TransmitCandidate cFx = new TransmitCandidate(list, false);
+                this.changeRoot(cFx.load());
+            } catch (SQLException e) {
+                this.showExceptionMessage(e, null, "Failed to check transmittal records.");
+            }
             value.consume();
         });
 
@@ -126,32 +144,38 @@ public class TransmittalHome extends IrisForm {
         });
 
         this.createTable();
+        this.populateTable();
     }
 
     private void createTable() {
-        TableColumn<TransmitData, String> dateCol = new TableColumn<>("Date");
+
+        TableColumn<ScholarTransmittalModel, String> transId = new TableColumn<>("ID");
+        transId.setPrefWidth(200.0);
+        transId.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getTransId()));
+
+        TableColumn<ScholarTransmittalModel, String> dateCol = new TableColumn<>("Date");
         dateCol.setPrefWidth(200.0);
-        dateCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getDate()));
+        dateCol.setCellValueFactory(value -> {
+            String dateString = new SimpleDateFormat("MMMMMMMMMMMMMM dd, yyyy - hh:mm:ss a")
+                    .format(value.getValue().getTransDate());
+            return new SimpleStringProperty(dateString);
+        });
 
-        TableColumn<TransmitData, String> nameCol = new TableColumn<>("Name");
+        TableColumn<ScholarTransmittalModel, String> nameCol = new TableColumn<>("Name");
         nameCol.setPrefWidth(600.0);
-        nameCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getCareOf()));
+        nameCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getTransBy()));
 
-        TableColumn<TransmitData, String> entryCol = new TableColumn<>("No. of Entries");
-        entryCol.setPrefWidth(300.0);
-        entryCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getNumberOfDocuments()));
-
-        this.tbl_transmit.getColumns().setAll(dateCol, nameCol, entryCol);
+        this.tbl_transmit.getColumns().setAll(transId, dateCol, nameCol);
 
         //----------------------------------------------------------------------
         // Add Search Predicate
         //----------------------------------------------------------------------
         // 01. wrap the observeable list inside the filter list.
-        FilteredList<TransmitData> filteredResult = new FilteredList<>(this.tableData, predicate -> true);
+        FilteredList<ScholarTransmittalModel> filteredResult = new FilteredList<>(this.tableData, predicate -> true);
 
         // 02. bind the filter to a text source and add filters
         this.txt_search.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            filteredResult.setPredicate((TransmitData model) -> {
+            filteredResult.setPredicate((ScholarTransmittalModel model) -> {
 
                 // If filter text is empty, display all persons.
                 if (newValue == null || newValue.isEmpty()) {
@@ -163,7 +187,7 @@ public class TransmittalHome extends IrisForm {
                 /**
                  * Allow search of cooperator's name.
                  */
-                if (model.getDate().toLowerCase().contains(newValue)) {
+                if (model.getTransBy().toLowerCase().contains(newValue)) {
                     return true;
                 }
 
@@ -172,7 +196,7 @@ public class TransmittalHome extends IrisForm {
         });
 
         // 3. Wrap the FilteredList in a SortedList. 
-        SortedList<TransmitData> sortedData = new SortedList<>(filteredResult);
+        SortedList<ScholarTransmittalModel> sortedData = new SortedList<>(filteredResult);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         sortedData.comparatorProperty().bind(this.tbl_transmit.comparatorProperty());
@@ -185,35 +209,48 @@ public class TransmittalHome extends IrisForm {
      * Populate table with contents. for refresh also of date.
      */
     public void populateTable() {
-//        this.tableData.clear();
-//        //----------------------------------------------------------------------
-//        List<ScholarTransmittalModel> inquiries = new ArrayList<>();
-//        try {
-//            inquiries = ScholarTransmittalModel.listAllActive();
-//        } catch (SQLException ex) {
-//            this.showExceptionMessage(ex, null, "Failed to load data.");
+        this.tableData.clear();
+        //----------------------------------------------------------------------
+        List<ScholarTransmittalModel> inquiries = new ArrayList<>();
+        try {
+            inquiries = ScholarTransmittalModel.listAllActive();
+
+        } catch (SQLException ex) {
+            this.showExceptionMessage(ex, null, "Failed to load data.");
+        }
+        this.tableData.addAll(inquiries);
+
+    }
+
+//    public final static class TransmitData {
+//
+//        private String date;
+//        private String careOf;
+//        private String numberOfDocuments;
+//
+//        public String getDate() {
+//            return date;
 //        }
-//        this.tableData.addAll(inquiries);
-    }
-
-    public final static class TransmitData {
-
-        private String date;
-        private String careOf;
-        private String numberOfDocuments;
-
-        public String getDate() {
-            return date;
-        }
-
-        public String getCareOf() {
-            return careOf;
-        }
-
-        public String getNumberOfDocuments() {
-            return numberOfDocuments;
-        }
-
-    }
-
+//
+//        public String getCareOf() {
+//            return careOf;
+//        }
+//
+//        public String getNumberOfDocuments() {
+//            return numberOfDocuments;
+//        }
+//
+//        public void setDate(String date) {
+//            this.date = date;
+//        }
+//
+//        public void setCareOf(String careOf) {
+//            this.careOf = careOf;
+//        }
+//
+//        public void setNumberOfDocuments(String numberOfDocuments) {
+//            this.numberOfDocuments = numberOfDocuments;
+//        }
+//
+//    }
 }

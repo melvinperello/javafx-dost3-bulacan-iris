@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
+import org.afterschoolcreatives.polaris.java.sql.builder.QueryBuilder;
 import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
 import org.afterschoolcreatives.polaris.java.sql.orm.PolarisRecord;
 import org.afterschoolcreatives.polaris.java.sql.orm.annotations.Column;
@@ -154,6 +155,34 @@ public class ScholarSubmissionModel extends PolarisRecord implements TableAudito
                 .addStatement("AND")
                 .addStatement(FK_TRANSMITTAL_ID + " IS NULL");
 
+        return listAll(querySample, true);
+    }
+
+    public static <T> List<T> listAllDocumentFrom(ScholarTransmittalModel model) throws SQLException {
+        SimpleQuery querySample = new SimpleQuery();
+        querySample.addStatement("SELECT")
+                .addStatement("*")
+                .addStatement("FROM")
+                .addStatement(TABLE)
+                .addStatement("WHERE")
+                .addStatement(DELETED_AT)
+                .addStatement("IS NULL")
+                .addStatement("AND")
+                .addStatementWithParameter(FK_TRANSMITTAL_ID + " = ?", model.getTransId());
+
+        return listAll(querySample, false);
+    }
+
+    /**
+     * MASTER LIST ALL METHOD.
+     *
+     * @param <T>
+     * @param querySample
+     * @return
+     * @throws SQLException
+     */
+    private static <T> List<T> listAll(QueryBuilder querySample, boolean hideDeletedScholar) throws SQLException {
+
         // container
         List<T> submissionModelList = null;
         // Execute Query
@@ -212,9 +241,14 @@ public class ScholarSubmissionModel extends PolarisRecord implements TableAudito
                 for (ScholarInformationModel scholar : scholarInformationList) {
                     if (equipModel.getFkScholarId().equalsIgnoreCase(scholar.getScholarId())) {
                         //------------------------------------------------------
-                        if (scholar.getDeletedAt() != null) {
-                            scholarSubmitIterator.remove();
-                            break;
+                        /**
+                         * Hide Transmittal records of Deleted Scholar.
+                         */
+                        if (hideDeletedScholar) {
+                            if (scholar.getDeletedAt() != null) {
+                                scholarSubmitIterator.remove();
+                                break;
+                            }
                         }
                         //------------------------------------------------------
                         equipModel.setScholarInformationModel(scholar);

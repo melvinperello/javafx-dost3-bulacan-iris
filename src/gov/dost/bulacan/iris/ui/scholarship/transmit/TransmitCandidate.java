@@ -50,6 +50,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -140,7 +141,8 @@ public class TransmitCandidate extends IrisForm {
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
         //
-
+        this.tbl_transmittal.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        
         this.createTable();
         this.populateTable();
         //
