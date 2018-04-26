@@ -29,9 +29,11 @@
 package gov.dost.bulacan.iris.ui.scholarship.transmit;
 
 import com.jfoenix.controls.JFXButton;
+import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.IrisForm;
 import gov.dost.bulacan.iris.models.ScholarInformationModel;
 import gov.dost.bulacan.iris.models.ScholarSubmissionModel;
+import gov.dost.bulacan.iris.models.ScholarTransmittalModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -50,35 +53,39 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 
 /**
  *
  * @author DOST-3
  */
 public class TransmitCandidate extends IrisForm {
-
+    
     @FXML
     private HBox hbox_header;
-
+    
     @FXML
     private JFXButton btn_record;
-
+    
     @FXML
     private JFXButton btn_export;
     @FXML
     private JFXButton btn_back_to_home;
-
+    
     @FXML
     private TextField txt_search;
-
+    
     @FXML
     private Label lbl_entry_count;
-
+    
     @FXML
     private TableView<ReportData> tbl_transmittal;
-
+    
     public TransmitCandidate(List<ScholarSubmissionModel> list, boolean allowTransmit) {
+        this.setDialogMessageTitle("Transmittal");
+        
         this.list = list;
         this.allowTransmit = allowTransmit;
         this.tableContents = new ArrayList<>();
@@ -116,7 +123,7 @@ public class TransmitCandidate extends IrisForm {
              */
             this.tableContents.add(data);
         }
-
+        
         this.tableData = FXCollections.observableArrayList();
     }
 
@@ -124,11 +131,11 @@ public class TransmitCandidate extends IrisForm {
      * Contains the data of the table.
      */
     private final ObservableList<ReportData> tableData;
-
+    
     private final List<ScholarSubmissionModel> list;
     private final boolean allowTransmit;
     private final List<ReportData> tableContents;
-
+    
     @Override
     protected void setup() {
         ProjectHeader.attach(this.hbox_header);
@@ -149,11 +156,67 @@ public class TransmitCandidate extends IrisForm {
          * Display number of entries.
          */
         this.lbl_entry_count.setText(String.valueOf(list.size()) + " entries not transmitted");
-
+        
         this.btn_back_to_home.setOnMouseClicked(value -> {
             this.changeRoot(new TransmittalHome().load());
             value.consume();
         });
+        
+        this.btn_record.setOnMouseClicked((event) -> {
+            this.record();
+            event.consume();
+        });
+    }
+
+    /**
+     * marks the un transmitted documents as transmitted.
+     */
+    private void record() {
+        //----------------------------------------------------------------------
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.initOwner(this.getStage());
+        dialog.initModality(Modality.WINDOW_MODAL);
+        
+        dialog.getDialogPane().setPrefWidth(500.0);
+        
+        dialog.setTitle("Transmit Documents");
+        dialog.setHeaderText("Enter the name ");
+        dialog.setContentText("New Name");
+        
+        Optional<String> result = dialog.showAndWait();
+        
+        if (!result.isPresent()) {
+            // no value
+            return;
+        }
+        if (result.get().isEmpty()) {
+            this.showWaitWarningMessage(null, "Name is required !");
+            return;
+        }
+
+        //----------------------------------------------------------------------
+        List<ScholarSubmissionModel> listModel = this.list;
+        ScholarTransmittalModel model = new ScholarTransmittalModel();
+        model.setTransId(Context.createLocalKey());
+        model.setTransBy(result.get());
+        try {
+            model.setTransDate(Context.app().getServerDate());
+            boolean success = ScholarTransmittalModel.transmitSubmittedDocuments(model, listModel);
+            if (success) {
+                //
+                this.showWaitInformationMessage(null, "Documents successfully transmitted.");
+
+                //--------------------------------------------------------------
+                // BACK TO TRANSMITTALS
+                this.changeRoot(new TransmittalHome().load());
+                //--------------------------------------------------------------
+            } else {
+                //
+                this.showWaitWarningMessage(null, "Failed to create trasmittal.");
+            }
+        } catch (SQLException e) {
+            this.showExceptionMessage(e, "Transmit Failed", "An error occured while recording transmittals.");
+        }
     }
 
     /**
@@ -163,40 +226,40 @@ public class TransmitCandidate extends IrisForm {
         this.tableData.clear();
         this.tableData.addAll(this.tableContents);
     }
-
+    
     private void createTable() {
         TableColumn<ReportData, String> noCol = new TableColumn<>("No.");
         noCol.setPrefWidth(50.0);
         noCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getNo()));
-
+        
         TableColumn<ReportData, String> dateCol = new TableColumn<>("Date");
         dateCol.setPrefWidth(150.0);
         dateCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getDateReceived()));
-
+        
         TableColumn<ReportData, String> nameCol = new TableColumn<>("Full Name");
         nameCol.setPrefWidth(250.0);
         nameCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getFullName()));
-
+        
         TableColumn<ReportData, String> mobileCol = new TableColumn<>("Mobile");
         mobileCol.setPrefWidth(150.0);
         mobileCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getMobile()));
-
+        
         TableColumn<ReportData, String> mailCol = new TableColumn<>("E-Mail");
         mailCol.setPrefWidth(150.0);
         mailCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getEmail()));
-
+        
         TableColumn<ReportData, String> telCol = new TableColumn<>("Tel.");
         telCol.setPrefWidth(150.0);
         telCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getTel()));
-
+        
         TableColumn<ReportData, String> docCol = new TableColumn<>("Documents");
         docCol.setPrefWidth(200.0);
         docCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getDocsSubmitted()));
-
+        
         TableColumn<ReportData, String> remarkCol = new TableColumn<>("Remarks");
         remarkCol.setPrefWidth(200.0);
         remarkCol.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getRemarks()));
-
+        
         this.tbl_transmittal.getColumns().setAll(noCol, dateCol, nameCol, mobileCol, mailCol, telCol, docCol, remarkCol);
 
         //----------------------------------------------------------------------
@@ -213,7 +276,7 @@ public class TransmitCandidate extends IrisForm {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-
+                
                 String filterString = newValue.toLowerCase();
 
                 /**
@@ -222,7 +285,7 @@ public class TransmitCandidate extends IrisForm {
                 if (model.getFullName().toLowerCase().contains(newValue)) {
                     return true;
                 }
-
+                
                 return false; // no match.
             });
         });
@@ -236,9 +299,9 @@ public class TransmitCandidate extends IrisForm {
         // 5. Add sorted (and filtered) data to the table.
         this.tbl_transmittal.setItems(sortedData);
     }
-
+    
     public final static class ReportData {
-
+        
         private String no;
         private String dateReceived;
         private String fullName;
@@ -247,7 +310,7 @@ public class TransmitCandidate extends IrisForm {
         private String tel;
         private String docsSubmitted;
         private String remarks;
-
+        
         public ReportData() {
             this.no = "";
             this.dateReceived = "";
@@ -258,35 +321,35 @@ public class TransmitCandidate extends IrisForm {
             this.docsSubmitted = "";
             this.remarks = "";
         }
-
+        
         public String getNo() {
             return no;
         }
-
+        
         public String getDateReceived() {
             return dateReceived;
         }
-
+        
         public String getFullName() {
             return fullName;
         }
-
+        
         public String getMobile() {
             return mobile;
         }
-
+        
         public String getEmail() {
             return email;
         }
-
+        
         public String getTel() {
             return tel;
         }
-
+        
         public String getDocsSubmitted() {
             return docsSubmitted;
         }
-
+        
         public String getRemarks() {
             return remarks;
         }
@@ -295,35 +358,35 @@ public class TransmitCandidate extends IrisForm {
         public void setNo(String no) {
             this.no = no;
         }
-
+        
         public void setDateReceived(String dateReceived) {
             this.dateReceived = dateReceived;
         }
-
+        
         public void setFullName(String fullName) {
             this.fullName = fullName;
         }
-
+        
         public void setMobile(String mobile) {
             this.mobile = mobile;
         }
-
+        
         public void setEmail(String email) {
             this.email = email;
         }
-
+        
         public void setTel(String tel) {
             this.tel = tel;
         }
-
+        
         public void setDocsSubmitted(String docsSubmitted) {
             this.docsSubmitted = docsSubmitted;
         }
-
+        
         public void setRemarks(String remarks) {
             this.remarks = remarks;
         }
-
+        
     }
-
+    
 }

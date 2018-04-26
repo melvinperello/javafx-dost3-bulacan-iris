@@ -32,6 +32,7 @@ import gov.dost.bulacan.iris.Context;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.afterschoolcreatives.polaris.java.sql.ConnectionManager;
 import org.afterschoolcreatives.polaris.java.sql.builder.SimpleQuery;
@@ -118,6 +119,82 @@ public class ScholarTransmittalModel extends PolarisRecord implements TableAudit
         }
     }
 
+    public static boolean transmitSubmittedDocuments(ScholarTransmittalModel model, List<ScholarSubmissionModel> listModel) throws SQLException {
+        //----------------------------------------------------------------------
+        // Construct WHERE ID IN Pragma.
+        StringBuilder listSubmissionId = new StringBuilder("");
+        // Open
+        listSubmissionId.append("(");
+        Iterator<ScholarSubmissionModel> iterate = listModel.iterator();
+        // CREATE PARAMS
+        for (int ctr = 0; ctr < listModel.size(); ctr++) {
+            // append id
+            listSubmissionId.append("?"); // PARAMTER
+            // last iterate
+            if (ctr < (listModel.size() - 1)) {
+                listSubmissionId.append(",");
+            }
+        }
+
+        // Close
+        listSubmissionId.append(")");
+        //----------------------------------------------------------------------
+        // proceed to update related contacts deleted-at flag.
+        SimpleQuery updateEach = new SimpleQuery();
+        updateEach.addStatement("UPDATE")
+                .addStatement(ScholarSubmissionModel.TABLE)
+                .addStatement("SET")
+                .addStatementWithParameter(ScholarSubmissionModel.FK_TRANSMITTAL_ID + " = ?", model.getTransId())
+                .addStatement("WHERE")
+                .addStatement(ScholarSubmissionModel.SUBMISSION_ID)
+                .addStatement("IN")
+                // IN PRAGMA
+                .addStatement(listSubmissionId.toString());
+
+
+        // INSERT PARAM FOR IN PRAGMA
+        listModel.forEach((scholarSubmissionModel) -> {
+            updateEach.addParameter(scholarSubmissionModel.getSubmissionId());
+        });
+        //----------------------------------------------------------------------
+        ConnectionManager con = null;
+        try {
+            //------------------------------------------------------------------
+            // open connection
+            con = Context.app().db().createConnectionManager();
+            // start transaction
+            con.transactionStart();
+            // insert transmittal
+            if (!ScholarTransmittalModel.insert(model)) {
+                // if not success return false.
+                con.transactionRollBack();
+                return false;
+            }
+            // IF SUCCESS
+            try {
+                con.update(updateEach);
+            } catch (SQLException e) {
+                con.transactionRollBack();
+                return false;
+            }
+
+            con.transactionCommit();
+            return true;
+
+        } finally {
+            if (con != null) {
+                con.close(); // auto roll back
+            }
+        }
+    }
+
+    /**
+     * Use to get transmission information of a submission model.
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     public static ScholarTransmittalModel findById(String id) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             ScholarTransmittalModel filler = new ScholarTransmittalModel();
@@ -129,6 +206,13 @@ public class ScholarTransmittalModel extends PolarisRecord implements TableAudit
         }
     }
 
+    /**
+     * Insert new transmission.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
     public static boolean insert(ScholarTransmittalModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             model.auditCreate();
@@ -136,6 +220,13 @@ public class ScholarTransmittalModel extends PolarisRecord implements TableAudit
         }
     }
 
+    /**
+     * Update Transmittal.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
     public static boolean update(ScholarTransmittalModel model) throws SQLException {
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             model.auditUpdate();
@@ -143,6 +234,13 @@ public class ScholarTransmittalModel extends PolarisRecord implements TableAudit
         }
     }
 
+    /**
+     * Remove this transmittal.
+     *
+     * @param model
+     * @return
+     * @throws SQLException
+     */
     public static boolean remove(ScholarTransmittalModel model) throws SQLException {
         ConnectionManager con = null;
         try {
