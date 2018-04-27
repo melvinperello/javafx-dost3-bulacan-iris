@@ -36,11 +36,10 @@ import gov.dost.bulacan.iris.models.TrainingModel;
 import gov.dost.bulacan.iris.ui.ProjectHeader;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,6 +52,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import static oracle.jrockit.jfr.events.Bits.intValue;
 import org.json.JSONObject;
 
 /**
@@ -197,9 +197,18 @@ public class TrainingDataHome extends IrisForm {
 
     private void createTable() {
         //----------------------------------------------------------------------
-        TableColumn<TrainingDataModel, String> titleNo = new TableColumn<>("Entry");
+        TableColumn<TrainingDataModel, Integer> titleNo = new TableColumn<>("Entry");
         titleNo.setPrefWidth(100.0);
-        titleNo.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getEntryNo()));
+        titleNo.setCellValueFactory(value -> {
+            TrainingDataModel data = (TrainingDataModel) value.getValue();
+            try {
+                int v = Integer.parseInt(data.getEntryNo());
+                ObservableValue<Integer> obsInt = new ReadOnlyObjectWrapper<>(v);
+                return obsInt;
+            } catch (NumberFormatException e) {
+                return new ReadOnlyObjectWrapper<>(0);
+            }
+        });
         //----------------------------------------------------------------------
         TableColumn<TrainingDataModel, String> colName = new TableColumn<>("Name");
         colName.setPrefWidth(200.0);

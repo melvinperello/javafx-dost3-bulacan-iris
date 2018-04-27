@@ -448,15 +448,20 @@ public class TrainingEncode extends IrisForm {
 
     private boolean insert() {
 
-        if (this.txt_entry_no.getText().isEmpty()) {
+        this.submit();
+
+        if (this.frmEntryNo.isEmpty()) {
             this.showWaitWarningMessage(null, "Entry No. is required.");
             return false;
         }
 
-        this.submit();
-
-        if (this.frmRating == null) {
-            // message in submit
+        try {
+            Integer fill = new Integer(frmEntryNo);
+            if (fill.intValue() < 0) {
+                throw new NumberFormatException("Entry No. must be numbers only.");
+            }
+        } catch (NumberFormatException e) {
+            this.showWaitWarningMessage(null, "Entry No. must be numbers only.");
             return false;
         }
 
@@ -484,15 +489,20 @@ public class TrainingEncode extends IrisForm {
 
     private boolean update() {
 
-        if (this.txt_entry_no.getText().isEmpty()) {
+        this.submit();
+
+        if (frmEntryNo.isEmpty()) {
             this.showWaitWarningMessage(null, "Entry No. is required.");
             return false;
         }
 
-        this.submit();
-
-        if (this.frmRating == null) {
-            // message in submit
+        try {
+            Integer fill = new Integer(frmEntryNo);
+            if (fill.intValue() < 0) {
+                throw new NumberFormatException("Entry No. must be numbers only.");
+            }
+        } catch (NumberFormatException e) {
+            this.showWaitWarningMessage(null, "Entry No. must be numbers only.");
             return false;
         }
 

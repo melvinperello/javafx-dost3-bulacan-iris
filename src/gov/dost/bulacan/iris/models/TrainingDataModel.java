@@ -135,10 +135,10 @@ public class TrainingDataModel extends PolarisRecord implements TableAuditor {
                 .addStatement(DELETED_AT)
                 .addStatement("IS NULL")
                 .addStatement("AND")
-                .addStatementWithParameter(TRAINING_CODE + " = ?", parent.getTrainingCode())
-                .addStatement("ORDER BY")
-                .addStatement(ENTRY_NO)
-                .addStatement("DESC");
+                .addStatementWithParameter(TRAINING_CODE + " = ?", parent.getTrainingCode());
+//                .addStatement("ORDER BY")
+//                .addStatement(ENTRY_NO)
+//                .addStatement("DESC");
         // Execute Query
         try (ConnectionManager con = Context.app().db().createConnectionManager()) {
             return new TrainingDataModel().findMany(con, querySample);

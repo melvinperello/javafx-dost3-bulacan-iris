@@ -29,6 +29,7 @@
 package gov.dost.bulacan.iris.models;
 
 import gov.dost.bulacan.iris.Context;
+import gov.dost.bulacan.iris.models.ext.ModelAccess;
 import gov.dost.bulacan.iris.models.ext.TableAuditor;
 import gov.dost.bulacan.iris.models.ext.UnknownModelValueException;
 import java.sql.SQLException;
@@ -370,27 +371,27 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     }
 
     public String getStudentNumber() {
-        return studentNumber;
+        return ModelAccess.textAccess(studentNumber);
     }
 
     public String getLastName() {
-        return lastName;
+        return ModelAccess.textAccess(lastName);
     }
 
     public String getFirstName() {
-        return firstName;
+        return ModelAccess.textAccess(firstName);
     }
 
     public String getMiddleName() {
-        return middleName;
+        return ModelAccess.textAccess(middleName);
     }
 
     public String getExtName() {
-        return extName;
+        return ModelAccess.textAccess(extName);
     }
 
     public String getGender() {
-        return gender;
+        return ModelAccess.textAccess(gender);
     }
 
     public Integer getScholarType() {
@@ -402,7 +403,7 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     }
 
     public String getCourse() {
-        return course;
+        return ModelAccess.textAccess(course);
     }
 
     public Integer getYear() {
@@ -410,35 +411,35 @@ public class ScholarInformationModel extends PolarisRecord implements TableAudit
     }
 
     public String getSection() {
-        return section;
+        return ModelAccess.textAccess(section);
     }
 
     public String getUniversity() {
-        return university;
+        return ModelAccess.textAccess(university);
     }
 
     public String getMobileNo() {
-        return mobileNo;
+        return ModelAccess.textAccess(mobileNo);
     }
 
     public String getTelNo() {
-        return telNo;
+        return ModelAccess.textAccess(telNo);
     }
 
     public String getMail() {
-        return mail;
+        return ModelAccess.textAccess(mail);
     }
 
     public String getStudentAddress() {
-        return studentAddress;
+        return ModelAccess.textAccess(studentAddress);
     }
 
     public String getStudentCityMunicipality() {
-        return studentCityMunicipality;
+        return ModelAccess.textAccess(studentCityMunicipality);
     }
 
     public String getStudentProvince() {
-        return studentProvince;
+        return ModelAccess.textAccess(studentProvince);
     }
 
     //==========================================================================
