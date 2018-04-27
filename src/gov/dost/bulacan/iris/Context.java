@@ -62,8 +62,9 @@ public class Context {
     // Configuration Values
     //==========================================================================
     // Project Constants.
-    public final static int VERSION_CODE = 0;
-    public final static String VERSION_NAME = "1.0.2-prototype-system";
+    public final static int VERSION_CODE = 1;
+    public final static String VERSION_NAME = "1.0.0 [Angie]";
+    public final static String VERSION_BUILD = "build 20180427-01";
     public final static String PREFIX_PROVINCE_CODE = "BUL3000";
     public final static String PREFIX_RAID_CODE = "RAID3000";
     public final static String RAID_DEFAULT_INTERVAL = "480"; //480 mins 8HRS

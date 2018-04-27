@@ -55,28 +55,28 @@ import javafx.scene.layout.HBox;
  * @author Jhon Melvin
  */
 public class TrainingHome extends IrisForm {
-    
+
     @FXML
     private HBox hbox_header;
-    
+
     @FXML
     private JFXButton btn_back_to_home;
-    
+
     @FXML
     private TextField txt_search;
-    
+
     @FXML
     private JFXButton btn_add;
-    
+
     @FXML
     private JFXButton btn_view;
-    
+
     @FXML
     private JFXButton btn_edit;
-    
+
     @FXML
     private JFXButton btn_remove;
-    
+
     @FXML
     private TableView<TrainingModel> tbl_trainings;
 
@@ -92,7 +92,7 @@ public class TrainingHome extends IrisForm {
     // C-02. Declaration of Class Variables
     //==========================================================================
     private final ObservableList<TrainingModel> tableData;
-    
+
     @Override
     protected void setup() {
         //======================================================================
@@ -114,36 +114,36 @@ public class TrainingHome extends IrisForm {
                 this.showWarningMessage(null, "Please select an item to view.");
                 return;
             }
-            
+
             this.changeRoot(new TrainingDataHome(selectedModel).load());
-            
+
             value.consume();
         });
-        
+
         this.btn_add.setOnMouseClicked(value -> {
             this.changeRoot(new TrainingAdd(null).load());
             value.consume();
         });
-        
+
         this.btn_edit.setOnMouseClicked(value -> {
             TrainingModel selectedModel = this.tbl_trainings.getSelectionModel().getSelectedItem();
             if (selectedModel == null) {
                 this.showWarningMessage(null, "Please select an item to edit.");
                 return;
             }
-            
+
             TrainingAdd add = new TrainingAdd(selectedModel);
             this.changeRoot(add.load());
             value.consume();
         });
-        
+
         this.btn_remove.setOnMouseClicked(value -> {
             TrainingModel selectedModel = this.tbl_trainings.getSelectionModel().getSelectedItem();
             if (selectedModel == null) {
                 this.showWarningMessage(null, "Please select an item to delete.");
                 return;
             }
-            
+
             int res = this.showConfirmationMessage(null, "Are you sure you want to remove this training? All of its relevant data will be removed.");
             if (res == 1) {
                 try {
@@ -160,10 +160,10 @@ public class TrainingHome extends IrisForm {
                     this.showExceptionMessage(e, null, "Failed to remove from the database.");
                 }
             }
-            
+
             value.consume();
         });
-        
+
     }
 
     //==========================================================================
@@ -212,7 +212,7 @@ public class TrainingHome extends IrisForm {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                
+
                 String filterString = newValue.toLowerCase();
 
                 /**
@@ -221,7 +221,15 @@ public class TrainingHome extends IrisForm {
                 if (model.getTrainingTitle().toLowerCase().contains(newValue)) {
                     return true;
                 }
-                
+
+                if (model.getVenue().toLowerCase().contains(newValue)) {
+                    return true;
+                }
+
+                if (model.getResourceSpeakers().toLowerCase().contains(newValue)) {
+                    return true;
+                }
+
                 return false; // no match.
             });
         });
@@ -235,7 +243,7 @@ public class TrainingHome extends IrisForm {
         // 5. Add sorted (and filtered) data to the table.
         this.tbl_trainings.setItems(sortedData);
     }
-    
+
     public void populateTable() {
         this.tableData.clear();
         //----------------------------------------------------------------------
@@ -247,5 +255,5 @@ public class TrainingHome extends IrisForm {
         }
         this.tableData.addAll(list);
     }
-    
+
 }

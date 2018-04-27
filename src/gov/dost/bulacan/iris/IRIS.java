@@ -29,7 +29,6 @@
 package gov.dost.bulacan.iris;
 
 import gov.dost.bulacan.iris.ui.Home;
-import gov.dost.bulacan.iris.ui.Splash;
 import gov.dost.bulacan.iris.ui.SplashScreen;
 import gov.dost.bulacan.iris.ui.raid.Raid;
 import java.io.File;
@@ -167,6 +166,7 @@ public class IRIS extends Application {
                 text.writeln("Operating System: " + System.getProperty("os.name", "No Data"));
                 text.writeln("OS Version: " + System.getProperty("os.version", "No Data"));
                 text.writeln("Architecture: " + System.getProperty("os.arch", "No Data"));
+                text.writeln("IRIS Version: " + Context.VERSION_NAME + " / " + Context.VERSION_BUILD);
                 text.writeln("");
                 text.writeln("Exception Stack Trace Details:");
                 text.writeln("");
