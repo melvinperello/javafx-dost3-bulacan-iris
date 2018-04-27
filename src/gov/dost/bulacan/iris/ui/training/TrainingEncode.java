@@ -450,6 +450,13 @@ public class TrainingEncode extends IrisForm {
 
         this.submit();
 
+        /**
+         * submit training values failure.
+         */
+        if (this.frmRating == null) {
+            return false;
+        }
+
         if (this.frmEntryNo.isEmpty()) {
             this.showWaitWarningMessage(null, "Entry No. is required.");
             return false;
@@ -490,6 +497,13 @@ public class TrainingEncode extends IrisForm {
     private boolean update() {
 
         this.submit();
+
+        /**
+         * submit training values failure.
+         */
+        if (this.frmRating == null) {
+            return false;
+        }
 
         if (frmEntryNo.isEmpty()) {
             this.showWaitWarningMessage(null, "Entry No. is required.");
