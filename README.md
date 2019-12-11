@@ -1,29 +1,72 @@
 # Information Retrieval Integrated System ( I. R. I. S. )
-
-[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-Is a document retrieval and information system for the **Department of Science and Technology Provincial Science Technology Center of Bulacan**. It aims to provide easy retrieval of the documents frequently used in the organization's operation by providing a database of digitalized copy of the documents.
-
-#### Integrated Technologies
-This project is based on Java FX and will utilize the following technologies
-1. Afterschool Creatives Polaris
-2. MariaDB for SQL Database
-3. FileZilla FTP Server for File Storage
-4. Apache Commons Net 3.6
-5. itext 5.5.11
-6. guava 24.1
-7. Hikari 2.7.8
-8. JFoenix Material
-9. JSON Library
-10. Guava
-11. Apache POI
-12. Hikari Connection Pool
-13. Controls FX
-14. SLF4J -> LOG4J
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-Since the project is file intensive it will be integrated with an experimental algorithm that will assure that the files are copied in each active terminal in the local network of the organization.
+Is a LAN Based document retrieval and information system for the **Department of Science and Technology Provincial Science Technology Center of Bulacan**. It aims to provide easy retrieval of the documents frequently used in the organization's operation by providing a database of digitalized copy of the documents.
 
-It will utilize Afterschool Creatives' **Redundant Application Information Distribution** ( RAID ). RAID maintains to provide local copy of the digitalized documents to each active terminal in the network to avoid data loss.
 
-This project is License under the Open-Source MIT License. https://opensource.org/licenses/MIT
+### Application Features
+
+
+1. SETUP / GIA Projects Record Tracking.
+2. Equipment Qoutations Tracking.
+3. Training and Seminars.
+4. Local Phone Directory.
+5. Science and Technology Scholarship Records Keeping.
+6. Good Manufacturing Process Certificate Generation.
+7. Shared Documents.
+
+
+### Preview
+
+
+**Home**
+
+
+[![Home Preview](https://raw.githubusercontent.com/melvinperello/javafx-dost3-bulacan-iris/master/readme-preview/home.PNG)](https://raw.githubusercontent.com/melvinperello/javafx-dost3-bulacan-iris/master/readme-preview/home.PNG)
+
+
+**About**
+
+
+[![About Preview](https://raw.githubusercontent.com/melvinperello/javafx-dost3-bulacan-iris/master/readme-preview/about.PNG)](https://raw.githubusercontent.com/melvinperello/javafx-dost3-bulacan-iris/master/readme-preview/about.PNG)
+
+
+### Redundant Application Information Distribution (R.A.I.D)
+
+
+*Redundant Application Information Distribution (RAID)* is an algorithm developed to ensure the safety and integrity of files in the system. The algorithm was designed to utilize all the active clients in the local network allowing live copy and distribution of the server files which allows the system to have a fault tolerant backup of vital information that are redundantly stored to each client. This will ensure safety of the data across the network in the event of a system failure.
+
+
+One client will act as a server for other clients, if the server fails other active clients can act as a the new server since all the data are captured and replicated by the RAID algorithm.
+
+
+### How to use ?
+
+**Requires Polaris Java Library**
+
+
+```bat
+git clone https://github.com/melvinperello/polaris-java-library.git
+cd polaris-java-library
+mvn clean install
+```
+
+
+**Build and Run**
+```bat
+git clone https://github.com/melvinperello/javafx-dost3-bulacan-iris.git
+cd javafx-dost3-bulacan-iris
+mvn clean install
+
+cd target
+java -jar javafx-dost3-bulacan-iris-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+```
+
+
+
+
+Cheers,
+
+
+Melvin
